@@ -15,16 +15,17 @@ services:
       # Use target devcontainer-trt for TensorRT dev
       target: devcontainer
     ## Uncomment this block for nvidia gpu support
-    # deploy:
-    #       resources:
-    #           reservations:
-    #               devices:
-    #                   - driver: nvidia
-    #                     count: 1
-    #                     capabilities: [gpu]
+    deploy:
+          resources:
+              reservations:
+                  devices:
+                      - driver: nvidia
+                        count: 1
+                        capabilities: [gpu]
     environment:
       YOLO_MODELS: ""
-    # devices:
+    devices:
+      - /dev/video0:/dev/video0 # laptop webcam
       # - /dev/bus/usb:/dev/bus/usb # Uncomment for Google Coral USB
       # - /dev/dri:/dev/dri # for intel hwaccel, needs to be updated for your hardware
     volumes:
@@ -32,8 +33,20 @@ services:
       - ./web/dist:/opt/frigate/web:cached
       - /etc/localtime:/etc/localtime:ro
       - ./config:/config
-      - ./debug:/media/frigate
+      - ./debug/media:/media/streams:ro
+      - ./data/frigate-config:/config
+      - ./data/frigate-storage:/media/frigate
      # - /dev/bus/usb:/dev/bus/usb # Uncomment for Google Coral USB
+    ports:
+      - 5173:5173 # dev frontend
+      - "8971:8971"
+      - "5000:5000" # Internal unauthenticated access. Expose carefully.
+      - "8554:8554" # RTSP feeds
+  
+  #    - "8555:8555/tcp" # WebRTC over tcp
+   #   - "8555:8555/udp" # WebRTC over udp
+    #  - "1935:1935" # RTMP feeds
+      # - 5321:5321
   mqtt:
     container_name: mqtt
     image: eclipse-mosquitto:2.0

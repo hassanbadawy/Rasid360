@@ -202,8 +202,9 @@ class FrigateApp:
 
         # this is a temporary check to clean up user DB from beta
         # will be removed before final release
-        if not os.path.exists(f"{CONFIG_DIR}/.timeline"):
-            cleanup_timeline_db(migrate_db)
+        # TEMPORARILY DISABLED FOR DEVELOPMENT - timeline table not created by migrations
+        # if not os.path.exists(f"{CONFIG_DIR}/.timeline"):
+        #     cleanup_timeline_db(migrate_db)
 
         # check if vacuum needs to be run
         if os.path.exists(f"{CONFIG_DIR}/.vacuum"):

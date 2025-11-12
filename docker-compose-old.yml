@@ -1,0 +1,72 @@
+version: "3"
+services:
+  frigate:
+    container_name: frigate
+    # privileged: true # this may not be necessary for all setups
+    # restart: unless-stopped
+    image: ghcr.io/blakeblackshear/frigate:stable-tensorrt # stable, stable-tensorrt
+    shm_size: "164mb" # 64mb update for your cameras based on calculation above
+    devices:
+      - /dev/video0:/dev/video0 # laptop webcam
+    #   - /dev/bus/usb:/dev/bus/usb # Passes the USB Coral, needs to be modified for other versions
+    #   - /dev/apex_0:/dev/apex_0 # Passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
+    #   - /dev/dri/renderD128:/dev/dri/renderD128 # For intel hwaccel, needs to be updated for your hardware
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/frigate-config:/config
+      - ./data/frigate-storage:/media/frigate
+      - ../../eagleOnConstruction/data/streams:/data/streams
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+    #   - "8971:8971"
+      - "5000:5000" # Internal unauthenticated access. Expose carefully.
+ #     - "8554:8554" # RTSP feeds
+  #    - "8555:8555/tcp" # WebRTC over tcp
+   #   - "8555:8555/udp" # WebRTC over udp
+    #  - "1935:1935" # RTMP feeds
+      # - 5321:5321
+    # environment:
+    #   FRIGATE_RTSP_PASSWORD: "password"
+    network_mode: host
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # homeassistant:
+  #   container_name: homeassistant
+  #   image: "ghcr.io/home-assistant/home-assistant:stable"
+  #   volumes:
+  #     - ./data/home-assistant/config:/config
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ./data/home-assistant/run/dbus:/run/dbus:ro
+  #   ports:
+  #     - 1234:8123
+
+  # double-take:
+  #   container_name: double-take
+  #   image: skrashevich/double-take
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./data/double-take:/.storage
+  #   ports:
+  #     - 3030:3000
+
+
+
+  # mqttx-broker:
+  #   image: emqx/emqx:latest
+  #   ports:
+  #     - "1883:1883"
+    # http://localhost:5000
+    # username: admin, pw: admin
+
+networks:
+  frigate:

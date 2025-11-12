@@ -1,0 +1,202 @@
+version: "3.8"
+
+services:
+  deepstackai:
+    image: codeproject/ai-server:cuda11_7 #:gpu, cuda11_7, cuda12_2-2.8.0
+    container_name: deepstack
+    hostname: deepstack
+    ports:
+      - 32168:32168
+      # - 5050:5000
+      # - 5080:80
+    volumes:
+      - ./data/deepstack/ai:/etc/codeproject/ai
+      - ./data/deepstack/modules:/app/modules
+      # - ./data/deepstack/custome-models:/app/preinstalled-modules/ObjectDetectionYolo/custom-models
+      - ./data/deepstack/custome-models:/app/preinstalled-modules/ObjectDetectionYOLOv5-6.2/custom-models/      
+      # - ./data:/datastore
+    environment:
+      - TZ="Asia/Riyadh"  
+    # - VISION-SCENE=True
+    # - VISION-DETECTION=True
+    # - VISION-FACE=True
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  frigate:
+    container_name: frigate
+    # privileged: true # this may not be necessary for all setups
+    # restart: unless-stopped
+    image: ghcr.io/blakeblackshear/frigate:stable
+    shm_size: "1024mb" # 64mb update for your cameras based on calculation above
+    devices:
+      - /dev/video0:/dev/video0 # laptop webcam
+    #   - /dev/bus/usb:/dev/bus/usb # Passes the USB Coral, needs to be modified for other versions
+    #   - /dev/apex_0:/dev/apex_0 # Passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
+    #   - /dev/dri/renderD128:/dev/dri/renderD128 # For intel hwaccel, needs to be updated for your hardware
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/frigate/frigate-config:/config
+      - ./data/frigate/frigate-storage:/media/frigate
+      # - ./data/frigate/python/detectors:/opt/frigate/frigate/detectors
+      - ./data/frigate/web/images:/opt/frigate/web/images
+      - ../../eagleOnConstruction/data/streams:/data/streams
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+    #   - "8971:8971"
+      - 8888:8888
+      - 5000:5000 # Internal unauthenticated access. Expose carefully.
+      # - "8554:8554" # RTSP feeds
+      # - "8555:8555/tcp" # WebRTC over tcp
+      # - "8555:8555/udp" # WebRTC over udp
+      # - "1935:1935" # RTMP feeds
+      # - 5321:5321
+    # environment:
+    #   FRIGATE_RTSP_PASSWORD: "password"
+
+  # homeassistant:
+  #   container_name: homeassistant
+  #   image: "ghcr.io/home-assistant/home-assistant:stable"
+  #   volumes:
+  #     - ./data/home-assistant/config:/config
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ./data/home-assistant/run/dbus:/run/dbus:ro
+  #   ports:
+  #     - 1234:8123
+
+  # double-take:
+  #   container_name: double-take
+  #   image: skrashevich/double-take
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./data/double-take:/.storage
+  #   ports:
+  #     - 3030:3000
+
+
+
+  mqttx-broker:
+    container_name: mqttxbroker
+    image: emqx/emqx:latest
+    ports:
+      - "1883:1883"
+    # http://localhost:5000
+    # username: admin, pw: admin
+
+
+  # lowcoder-api-service:
+  #   image: lowcoderorg/lowcoder-ce:latest
+  #   # container_name: lowcoder
+  #   ports:
+  #     - "3000:3000"
+  #     - "3443:3443"
+  #   #  - "27017:27017"
+  #   environment:
+  #     # Public base url
+  #     LOWCODER_PUBLIC_URL: "http://localhost:3000/"
+  #     # enable services
+  #     LOWCODER_REDIS_ENABLED: "true"
+  #     LOWCODER_MONGODB_ENABLED: "true"
+  #     # 
+  #     # Set LOWCODER_MONGODB_EXPOSED to "true" and uncomment mongodb port
+  #     # to make internal mongo database accessible from host
+  #     #
+  #     LOWCODER_MONGODB_EXPOSED: "false"
+  #     LOWCODER_API_SERVICE_ENABLED: "true"
+  #     LOWCODER_NODE_SERVICE_ENABLED: "true"
+  #     LOWCODER_FRONTEND_ENABLED: "true"
+  #     # generic parameters
+  #     # Effective user and group IDs
+  #     LOWCODER_PUID: "1000"
+  #     LOWCODER_PGID: "1000"
+  #     # api-service parameters
+  #     LOWCODER_MAX_ORGS_PER_USER: 100
+  #     LOWCODER_MAX_MEMBERS_PER_ORG: 1000
+  #     LOWCODER_MAX_GROUPS_PER_ORG: 100
+  #     LOWCODER_MAX_APPS_PER_ORG: 1000
+  #     LOWCODER_MAX_DEVELOPERS: 50
+  #     #LOWCODER_MONGODB_URL: "mongodb://lowcoder:secret123@mongodb/lowcoder?authSource=admin"
+  #     LOWCODER_MONGODB_URL: "mongodb://localhost:27017/lowcoder?authSource=admin"
+  #     LOWCODER_REDIS_URL: "redis://localhost:6379"
+  #     LOWCODER_EMAIL_SIGNUP_ENABLED: "true"
+  #     LOWCODER_EMAIL_AUTH_ENABLED: "true"
+  #     LOWCODER_CREATE_WORKSPACE_ON_SIGNUP: "true"
+  #     #
+  #     # ! PLEASE CHANGE THESE TO SOMETHING UNIQUE !
+  #     # 
+  #     #    LOWCODER_DB_ENCRYPTION_PASSWORD and LOWCODER_DB_ENCRYPTION_SALT is used 
+  #     #    to encrypt sensitive data in database so it is important to change the defaults
+  #     #
+  #     LOWCODER_DB_ENCRYPTION_PASSWORD: "lowcoder.org"
+  #     LOWCODER_DB_ENCRYPTION_SALT: "lowcoder.org"
+  #     LOWCODER_CORS_DOMAINS: "*"
+  #     #
+  #     # API-KEY secret - should be a string of at least 32 random characters
+  #     #    - on linux/mac, generate one eg. with: head /dev/urandom | head -c 30 | shasum -a 256
+  #     #
+  #     LOWCODER_API_KEY_SECRET: "5a41b090758b39b226603177ef48d73ae9839dd458ccb7e66f7e7cc028d5a50b"
+  #     # api and node service parameters
+  #     LOWCODER_PLUGINS_DIR: "../plugins"
+  #     LOWCODER_API_RATE_LIMIT: 50
+  #     LOWCODER_API_SERVICE_URL: "http://localhost:8080"
+  #     LOWCODER_NODE_SERVICE_URL: "http://localhost:6060"
+  #     # frontend parameters
+  #     LOWCODER_MAX_REQUEST_SIZE: 20m
+  #     LOWCODER_MAX_QUERY_TIMEOUT: 120
+  #     LOWCODER_WORKSPACE_MODE: SAAS
+  #     LOWCODER_MARKETPLACE_PRIVATE_MODE: "true"
+  #     # Lowcoder notification emails setup
+  #     LOWCODER_ADMIN_SMTP_HOST: localhost
+  #     LOWCODER_ADMIN_SMTP_PORT: 587
+  #     LOWCODER_ADMIN_SMTP_USERNAME: 
+  #     LOWCODER_ADMIN_SMTP_PASSWORD: 
+  #     LOWCODER_ADMIN_SMTP_AUTH: "true"
+  #     LOWCODER_ADMIN_SMTP_SSL_ENABLED: "false"
+  #     LOWCODER_ADMIN_SMTP_STARTTLS_ENABLED: "true"
+  #     LOWCODER_ADMIN_SMTP_STARTTLS_REQUIRED: "true"
+  #     # Email used as sender in lost password email
+  #     LOWCODER_EMAIL_NOTIFICATIONS_SENDER: info@localhost
+  #     # Lowcoder superuser details
+  #     LOWCODER_SUPERUSER_USERNAME: admin@localhost
+  #     # If left blank, a password will be generated and written into log (lowcoder-stacks/logs/api-service/api-service.log)
+  #     LOWCODER_SUPERUSER_PASSWORD: 
+  #   volumes:
+  #     - ./data/lowcoder:/lowcoder-stacks
+  #     - ./data/lowcoder/assets:/lowcoder/assets
+  #   # restart: unless-stopped
+
+  # postgresql:
+  #     # Official Postgres image from DockerHub (we use the last version)
+  #     image: 'postgres:latest'
+  #     # ports:
+  #     #   - 5432:5432
+  #     volumes:
+  #      - ./data/lowcoder/postgres:/data/postgres
+  #     environment:
+  #       POSTGRES_USER: admin # The PostgreSQL user (useful to connect to the database)
+  #       POSTGRES_PASSWORD: password # The PostgreSQL password (useful to connect to the database)
+  #       POSTGRES_DB: lowcoderdb # The PostgreSQL default database (automatically created at first launch)
+
+  # n8n:
+  #   image: docker.n8n.io/n8nio/n8n
+  #   volumes:
+  #     - ./stacks/n8n:/home/node/.n8n
+  #   ports:
+  #     - 5678:5678
+  #   environment:
+  #     - GENERIC_TIMEZONE="Asia/Riyadh"
+  #     - TZ="Asia/Riyadh"   
+
+networks:
+  frigate:
+
+# to solve deepstack issue got to inside docker nano ./frigate/detectors/plugins/deepstack.py then got to function get_label_index() and remove .lower() from  label_value.lower() 
