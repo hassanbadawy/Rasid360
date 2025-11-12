@@ -1,18 +1,40 @@
 mqtt:
   host: mqtt
 
+# Objects to track - detect vehicles in addition to person
+objects:
+  track:
+    - person
+    - car
+    - bus
+    - motorcycle
+    - bicycle
+  filters:
+    car:
+      min_area: 500
+      threshold: 0.5
+    bus:
+      min_area: 1000
+      threshold: 0.5
+    motorcycle:
+      min_area: 300
+      threshold: 0.5
+    bicycle:
+      min_area: 200
+      threshold: 0.5
+
 cameras:
   test:
     ffmpeg:
       inputs:
-        - path: /media/streams/wrongway.mp4
+        - path: /media/streams/streams/street/wrongWayCar02.mp4
           input_args: -re -stream_loop -1 -fflags +genpts
           roles:
             - detect
-            - rtmp
+            - record
     detect:
       enabled: true
-      height: 1080
-      width: 1920
+      height: 720
+      width: 1080
       fps: 5
 version: 0.17-0

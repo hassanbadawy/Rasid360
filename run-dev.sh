@@ -126,7 +126,7 @@ start_services() {
 # Function to wait for services to be ready
 wait_for_services() {
     print_info "Waiting for services to be ready..."
-    
+
     # Wait for MQTT
     print_info "Waiting for MQTT service..."
     timeout=30
@@ -137,11 +137,38 @@ wait_for_services() {
         sleep 1
         timeout=$((timeout - 1))
     done
-    
+
     if [ $timeout -eq 0 ]; then
         print_warning "MQTT service may not be ready yet"
     else
         print_success "MQTT service is ready"
+    fi
+}
+
+# Function to start Frigate backend service
+start_frigate_backend() {
+    print_info "Starting Frigate backend service..."
+
+    # Check if container is running
+    if docker ps --filter "name=frigate-devcontainer" --filter "status=running" | grep -q frigate-devcontainer; then
+        # Start Frigate in the background
+        docker exec -d frigate-devcontainer bash -c "cd /opt/frigate && python3 -u -m frigate > /dev/shm/logs/frigate/current 2>&1"
+
+        # Wait for Frigate to start
+        print_info "Waiting for Frigate to be ready..."
+        sleep 5
+
+        # Check if Frigate is running
+        if docker exec frigate-devcontainer pgrep -f "python3.*frigate" > /dev/null 2>&1; then
+            print_success "Frigate backend service started"
+            print_info "API available at http://localhost:5001/api"
+        else
+            print_warning "Frigate may not have started correctly"
+            print_info "Check logs with: docker exec frigate-devcontainer cat /dev/shm/logs/frigate/current"
+        fi
+    else
+        print_error "Container is not running"
+        return 1
     fi
 }
 
@@ -175,8 +202,8 @@ show_access_info() {
     echo "Access URLs:"
     echo "• Frontend (Development): http://localhost:5173"
     echo "• Frontend (Production):  http://localhost:5000"
+    echo "• Backend API:           http://localhost:5001/api"
     echo "• MQTT Broker:           localhost:1883"
-    echo "• API:                   http://localhost:5000/api"
     echo
     echo "Docker Services:"
     if docker-compose version &> /dev/null; then
@@ -301,6 +328,9 @@ else
             }
         fi
 
+        # Start Frigate backend service
+        start_frigate_backend
+
         show_access_info
 
         # Start frontend development server inside the Docker container
@@ -314,7 +344,7 @@ else
         if docker exec frigate-devcontainer pgrep -f "vite.*--host" > /dev/null 2>&1; then
             print_success "Frontend development server started inside container"
             print_info "Frontend available at http://localhost:5173"
-            print_info "Backend API available at http://localhost:5000"
+            print_info "Backend API available at http://localhost:5001/api"
 
             # Keep the script running and show logs
             echo
@@ -322,7 +352,7 @@ else
             echo
 
             # Wait for user interrupt
-            trap 'print_info "Stopping services..."; docker exec frigate-devcontainer pkill -f "vite.*--host" 2>/dev/null; docker-compose down 2>/dev/null || docker compose down 2>/dev/null; print_success "All services stopped"; exit 0' INT
+            trap 'print_info "Stopping services..."; docker exec frigate-devcontainer pkill -f "vite.*--host" 2>/dev/null; docker exec frigate-devcontainer pkill -f "python3.*frigate" 2>/dev/null; docker-compose down 2>/dev/null || docker compose down 2>/dev/null; print_success "All services stopped"; exit 0' INT
 
             # Show logs or keep running
             if docker-compose version &> /dev/null; then

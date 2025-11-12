@@ -15,17 +15,17 @@ services:
       # Use target devcontainer-trt for TensorRT dev
       target: devcontainer
     ## Uncomment this block for nvidia gpu support
-    deploy:
-          resources:
-              reservations:
-                  devices:
-                      - driver: nvidia
-                        count: 1
-                        capabilities: [gpu]
-    environment:
-      YOLO_MODELS: ""
-    devices:
-      - /dev/video0:/dev/video0 # laptop webcam
+    # deploy:
+    #       resources:
+    #           reservations:
+    #               devices:
+    #                   - driver: nvidia
+    #                     count: 1
+    #                     capabilities: [gpu]
+    # environment:
+    #   YOLO_MODELS: ""
+    # devices:
+      # - /dev/video0:/dev/video0 # laptop webcam
       # - /dev/bus/usb:/dev/bus/usb # Uncomment for Google Coral USB
       # - /dev/dri:/dev/dri # for intel hwaccel, needs to be updated for your hardware
     volumes:
@@ -40,7 +40,7 @@ services:
     ports:
       - 5173:5173 # dev frontend
       - "8971:8971"
-      - "5000:5000" # Internal unauthenticated access. Expose carefully.
+      - "5001:5000" # Internal unauthenticated access. Expose carefully.
       - "8554:8554" # RTSP feeds
   
   #    - "8555:8555/tcp" # WebRTC over tcp
