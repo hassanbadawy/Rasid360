@@ -1,27 +1,57 @@
 mqtt:
   host: mqtt
 
+# Recording configuration - Only save violation events
+record:
+  enabled: true
+
+  # Disable continuous recording
+  continuous:
+    days: 0
+
+  # Enable minimal motion recording as buffer (12 hours)
+  # This provides footage for manual events to reference
+  motion:
+    days: 0.5
+
+  # Retain alert recordings (violations) for 30 days
+  alerts:
+    retain:
+      days: 30
+      mode: motion
+
+  # Don't retain normal detection recordings
+  detections:
+    retain:
+      days: 0
+      mode: motion
+
+# Snapshot configuration - Disable automatic snapshots
+# Manual violation events will still capture snapshots via include_recording
+snapshots:
+  enabled: false
+
 # Objects to track - detect vehicles in addition to person
 objects:
   track:
     - person
     - car
     - bus
+    - truck
     - motorcycle
-    - bicycle
   filters:
     car:
-      min_area: 500
-      threshold: 0.5
-    bus:
-      min_area: 1000
-      threshold: 0.5
-    motorcycle:
-      min_area: 300
-      threshold: 0.5
-    bicycle:
       min_area: 200
-      threshold: 0.5
+      threshold: 0.25
+    bus:
+      min_area: 300
+      threshold: 0.25
+    motorcycle:
+      min_area: 100
+      threshold: 0.25
+    bicycle:
+      min_area: 100
+      threshold: 0.25
 
 cameras:
   test:
@@ -31,10 +61,45 @@ cameras:
           input_args: -re -stream_loop -1 -fflags +genpts
           roles:
             - detect
-            - record
     detect:
       enabled: true
       height: 720
       width: 1080
       fps: 5
+    enabled: true
+    motion:
+      mask:
+        - 0.964,0.28,0.641,0.184,0.502,0.164,0.329,0.18,0.247,0.187,0.227,0.327,0.172,0.429,0.573,0.4,0.613,0.991,0.006,0.996,0.004,0.002,0.996,0.009,0.994,0.284
+        - 0.764,0.524,0.801,0.431,0.964,0.44,0.997,0.44,0.996,0.993,0.839,0.989,0.81,0.738
+      threshold: 80
+      contour_area: 50
+      improve_contrast: true
+    zones:
+      zone01:
+        coordinates: 0.582,0.464,0.76,0.471,0.836,0.984,0.625,0.993
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: Zone01
+        inertia: 3
+      zone02:
+        coordinates: 0.249,0.193,0.576,0.171,0.582,0.391,0.191,0.416,0.234,0.333
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: Zone02
+        inertia: 3
+      wrongzone:
+        coordinates: 0.74,0.214,1,0.282,1,0.437,0.754,0.44
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: WrongZone
+        inertia: 3
 version: 0.17-0

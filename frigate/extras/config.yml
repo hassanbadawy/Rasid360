@@ -1,0 +1,69 @@
+# Frigate Extras Configuration
+# Custom Event Detection System
+
+# MQTT Broker Configuration
+mqtt:
+  host: mqtt             # MQTT broker hostname (mqtt service name inside container)
+  port: 1883             # MQTT broker port
+  client_id: frigate_extras
+  # username: mqtt_user  # Optional: MQTT authentication
+  # password: mqtt_pass  # Optional: MQTT authentication
+
+# Frigate API Configuration
+frigate:
+  api_url: http://localhost:5000/api  # Frigate API endpoint (port 5000 inside container)
+
+# Action Handlers Configuration
+actions:
+  # Wrong-Way Vehicle Detection
+  # Detects vehicles moving from valid zones into violation zone
+  wrong_way_detection:
+    enabled: true
+
+    # List of cameras to monitor (empty = all cameras)
+    cameras:
+      - test
+
+    # Valid zones (vehicles should stay in these zones)
+    valid_zones:
+      - zone01
+      - zone02
+
+    # Violation zone (vehicles entering this from valid zones = violation)
+    violation_zone: wrongzone
+
+    # Vehicle types to track
+    vehicle_types:
+      - car
+      - bus
+      - truck
+      - motorcycle
+
+    # Cleanup timeout (seconds) - remove vehicles not seen for this duration
+    cleanup_timeout: 60
+
+  # Fall Detection (Example - Not yet implemented)
+  # fall_detection:
+  #   enabled: false
+  #   cameras:
+  #     - living_room
+  #     - bedroom
+  #   floor_zones:
+  #     - floor_area
+  #   min_stationary_time: 5  # seconds
+
+  # Loitering Detection (Example - Not yet implemented)
+  # loitering_detection:
+  #   enabled: false
+  #   cameras:
+  #     - entrance
+  #   zones:
+  #     - entry_area
+  #   min_loitering_time: 30  # seconds
+  #   object_types:
+  #     - person
+
+# Logging Configuration
+logging:
+  level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: /tmp/frigate_extras.log

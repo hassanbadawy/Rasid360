@@ -1,0 +1,5 @@
+# Frigate Extras - Python Dependencies
+
+paho-mqtt>=1.6.1
+PyYAML>=6.0
+requests>=2.28.0
