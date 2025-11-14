@@ -20,6 +20,7 @@ import axios from "axios";
 import SaveExportOverlay from "./SaveExportOverlay";
 import { isIOS, isMobile } from "react-device-detect";
 import { useTranslation } from "react-i18next";
+import { useViolations } from "@/hooks/use-violations";
 
 type DrawerMode = "none" | "select" | "export" | "calendar" | "filter";
 
@@ -71,6 +72,7 @@ export default function MobileReviewSettingsDrawer({
 }: MobileReviewSettingsDrawerProps) {
   const { t } = useTranslation(["views/recording", "components/dialog"]);
   const [drawerMode, setDrawerMode] = useState<DrawerMode>("none");
+  const allViolations = useViolations();
 
   // exports
 
@@ -284,8 +286,10 @@ export default function MobileReviewSettingsDrawer({
           selectedLabels={filter?.labels}
           currentSeverity={currentSeverity}
           allZones={allZones}
+          allViolations={allViolations}
           filter={currentFilter}
           selectedZones={filter?.zones}
+          selectedViolations={filter?.sub_labels}
           onUpdateFilter={setCurrentFilter}
           onApply={() => {
             if (currentFilter !== filter) {

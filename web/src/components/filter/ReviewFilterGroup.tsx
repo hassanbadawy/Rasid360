@@ -26,6 +26,7 @@ import PlatformAwareDialog from "../overlay/dialog/PlatformAwareDialog";
 import { useTranslation } from "react-i18next";
 import { getTranslatedLabel } from "@/utils/i18n";
 import { useAllowedCameras } from "@/hooks/use-allowed-cameras";
+import { useViolations } from "@/hooks/use-violations";
 
 const REVIEW_FILTERS = [
   "cameras",
@@ -335,6 +336,7 @@ function GeneralFilterButton({
 }: GeneralFilterButtonProps) {
   const { t } = useTranslation(["components/filter"]);
   const [open, setOpen] = useState(false);
+  const allViolations = useViolations();
   const [currentFilter, setCurrentFilter] = useState<GeneralFilter>({
     labels: selectedLabels,
     zones: selectedZones,
@@ -388,8 +390,10 @@ function GeneralFilterButton({
       selectedLabels={selectedLabels}
       currentSeverity={currentSeverity}
       allZones={allZones}
+      allViolations={allViolations}
       filter={currentFilter}
       selectedZones={selectedZones}
+      selectedViolations={currentFilter.sub_labels}
       onUpdateFilter={setCurrentFilter}
       onApply={() => {
         if (currentFilter !== filter) {
@@ -401,6 +405,7 @@ function GeneralFilterButton({
         const resetFilter: GeneralFilter = {
           labels: undefined,
           zones: undefined,
+          sub_labels: undefined,
           showAll: false,
         };
         setCurrentFilter(resetFilter);
@@ -434,10 +439,12 @@ function GeneralFilterButton({
 type GeneralFilterContentProps = {
   allLabels: string[];
   allZones: string[];
+  allViolations: string[];
   currentSeverity?: ReviewSeverity;
   filter: GeneralFilter;
   selectedLabels?: string[];
   selectedZones?: string[];
+  selectedViolations?: string[];
   onUpdateFilter: (filter: GeneralFilter) => void;
   onApply: () => void;
   onReset: () => void;
@@ -446,6 +453,7 @@ type GeneralFilterContentProps = {
 export function GeneralFilterContent({
   allLabels,
   allZones,
+  allViolations,
   currentSeverity,
   filter,
   onUpdateFilter,
@@ -591,6 +599,59 @@ export function GeneralFilterContent({
                       if (updatedZones.length > 1) {
                         updatedZones.splice(updatedZones.indexOf(item), 1);
                         onUpdateFilter({ ...filter, zones: updatedZones });
+                      }
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {allViolations && allViolations.length > 0 && (
+          <>
+            <DropdownMenuSeparator />
+            <div className="mb-5 mt-2.5 flex items-center justify-between">
+              <Label
+                className="mx-2 cursor-pointer text-primary"
+                htmlFor="allViolations"
+              >
+                Violations (All)
+              </Label>
+              <Switch
+                className="ml-1"
+                id="allViolations"
+                checked={filter.sub_labels === undefined}
+                onCheckedChange={(isChecked) => {
+                  if (isChecked) {
+                    onUpdateFilter({ ...filter, sub_labels: undefined });
+                  }
+                }}
+              />
+            </div>
+            <div className="my-2.5 flex flex-col gap-2.5">
+              {allViolations.map((item) => (
+                <FilterSwitch
+                  key={item}
+                  label={item}
+                  isChecked={filter.sub_labels?.includes(item) ?? false}
+                  onCheckedChange={(isChecked) => {
+                    if (isChecked) {
+                      const updatedViolations = filter.sub_labels
+                        ? [...filter.sub_labels]
+                        : [];
+
+                      updatedViolations.push(item);
+                      onUpdateFilter({ ...filter, sub_labels: updatedViolations });
+                    } else {
+                      const updatedViolations = filter.sub_labels
+                        ? [...filter.sub_labels]
+                        : [];
+
+                      // can not deselect the last item
+                      if (updatedViolations.length > 1) {
+                        updatedViolations.splice(updatedViolations.indexOf(item), 1);
+                        onUpdateFilter({ ...filter, sub_labels: updatedViolations });
                       }
                     }
                   }}

@@ -27,6 +27,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useTranslation } from "react-i18next";
 import { getTranslatedLabel } from "@/utils/i18n";
 import { useAllowedCameras } from "@/hooks/use-allowed-cameras";
+import { useViolations } from "@/hooks/use-violations";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 type SearchFilterGroupProps = {
   className: string;
@@ -206,6 +208,12 @@ export default function SearchFilterGroup({
           }}
         />
       )}
+      <ViolationsFilterButton
+        selectedViolations={filter?.sub_labels}
+        updateViolationsFilter={(newViolations) => {
+          onUpdateFilter({ ...filter, sub_labels: newViolations });
+        }}
+      />
       {filters.includes("date") && (
         <CalendarRangeFilterButton
           range={
@@ -438,6 +446,196 @@ export function GeneralFilterContent({
           onClick={() => {
             setCurrentLabels(undefined);
             updateLabelFilter(undefined);
+          }}
+        >
+          {t("button.reset", { ns: "common" })}
+        </Button>
+      </div>
+    </>
+  );
+}
+
+type ViolationsFilterButtonProps = {
+  selectedViolations: string[] | undefined;
+  updateViolationsFilter: (violations: string[] | undefined) => void;
+};
+function ViolationsFilterButton({
+  selectedViolations,
+  updateViolationsFilter,
+}: ViolationsFilterButtonProps) {
+  const allViolations = useViolations();
+  const [open, setOpen] = useState(false);
+  const [currentViolations, setCurrentViolations] = useState<string[] | undefined>(
+    selectedViolations,
+  );
+
+  const buttonText = useMemo(() => {
+    if (isMobile) {
+      return "Violations";
+    }
+
+    if (!selectedViolations || selectedViolations.length == 0) {
+      return "All Violations";
+    }
+
+    if (selectedViolations.length == 1) {
+      return selectedViolations[0];
+    }
+
+    return `${selectedViolations.length} Violations`;
+  }, [selectedViolations]);
+
+  // ui
+
+  useEffect(() => {
+    setCurrentViolations(selectedViolations);
+    // only refresh when state changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedViolations]);
+
+  // Only show if there are violations
+  if (!allViolations || allViolations.length === 0) {
+    return null;
+  }
+
+  const trigger = (
+    <Button
+      size="sm"
+      variant={selectedViolations?.length ? "select" : "default"}
+      className="flex items-center gap-2 smart-capitalize"
+      aria-label="Violations"
+    >
+      <FaExclamationTriangle
+        className={`${selectedViolations?.length ? "text-selected-foreground" : "text-secondary-foreground"}`}
+      />
+      <div
+        className={`${selectedViolations?.length ? "text-selected-foreground" : "text-primary"}`}
+      >
+        {buttonText}
+      </div>
+    </Button>
+  );
+  const content = (
+    <ViolationsFilterContent
+      allViolations={allViolations}
+      selectedViolations={selectedViolations}
+      currentViolations={currentViolations}
+      setCurrentViolations={setCurrentViolations}
+      updateViolationsFilter={updateViolationsFilter}
+      onClose={() => setOpen(false)}
+    />
+  );
+
+  return (
+    <PlatformAwareDialog
+      trigger={trigger}
+      content={content}
+      contentClassName={
+        isDesktop
+          ? "scrollbar-container h-auto max-h-[80dvh] overflow-y-auto"
+          : "max-h-[75dvh] overflow-hidden p-4"
+      }
+      open={open}
+      onOpenChange={(open) => {
+        if (!open) {
+          setCurrentViolations(selectedViolations);
+        }
+
+        setOpen(open);
+      }}
+    />
+  );
+}
+
+type ViolationsFilterContentProps = {
+  allViolations: string[];
+  selectedViolations: string[] | undefined;
+  currentViolations: string[] | undefined;
+  updateViolationsFilter: (violations: string[] | undefined) => void;
+  setCurrentViolations: (violations: string[] | undefined) => void;
+  onClose: () => void;
+};
+function ViolationsFilterContent({
+  allViolations,
+  selectedViolations,
+  currentViolations,
+  updateViolationsFilter,
+  setCurrentViolations,
+  onClose,
+}: ViolationsFilterContentProps) {
+  const { t } = useTranslation(["components/filter"]);
+
+  return (
+    <>
+      <div className="overflow-x-hidden">
+        <div className="mb-5 mt-2.5 flex items-center justify-between">
+          <Label
+            className="mx-2 cursor-pointer text-primary"
+            htmlFor="allViolations"
+          >
+            All Violations
+          </Label>
+          <Switch
+            className="ml-1"
+            id="allViolations"
+            checked={currentViolations == undefined}
+            onCheckedChange={(isChecked) => {
+              if (isChecked) {
+                setCurrentViolations(undefined);
+              }
+            }}
+          />
+        </div>
+        <div className="my-2.5 flex flex-col gap-2.5">
+          {allViolations.map((item) => (
+            <FilterSwitch
+              key={item}
+              label={item}
+              isChecked={currentViolations?.includes(item) ?? false}
+              onCheckedChange={(isChecked) => {
+                if (isChecked) {
+                  const updatedViolations = currentViolations
+                    ? [...currentViolations]
+                    : [];
+
+                  updatedViolations.push(item);
+                  setCurrentViolations(updatedViolations);
+                } else {
+                  const updatedViolations = currentViolations
+                    ? [...currentViolations]
+                    : [];
+
+                  // can not deselect the last item
+                  if (updatedViolations.length > 1) {
+                    updatedViolations.splice(updatedViolations.indexOf(item), 1);
+                    setCurrentViolations(updatedViolations);
+                  }
+                }
+              }}
+            />
+          ))}
+        </div>
+      </div>
+      <DropdownMenuSeparator />
+      <div className="flex items-center justify-evenly p-2">
+        <Button
+          aria-label={t("button.apply", { ns: "common" })}
+          variant="select"
+          onClick={() => {
+            if (selectedViolations != currentViolations) {
+              updateViolationsFilter(currentViolations);
+            }
+
+            onClose();
+          }}
+        >
+          {t("button.apply", { ns: "common" })}
+        </Button>
+        <Button
+          aria-label={t("button.reset", { ns: "common" })}
+          onClick={() => {
+            setCurrentViolations(undefined);
+            updateViolationsFilter(undefined);
           }}
         >
           {t("button.reset", { ns: "common" })}

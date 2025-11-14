@@ -15,4 +15,5 @@ export type GeneralFilter = {
   showAll?: boolean;
   labels?: string[];
   zones?: string[];
+  sub_labels?: string[];
 };

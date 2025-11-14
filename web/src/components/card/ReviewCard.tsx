@@ -10,7 +10,7 @@ import { useCallback, useRef, useState } from "react";
 import useImageLoaded from "@/hooks/use-image-loaded";
 import ImageLoadingIndicator from "../indicators/ImageLoadingIndicator";
 import { FaCompactDisc } from "react-icons/fa";
-import { FaCircleCheck } from "react-icons/fa6";
+import { FaCircleCheck, FaSquare, FaCheckSquare } from "react-icons/fa6";
 import { HiTrash } from "react-icons/hi";
 import {
   ContextMenu,
@@ -39,6 +39,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { LuCircle } from "react-icons/lu";
 import { MdAutoAwesome } from "react-icons/md";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 type ReviewCardProps = {
   event: ReviewSegment;
@@ -63,6 +64,7 @@ export default function ReviewCard({
 
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [showBbox, setShowBbox] = useState(false);
   const bypassDialogRef = useRef(false);
 
   const onMarkAsReviewed = useCallback(async () => {
@@ -147,7 +149,7 @@ export default function ReviewCard({
             "outline outline-[3px] -outline-offset-[2.8px] outline-selected duration-200",
           imgLoaded ? "visible" : "invisible",
         )}
-        src={`${baseUrl}${event.thumb_path.replace("/media/frigate/", "")}`}
+        src={`${baseUrl}${event.thumb_path.replace("/media/frigate/", "")}${showBbox ? "?bbox=1" : ""}`}
         loading={isSafari ? "eager" : "lazy"}
         style={
           isIOS
@@ -162,6 +164,14 @@ export default function ReviewCard({
           onImgLoad();
         }}
       />
+      {event.data.sub_labels && event.data.sub_labels.length > 0 && (
+        <div className="absolute right-2 top-2 z-40">
+          <div className="flex items-center gap-1 rounded-full bg-severity_alert px-2 py-1 text-xs font-semibold text-white shadow-lg">
+            <FaExclamationTriangle className="size-3" />
+            <span>{event.data.sub_labels[0]}</span>
+          </div>
+        </div>
+      )}
       <div className="flex items-center justify-between">
         <Tooltip>
           <TooltipTrigger asChild>
@@ -294,6 +304,21 @@ export default function ReviewCard({
             <ContextMenuItem>
               <div
                 className="flex w-full cursor-pointer items-center justify-start gap-2 p-2"
+                onClick={() => setShowBbox(!showBbox)}
+              >
+                {showBbox ? (
+                  <FaCheckSquare className="text-secondary-foreground" />
+                ) : (
+                  <FaSquare className="text-secondary-foreground" />
+                )}
+                <div className="text-primary">
+                  Show Bounding Box
+                </div>
+              </div>
+            </ContextMenuItem>
+            <ContextMenuItem>
+              <div
+                className="flex w-full cursor-pointer items-center justify-start gap-2 p-2"
                 onClick={handleDelete}
               >
                 <HiTrash className="text-secondary-foreground" />
@@ -361,6 +386,19 @@ export default function ReviewCard({
               </div>
             </div>
           )}
+          <div
+            className="flex w-full items-center justify-start gap-2 p-2"
+            onClick={() => setShowBbox(!showBbox)}
+          >
+            {showBbox ? (
+              <FaCheckSquare className="text-secondary-foreground" />
+            ) : (
+              <FaSquare className="text-secondary-foreground" />
+            )}
+            <div className="text-primary">
+              Show Bounding Box
+            </div>
+          </div>
           <div
             className="flex w-full items-center justify-start gap-2 p-2"
             onClick={handleDelete}

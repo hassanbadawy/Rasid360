@@ -40,6 +40,7 @@ export type ReviewFilter = {
   cameras?: string[];
   labels?: string[];
   zones?: string[];
+  sub_labels?: string[];
   before?: number;
   after?: number;
   showAll?: boolean;
