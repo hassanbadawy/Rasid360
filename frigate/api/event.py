@@ -352,37 +352,37 @@ def events_explore(
     limit: int = 10,
     allowed_cameras: List[str] = Depends(get_allowed_cameras_for_filter),
 ):
-    # get distinct labels for all events
-    distinct_labels = (
-        Event.select(Event.label)
-        .where(Event.camera << allowed_cameras)
+    # get distinct sub_labels for violation events (events with sub_label set)
+    distinct_sub_labels = (
+        Event.select(Event.sub_label)
+        .where((Event.camera << allowed_cameras) & (Event.sub_label.is_null(False)))
         .distinct()
-        .order_by(Event.label)
+        .order_by(Event.sub_label)
     )
 
-    label_counts = {}
+    sub_label_counts = {}
 
     def event_generator():
-        for label_obj in distinct_labels.iterator():
-            label = label_obj.label
+        for sub_label_obj in distinct_sub_labels.iterator():
+            sub_label = sub_label_obj.sub_label
 
-            # get most recent events for this label
-            label_events = (
+            # get most recent events for this sub_label
+            sub_label_events = (
                 Event.select()
-                .where((Event.label == label) & (Event.camera << allowed_cameras))
+                .where((Event.sub_label == sub_label) & (Event.camera << allowed_cameras))
                 .order_by(Event.start_time.desc())
                 .limit(limit)
                 .iterator()
             )
 
-            # count total events for this label
-            label_counts[label] = (
+            # count total events for this sub_label
+            sub_label_counts[sub_label] = (
                 Event.select()
-                .where((Event.label == label) & (Event.camera << allowed_cameras))
+                .where((Event.sub_label == sub_label) & (Event.camera << allowed_cameras))
                 .count()
             )
 
-            yield from label_events
+            yield from sub_label_events
 
     def process_events():
         for event in event_generator():
@@ -418,7 +418,7 @@ def events_explore(
                         "recognized_license_plate_score",
                     ]
                 },
-                "event_count": label_counts[event.label],
+                "event_count": sub_label_counts.get(event.sub_label, 0),
             }
             yield processed_event
 

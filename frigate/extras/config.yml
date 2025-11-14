@@ -79,7 +79,20 @@ actions:
             severity: high
             cooldown: 30
 
-      Roas02:
+      Road02:
+        violations:
+          # Fall down detection: person with width/height ratio > 1.2 for 3 seconds
+          - name: person_fall_down
+            type: fall_down
+            description: "Person fall detected"
+            object_type: person
+            width_height_ratio: 1.2
+            min_duration: 3
+            duration: 30
+            severity: critical
+            cooldown: 15
+
+      Road03:
         violations:
           # Fall down detection: person with width/height ratio > 1.2 for 3 seconds
           - name: person_fall_down

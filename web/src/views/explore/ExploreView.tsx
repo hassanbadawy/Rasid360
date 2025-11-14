@@ -66,7 +66,12 @@ export default function ExploreView({
   const eventsByLabel = useMemo(() => {
     if (!events) return {};
     return events.reduce<Record<string, SearchResult[]>>((acc, event) => {
-      const label = event.label || "Unknown";
+      // Only include events with sub_label (violations)
+      if (!event.sub_label) {
+        return acc;
+      }
+
+      const label = event.sub_label;
       if (!acc[label]) {
         acc[label] = [];
       }
@@ -147,8 +152,9 @@ function ThumbnailRow({
   const navigate = useNavigate();
 
   const handleSearch = (label: string) => {
+    // Always search by sub_labels since we only show violations
     const similaritySearchParams = new URLSearchParams({
-      labels: label,
+      sub_labels: label,
     }).toString();
     navigate(`/explore?${similaritySearchParams}`);
   };

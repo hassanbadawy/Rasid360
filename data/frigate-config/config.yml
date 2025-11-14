@@ -108,7 +108,7 @@ cameras:
         friendly_name: WrongZone
         inertia: 3
 
-  Roas02:
+  Road02:
     enabled: true
     ffmpeg:
       inputs:
@@ -121,6 +121,10 @@ cameras:
       height: 720
       width: 1280
       fps: 5
+    motion:
+      threshold: 25
+      contour_area: 10
+      improve_contrast: true
     objects:
       track:
         - person
@@ -129,5 +133,31 @@ cameras:
           min_area: 1
           min_score: 0.01
           threshold: 0.01
-  
+
+  Road03:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: /media/streams/streams/fall/fall.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts
+          roles:
+            - detect
+    detect:
+      enabled: true
+      height: 720
+      width: 1280
+      fps: 5
+    motion:
+      threshold: 25
+      contour_area: 10
+      improve_contrast: true
+    objects:
+      track:
+        - person
+      filters:
+        person:
+          min_area: 1
+          min_score: 0.01
+          threshold: 0.01
+
 version: 0.17-0

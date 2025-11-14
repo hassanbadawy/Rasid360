@@ -10,7 +10,7 @@ import { useCallback, useRef, useState } from "react";
 import useImageLoaded from "@/hooks/use-image-loaded";
 import ImageLoadingIndicator from "../indicators/ImageLoadingIndicator";
 import { FaCompactDisc } from "react-icons/fa";
-import { FaCircleCheck, FaSquare, FaCheckSquare } from "react-icons/fa6";
+import { FaCircleCheck, FaSquare } from "react-icons/fa6";
 import { HiTrash } from "react-icons/hi";
 import {
   ContextMenu,
@@ -307,7 +307,7 @@ export default function ReviewCard({
                 onClick={() => setShowBbox(!showBbox)}
               >
                 {showBbox ? (
-                  <FaCheckSquare className="text-secondary-foreground" />
+                  <FaCircleCheck className="text-secondary-foreground" />
                 ) : (
                   <FaSquare className="text-secondary-foreground" />
                 )}
@@ -391,7 +391,7 @@ export default function ReviewCard({
             onClick={() => setShowBbox(!showBbox)}
           >
             {showBbox ? (
-              <FaCheckSquare className="text-secondary-foreground" />
+              <FaCircleCheck className="text-secondary-foreground" />
             ) : (
               <FaSquare className="text-secondary-foreground" />
             )}

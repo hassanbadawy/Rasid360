@@ -13,6 +13,10 @@ import { cn } from "@/lib/utils";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import useContextMenu from "@/hooks/use-contextmenu";
 import { getTranslatedLabel } from "@/utils/i18n";
+import { FaExclamationTriangle } from "react-icons/fa";
+import { FaSquare, FaCircleCheck } from "react-icons/fa6";
+import { useState } from "react";
+import { Button } from "../ui/button";
 
 type SearchThumbnailProps = {
   searchResult: SearchResult;
@@ -26,6 +30,7 @@ export default function SearchThumbnail({
   const apiHost = useApiHost();
   const { data: config } = useSWR<FrigateConfig>("config");
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
+  const [showBbox, setShowBbox] = useState(false);
 
   // interactions
 
@@ -117,12 +122,39 @@ export default function SearchThumbnail({
               : undefined
           }
           draggable={false}
-          src={`${apiHost}api/events/${searchResult.id}/thumbnail.webp`}
+          src={`${apiHost}api/events/${searchResult.id}/thumbnail.webp${showBbox ? "?bbox=1" : ""}`}
           loading={isSafari ? "eager" : "lazy"}
           onLoad={() => {
             onImgLoad();
           }}
         />
+
+        {searchResult.sub_label && !config?.model.attributes_map[searchResult.label]?.includes(searchResult.sub_label) && (
+          <div className="absolute right-2 top-2 z-50">
+            <div className="flex items-center gap-1 rounded-full bg-severity_alert px-2 py-1 text-xs font-semibold text-white shadow-lg">
+              <FaExclamationTriangle className="size-3" />
+              <span>{searchResult.sub_label}</span>
+            </div>
+          </div>
+        )}
+
+        <div className="absolute bottom-2 right-2 z-50">
+          <Button
+            size="icon"
+            variant={showBbox ? "select" : "secondary"}
+            className="size-7 opacity-80 hover:opacity-100"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowBbox(!showBbox);
+            }}
+          >
+            {showBbox ? (
+              <FaCircleCheck className="size-3" />
+            ) : (
+              <FaSquare className="size-3" />
+            )}
+          </Button>
+        </div>
 
         <div className="absolute left-0 top-2 z-40">
           <Tooltip>
