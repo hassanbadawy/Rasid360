@@ -19,6 +19,7 @@ from frigate.extras.utils.mqtt_client import MQTTClient
 from frigate.extras.utils.frigate_api import FrigateAPI
 from frigate.extras.actions.base_action import BaseAction
 from frigate.extras.actions.wrong_way_detection import WrongWayDetection
+from frigate.extras.actions.dsl_violation_detector import DSLViolationDetector
 
 
 class EventDispatcher:
@@ -100,6 +101,7 @@ class EventDispatcher:
         # Registry of available action classes
         action_registry = {
             "wrong_way_detection": WrongWayDetection,
+            "dsl_violations": DSLViolationDetector,
             # Add more actions here as they are implemented:
             # "fall_detection": FallDetection,
             # "loitering_detection": LoiteringDetection,

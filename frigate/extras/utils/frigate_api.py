@@ -137,6 +137,23 @@ class FrigateAPI:
             self.logger.error(f"Failed to get stats: {e}")
             return None
 
+    def get_config(self) -> Optional[Dict[str, Any]]:
+        """
+        Get Frigate configuration
+
+        Returns:
+            Configuration dict if successful, None otherwise
+        """
+        endpoint = f"{self.base_url}/config"
+
+        try:
+            response = requests.get(endpoint, timeout=5)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"Failed to get config: {e}")
+            return None
+
     def health_check(self) -> bool:
         """
         Check if Frigate API is accessible

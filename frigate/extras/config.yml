@@ -15,55 +15,84 @@ frigate:
 
 # Action Handlers Configuration
 actions:
-  # Wrong-Way Vehicle Detection
-  # Detects vehicles moving from valid zones into violation zone
-  wrong_way_detection:
+  # DSL-Based Violation Detection System
+  # Flexible, configurable violation rules without code changes
+  dsl_violations:
     enabled: true
 
-    # List of cameras to monitor (empty = all cameras)
+    # Global violation templates (reusable across cameras)
+    violation_templates:
+
+      # Wrong-way vehicle detection (zone sequence)
+      wrong_way:
+        type: zone_sequence
+        description: "Vehicle moves from valid zones to violation zone"
+        vehicle_types: [car, bus, truck, motorcycle]
+        from_zones: "{from}"  # Template parameter
+        to_zone: "{to}"       # Template parameter
+        duration: 30
+        severity: high
+        cooldown: 30
+
+      # Object logic violation (boolean conditions)
+      missing_safety_equipment:
+        type: object_logic
+        description: "Hazard detected without required safety equipment"
+        condition: "detected({hazard}) AND NOT detected({safety})"
+        monitor_duration: 0
+        duration: 30
+        severity: critical
+        cooldown: 30
+
+      # Zone + object violation
+      restricted_zone:
+        type: zone_object
+        description: "Objects detected in restricted zone"
+        condition: "in_zone({zone}) AND detected({object})"
+        duration: 20
+        severity: medium
+        cooldown: 30
+
+      # Fall down detection (aspect ratio based)
+      fall_detection:
+        type: fall_down
+        description: "Person fall detected based on width/height ratio"
+        object_type: person
+        width_height_ratio: "{ratio}"  # Template parameter: ratio threshold
+        min_duration: "{duration}"     # Template parameter: sustained duration
+        duration: 30
+        severity: critical
+        cooldown: 15
+
+    # Camera-specific violations
     cameras:
-      - test
+      Road01:
+        violations:
+          # Wrong-way detection: vehicles moving from zone01 or zone02 to wrongzone
+          - name: wrongway_zone01_zone02
+            type: zone_sequence
+            description: "Vehicles moving from zone01/zone02 to wrongzone"
+            vehicle_types: [car, bus, truck, motorcycle]
+            from_zones: [zone01, zone02]
+            to_zone: wrongzone
+            duration: 30
+            severity: high
+            cooldown: 30
 
-    # Valid zones (vehicles should stay in these zones)
-    valid_zones:
-      - zone01
-      - zone02
-
-    # Violation zone (vehicles entering this from valid zones = violation)
-    violation_zone: wrongzone
-
-    # Vehicle types to track
-    vehicle_types:
-      - car
-      - bus
-      - truck
-      - motorcycle
-
-    # Cleanup timeout (seconds) - remove vehicles not seen for this duration
-    cleanup_timeout: 60
-
-  # Fall Detection (Example - Not yet implemented)
-  # fall_detection:
-  #   enabled: false
-  #   cameras:
-  #     - living_room
-  #     - bedroom
-  #   floor_zones:
-  #     - floor_area
-  #   min_stationary_time: 5  # seconds
-
-  # Loitering Detection (Example - Not yet implemented)
-  # loitering_detection:
-  #   enabled: false
-  #   cameras:
-  #     - entrance
-  #   zones:
-  #     - entry_area
-  #   min_loitering_time: 30  # seconds
-  #   object_types:
-  #     - person
+      Roas02:
+        violations:
+          # Fall down detection: person with width/height ratio > 1.2 for 3 seconds
+          - name: person_fall_down
+            type: fall_down
+            description: "Person fall detected"
+            object_type: person
+            width_height_ratio: 1.2
+            min_duration: 3
+            duration: 30
+            severity: critical
+            cooldown: 15
 
 # Logging Configuration
 logging:
-  level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: DEBUG  # DEBUG, INFO, WARNING, ERROR, CRITICAL
   file: /tmp/frigate_extras.log

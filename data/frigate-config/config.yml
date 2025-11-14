@@ -40,6 +40,9 @@ objects:
     - truck
     - motorcycle
   filters:
+    person:
+      min_area: 50
+      threshold: 0.25
     car:
       min_area: 200
       threshold: 0.25
@@ -47,14 +50,15 @@ objects:
       min_area: 300
       threshold: 0.25
     motorcycle:
-      min_area: 100
+      min_area: 10
       threshold: 0.25
     bicycle:
-      min_area: 100
+      min_area: 10
       threshold: 0.25
 
 cameras:
-  test:
+  Road01:
+    enabled: true
     ffmpeg:
       inputs:
         - path: /media/streams/streams/street/wrongWayCar02.mp4
@@ -64,9 +68,8 @@ cameras:
     detect:
       enabled: true
       height: 720
-      width: 1080
+      width: 1280
       fps: 5
-    enabled: true
     motion:
       mask:
         - 0.964,0.28,0.641,0.184,0.502,0.164,0.329,0.18,0.247,0.187,0.227,0.327,0.172,0.429,0.573,0.4,0.613,0.991,0.006,0.996,0.004,0.002,0.996,0.009,0.994,0.284
@@ -81,6 +84,7 @@ cameras:
         objects:
           - bus
           - car
+          - truck
           - motorcycle
         friendly_name: Zone01
         inertia: 3
@@ -90,6 +94,7 @@ cameras:
         objects:
           - bus
           - car
+          - truck
           - motorcycle
         friendly_name: Zone02
         inertia: 3
@@ -102,4 +107,27 @@ cameras:
           - motorcycle
         friendly_name: WrongZone
         inertia: 3
+
+  Roas02:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: /media/streams/streams/fall/fall_fight.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts
+          roles:
+            - detect
+    detect:
+      enabled: true
+      height: 720
+      width: 1280
+      fps: 5
+    objects:
+      track:
+        - person
+      filters:
+        person:
+          min_area: 1
+          min_score: 0.01
+          threshold: 0.01
+  
 version: 0.17-0
