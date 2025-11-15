@@ -57,8 +57,9 @@ objects:
       threshold: 0.25
 
 cameras:
+
   Road01:
-    enabled: true
+    enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/street/wrongWayCar02.mp4
@@ -109,7 +110,7 @@ cameras:
         inertia: 3
 
   Road02:
-    enabled: true
+    enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/fall/fall_fight.mp4
@@ -135,7 +136,7 @@ cameras:
           threshold: 0.01
 
   Road03:
-    enabled: true
+    enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/fall/fall.mp4
@@ -160,4 +161,95 @@ cameras:
           min_score: 0.01
           threshold: 0.01
 
+  Road04:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: /media/streams/streams/street/wrongWayCar01.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts
+          roles:
+            - detect
+    detect:
+      enabled: true
+      height: 720
+      width: 1280
+      fps: 5
+    motion:
+      threshold: 25
+      contour_area: 10
+      improve_contrast: true
+
+
+      mask: 
+        0.692,0.995,0.779,0.584,0.886,0.241,0.698,0.151,0.009,0.387,0.006,0.002,0.998,0.007,0.997,0.995
+    zones:
+      rightcomestart:
+        coordinates: 0.767,0.562,0.231,0.328,0.001,0.418,0.003,0.993,0.675,0.988
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: RightComeStart
+      rightcomeend:
+        coordinates: 0.25,0.319,0.779,0.55,0.872,0.238,0.657,0.158
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: RightComeEnd
+  Road05:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: /media/streams/streams/street/wrongWayCar03.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts
+          roles:
+            - detect
+    detect:
+      enabled: true
+      height: 720
+      width: 1280
+      fps: 5
+    motion:
+      threshold: 25
+      contour_area: 10
+      improve_contrast: true
+
+      mask: 0.994,0.543,0.661,0.248,0.322,0.246,0.002,0.377,0.001,0,0.998,0.007
+    zones:
+      leftcomestart:
+        coordinates: 0.099,0.501,0.47,0.543,0.481,0.268,0.355,0.26
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: LeftComeStart
+        inertia: 3
+      leftcomeend:
+        coordinates: 0.085,0.511,0.473,0.557,0.452,0.988,0.006,0.99,0.005,0.572
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: LeftComeEnd
+      rightcomestart:
+        coordinates: 0.493,0.528,0.894,0.491,0.997,0.572,0.995,0.995,0.503,0.995
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: RightComeStart
+      rightcomeend:
+        coordinates: 0.492,0.511,0.889,0.474,0.657,0.265,0.493,0.26
+        loitering_time: 0
+        objects:
+          - bus
+          - car
+          - motorcycle
+        friendly_name: RightComeEnd
 version: 0.17-0

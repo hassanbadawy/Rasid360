@@ -18,6 +18,7 @@ import { FrigateConfig } from "./types/frigateConfig";
 const Live = lazy(() => import("@/pages/Live"));
 const Events = lazy(() => import("@/pages/Events"));
 const Explore = lazy(() => import("@/pages/Explore"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Exports = lazy(() => import("@/pages/Exports"));
 const ConfigEditor = lazy(() => import("@/pages/ConfigEditor"));
 const System = lazy(() => import("@/pages/System"));
@@ -77,9 +78,12 @@ function DefaultAppView() {
                 />
               }
             >
-              <Route index element={<Live />} />
-              <Route path="/review" element={<Events />} />
+              <Route index element={<Dashboard />} />
+              <Route path="/live" element={<Live />} />
+              <Route path="/tickets" element={<Explore />} />
               <Route path="/explore" element={<Explore />} />
+              <Route path="/playback" element={<Events />} />
+              <Route path="/review" element={<Events />} />
               <Route path="/export" element={<Exports />} />
               <Route path="/settings" element={<Settings />} />
             </Route>

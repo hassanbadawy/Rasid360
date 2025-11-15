@@ -45,7 +45,7 @@ from frigate.const import (
 from frigate.models import Event, Previews, Recordings, Regions, ReviewSegment
 from frigate.track.object_processing import TrackedObjectProcessor
 from frigate.util.file import get_event_thumbnail_bytes
-from frigate.util.image import get_image_from_recording
+from frigate.util.image import draw_box_with_label, get_image_from_recording
 from frigate.util.time import get_dst_transitions
 
 logger = logging.getLogger(__name__)
@@ -978,6 +978,7 @@ async def event_snapshot(
 ):
     event_complete = False
     jpg_bytes = None
+    event = None
     try:
         event = Event.get(Event.id == event_id, Event.end_time != None)
         event_complete = True
@@ -992,6 +993,36 @@ async def event_snapshot(
             os.path.join(CLIPS_DIR, f"{event.camera}-{event.id}.jpg"), "rb"
         ) as image_file:
             jpg_bytes = image_file.read()
+
+        # Draw bounding box if requested
+        if params.bbox and event is not None:
+            img_as_np = np.frombuffer(jpg_bytes, dtype=np.uint8)
+            img = cv2.imdecode(img_as_np, flags=1)
+
+            # Get box data from event
+            box = event.data.get("box")
+            if box:
+                thickness = 2
+                color = (255, 255, 255)  # White color for bbox
+                score = event.data.get("score", 0)
+
+                # Draw the bounding box
+                draw_box_with_label(
+                    img,
+                    box[0],
+                    box[1],
+                    box[2],
+                    box[3],
+                    event.label,
+                    f"{int(score * 100)}%",
+                    thickness=thickness,
+                    color=color,
+                )
+
+                # Re-encode image
+                _, img_encoded = cv2.imencode(".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), params.quality or 70])
+                jpg_bytes = img_encoded.tobytes()
+
     except DoesNotExist:
         # see if the object is currently being tracked
         try:
@@ -1052,11 +1083,13 @@ async def event_thumbnail(
         2592000, description="Max cache age in seconds. Default 30 days in seconds."
     ),
     format: str = Query(default="ios", enum=["ios", "android"]),
+    bbox: int = Query(default=0, description="Draw bounding box on thumbnail"),
 ):
     thumbnail_bytes = None
     event_complete = False
+    event = None
     try:
-        event: Event = Event.get(Event.id == event_id)
+        event = Event.get(Event.id == event_id)
         await require_camera_access(event.camera, request=request)
         if event.end_time is not None:
             event_complete = True
@@ -1085,6 +1118,53 @@ async def event_thumbnail(
             content={"success": False, "message": "Event not found"},
             status_code=404,
         )
+
+    # Draw bounding box if requested
+    if bbox and event is not None:
+        img_as_np = np.frombuffer(thumbnail_bytes, dtype=np.uint8)
+        img = cv2.imdecode(img_as_np, flags=1)
+
+        # Get box data from event - try thumbnail first, then box directly
+        box = None
+        score = 0
+
+        # Try getting from thumbnail data first
+        thumbnail_data = event.data.get("thumbnail")
+        if thumbnail_data:
+            box = thumbnail_data.get("box")
+            score = thumbnail_data.get("score", 0)
+
+        # If not in thumbnail, get directly from event data
+        if box is None:
+            box = event.data.get("box")
+            score = event.data.get("score", 0)
+
+        if box:
+            thickness = 2
+            color = (255, 255, 255)  # White color for bbox
+
+            # Draw the bounding box
+            draw_box_with_label(
+                img,
+                box[0],
+                box[1],
+                box[2],
+                box[3],
+                event.label,
+                f"{int(score * 100)}%",
+                thickness=thickness,
+                color=color,
+            )
+
+            # Re-encode image
+            quality_params = None
+            if extension in (Extension.jpg, Extension.jpeg):
+                quality_params = [int(cv2.IMWRITE_JPEG_QUALITY), 70]
+            elif extension == Extension.webp:
+                quality_params = [int(cv2.IMWRITE_WEBP_QUALITY), 60]
+
+            _, img_encoded = cv2.imencode(f".{extension.value}", img, quality_params)
+            thumbnail_bytes = img_encoded.tobytes()
 
     # android notifications prefer a 2:1 ratio
     if format == "android":

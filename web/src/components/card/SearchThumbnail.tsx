@@ -30,7 +30,7 @@ export default function SearchThumbnail({
   const apiHost = useApiHost();
   const { data: config } = useSWR<FrigateConfig>("config");
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
-  const [showBbox, setShowBbox] = useState(false);
+  const [showBbox, setShowBbox] = useState(true);
 
   // interactions
 
@@ -167,9 +167,12 @@ export default function SearchThumbnail({
                   >
                     {getIconForLabel(objectLabel, "size-3 text-white")}
                     {Math.floor(
-                      (searchResult.data.score ??
-                        searchResult.data.top_score ??
-                        searchResult.top_score) * 100,
+                      (searchResult.sub_label && searchResult.data.sub_label_score
+                        ? searchResult.data.sub_label_score
+                        : searchResult.score ??
+                          searchResult.data.score ??
+                          searchResult.data.top_score ??
+                          searchResult.top_score) * 100,
                     )}
                     % {objectDetail}
                   </Chip>

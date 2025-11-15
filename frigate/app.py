@@ -60,6 +60,8 @@ from frigate.models import (
     Trigger,
     User,
 )
+from frigate.analytics_db import init_analytics_db, close_analytics_db
+from frigate.analytics_scheduler import init_analytics_scheduler, stop_analytics_scheduler
 from frigate.object_detection.base import ObjectDetectProcess
 from frigate.output.output import OutputProcess
 from frigate.ptz.autotrack import PtzAutoTrackerThread
@@ -161,6 +163,16 @@ class FrigateApp:
 
         # Queue for timeline events
         self.timeline_queue: Queue = mp.Queue()
+
+    def init_analytics_database(self) -> None:
+        """Initialize the analytics database (scheduler starts after DB binding)"""
+        analytics_db_path = self.config.database.path.replace("frigate.db", "analytics.db")
+        logger.info(f"Initializing analytics database at {analytics_db_path}")
+
+        # Initialize analytics database
+        init_analytics_db(analytics_db_path)
+
+        logger.info("Analytics database initialized")
 
     def init_database(self) -> None:
         def vacuum_db(db: SqliteExtDatabase) -> None:
@@ -286,6 +298,10 @@ class FrigateApp:
             Trigger,
         ]
         self.db.bind(models)
+
+        # Now that database is bound, start analytics scheduler
+        logger.info("Starting analytics scheduler with bound database")
+        init_analytics_scheduler(interval_seconds=300, frigate_db=self.db)
 
     def check_db_data_migrations(self) -> None:
         # check if vacuum needs to be run
@@ -531,6 +547,7 @@ class FrigateApp:
         self.init_camera_metrics()
         self.init_queues()
         self.init_database()
+        self.init_analytics_database()
         self.init_onvif()
         self.init_recording_manager()
         self.init_review_segment_manager()
@@ -646,6 +663,10 @@ class FrigateApp:
         self.event_metadata_updater.stop()
         self.inter_zmq_proxy.stop()
         self.detection_proxy.stop()
+
+        # Stop analytics scheduler
+        stop_analytics_scheduler()
+        close_analytics_db()
 
         while len(self.detection_shms) > 0:
             shm = self.detection_shms.pop()

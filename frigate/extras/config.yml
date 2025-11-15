@@ -69,7 +69,7 @@ actions:
       Road01:
         violations:
           # Wrong-way detection: vehicles moving from zone01 or zone02 to wrongzone
-          - name: wrongway_zone01_zone02
+          - name: wrongway
             type: zone_sequence
             description: "Vehicles moving from zone01/zone02 to wrongzone"
             vehicle_types: [car, bus, truck, motorcycle]
@@ -105,6 +105,42 @@ actions:
             severity: critical
             cooldown: 15
 
+      Road04:
+        violations:
+          # Wrong-way detection: vehicles moving from zone01 or zone02 to wrongzone
+          - name: wrongway
+            type: zone_sequence
+            description: "Vehicles moving in wrong direction"
+            vehicle_types: [car, bus, truck, motorcycle]
+            from_zones: [rightcomeend]
+            to_zone: rightcomestart
+            duration: 3
+            severity: high
+            cooldown: 3
+
+      Road05:
+        violations:
+          # Wrong-way detection: vehicles moving from rightcomeend to rightcomestart
+          - name: wrongway
+            type: zone_sequence
+            description: "Vehicles moving in wrong direction (right lane)"
+            vehicle_types: [car, bus, truck, motorcycle]
+            from_zones: [rightcomeend]
+            to_zone: rightcomestart
+            duration: 3
+            severity: high
+            cooldown: 3
+
+          # Wrong-way detection: vehicles moving from leftcomeend to leftcomestart
+          - name: wrongway
+            type: zone_sequence
+            description: "Vehicles moving in wrong direction (left lane)"
+            vehicle_types: [car, bus, truck, motorcycle]
+            from_zones: [leftcomeend]
+            to_zone: leftcomestart
+            duration: 3
+            severity: high
+            cooldown: 3
 # Logging Configuration
 logging:
   level: DEBUG  # DEBUG, INFO, WARNING, ERROR, CRITICAL

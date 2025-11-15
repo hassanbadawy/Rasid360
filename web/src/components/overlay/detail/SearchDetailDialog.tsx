@@ -1641,8 +1641,8 @@ export function ObjectSnapshotTab({
 }: ObjectSnapshotTabProps) {
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
 
-  // Show bbox for violation events (events with sub_label)
-  const showBbox = search?.sub_label ? true : false;
+  // Always show bbox on snapshot
+  const showBbox = true;
 
   return (
     <div className={cn("relative", isDesktop && "size-full", className)}>
