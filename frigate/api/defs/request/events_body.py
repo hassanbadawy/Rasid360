@@ -53,3 +53,13 @@ class TriggerEmbeddingBody(BaseModel):
     type: TriggerType
     data: str
     threshold: float = Field(default=0.5, ge=0.0, le=1.0)
+
+
+class EventsTicketBody(BaseModel):
+    status: str = Field(title="Ticket status", max_length=50)
+    assigned_to: Optional[str] = Field(
+        title="Person assigned to this ticket", default=None, max_length=100
+    )
+    comments: Optional[str] = Field(
+        title="Comments about this incident", default=None
+    )

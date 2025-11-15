@@ -63,6 +63,11 @@ export type SearchResult = {
     path_data: [number[], number][];
     recognized_license_plate?: string;
     recognized_license_plate_score?: number;
+    ticket_status?: string;
+    ticket_assigned_to?: string;
+    ticket_comments?: string;
+    ticket_updated_at?: number;
+    ticket_updated_by?: string;
   };
 };
 

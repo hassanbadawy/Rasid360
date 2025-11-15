@@ -93,7 +93,7 @@ import { useDetailStream } from "@/context/detail-stream-context";
 import { PiSlidersHorizontalBold } from "react-icons/pi";
 import { HiSparkles } from "react-icons/hi";
 
-const SEARCH_TABS = ["snapshot", "tracking_details"] as const;
+const SEARCH_TABS = ["snapshot", "video_clip", "tracking_details", "ticket"] as const;
 export type SearchTab = (typeof SEARCH_TABS)[number];
 
 type TabsWithActionsProps = {
@@ -336,6 +336,50 @@ function DialogContentComponent({
           ) : undefined
         }
       />
+    );
+  }
+
+  if (page === "video_clip") {
+    return (
+      <div className={cn(isDesktop ? "size-full" : "flex flex-col gap-4")}>
+        {isDesktop && (
+          <TabsWithActions
+            search={search}
+            searchTabs={searchTabs}
+            pageToggle={pageToggle}
+            setPageToggle={setPageToggle}
+            config={config}
+            setSearch={setSearch}
+            setSimilarity={setSimilarity}
+            isPopoverOpen={isPopoverOpen}
+            setIsPopoverOpen={setIsPopoverOpen}
+            dialogContainer={dialogContainer}
+          />
+        )}
+        <VideoClipTab search={search} />
+      </div>
+    );
+  }
+
+  if (page === "ticket") {
+    return (
+      <div className={cn(isDesktop ? "size-full" : "flex flex-col gap-4")}>
+        {isDesktop && (
+          <TabsWithActions
+            search={search}
+            searchTabs={searchTabs}
+            pageToggle={pageToggle}
+            setPageToggle={setPageToggle}
+            config={config}
+            setSearch={setSearch}
+            setSimilarity={setSimilarity}
+            isPopoverOpen={isPopoverOpen}
+            setIsPopoverOpen={setIsPopoverOpen}
+            dialogContainer={dialogContainer}
+          />
+        )}
+        <TicketManagementTab search={search} setSearch={setSearch} />
+      </div>
     );
   }
 
@@ -1597,6 +1641,9 @@ export function ObjectSnapshotTab({
 }: ObjectSnapshotTabProps) {
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
 
+  // Show bbox for violation events (events with sub_label)
+  const showBbox = search?.sub_label ? true : false;
+
   return (
     <div className={cn("relative", isDesktop && "size-full", className)}>
       <ImageLoadingIndicator
@@ -1627,7 +1674,7 @@ export function ObjectSnapshotTab({
                   <img
                     ref={imgRef}
                     className="mx-auto max-h-[60dvh] rounded-lg bg-background object-contain"
-                    src={`${baseUrl}api/events/${search?.id}/snapshot.jpg`}
+                    src={`${baseUrl}api/events/${search?.id}/snapshot.jpg${showBbox ? "?bbox=1" : ""}`}
                     alt={`${search?.label}`}
                     loading={isSafari ? "eager" : "lazy"}
                     onLoad={() => {
@@ -1662,5 +1709,239 @@ export function VideoTab({ search }: VideoTabProps) {
       <span tabIndex={0} className="sr-only" />
       <GenericVideoPlayer source={source} />
     </>
+  );
+}
+
+type VideoClipTabProps = {
+  search: SearchResult;
+};
+
+export function VideoClipTab({ search }: VideoClipTabProps) {
+  const clipTimeRange = useMemo(() => {
+    const startTime = search.start_time - REVIEW_PADDING;
+    const endTime = (search.end_time ?? Date.now() / 1000) + REVIEW_PADDING;
+    return `start/${startTime}/end/${endTime}`;
+  }, [search]);
+
+  const source = `${baseUrl}vod/${search.camera}/${clipTimeRange}/index.m3u8`;
+
+  return (
+    <div className="flex size-full flex-col gap-4">
+      <span tabIndex={0} className="sr-only" />
+      <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
+        <GenericVideoPlayer source={source} />
+      </div>
+    </div>
+  );
+}
+
+type TicketManagementTabProps = {
+  search: SearchResult;
+  setSearch: (search: SearchResult | undefined) => void;
+};
+
+type TicketStatus = "new" | "in_progress" | "solved" | "closed" | "fake";
+
+interface TicketData {
+  status: TicketStatus;
+  assigned_to: string;
+  comments: string;
+  updated_at?: number;
+  updated_by?: string;
+}
+
+export function TicketManagementTab({ search, setSearch }: TicketManagementTabProps) {
+  const apiHost = useApiHost();
+  const mutate = useGlobalMutation();
+
+  // Initialize ticket data from event data or defaults
+  const [ticketData, setTicketData] = useState<TicketData>({
+    status: (search.data?.ticket_status as TicketStatus) || "new",
+    assigned_to: search.data?.ticket_assigned_to || "",
+    comments: search.data?.ticket_comments || "",
+    updated_at: search.data?.ticket_updated_at,
+    updated_by: search.data?.ticket_updated_by,
+  });
+
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleUpdate = useCallback(() => {
+    if (!search) return;
+
+    setIsSaving(true);
+
+    axios
+      .post(`${apiHost}api/events/${search.id}/ticket`, {
+        status: ticketData.status,
+        assigned_to: ticketData.assigned_to,
+        comments: ticketData.comments,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Ticket updated successfully", {
+            position: "top-center",
+          });
+
+          const updatedData = {
+            ...search.data,
+            ticket_status: ticketData.status,
+            ticket_assigned_to: ticketData.assigned_to,
+            ticket_comments: ticketData.comments,
+            ticket_updated_at: Date.now() / 1000,
+            ticket_updated_by: "current_user", // TODO: Get from auth context
+          };
+
+          setTicketData({
+            ...ticketData,
+            updated_at: Date.now() / 1000,
+            updated_by: "current_user",
+          });
+
+          mutate(
+            (key) =>
+              typeof key === "string" &&
+              (key.includes("events") ||
+                key.includes("events/search") ||
+                key.includes("events/explore")),
+            (currentData: SearchResult[][] | SearchResult[] | undefined) => {
+              if (!currentData) return currentData;
+              return currentData.flat().map((event) =>
+                event.id === search.id
+                  ? { ...event, data: updatedData }
+                  : event,
+              );
+            },
+            {
+              optimisticData: true,
+              rollbackOnError: true,
+              revalidate: false,
+            },
+          );
+
+          setSearch({
+            ...search,
+            data: updatedData,
+          });
+        }
+      })
+      .catch((error) => {
+        const errorMessage =
+          error.response?.data?.message ||
+          error.response?.data?.detail ||
+          "Unknown error";
+        toast.error(`Failed to update ticket: ${errorMessage}`, {
+          position: "top-center",
+        });
+      })
+      .finally(() => {
+        setIsSaving(false);
+      });
+  }, [search, ticketData, apiHost, mutate, setSearch]);
+
+  const statusOptions: { value: TicketStatus; label: string; color: string }[] = [
+    { value: "new", label: "New", color: "bg-blue-500" },
+    { value: "in_progress", label: "In Progress", color: "bg-yellow-500" },
+    { value: "solved", label: "Solved", color: "bg-green-500" },
+    { value: "closed", label: "Closed", color: "bg-gray-500" },
+    { value: "fake", label: "Fake", color: "bg-red-500" },
+  ];
+
+  const formattedUpdatedAt = useFormattedTimestamp(
+    ticketData.updated_at ?? 0,
+    "MMM d, yyyy h:mm a",
+  );
+
+  return (
+    <div className="flex size-full flex-col gap-6 p-4">
+      <div className="flex flex-col gap-4">
+        {/* Status */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-primary/60">Status</label>
+          <div className="flex flex-wrap gap-2">
+            {statusOptions.map((option) => (
+              <button
+                key={option.value}
+                onClick={() =>
+                  setTicketData({ ...ticketData, status: option.value })
+                }
+                className={cn(
+                  "rounded-md px-4 py-2 text-sm font-medium transition-all",
+                  ticketData.status === option.value
+                    ? `${option.color} text-white shadow-md`
+                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                )}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Assigned To */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-primary/60">
+            Assigned To
+          </label>
+          <input
+            type="text"
+            placeholder="Enter assignee name or email"
+            value={ticketData.assigned_to}
+            onChange={(e) =>
+              setTicketData({ ...ticketData, assigned_to: e.target.value })
+            }
+            className="rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+        </div>
+
+        {/* Comments */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-primary/60">
+            Comments
+          </label>
+          <Textarea
+            placeholder="Add comments about this incident..."
+            value={ticketData.comments}
+            onChange={(e) =>
+              setTicketData({ ...ticketData, comments: e.target.value })
+            }
+            className="min-h-[120px] resize-none"
+          />
+        </div>
+
+        {/* Update Button */}
+        <div className="flex flex-col gap-2">
+          <Button
+            onClick={handleUpdate}
+            disabled={isSaving}
+            className="w-full"
+          >
+            {isSaving ? (
+              <>
+                <ActivityIndicator className="mr-2" />
+                Updating...
+              </>
+            ) : (
+              "Update Ticket"
+            )}
+          </Button>
+        </div>
+
+        {/* Metadata */}
+        {ticketData.updated_at && (
+          <div className="flex flex-col gap-1 rounded-md bg-secondary/50 p-3 text-xs text-primary/60">
+            <div>
+              <span className="font-medium">Last updated:</span>{" "}
+              {formattedUpdatedAt}
+            </div>
+            {ticketData.updated_by && (
+              <div>
+                <span className="font-medium">Updated by:</span>{" "}
+                {ticketData.updated_by}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

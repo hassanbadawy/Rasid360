@@ -42,6 +42,7 @@ from frigate.api.defs.request.events_body import (
     EventsEndBody,
     EventsLPRBody,
     EventsSubLabelBody,
+    EventsTicketBody,
     SubmitPlusBody,
     TriggerEmbeddingBody,
 )
@@ -2103,3 +2104,48 @@ def get_triggers_status(
             content=({"success": False, "message": "Error fetching trigger status"}),
             status_code=400,
         )
+
+
+@router.post(
+    "/events/{event_id}/ticket",
+    response_model=GenericResponse,
+    dependencies=[Depends(require_role(["admin"]))],
+    summary="Update event ticket information.",
+    description="""Updates ticket management data for an event including status, assignment, and comments.
+    Returns a success message or an error if the event is not found.
+    """,
+)
+async def update_ticket(
+    request: Request,
+    event_id: str,
+    body: EventsTicketBody,
+):
+    try:
+        event: Event = Event.get(Event.id == event_id)
+        await require_camera_access(event.camera, request=request)
+    except DoesNotExist:
+        return JSONResponse(
+            content=(
+                {"success": False, "message": "Event " + event_id + " not found."}
+            ),
+            status_code=404,
+        )
+
+    # Update event data with ticket information
+    current_data = event.data or {}
+    current_data["ticket_status"] = body.status
+    current_data["ticket_assigned_to"] = body.assigned_to
+    current_data["ticket_comments"] = body.comments
+    current_data["ticket_updated_at"] = datetime.datetime.now().timestamp()
+    current_data["ticket_updated_by"] = "admin"  # TODO: Get from auth context
+
+    event.data = current_data
+    event.save()
+
+    return JSONResponse(
+        content={
+            "success": True,
+            "message": f"Ticket information updated for event {event_id}",
+        },
+        status_code=200,
+    )
