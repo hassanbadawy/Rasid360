@@ -149,6 +149,43 @@ class AnalyticsCameraStatus(AnalyticsBaseModel):
         table_name = "analytics_camera_status"
 
 
+class AnalyticsObservation(AnalyticsBaseModel):
+    """Violation observations/tickets with media assets"""
+
+    id = CharField(primary_key=True, max_length=100)  # unique ticket id
+    camera = CharField(max_length=50)  # camera name
+    label = CharField(max_length=100)  # object label (person, car, etc.)
+    sub_label = CharField(max_length=100, null=True)  # violation type
+    score = FloatField(default=0.0)  # confidence score
+    timestamp = FloatField()  # unix timestamp of violation
+    
+    # Media assets - store paths/URLs
+    cleanshot = CharField(max_length=500, null=True)  # clean snapshot path
+    bboxshot = CharField(max_length=500, null=True)  # bbox snapshot path
+    thumbnail = CharField(max_length=500, null=True)  # thumbnail path
+    clip = CharField(max_length=500, null=True)  # video clip path
+    
+    # Bounding box data
+    box_x = FloatField(null=True)  # x coordinate
+    box_y = FloatField(null=True)  # y coordinate
+    box_width = FloatField(null=True)  # width
+    box_height = FloatField(null=True)  # height
+    
+    # Ticket metadata
+    status = CharField(max_length=50, default="new")  # new, in_progress, solved, closed, fake
+    notes = CharField(max_length=1000, null=True)  # user notes
+    
+    # Additional data as JSON
+    metadata = JSONField(null=True)  # extra data (dsl_rule, etc.)
+    
+    # Timestamps
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
+
+    class Meta:
+        table_name = "analytics_observations"
+
+
 # List of all analytics models
 ANALYTICS_MODELS = [
     AnalyticsTicketStatus,
@@ -161,6 +198,7 @@ ANALYTICS_MODELS = [
     AnalyticsViolationsByYear,
     AnalyticsCameraFPS,
     AnalyticsCameraStatus,
+    AnalyticsObservation,
 ]
 
 

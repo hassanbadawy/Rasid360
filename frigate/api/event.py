@@ -2149,3 +2149,198 @@ async def update_ticket(
         },
         status_code=200,
     )
+
+
+@router.get(
+    "/observations",
+    summary="Get violation observations/tickets",
+    description="Returns a list of violation observations from the analytics database.",
+)
+def get_observations(
+    request: Request,
+    limit: int = 100,
+    offset: int = 0,
+    camera: str = "all",
+    status: str = "all",
+    allowed_cameras: List[str] = Depends(get_allowed_cameras_for_filter),
+):
+    """Get violation observations from analytics database"""
+    from frigate.analytics_db import AnalyticsObservation
+    
+    clauses = []
+    
+    # Filter by camera
+    if camera != "all":
+        clauses.append((AnalyticsObservation.camera == camera))
+    else:
+        clauses.append((AnalyticsObservation.camera << allowed_cameras))
+    
+    # Filter by status
+    if status != "all":
+        clauses.append((AnalyticsObservation.status == status))
+    
+    # Build query
+    if clauses:
+        query = AnalyticsObservation.select().where(
+            reduce(operator.and_, clauses)
+        )
+    else:
+        query = AnalyticsObservation.select()
+    
+    # Order by timestamp descending and apply pagination
+    observations = (
+        query.order_by(AnalyticsObservation.timestamp.desc())
+        .offset(offset)
+        .limit(limit)
+        .dicts()
+        .iterator()
+    )
+    
+    return JSONResponse(content=list(observations))
+
+
+@router.get(
+    "/observations/{observation_id}",
+    summary="Get observation by id",
+    description="Returns a single observation from the analytics database.",
+)
+def get_observation(
+    request: Request,
+    observation_id: str,
+    allowed_cameras: List[str] = Depends(get_allowed_cameras_for_filter),
+):
+    """Get a single observation from analytics database"""
+    from frigate.analytics_db import AnalyticsObservation
+    
+    try:
+        observation = AnalyticsObservation.get(AnalyticsObservation.id == observation_id)
+        
+        # Check camera access
+        if observation.camera not in allowed_cameras:
+            return JSONResponse(
+                content={"success": False, "message": "Camera access denied"},
+                status_code=403,
+            )
+        
+        return JSONResponse(content=model_to_dict(observation))
+    except DoesNotExist:
+        return JSONResponse(
+            content={"success": False, "message": "Observation not found"},
+            status_code=404,
+        )
+
+
+@router.post(
+    "/observations",
+    summary="Create observation/ticket",
+    description="Creates a new violation observation in the analytics database.",
+)
+def create_observation(
+    request: Request,
+    body: dict,
+    allowed_cameras: List[str] = Depends(get_allowed_cameras_for_filter),
+):
+    """Create a new observation in analytics database"""
+    from frigate.analytics_db import AnalyticsObservation
+    import datetime
+    
+    # Validate camera access
+    if body.get("camera") not in allowed_cameras:
+        return JSONResponse(
+            content={"success": False, "message": "Camera access denied"},
+            status_code=403,
+        )
+    
+    try:
+        observation = AnalyticsObservation.create(
+            id=body.get("id"),
+            camera=body.get("camera"),
+            label=body.get("label"),
+            sub_label=body.get("sub_label"),
+            score=body.get("score", 0.0),
+            timestamp=body.get("timestamp"),
+            cleanshot=body.get("cleanshot"),
+            bboxshot=body.get("bboxshot"),
+            thumbnail=body.get("thumbnail"),
+            clip=body.get("clip"),
+            box_x=body.get("box_x"),
+            box_y=body.get("box_y"),
+            box_width=body.get("box_width"),
+            box_height=body.get("box_height"),
+            status=body.get("status", "new"),
+            notes=body.get("notes"),
+            metadata=body.get("metadata"),
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now(),
+        )
+        
+        return JSONResponse(
+            content={
+                "success": True,
+                "message": f"Observation {observation.id} created",
+                "id": observation.id,
+            },
+            status_code=201,
+        )
+    except Exception as e:
+        logger.error(f"Error creating observation: {e}")
+        return JSONResponse(
+            content={"success": False, "message": "Error creating observation"},
+            status_code=400,
+        )
+
+
+@router.put(
+    "/observations/{observation_id}",
+    summary="Update observation/ticket",
+    description="Updates a violation observation in the analytics database.",
+)
+def update_observation(
+    request: Request,
+    observation_id: str,
+    body: dict,
+    allowed_cameras: List[str] = Depends(get_allowed_cameras_for_filter),
+):
+    """Update an observation in analytics database"""
+    from frigate.analytics_db import AnalyticsObservation
+    import datetime
+    
+    try:
+        observation = AnalyticsObservation.get(AnalyticsObservation.id == observation_id)
+        
+        # Check camera access
+        if observation.camera not in allowed_cameras:
+            return JSONResponse(
+                content={"success": False, "message": "Camera access denied"},
+                status_code=403,
+            )
+        
+        # Update fields
+        if "status" in body:
+            observation.status = body["status"]
+        if "notes" in body:
+            observation.notes = body["notes"]
+        if "metadata" in body:
+            observation.metadata = body["metadata"]
+        
+        observation.updated_at = datetime.datetime.now()
+        observation.save()
+        
+        return JSONResponse(
+            content={
+                "success": True,
+                "message": f"Observation {observation_id} updated",
+            },
+            status_code=200,
+        )
+    except DoesNotExist:
+        return JSONResponse(
+            content={"success": False, "message": "Observation not found"},
+            status_code=404,
+        )
+    except Exception as e:
+        logger.error(f"Error updating observation: {e}")
+        return JSONResponse(
+            content={"success": False, "message": "Error updating observation"},
+            status_code=400,
+        )

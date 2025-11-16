@@ -162,7 +162,7 @@ cameras:
           threshold: 0.01
 
   Road04:
-    enabled: true
+    enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/street/wrongWayCar01.mp4
@@ -199,6 +199,7 @@ cameras:
           - car
           - motorcycle
         friendly_name: RightComeEnd
+
   Road05:
     enabled: true
     ffmpeg:

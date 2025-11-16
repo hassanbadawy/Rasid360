@@ -111,6 +111,9 @@ class DSLViolationDetector(BaseAction):
             violation: Violation record from evaluator
             event_data: Original event data
         """
+        import datetime
+        from frigate.analytics_db import AnalyticsObservation
+        
         rule_name = violation["rule_name"]
         camera = violation["camera"]
         label = violation["label"]
@@ -120,6 +123,7 @@ class DSLViolationDetector(BaseAction):
         duration = violation["duration"]
         severity = violation["severity"]
         zone_sequence = violation.get("zone_sequence", [])
+        score = violation.get("score", 1.0)
 
         # Log violation
         path = " → ".join(zone_sequence) if zone_sequence else "N/A"
@@ -141,13 +145,50 @@ class DSLViolationDetector(BaseAction):
             label=label,
             sub_label=sub_label,
             duration=duration,
-            score=1.0,
+            score=score,
             source_type="dsl_violation_detector",
             box=box,
         )
 
         if event_id:
             self.log_info(f"Created violation event: {event_id} ({rule_name})")
+            
+            # Save observation to analytics database
+            try:
+                # Extract box coordinates
+                box_x, box_y, box_width, box_height = box if box else (None, None, None, None)
+                
+                # Create observation record
+                observation = AnalyticsObservation.create(
+                    id=event_id,
+                    camera=camera,
+                    label=label,
+                    sub_label=sub_label,
+                    score=score,
+                    timestamp=datetime.datetime.now().timestamp(),
+                    cleanshot=f"/api/events/{event_id}/snapshot-clean.webp",
+                    bboxshot=f"/api/events/{event_id}/snapshot.jpg?bbox=1",
+                    thumbnail=f"/api/events/{event_id}/thumbnail.jpg",
+                    clip=f"/api/events/{event_id}/clip.mp4",
+                    box_x=box_x,
+                    box_y=box_y,
+                    box_width=box_width,
+                    box_height=box_height,
+                    status="new",
+                    notes=f"Rule: {rule_name}, Severity: {severity}, Path: {path}",
+                    metadata={
+                        "rule_name": rule_name,
+                        "severity": severity,
+                        "zone_sequence": zone_sequence,
+                        "description": violation.get("description", ""),
+                        "object_id": object_id,
+                    },
+                    created_at=datetime.datetime.now(),
+                    updated_at=datetime.datetime.now(),
+                )
+                self.log_info(f"Saved observation to analytics database: {event_id}")
+            except Exception as e:
+                self.log_error(f"Failed to save observation to analytics database: {e}")
         else:
             self.log_error(f"Failed to create violation event for rule: {rule_name}")
 

@@ -988,25 +988,47 @@ async def event_snapshot(
                 content={"success": False, "message": "Snapshot not available"},
                 status_code=404,
             )
-        # read snapshot from disk
+        
+        # Check if bbox version is requested and already cached
+        if params.bbox:
+            bbox_snapshot_path = os.path.join(CLIPS_DIR, f"{event.camera}-{event.id}_bbox.jpg")
+            if os.path.exists(bbox_snapshot_path):
+                # Serve the cached bbox version directly
+                with open(bbox_snapshot_path, "rb") as bbox_image_file:
+                    jpg_bytes = bbox_image_file.read()
+                # Return early with cached version
+                headers = {
+                    "Content-Type": "image/jpeg",
+                    "Cache-Control": "private, max-age=31536000" if event_complete else "no-store",
+                }
+                if params.download:
+                    headers["Content-Disposition"] = f"attachment; filename=snapshot-{event_id}.jpg"
+                return Response(
+                    jpg_bytes,
+                    media_type="image/jpeg",
+                    headers=headers,
+                )
+        
+        # Read original snapshot from disk
         with open(
             os.path.join(CLIPS_DIR, f"{event.camera}-{event.id}.jpg"), "rb"
         ) as image_file:
             jpg_bytes = image_file.read()
 
         # Draw bounding box if requested
-        if params.bbox and event is not None:
-            img_as_np = np.frombuffer(jpg_bytes, dtype=np.uint8)
-            img = cv2.imdecode(img_as_np, flags=1)
-
+        if params.bbox:
             # Get box data from event
             box = event.data.get("box")
             if box:
+                # Decode image
+                img_as_np = np.frombuffer(jpg_bytes, dtype=np.uint8)
+                img = cv2.imdecode(img_as_np, flags=1)
+                
                 thickness = 2
                 color = (255, 255, 255)  # White color for bbox
                 score = event.data.get("score", 0)
 
-                # Draw the bounding box
+                # Draw the bounding box for the specific object
                 draw_box_with_label(
                     img,
                     box[0],
@@ -1022,6 +1044,14 @@ async def event_snapshot(
                 # Re-encode image
                 _, img_encoded = cv2.imencode(".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), params.quality or 70])
                 jpg_bytes = img_encoded.tobytes()
+                
+                # Save the bbox version for future requests
+                bbox_snapshot_path = os.path.join(CLIPS_DIR, f"{event.camera}-{event.id}_bbox.jpg")
+                try:
+                    with open(bbox_snapshot_path, "wb") as bbox_file:
+                        bbox_file.write(jpg_bytes)
+                except Exception as e:
+                    logger.warning(f"Failed to save bbox snapshot for event {event.id}: {e}")
 
     except DoesNotExist:
         # see if the object is currently being tracked
