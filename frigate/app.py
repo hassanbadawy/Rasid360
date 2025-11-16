@@ -88,6 +88,8 @@ class FrigateApp:
     def __init__(
         self, config: FrigateConfig, manager: SyncManager, stop_event: MpEvent
     ) -> None:
+        logger.info("Initializing FrigateApp...")
+        logger.info(f"Manager: {manager}")
         self.metrics_manager = manager
         self.audio_process: Optional[mp.Process] = None
         self.stop_event = stop_event
@@ -95,6 +97,8 @@ class FrigateApp:
         self.detectors: dict[str, ObjectDetectProcess] = {}
         self.detection_shms: list[mp.shared_memory.SharedMemory] = []
         self.log_queue: Queue = mp.Queue()
+        if not self.metrics_manager:
+            logger.error("Metrics manager is None. This will cause a crash.")
         self.camera_metrics: DictProxy = self.metrics_manager.dict()
         self.embeddings_metrics: DataProcessorMetrics | None = (
             DataProcessorMetrics(

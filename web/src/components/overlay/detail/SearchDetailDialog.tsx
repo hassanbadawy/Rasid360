@@ -93,7 +93,7 @@ import { useDetailStream } from "@/context/detail-stream-context";
 import { PiSlidersHorizontalBold } from "react-icons/pi";
 import { HiSparkles } from "react-icons/hi";
 
-const SEARCH_TABS = ["snapshot", "video_clip", "tracking_details", "ticket"] as const;
+const SEARCH_TABS = ["snapshot", "evidence", "video_clip", "tracking_details", "ticket"] as const;
 export type SearchTab = (typeof SEARCH_TABS)[number];
 
 type TabsWithActionsProps = {
@@ -357,6 +357,35 @@ function DialogContentComponent({
           />
         )}
         <VideoClipTab search={search} />
+      </div>
+    );
+  }
+
+  if (page === "evidence") {
+    return (
+      <div className={cn(isDesktop ? "size-full" : "flex flex-col gap-4")}>
+        {isDesktop && (
+          <TabsWithActions
+            search={search}
+            searchTabs={searchTabs}
+            pageToggle={pageToggle}
+            setPageToggle={setPageToggle}
+            config={config}
+            setSearch={setSearch}
+            setSimilarity={setSimilarity}
+            isPopoverOpen={isPopoverOpen}
+            setIsPopoverOpen={setIsPopoverOpen}
+            dialogContainer={dialogContainer}
+          />
+        )}
+        <EvidenceTab
+          event={
+            {
+              ...search,
+              plus_id: config?.plus?.enabled ? search.plus_id : "not_enabled",
+            } as unknown as Event
+          }
+        />
       </div>
     );
   }
@@ -1642,7 +1671,6 @@ export function ObjectSnapshotTab({
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
 
   // Always show bbox on snapshot
-  const showBbox = true;
 
   return (
     <div className={cn("relative", isDesktop && "size-full", className)}>
@@ -1687,6 +1715,85 @@ export function ObjectSnapshotTab({
           </div>
         </TransformWrapper>
       </div>
+    </div>
+  );
+}
+
+type EvidenceTabProps = {
+  search: Event;
+  className?: string;
+};
+
+export function EvidenceTab({
+  event: search,
+  className,
+}: EvidenceTabProps) {
+  const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
+  const [loadError, setLoadError] = useState(false);
+
+  return (
+    <div className={cn("relative", isDesktop && "size-full", className)}>
+      {loadError && (
+        <div className="flex h-[60dvh] items-center justify-center rounded-lg bg-secondary/50 p-4 text-center">
+          <div className="flex flex-col gap-2">
+            <div className="text-sm text-primary/60">Evidence image not available</div>
+            <div className="text-xs text-primary/40">
+              The violation evidence image could not be loaded. This may indicate the evidence image was not generated for this event.
+            </div>
+          </div>
+        </div>
+      )}
+      {!loadError && (
+        <>
+          <ImageLoadingIndicator
+            className="absolute inset-0 aspect-video min-h-[60dvh] w-full"
+            imgLoaded={imgLoaded}
+          />
+          <div
+            className={cn(
+              "flex size-full items-center",
+              imgLoaded ? "visible" : "invisible",
+            )}
+          >
+            <TransformWrapper minScale={1.0} wheel={{ smoothStep: 0.005 }}>
+              <div className="flex w-full flex-col space-y-3 overflow-hidden">
+                <TransformComponent
+                  wrapperStyle={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  contentStyle={{
+                    position: "relative",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  {search?.id && (
+                    <div className="relative mx-auto flex h-full">
+                      <img
+                        ref={imgRef}
+                        className="mx-auto max-h-[60dvh] rounded-lg bg-background object-contain"
+                        src={`${baseUrl}api/events/${search?.id}/evidence.jpg`}
+                        alt="Evidence"
+                        loading={isSafari ? "eager" : "lazy"}
+                        onLoad={() => {
+                          console.log(`Evidence image loaded for event ${search?.id}`);
+                          onImgLoad();
+                        }}
+                        onError={(e) => {
+                          console.error(`Failed to load evidence image for event ${search?.id}:`, e);
+                          setLoadError(true);
+                          onImgLoad();
+                        }}
+                      />
+                    </div>
+                  )}
+                </TransformComponent>
+              </div>
+            </TransformWrapper>
+          </div>
+        </>
+      )}
     </div>
   );
 }

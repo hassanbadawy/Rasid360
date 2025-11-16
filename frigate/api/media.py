@@ -1031,10 +1031,10 @@ async def event_snapshot(
                 # Draw the bounding box for the specific object
                 draw_box_with_label(
                     img,
-                    box[0],
-                    box[1],
-                    box[2],
-                    box[3],
+                    int(box[0]),
+                    int(box[1]),
+                    int(box[0] + box[2]),
+                    int(box[1] + box[3]),
                     event.label,
                     f"{int(score * 100)}%",
                     thickness=thickness,
@@ -1176,10 +1176,10 @@ async def event_thumbnail(
             # Draw the bounding box
             draw_box_with_label(
                 img,
-                box[0],
-                box[1],
-                box[2],
-                box[3],
+                int(box[0]),
+                int(box[1]),
+                int(box[0] + box[2]),
+                int(box[1] + box[3]),
                 event.label,
                 f"{int(score * 100)}%",
                 thickness=thickness,
@@ -1348,6 +1348,78 @@ def grid_snapshot(
         return JSONResponse(
             content={"success": False, "message": "Camera not found"},
             status_code=404,
+        )
+
+
+@router.get("/events/{event_id}/evidence.jpg")
+async def event_evidence(
+    request: Request,
+    event_id: str,
+    download: bool = False,
+):
+    """
+    Returns the violation evidence snapshot for the specified event.
+    This is the evidence image with bounding box drawn on it by the DSL violation detector.
+    Looks for {camera}-{event_id}-viol.jpg in CLIPS_DIR
+    """
+    try:
+        event = Event.get(Event.id == event_id)
+        await require_camera_access(event.camera, request=request)
+        
+        # Look for the violation evidence image created by DSL violation detector
+        violation_evidence_path = os.path.join(CLIPS_DIR, f"{event.camera}-{event_id}-viol.jpg")
+        
+        logger.debug(f"Looking for evidence image at: {violation_evidence_path}")
+        logger.debug(f"Event ID: {event_id}, Camera: {event.camera}, Sub-label: {event.sub_label}")
+        
+        if not os.path.exists(violation_evidence_path):
+            logger.warning(f"Evidence image not found at: {violation_evidence_path}")
+            # List files in CLIPS_DIR to help debug
+            try:
+                files = os.listdir(CLIPS_DIR)
+                matching_files = [f for f in files if event_id in f]
+                logger.debug(f"Files matching event_id in CLIPS_DIR: {matching_files}")
+            except Exception as e:
+                logger.debug(f"Could not list CLIPS_DIR: {e}")
+            
+            return JSONResponse(
+                content={"success": False, "message": "Evidence image not available"},
+                status_code=404,
+            )
+        
+        # Read the violation evidence image
+        with open(violation_evidence_path, "rb") as image_file:
+            jpg_bytes = image_file.read()
+        
+        logger.debug(f"Successfully loaded evidence image: {violation_evidence_path}")
+        
+        headers = {
+            "Content-Type": "image/jpeg",
+            "Cache-Control": "private, max-age=31536000",
+        }
+        
+        if download:
+            headers["Content-Disposition"] = f"attachment; filename=evidence-{event_id}.jpg"
+        
+        return Response(
+            jpg_bytes,
+            media_type="image/jpeg",
+            headers=headers,
+        )
+    
+    except DoesNotExist:
+        logger.warning(f"Event not found: {event_id}")
+        return JSONResponse(
+            content={"success": False, "message": "Event not found"},
+            status_code=404,
+        )
+    except Exception as e:
+        logger.error(f"Error retrieving evidence image for event {event_id}: {e}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return JSONResponse(
+            content={"success": False, "message": "Error retrieving evidence image"},
+            status_code=500,
         )
 
 

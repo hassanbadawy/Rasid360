@@ -112,7 +112,12 @@ class DSLViolationDetector(BaseAction):
             event_data: Original event data
         """
         import datetime
-        from frigate.analytics_db import AnalyticsObservation
+        import os
+        import cv2
+        import numpy as np
+        from frigate.analytics_db import AnalyticsObservation, analytics_db
+        from frigate.const import CLIPS_DIR
+        from frigate.util.image import draw_box_with_label
         
         rule_name = violation["rule_name"]
         camera = violation["camera"]
@@ -153,8 +158,61 @@ class DSLViolationDetector(BaseAction):
         if event_id:
             self.log_info(f"Created violation event: {event_id} ({rule_name})")
             
+            # Save violation evidence image with bbox
+            try:
+                snapshot_path = os.path.join(CLIPS_DIR, f"{camera}-{event_id}.jpg")
+                self.log_debug(f"Looking for snapshot at: {snapshot_path}")
+                
+                if os.path.exists(snapshot_path):
+                    self.log_debug(f"Found snapshot, creating evidence image")
+                    # Read original snapshot
+                    with open(snapshot_path, "rb") as f:
+                        jpg_bytes = f.read()
+                    
+                    # Decode image
+                    img_as_np = np.frombuffer(jpg_bytes, dtype=np.uint8)
+                    img = cv2.imdecode(img_as_np, flags=1)
+                    
+                    if img is not None and box:
+                        # Draw bounding box on the image
+                        thickness = 2
+                        color = (0, 0, 255)  # Red color for violation
+                        
+                        draw_box_with_label(
+                            img,
+                            int(box[0]),
+                            int(box[1]),
+                            int(box[0] + box[2]),
+                            int(box[1] + box[3]),
+                            label,
+                            f"{int(score * 100)}%",
+                            thickness=thickness,
+                            color=color,
+                        )
+                        
+                        # Save violation evidence image with -viol suffix
+                        violation_evidence_path = os.path.join(CLIPS_DIR, f"{camera}-{event_id}-viol.jpg")
+                        _, img_encoded = cv2.imencode(".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), 85])
+                        with open(violation_evidence_path, "wb") as f:
+                            f.write(img_encoded.tobytes())
+                        
+                        self.log_info(f"Saved violation evidence image: {violation_evidence_path}")
+                    else:
+                        self.log_warning(f"Could not decode image or box is missing. img={img is not None}, box={box}")
+                else:
+                    self.log_warning(f"Snapshot not found at: {snapshot_path}")
+            except Exception as e:
+                self.log_error(f"Failed to save violation evidence image: {e}")
+                import traceback
+                self.log_error(f"Traceback: {traceback.format_exc()}")
+            
             # Save observation to analytics database
             try:
+                # Check if analytics database is initialized
+                if analytics_db.is_closed():
+                    self.log_error("Analytics database is closed, cannot save observation")
+                    return
+                
                 # Extract box coordinates
                 box_x, box_y, box_width, box_height = box if box else (None, None, None, None)
                 
@@ -167,7 +225,7 @@ class DSLViolationDetector(BaseAction):
                     score=score,
                     timestamp=datetime.datetime.now().timestamp(),
                     cleanshot=f"/api/events/{event_id}/snapshot-clean.webp",
-                    bboxshot=f"/api/events/{event_id}/snapshot.jpg?bbox=1",
+                    bboxshot=f"/api/events/{event_id}/evidence.jpg",
                     thumbnail=f"/api/events/{event_id}/thumbnail.jpg",
                     clip=f"/api/events/{event_id}/clip.mp4",
                     box_x=box_x,
@@ -189,6 +247,8 @@ class DSLViolationDetector(BaseAction):
                 self.log_info(f"Saved observation to analytics database: {event_id}")
             except Exception as e:
                 self.log_error(f"Failed to save observation to analytics database: {e}")
+                import traceback
+                self.log_error(f"Traceback: {traceback.format_exc()}")
         else:
             self.log_error(f"Failed to create violation event for rule: {rule_name}")
 

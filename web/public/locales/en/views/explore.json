@@ -34,8 +34,11 @@
     "details": "details",
     "snapshot": "snapshot",
     "thumbnail": "thumbnail",
+    "evidence": "evidence",
+    "video_clip": "video clip",
     "video": "video",
-    "tracking_details": "tracking details"
+    "tracking_details": "tracking details",
+    "ticket": "ticket"
   },
   "trackingDetails": {
     "title": "Tracking Details",

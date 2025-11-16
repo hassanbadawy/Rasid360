@@ -1,5 +1,12 @@
 mqtt:
+  enabled: True
   host: mqtt
+
+# Logger configuration
+logger:
+  default: debug
+  logs:
+    frigate.experimental: debug
 
 # Recording configuration - Only save violation events
 record:
