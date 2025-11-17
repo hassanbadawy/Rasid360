@@ -60,7 +60,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./data/home-assistant/run/dbus:/run/dbus:ro
     ports:
-      - 1234:8123
+      - 8123:8123
 networks:
  default:
    driver: bridge

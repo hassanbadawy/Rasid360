@@ -1,3 +1,4 @@
+# to check events http://localhost:5001/api/events?camera=EmbassyGate&label=person or mqtt topic: frigate/EmbassyGate/person
 mqtt:
   enabled: True
   host: mqtt
@@ -67,11 +68,22 @@ objects:
     bicycle:
       min_area: 10
       threshold: 0.25
+    handbag:
+      min_area: 10
+      threshold: 0.25
 
 # Detect configuration with tracker for stable object tracking
 # Improves ID consistency and reduces ID switching
 detect:
-  max_disappeared: 30  # Frames to keep tracking after object disappears
+  enabled: true
+  fps: 10
+  # Optional: Number of consecutive detection hits required for an object to be initialized in the tracker. (default: 1/2 the frame rate)
+  min_initialized: 2
+  # Optional: Number of frames without a detection before Frigate considers an object to be gone. (default: 5x the frame rate)
+  max_disappeared: 30
+  stationary:
+    threshold: 10  # Frames before considering stationary
+    interval: 10   # Frames between stationary checks
 
 # Cameras configuration
 cameras:
@@ -217,7 +229,7 @@ cameras:
         friendly_name: RightComeEnd
 
   Road05:
-    enabled: true
+    enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/street/wrongWayCar03.mp4
@@ -228,7 +240,7 @@ cameras:
       enabled: true
       height: 720
       width: 1280
-      fps: 5
+      fps: 10
     motion:
       threshold: 25
       contour_area: 10
@@ -272,4 +284,46 @@ cameras:
           - motorcycle
         friendly_name: RightComeEnd
         inertia: 3
+
+
+  EmbassyGate:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: /media/streams/streams/safety/embassey_bag.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts
+          roles:
+            - detect
+    detect:
+      enabled: true
+      fps: 10  # Increased from 5 to 10 for better temporal consistency and smoother tracking
+      min_initialized: 3  # Require 3 consecutive detections before creating new ID (reduces false IDs)
+      max_disappeared: 50  # Keep tracking for 5 seconds after object disappears (handles brief gaps)
+
+      # Stationary object handling - important for person placing handbag and standing still
+      stationary:
+        threshold: 20  # Consider stationary after 2 seconds without movement (20 frames at 10fps)
+        interval: 10   # Re-check stationary objects every 1 second
+        # Note: max_frames removed - not supported in camera-specific config in v0.17.0
+
+    motion:
+      threshold: 25
+      contour_area: 10
+      improve_contrast: true
+
+    objects:
+      track:
+        - person
+        - handbag
+      # Object-specific filters to prevent ID switching and false detections
+      filters:
+        person:
+          min_area: 5000    # Minimum ~70x70 pixels (filters out tiny false detections)
+          max_area: 200000  # Maximum ~447x447 pixels (prevents entire scene being detected)
+          threshold: 0.60   # Require 60% confidence (only strong detections, prevents flickering)
+        handbag:
+          min_area: 1000    # Minimum ~31x31 pixels (realistic handbag size)
+          max_area: 50000   # Maximum ~223x223 pixels (prevents large false detections)
+          threshold: 0.50   # Require 50% confidence (balanced for smaller objects)
+
 version: 0.17-0
