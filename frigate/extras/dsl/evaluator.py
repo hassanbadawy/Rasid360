@@ -131,6 +131,18 @@ class RuleEvaluator:
             Violation dictionary
         """
         after = event_data.get("after", {})
+        object_id = after.get("id", "")
+
+        # Try to get stored frame_time from StateTracker (for N-frame threshold rules)
+        state_tracker = context.get("state_tracker")
+        stored_frame_time = None
+        if state_tracker and object_id:
+            # Build condition key same way as ZoneSequenceRule
+            condition_key = f"{object_id}:{rule.name}:wrong_zone"
+            stored_frame_time = state_tracker.get_stored_frame_time(condition_key)
+
+        # Use stored frame_time (from 1st detection) if available, otherwise current frame
+        frame_time = stored_frame_time if stored_frame_time is not None else after.get("frame_time")
 
         return {
             "rule": rule,
@@ -138,8 +150,9 @@ class RuleEvaluator:
             "camera": after.get("camera", ""),
             "label": rule.get_violation_label(event_data),
             "sub_label": rule.get_sub_label(),
-            "object_id": after.get("id", ""),
+            "object_id": object_id,
             "box": after.get("box"),
+            "frame_time": frame_time,
             "duration": rule.duration,
             "severity": rule.severity,
             "retention_days": rule.retention_days,

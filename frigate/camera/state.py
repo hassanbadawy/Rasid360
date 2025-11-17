@@ -525,7 +525,23 @@ class CameraState:
         event_id: str,
         label: str,
         draw: dict[str, list[dict]],
+        snapshot_frame_time: float | None = None,
     ) -> None:
+        # Try to get frame from cache using snapshot_frame_time for synchronization
+        if frame is None and snapshot_frame_time is not None:
+            cached = self.frame_cache.get(snapshot_frame_time)
+            if cached:
+                # Convert from YUV to BGR
+                frame = cv2.cvtColor(cached["frame"], cv2.COLOR_YUV2BGR_I420)
+                logger.debug(
+                    f"{self.name}: Retrieved frame from cache at time {snapshot_frame_time} for event {event_id}"
+                )
+            else:
+                logger.warning(
+                    f"{self.name}: Frame {snapshot_frame_time} not in cache for event {event_id}, using current frame"
+                )
+                frame = self.get_current_frame()
+
         img_frame = frame if frame is not None else self.get_current_frame()
 
         # write clean snapshot if enabled

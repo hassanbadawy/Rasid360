@@ -42,6 +42,9 @@ class EventDispatcher:
         self.logger.info("Frigate Extras - Custom Event Detection System")
         self.logger.info("=" * 60)
 
+        # Initialize analytics database
+        self._init_analytics_database()
+
         # Load configuration
         self.config_loader = ConfigLoader(config_path)
 
@@ -77,16 +80,53 @@ class EventDispatcher:
         signal.signal(signal.SIGTERM, self._signal_handler)
 
     def _setup_logging(self) -> None:
-        """Setup logging configuration"""
+        """Setup logging configuration from config file"""
+        # Read logging config
+        import yaml
+        try:
+            with open(self.config_path, 'r') as f:
+                config = yaml.safe_load(f)
+
+            log_config = config.get('logging', {})
+            log_level_str = log_config.get('level', 'INFO').upper()
+            log_file = log_config.get('file', '/tmp/frigate_extras.log')
+
+            # Convert string level to logging constant
+            log_level = getattr(logging, log_level_str, logging.INFO)
+        except Exception as e:
+            # Fallback to INFO if config reading fails
+            log_level = logging.INFO
+            log_file = '/tmp/frigate_extras.log'
+            print(f"Warning: Could not read logging config, using defaults: {e}")
+
         logging.basicConfig(
-            level=logging.INFO,
+            level=log_level,
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
             handlers=[
                 logging.StreamHandler(sys.stdout),
-                logging.FileHandler("/tmp/frigate_extras.log"),
+                logging.FileHandler(log_file),
             ],
         )
         self.logger = logging.getLogger("EventDispatcher")
+
+    def _init_analytics_database(self) -> None:
+        """Initialize analytics database connection"""
+        from frigate.analytics_db import analytics_db, ANALYTICS_MODELS
+
+        # Database path - use same location as Frigate
+        db_path = os.environ.get("ANALYTICS_DB_PATH", "/config/analytics.db")
+
+        try:
+            # Initialize database
+            analytics_db.init(db_path)
+
+            # Create tables if they don't exist
+            analytics_db.create_tables(ANALYTICS_MODELS, safe=True)
+
+            logging.info(f"✓ Analytics database initialized: {db_path}")
+        except Exception as e:
+            logging.error(f"✗ Failed to initialize analytics database: {e}")
+            raise
 
     def _load_actions(self) -> None:
         """Load and initialize all enabled action handlers"""

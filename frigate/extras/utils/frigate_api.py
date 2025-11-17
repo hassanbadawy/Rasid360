@@ -28,6 +28,7 @@ class FrigateAPI:
         source_type: str = "automation",
         include_recording: bool = True,
         box: Optional[list] = None,
+        frame_time: Optional[float] = None,
     ) -> Optional[str]:
         """
         Create a manual event in Frigate
@@ -41,6 +42,7 @@ class FrigateAPI:
             source_type: Source identifier for tracking
             include_recording: Whether to include video recording
             box: Bounding box coordinates [x1, y1, x2, y2] (optional)
+            frame_time: Frame timestamp for snapshot synchronization (optional)
 
         Returns:
             Event ID if successful, None otherwise
@@ -59,6 +61,8 @@ class FrigateAPI:
 
         if box is not None:
             payload["draw"] = {"box": box}
+            if frame_time is not None:
+                payload["draw"]["frame_time"] = frame_time
 
         try:
             response = requests.post(endpoint, json=payload, timeout=5)

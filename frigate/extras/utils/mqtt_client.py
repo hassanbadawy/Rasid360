@@ -34,7 +34,18 @@ class MQTTClient:
         self.client_id = client_id
 
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.client = mqtt.Client(client_id=client_id)
+        # Use paho-mqtt 2.x API (VERSION2 for proper callback signatures)
+        try:
+            # Try new API first (paho-mqtt 2.x)
+            self.client = mqtt.Client(
+                callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
+                client_id=client_id,
+                clean_session=True,
+            )
+        except AttributeError:
+            # Fallback to old API (paho-mqtt 1.x)
+            self.client = mqtt.Client(client_id=client_id, clean_session=True)
+
         self.connected = False
         self.event_callback: Optional[Callable] = None
 
@@ -91,9 +102,9 @@ class MQTTClient:
         self.logger.info("Stopping MQTT client loop")
         self.client.loop_stop()
 
-    def _on_connect(self, client, userdata, flags, rc):
-        """Callback when connected to MQTT broker"""
-        if rc == 0:
+    def _on_connect(self, client, userdata, flags, reason_code, properties):
+        """Callback when connected to MQTT broker (paho-mqtt 2.x)"""
+        if reason_code == 0:
             self.connected = True
             self.logger.info("Connected to MQTT broker successfully")
 
@@ -102,13 +113,13 @@ class MQTTClient:
             self.logger.info("Subscribed to frigate/events topic")
         else:
             self.connected = False
-            self.logger.error(f"Failed to connect to MQTT broker. Return code: {rc}")
+            self.logger.error(f"Failed to connect to MQTT broker. Return code: {reason_code}")
 
-    def _on_disconnect(self, client, userdata, rc):
-        """Callback when disconnected from MQTT broker"""
+    def _on_disconnect(self, client, userdata, flags, reason_code, properties):
+        """Callback when disconnected from MQTT broker (paho-mqtt 2.x)"""
         self.connected = False
-        if rc != 0:
-            self.logger.warning(f"Unexpected disconnection from MQTT broker. Return code: {rc}")
+        if reason_code != 0:
+            self.logger.warning(f"Unexpected disconnection from MQTT broker. Return code: {reason_code}")
         else:
             self.logger.info("Disconnected from MQTT broker")
 
@@ -123,11 +134,13 @@ class MQTTClient:
             # Call event callback if registered
             if self.event_callback:
                 self.event_callback(event_data)
+            else:
+                self.logger.warning("No event callback registered!")
 
         except json.JSONDecodeError as e:
             self.logger.error(f"Failed to decode MQTT message: {e}")
         except Exception as e:
-            self.logger.error(f"Error processing MQTT message: {e}")
+            self.logger.error(f"Error processing MQTT message: {e}", exc_info=True)
 
     def is_connected(self) -> bool:
         """Check if connected to MQTT broker"""

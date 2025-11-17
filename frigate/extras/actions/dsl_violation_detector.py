@@ -125,6 +125,7 @@ class DSLViolationDetector(BaseAction):
         sub_label = violation["sub_label"]
         object_id = violation["object_id"]
         box = violation["box"]
+        frame_time = violation.get("frame_time")
         duration = violation["duration"]
         severity = violation["severity"]
         zone_sequence = violation.get("zone_sequence", [])
@@ -153,6 +154,7 @@ class DSLViolationDetector(BaseAction):
             score=score,
             source_type="dsl_violation_detector",
             box=box,
+            frame_time=frame_time,
         )
 
         if event_id:
@@ -162,45 +164,77 @@ class DSLViolationDetector(BaseAction):
             try:
                 snapshot_path = os.path.join(CLIPS_DIR, f"{camera}-{event_id}.jpg")
                 self.log_debug(f"Looking for snapshot at: {snapshot_path}")
-                
-                if os.path.exists(snapshot_path):
+
+                # Retry logic: Wait for snapshot to be written by Frigate
+                import time
+                max_retries = 10  # Try for up to 5 seconds
+                retry_delay = 0.5  # Wait 500ms between retries
+                snapshot_found = False
+
+                for attempt in range(max_retries):
+                    if os.path.exists(snapshot_path):
+                        snapshot_found = True
+                        self.log_debug(f"Found snapshot on attempt {attempt + 1}")
+                        break
+                    if attempt < max_retries - 1:  # Don't sleep on last attempt
+                        time.sleep(retry_delay)
+
+                if snapshot_found:
                     self.log_debug(f"Found snapshot, creating evidence image")
+                    self.log_debug(f"Box data before processing: {box}")
+
                     # Read original snapshot
                     with open(snapshot_path, "rb") as f:
                         jpg_bytes = f.read()
-                    
+
                     # Decode image
                     img_as_np = np.frombuffer(jpg_bytes, dtype=np.uint8)
                     img = cv2.imdecode(img_as_np, flags=1)
-                    
+
+                    self.log_debug(f"Image decoded: {img is not None}, Image shape: {img.shape if img is not None else 'None'}")
+                    self.log_debug(f"Box is valid: {box is not None and len(box) == 4 if box else False}")
+
                     if img is not None and box:
                         # Draw bounding box on the image
                         thickness = 2
                         color = (0, 0, 255)  # Red color for violation
-                        
+
+                        # Debug: Log box format
+                        img_height, img_width = img.shape[:2]
+                        self.log_debug(f"Image size: {img_width}x{img_height}, Box: {box}")
+
+                        # Box coordinates are already in pixel format: [x, y, width, height]
+                        # Convert to [x_min, y_min, x_max, y_max]
+                        x_min = int(box[0])
+                        y_min = int(box[1])
+                        x_max = int(box[2])
+                        y_max = int(box[3])
+
+                        self.log_debug(f"Pixel coords: x_min={x_min}, y_min={y_min}, x_max={x_max}, y_max={y_max}")
+
                         draw_box_with_label(
                             img,
-                            int(box[0]),
-                            int(box[1]),
-                            int(box[0] + box[2]),
-                            int(box[1] + box[3]),
+                            x_min,
+                            y_min,
+                            x_max,
+                            y_max,
                             label,
                             f"{int(score * 100)}%",
                             thickness=thickness,
                             color=color,
                         )
-                        
+
                         # Save violation evidence image with -viol suffix
                         violation_evidence_path = os.path.join(CLIPS_DIR, f"{camera}-{event_id}-viol.jpg")
                         _, img_encoded = cv2.imencode(".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), 85])
                         with open(violation_evidence_path, "wb") as f:
                             f.write(img_encoded.tobytes())
-                        
+
                         self.log_info(f"Saved violation evidence image: {violation_evidence_path}")
                     else:
                         self.log_warning(f"Could not decode image or box is missing. img={img is not None}, box={box}")
                 else:
-                    self.log_warning(f"Snapshot not found at: {snapshot_path}")
+                    self.log_warning(f"Snapshot not found at {snapshot_path} after {max_retries} retries ({max_retries * retry_delay}s)")
             except Exception as e:
                 self.log_error(f"Failed to save violation evidence image: {e}")
                 import traceback

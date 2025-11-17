@@ -73,6 +73,7 @@ class BaseAction(ABC):
         score: float = 1.0,
         source_type: str = "custom_action",
         box: Optional[list] = None,
+        frame_time: Optional[float] = None,
     ) -> Optional[str]:
         """
         Create a manual event in Frigate
@@ -85,6 +86,7 @@ class BaseAction(ABC):
             score: Confidence score (0.0-1.0)
             source_type: Source identifier
             box: Bounding box coordinates [x1, y1, x2, y2] (optional)
+            frame_time: Frame timestamp for snapshot synchronization (optional)
 
         Returns:
             Event ID if successful, None otherwise
@@ -98,6 +100,7 @@ class BaseAction(ABC):
                 score=score,
                 source_type=source_type,
                 box=box,
+                frame_time=frame_time,
             )
             self.logger.info(
                 f"Created event: {event_id} ({label}/{sub_label}) on {camera}"

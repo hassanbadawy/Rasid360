@@ -516,8 +516,10 @@ class TrackedObjectProcessor(threading.Thread):
         ) = payload
 
         # save the snapshot image
+        # Extract frame_time from draw parameter if available for snapshot synchronization
+        snapshot_frame_time = draw.get("frame_time") if draw else None
         self.camera_states[camera_name].save_manual_event_image(
-            None, event_id, label, draw
+            None, event_id, label, draw, snapshot_frame_time
         )
         end_time = frame_time + duration if duration is not None else None
 

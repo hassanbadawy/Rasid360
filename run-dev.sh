@@ -147,9 +147,21 @@ start_frigate_backend() {
 
     # Check if container is running
     if docker compose ps devcontainer | grep -q "Up"; then
-        # Start Frigate in the background
-        docker compose exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate"
-        docker compose exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
+        # Check if Frigate main process is already running
+        if docker compose exec devcontainer pgrep -f "python3.*-m frigate$" > /dev/null 2>&1; then
+            print_info "Frigate main process already running (likely started by s6-supervise)"
+        else
+            # Start Frigate in the background
+            docker compose exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate"
+        fi
+
+        # Check if frigate-extras is already running
+        if docker compose exec devcontainer pgrep -f "frigate.extras.main" > /dev/null 2>&1; then
+            print_info "Frigate-extras already running (likely started by s6-supervise)"
+        else
+            # Start frigate-extras in the background
+            docker compose exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
+        fi
 
         # Wait for Frigate to start
         print_info "Waiting for Frigate to be ready..."

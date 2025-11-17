@@ -1023,18 +1023,26 @@ async def event_snapshot(
                 # Decode image
                 img_as_np = np.frombuffer(jpg_bytes, dtype=np.uint8)
                 img = cv2.imdecode(img_as_np, flags=1)
-                
+
                 thickness = 2
                 color = (255, 255, 255)  # White color for bbox
                 score = event.data.get("score", 0)
 
+                # Box format from Frigate: [x, y, width, height] (normalized 0-1)
+                # Convert to pixel coordinates
+                img_height, img_width = img.shape[:2]
+                x_min = int(box[0] * img_width)
+                y_min = int(box[1] * img_height)
+                x_max = int((box[0] + box[2]) * img_width)
+                y_max = int((box[1] + box[3]) * img_height)
+
                 # Draw the bounding box for the specific object
                 draw_box_with_label(
                     img,
-                    int(box[0]),
-                    int(box[1]),
-                    int(box[0] + box[2]),
-                    int(box[1] + box[3]),
+                    x_min,
+                    y_min,
+                    x_max,
+                    y_max,
                     event.label,
                     f"{int(score * 100)}%",
                     thickness=thickness,
@@ -1044,7 +1052,7 @@ async def event_snapshot(
                 # Re-encode image
                 _, img_encoded = cv2.imencode(".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), params.quality or 70])
                 jpg_bytes = img_encoded.tobytes()
-                
+
                 # Save the bbox version for future requests
                 bbox_snapshot_path = os.path.join(CLIPS_DIR, f"{event.camera}-{event.id}_bbox.jpg")
                 try:
@@ -1173,13 +1181,21 @@ async def event_thumbnail(
             thickness = 2
             color = (255, 255, 255)  # White color for bbox
 
+            # Box format from Frigate: [x, y, width, height] (normalized 0-1)
+            # Convert to pixel coordinates
+            img_height, img_width = img.shape[:2]
+            x_min = int(box[0] * img_width)
+            y_min = int(box[1] * img_height)
+            x_max = int((box[0] + box[2]) * img_width)
+            y_max = int((box[1] + box[3]) * img_height)
+
             # Draw the bounding box
             draw_box_with_label(
                 img,
-                int(box[0]),
-                int(box[1]),
-                int(box[0] + box[2]),
-                int(box[1] + box[3]),
+                x_min,
+                y_min,
+                x_max,
+                y_max,
                 event.label,
                 f"{int(score * 100)}%",
                 thickness=thickness,

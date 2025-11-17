@@ -41,6 +41,12 @@ class StateTracker:
         # Detection times (for proximity tracking)
         self.detection_times: Dict[str, List[datetime]] = defaultdict(list)
 
+        # Detection counters (for N-frame threshold tracking)
+        self.detection_counts: Dict[str, int] = {}
+
+        # Stored frame times (for capturing Nth frame)
+        self.stored_frame_times: Dict[str, float] = {}
+
     def update(self, event_data: Dict[str, Any]):
         """
         Update state with new event data
@@ -172,6 +178,69 @@ class StateTracker:
 
         return False
 
+    def increment_detection_count(self, condition_key: str) -> int:
+        """
+        Increment detection count for a condition (O(1))
+
+        Args:
+            condition_key: Unique key for this condition
+
+        Returns:
+            New count value
+        """
+        self.detection_counts[condition_key] = (
+            self.detection_counts.get(condition_key, 0) + 1
+        )
+        return self.detection_counts[condition_key]
+
+    def get_detection_count(self, condition_key: str) -> int:
+        """
+        Get detection count for a condition (O(1))
+
+        Args:
+            condition_key: Unique key for this condition
+
+        Returns:
+            Current count, or 0 if not tracked
+        """
+        return self.detection_counts.get(condition_key, 0)
+
+    def store_frame_time(self, condition_key: str, frame_time: float):
+        """
+        Store frame_time for a condition (O(1))
+
+        Args:
+            condition_key: Unique key for this condition
+            frame_time: Frame timestamp to store
+        """
+        self.stored_frame_times[condition_key] = frame_time
+        self.logger.debug(
+            f"Stored frame_time {frame_time} for condition: {condition_key}"
+        )
+
+    def get_stored_frame_time(self, condition_key: str) -> Optional[float]:
+        """
+        Get stored frame_time for a condition (O(1))
+
+        Args:
+            condition_key: Unique key for this condition
+
+        Returns:
+            Stored frame_time, or None if not stored
+        """
+        return self.stored_frame_times.get(condition_key)
+
+    def reset_detection_counter(self, condition_key: str):
+        """
+        Reset detection counter and stored frame_time (O(1))
+
+        Args:
+            condition_key: Unique key for this condition
+        """
+        self.detection_counts.pop(condition_key, None)
+        self.stored_frame_times.pop(condition_key, None)
+        self.logger.debug(f"Reset detection counter: {condition_key}")
+
     def cleanup(self):
         """Remove old state to prevent memory buildup"""
         cutoff_time = datetime.now() - timedelta(seconds=self.cleanup_timeout)
@@ -202,6 +271,19 @@ class StateTracker:
                 obj_id = key.split(":")[0]
                 if obj_id in to_remove:
                     del self.condition_start[key]
+
+        # Clean up detection counters and stored frame times
+        for key in list(self.detection_counts.keys()):
+            if ":" in key:
+                obj_id = key.split(":")[0]
+                if obj_id in to_remove:
+                    del self.detection_counts[key]
+
+        for key in list(self.stored_frame_times.keys()):
+            if ":" in key:
+                obj_id = key.split(":")[0]
+                if obj_id in to_remove:
+                    del self.stored_frame_times[key]
 
     def get_statistics(self) -> Dict[str, Any]:
         """Get state tracker statistics"""

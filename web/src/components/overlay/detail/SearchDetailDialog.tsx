@@ -379,7 +379,7 @@ function DialogContentComponent({
           />
         )}
         <EvidenceTab
-          event={
+          search={
             {
               ...search,
               plus_id: config?.plus?.enabled ? search.plus_id : "not_enabled",
@@ -1725,7 +1725,7 @@ type EvidenceTabProps = {
 };
 
 export function EvidenceTab({
-  event: search,
+  search,
   className,
 }: EvidenceTabProps) {
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();

@@ -127,6 +127,7 @@ actions:
             vehicle_types: [car, bus, truck, motorcycle]
             from_zones: [rightcomeend]
             to_zone: rightcomestart
+            min_detections: 5  # Require 5 consecutive detections before triggering
             duration: 3
             severity: high
             cooldown: 3
@@ -138,6 +139,7 @@ actions:
             vehicle_types: [car, bus, truck, motorcycle]
             from_zones: [leftcomeend]
             to_zone: leftcomestart
+            min_detections: 5  # Require 5 consecutive detections before triggering
             duration: 3
             severity: high
             cooldown: 3

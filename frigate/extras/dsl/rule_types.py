@@ -196,6 +196,7 @@ class ZoneSequenceRule(Rule):
         self.vehicle_types = config.get("vehicle_types", ["car", "bus", "truck", "motorcycle"])
         self.from_zones = config.get("from_zones", [])
         self.to_zone = config.get("to_zone", "")
+        self.min_detections = config.get("min_detections", 1)  # Default: 1 for backward compatibility
 
         if not self.from_zones:
             raise ValueError(f"ZoneSequenceRule '{name}' missing 'from_zones'")
@@ -204,11 +205,14 @@ class ZoneSequenceRule(Rule):
 
     def evaluate(self, event_data: Dict[str, Any], context: Dict[str, Any]) -> bool:
         """
-        Evaluate zone sequence violation
+        Evaluate zone sequence violation with N-frame threshold
 
         Note: This requires state tracking across events, which is handled
         by the DSLViolationDetector action class.
         """
+        import logging
+        logger = logging.getLogger(self.__class__.__name__)
+
         after = event_data.get("after", {})
         label = after.get("label")
 
@@ -216,15 +220,61 @@ class ZoneSequenceRule(Rule):
         if label not in self.vehicle_types:
             return False
 
-        # Get zone sequence history from context
+        # Get tracking data from context
         object_id = after.get("id")
         zone_history = context.get("zone_sequences", {}).get(object_id, [])
+        current_zones = after.get("current_zones", [])
+        state_tracker = context.get("state_tracker")
 
-        # Check if object came from valid zone and is now in violation zone
+        if not state_tracker:
+            return False
+
+        # Check if object came from valid zone
         came_from_valid = any(zone in self.from_zones for zone in zone_history)
-        in_violation_zone = self.to_zone in zone_history
 
-        return came_from_valid and in_violation_zone
+        # Check if currently in violation zone (not just history)
+        in_violation_zone_now = self.to_zone in current_zones
+
+        # Create unique key for this object's violation tracking
+        condition_key = f"{object_id}:{self.name}:wrong_zone"
+
+        if came_from_valid and in_violation_zone_now:
+            # Object is in wrong zone - increment counter
+            count = state_tracker.get_detection_count(condition_key)
+
+            if count == 0:
+                # First detection in wrong zone - store frame_time
+                frame_time = after.get("frame_time")
+                state_tracker.store_frame_time(condition_key, frame_time)
+                logger.debug(
+                    f"Object {object_id} ({label}): Wrong zone detection #1/{self.min_detections}, "
+                    f"frame_time={frame_time}"
+                )
+
+            # Increment detection count (O(1))
+            count = state_tracker.increment_detection_count(condition_key)
+
+            # Check if threshold reached
+            if count >= self.min_detections:
+                logger.info(
+                    f"Object {object_id} ({label}): Violation threshold reached "
+                    f"{count}/{self.min_detections} - triggering violation '{self.name}'"
+                )
+                return True
+            else:
+                logger.debug(
+                    f"Object {object_id} ({label}): Wrong zone detection "
+                    f"#{count}/{self.min_detections}"
+                )
+                return False
+        else:
+            # Object left wrong zone or not from valid zone - reset counter
+            if state_tracker.get_detection_count(condition_key) > 0:
+                logger.debug(
+                    f"Object {object_id} ({label}): Left wrong zone, resetting counter"
+                )
+                state_tracker.reset_detection_counter(condition_key)
+            return False
 
     def get_violation_label(self, event_data: Dict[str, Any]) -> str:
         """Get label from event data"""
