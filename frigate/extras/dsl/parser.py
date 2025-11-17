@@ -46,6 +46,14 @@ class RuleParser:
         rules = []
 
         for violation in violations_config:
+            # Check if violation is enabled (defaults to True if not specified)
+            enabled = violation.get("enabled", True)
+            if not enabled:
+                self.logger.info(
+                    f"Skipping disabled violation '{violation.get('name', 'unknown')}' for camera '{camera}'"
+                )
+                continue
+
             try:
                 rule = self._parse_single_violation(camera, violation)
                 rules.append(rule)

@@ -70,6 +70,7 @@ actions:
         violations:
           # Wrong-way detection: vehicles moving from zone01 or zone02 to wrongzone
           - name: wrongway
+            enabled: false  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving from zone01/zone02 to wrongzone"
             vehicle_types: [car, bus, truck, motorcycle]
@@ -83,6 +84,7 @@ actions:
         violations:
           # Fall down detection: person with width/height ratio > 1.2 for 3 seconds
           - name: person_fall_down
+            enabled: false  # Enable/disable this specific violation
             type: fall_down
             description: "Person fall detected"
             object_type: person
@@ -96,6 +98,7 @@ actions:
         violations:
           # Fall down detection: person with width/height ratio > 1.2 for 3 seconds
           - name: person_fall_down
+            enabled: false  # Enable/disable this specific violation
             type: fall_down
             description: "Person fall detected"
             object_type: person
@@ -109,6 +112,7 @@ actions:
         violations:
           # Wrong-way detection: vehicles moving from zone01 or zone02 to wrongzone
           - name: wrongway
+            enabled: false  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving in wrong direction"
             vehicle_types: [car, bus, truck, motorcycle]
@@ -122,6 +126,7 @@ actions:
         violations:
           # Wrong-way detection: vehicles moving from rightcomeend to rightcomestart
           - name: wrongway
+            enabled: false  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving in wrong direction (right lane)"
             vehicle_types: [car, bus, truck, motorcycle]
@@ -134,6 +139,7 @@ actions:
 
           # Wrong-way detection: vehicles moving from leftcomeend to leftcomestart
           - name: wrongway
+            enabled: false  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving in wrong direction (left lane)"
             vehicle_types: [car, bus, truck, motorcycle]

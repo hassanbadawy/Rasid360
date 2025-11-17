@@ -268,12 +268,19 @@ class ZoneSequenceRule(Rule):
                 )
                 return False
         else:
-            # Object left wrong zone or not from valid zone - reset counter
-            if state_tracker.get_detection_count(condition_key) > 0:
-                logger.debug(
-                    f"Object {object_id} ({label}): Left wrong zone, resetting counter"
-                )
-                state_tracker.reset_detection_counter(condition_key)
+            # Only reset counter if object went back to a valid "from" zone
+            # Don't reset for brief zone exits (flickering)
+            currently_in_from_zone = any(zone in self.from_zones for zone in current_zones)
+
+            if currently_in_from_zone:
+                # Object returned to a valid starting zone - reset counter
+                if state_tracker.get_detection_count(condition_key) > 0:
+                    logger.debug(
+                        f"Object {object_id} ({label}): Returned to valid zone {current_zones}, resetting counter"
+                    )
+                    state_tracker.reset_detection_counter(condition_key)
+            # else: object just left wrong zone temporarily - keep counter (tolerance for flickering)
+
             return False
 
     def get_violation_label(self, event_data: Dict[str, Any]) -> str:
