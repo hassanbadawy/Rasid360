@@ -25,6 +25,7 @@ class Rule(ABC):
         """
         self.name = name
         self.config = config
+        self.type = config.get("type", "unknown")  # Store rule type for evidence drawing
         self.duration = config.get("duration", 30)
         self.severity = config.get("severity", "medium")
         self.retention_days = config.get("retention_days", 30)
@@ -81,12 +82,18 @@ class Rule(ABC):
         from datetime import datetime, timedelta
 
         violations_logged = context.get("violations_logged", {})
-        key = f"{self.name}:{object_id}"
+
+        # Use camera-level cooldown (not per-object) to prevent duplicate violations
+        # from different object IDs in looping videos or when tracking switches IDs
+        camera = context.get("camera", "unknown")
+        key = f"{camera}:{self.name}"  # Camera + rule name (not object-specific)
 
         if key in violations_logged:
             last_time = violations_logged[key]
             elapsed = (datetime.now() - last_time).total_seconds()
-            return elapsed > self.cooldown
+            if elapsed <= self.cooldown:
+                # Still in cooldown period
+                return False
 
         return True
 

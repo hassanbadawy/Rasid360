@@ -1,6 +1,6 @@
 # to check events http://localhost:5001/api/events?camera=EmbassyGate&label=person or mqtt topic: frigate/EmbassyGate/person
 mqtt:
-  enabled: True
+  enabled: true
   host: mqtt
 
 # Detectors configuration
@@ -326,4 +326,13 @@ cameras:
           max_area: 50000   # Maximum ~223x223 pixels (prevents large false detections)
           threshold: 0.50   # Require 50% confidence (balanced for smaller objects)
 
+    zones:
+      embredzone:
+        coordinates: 
+          0.101,0.406,0.793,0.394,0.82,0.516,0.958,0.533,0.997,0.645,0.995,0.99,0.062,0.99,0.091,0.822,0.027,0.645
+        loitering_time: 0
+        objects:
+          - handbag
+          - person
+        friendly_name: EmbRedZone
 version: 0.17-0

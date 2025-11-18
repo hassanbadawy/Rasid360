@@ -56,8 +56,9 @@ class RuleEvaluator:
                             violation = self._create_violation(rule, event_data, context)
                             violations.append(violation)
 
-                            # Log violation time for cooldown
-                            key = f"{rule.name}:{object_id}"
+                            # Log violation time for cooldown (camera-level, not per-object)
+                            camera = context.get("camera", "unknown")
+                            key = f"{camera}:{rule.name}"
                             self.violations_logged[key] = datetime.now()
 
             except Exception as e:
@@ -105,6 +106,7 @@ class RuleEvaluator:
             Context dictionary with state and metadata
         """
         object_id = event_data.get("after", {}).get("id", "")
+        camera = event_data.get("after", {}).get("camera", "unknown")
 
         return {
             "state_tracker": self.state_tracker,
@@ -114,6 +116,7 @@ class RuleEvaluator:
             "violations_logged": self.violations_logged,
             "current_object_id": object_id,
             "current_zone_sequence": self.state_tracker.get_zone_sequence(object_id),
+            "camera": camera,  # Add camera for camera-level cooldown
         }
 
     def _create_violation(
@@ -147,6 +150,7 @@ class RuleEvaluator:
         return {
             "rule": rule,
             "rule_name": rule.name,
+            "type": rule.type,  # Add rule type for evidence drawing logic
             "camera": after.get("camera", ""),
             "label": rule.get_violation_label(event_data),
             "sub_label": rule.get_sub_label(),

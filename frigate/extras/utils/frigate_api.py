@@ -158,6 +158,46 @@ class FrigateAPI:
             self.logger.error(f"Failed to get config: {e}")
             return None
 
+    def get_tracked_objects(self, camera: str) -> Optional[Dict[str, Any]]:
+        """
+        Get currently tracked objects for a camera
+
+        Args:
+            camera: Camera name
+
+        Returns:
+            Dictionary of tracked objects by ID if successful, None otherwise
+        """
+        # Use internal Frigate endpoint to get camera state
+        # This returns all currently tracked objects with their zones, boxes, scores, etc.
+        endpoint = f"{self.base_url}/{camera}"
+
+        try:
+            response = requests.get(endpoint, timeout=3)
+            response.raise_for_status()
+            data = response.json()
+
+            # The response contains tracked objects in various formats
+            # Try to extract tracked objects from the response
+            # Format depends on Frigate version, but typically under 'tracked_objects' or similar
+            if isinstance(data, dict):
+                # Try common keys where tracked objects might be stored
+                for key in ['tracked_objects', 'objects', 'detections']:
+                    if key in data:
+                        return data[key]
+
+                # If no specific key, return the whole data structure
+                # The caller can handle parsing
+                return data
+
+            return None
+        except requests.exceptions.RequestException as e:
+            self.logger.debug(f"Failed to get tracked objects for {camera}: {e}")
+            return None
+        except Exception as e:
+            self.logger.debug(f"Unexpected error getting tracked objects for {camera}: {e}")
+            return None
+
     def health_check(self) -> bool:
         """
         Check if Frigate API is accessible

@@ -192,37 +192,67 @@ class DSLViolationDetector(BaseAction):
                     img = cv2.imdecode(img_as_np, flags=1)
 
                     self.log_debug(f"Image decoded: {img is not None}, Image shape: {img.shape if img is not None else 'None'}")
-                    self.log_debug(f"Box is valid: {box is not None and len(box) == 4 if box else False}")
 
-                    if img is not None and box:
-                        # Draw bounding box on the image
-                        thickness = 2
-                        color = (0, 0, 255)  # Red color for violation
-
-                        # Debug: Log box format
+                    if img is not None:
                         img_height, img_width = img.shape[:2]
-                        self.log_debug(f"Image size: {img_width}x{img_height}, Box: {box}")
 
-                        # Box coordinates are already in pixel format: [x, y, width, height]
-                        # Convert to [x_min, y_min, x_max, y_max]
-                        x_min = int(box[0])
-                        y_min = int(box[1])
-                        x_max = int(box[2])
-                        y_max = int(box[3])
+                        # Get all objects in the zone from the violation data
+                        # For zone_object violations, we want to draw ALL objects that match the condition
+                        objects_to_draw = []
 
-                        self.log_debug(f"Pixel coords: x_min={x_min}, y_min={y_min}, x_max={x_max}, y_max={y_max}")
+                        # Try to get all tracked objects from event_data
+                        # event_data should be passed to _handle_violation
+                        try:
+                            # Get current event's object
+                            if box and len(box) == 4:
+                                objects_to_draw.append({
+                                    'box': box,
+                                    'label': label,
+                                    'score': score,
+                                })
 
-                        draw_box_with_label(
-                            img,
-                            x_min,
-                            y_min,
-                            x_max,
-                            y_max,
-                            label,
-                            f"{int(score * 100)}%",
-                            thickness=thickness,
-                            color=color,
-                        )
+                            # For zone_object rules, we could try to get all objects in the zone
+                            # However, this requires a working API endpoint which may not exist
+                            # For now, we'll just draw the triggering object
+                            # TODO: Future enhancement - query MQTT or internal state for all zone objects
+                            self.log_debug(f"Drawing violation for type: {violation.get('type', 'unknown')}")
+                        except Exception as e:
+                            self.log_warning(f"Error collecting objects to draw: {e}")
+
+                        # Draw all collected objects
+                        if objects_to_draw:
+                            self.log_info(f"Drawing {len(objects_to_draw)} object(s) on evidence image")
+
+                            for obj in objects_to_draw:
+                                obj_box = obj['box']
+                                obj_label = obj['label']
+                                obj_score = obj['score']
+
+                                # Draw bounding box on the image
+                                thickness = 2
+                                color = (0, 0, 255)  # Red color for violation
+
+                                # Box coordinates are in pixel format: [x_min, y_min, x_max, y_max]
+                                x_min = int(obj_box[0])
+                                y_min = int(obj_box[1])
+                                x_max = int(obj_box[2])
+                                y_max = int(obj_box[3])
+
+                                self.log_debug(f"Drawing {obj_label}: x_min={x_min}, y_min={y_min}, x_max={x_max}, y_max={y_max}")
+
+                                draw_box_with_label(
+                                    img,
+                                    x_min,
+                                    y_min,
+                                    x_max,
+                                    y_max,
+                                    obj_label,
+                                    f"{int(obj_score * 100)}%",
+                                    thickness=thickness,
+                                    color=color,
+                                )
+                        else:
+                            self.log_warning(f"No objects to draw on evidence image")
 
                         # Save violation evidence image with -viol suffix
                         violation_evidence_path = os.path.join(CLIPS_DIR, f"{camera}-{event_id}-viol.jpg")

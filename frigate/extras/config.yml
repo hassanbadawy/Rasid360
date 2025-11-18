@@ -32,7 +32,7 @@ actions:
         to_zone: "{to}"       # Template parameter
         duration: 30
         severity: high
-        cooldown: 30
+        cooldown: 600         # for real camera feed make it number less than 60 sec we made it high to avoid duplicate alerts in testing
 
       # Object logic violation (boolean conditions)
       missing_safety_equipment:
@@ -51,7 +51,7 @@ actions:
         condition: "in_zone({zone}) AND detected({object})"
         duration: 20
         severity: medium
-        cooldown: 30
+        cooldown: 600
 
       # Fall down detection (aspect ratio based)
       fall_detection:
@@ -62,7 +62,7 @@ actions:
         min_duration: "{duration}"     # Template parameter: sustained duration
         duration: 30
         severity: critical
-        cooldown: 15
+        cooldown: 600
 
     # Camera-specific violations
     cameras:
@@ -78,7 +78,7 @@ actions:
             to_zone: wrongzone
             duration: 30
             severity: high
-            cooldown: 30
+            cooldown: 600
 
       Road02:
         violations:
@@ -92,7 +92,7 @@ actions:
             min_duration: 3
             duration: 30
             severity: critical
-            cooldown: 15
+            cooldown: 600
 
       Road03:
         violations:
@@ -106,7 +106,7 @@ actions:
             min_duration: 3
             duration: 30
             severity: critical
-            cooldown: 15
+            cooldown: 600
 
       Road04:
         violations:
@@ -135,7 +135,7 @@ actions:
             min_detections: 2  # Require 2 consecutive detections (adjusted for zone flickering)
             duration: 3
             severity: high
-            cooldown: 3
+            cooldown: 600
 
           # Wrong-way detection: vehicles moving from leftcomeend to leftcomestart
           - name: wrongway
@@ -148,7 +148,20 @@ actions:
             min_detections: 2  # Require 2 consecutive detections (adjusted for zone flickering)
             duration: 3
             severity: high
-            cooldown: 3
+            cooldown: 600
+
+      EmbassyGate:
+        violations:
+          # Red zone violation: person or handbag in embredzone for 2 seconds
+          - name: red_zone_intrusion
+            enabled: true  # Enable this violation
+            type: zone_object
+            description: "Person or handbag detected in EmbRedZone for 2 seconds"
+            condition: "in_zone(embredzone) AND (detected(person) OR detected(handbag))"
+            duration: 2  # Trigger after 2 seconds of continuous detection in zone
+            severity: high
+            cooldown: 600  # Wait 60 seconds before triggering again (prevents duplicate detections on looping video)
+
 # Logging Configuration
 logging:
   level: DEBUG  # DEBUG, INFO, WARNING, ERROR, CRITICAL
