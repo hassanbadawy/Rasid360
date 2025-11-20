@@ -85,11 +85,26 @@ detect:
     threshold: 10  # Frames before considering stationary
     interval: 10   # Frames between stationary checks
 
+lpr:
+  enabled: True
+  min_area: 1500  # Ignore plates with an area (length x width) smaller than 1500 pixels
+  min_plate_length: 4  # Only recognize plates with 4 or more characters
+  # known_plates:
+  #   Employees Cars:
+  #     - "ABC-1234"
+  #     - "ABC-I234"  # Accounts for potential confusion between the number one (1) and capital letter I
+  #     - "J*N-*234"  # Matches JHN-1234 and JMN-I234, but also note that "*" matches any number of characters
+  #     - "[S5]LL 1234"  # Matches both SLL 1234 and 5LL 1234
+  #   Work Trucks:
+  #     - "EMP-[0-9]{3}[A-Z]"  # Matches plates like EMP-123A, EMP-456Z
+
 # Cameras configuration
 cameras:
 
   Road01:
     enabled: false
+    lpr:
+      enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/street/wrongWayCar02.mp4
@@ -141,6 +156,8 @@ cameras:
 
   Road02:
     enabled: false
+    lpr:
+      enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/fall/falldown01.mp4
@@ -166,7 +183,9 @@ cameras:
           threshold: 0.01
 
   Road03:
-    enabled: true
+    enabled: false
+    lpr:
+      enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/street/traffic01.mp4
@@ -208,6 +227,7 @@ cameras:
         distances: 8,10,8,10  # Real-world distances in meters (adjust based on actual measurements)
         loitering_time: 0
         friendly_name: Speed_Estimation
+
   Road04:
     enabled: false
     ffmpeg:
@@ -247,6 +267,8 @@ cameras:
 
   Road05:
     enabled: false
+    lpr:
+      enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/street/wrongWayCar03.mp4
@@ -303,7 +325,9 @@ cameras:
         inertia: 3
 
   Road06:
-    enabled: true
+    enabled: false
+    lpr:
+      enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/street/CarBrokeDown01.mp4
@@ -346,8 +370,11 @@ cameras:
           - motorcycle
         friendly_name: No_Stop_Zone
         inertia: 3
+
   EmbassyGate:
     enabled: false
+    lpr:
+      enabled: false
     ffmpeg:
       inputs:
         - path: /media/streams/streams/safety/embassey_bag.mp4
@@ -395,4 +422,42 @@ cameras:
           - handbag
           - person
         friendly_name: EmbRedZone
+
+  LPR_Camera:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: /media/streams/streams/street/lic-plate-01.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts
+          roles:
+            - detect
+    detect:
+      enabled: True
+      width: 480
+      height: 640
+      fps: 5
+    motion:
+      threshold: 15  # Lower threshold for better sensitivity (was 25)
+      contour_area: 5  # Lower minimum area (was 10)
+      improve_contrast: true
+    objects:
+      track:
+        - car
+        - bus
+        - truck
+        - motorcycle
+      filters:
+        car:
+          min_area: 200
+          threshold: 0.25
+        bus:
+          min_area: 300
+          threshold: 0.25
+        truck:
+          min_area: 300
+          threshold: 0.25
+        motorcycle:
+          min_area: 100
+          threshold: 0.25
+
 version: 0.17-0
