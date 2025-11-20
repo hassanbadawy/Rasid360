@@ -62,6 +62,14 @@ class FallDownRule(Rule):
         # Calculate width/height ratio
         current_ratio = width / height
 
+        # Debug logging: always log bbox dimensions for troubleshooting
+        object_id = after.get("id", "unknown")
+        self.logger.debug(
+            f"{self.name} - Object {object_id[-8:]}: "
+            f"bbox=({x1},{y1},{x2},{y2}), w={width:.0f}, h={height:.0f}, "
+            f"ratio={current_ratio:.2f} (threshold={self.width_height_ratio:.2f})"
+        )
+
         # Check if ratio exceeds threshold
         is_fallen = current_ratio >= self.width_height_ratio
 

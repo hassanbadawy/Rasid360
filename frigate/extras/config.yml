@@ -64,6 +64,28 @@ actions:
         severity: critical
         cooldown: 600
 
+      # Stationary vehicle in no-parking/no-stop zone
+      stationary_vehicle:
+        type: sustained_condition
+        description: "Vehicle stopped in no-parking or no-stop zone"
+        condition: "in_zone({zone}) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+        monitor_duration: "{duration}"  # Template parameter: how long vehicle must be stationary
+        duration: 30
+        severity: high
+        cooldown: 600
+
+      # Speed limit violation (uses Frigate's built-in speed estimation)
+      # Note: Zone must be configured with 'distances' field for speed estimation to work
+      speed_limit:
+        type: sustained_condition
+        description: "Vehicle exceeding speed limit in calibrated zone"
+        condition: "in_zone({zone}) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+        speed_threshold: "{limit}"  # Template parameter: speed limit in km/h
+        monitor_duration: 2  # Check speed for at least 2 seconds
+        duration: 30
+        severity: high
+        cooldown: 600
+
     # Camera-specific violations
     cameras:
       Road01:
@@ -84,7 +106,7 @@ actions:
         violations:
           # Fall down detection: person with width/height ratio > 1.2 for 3 seconds
           - name: person_fall_down
-            enabled: false  # Enable/disable this specific violation
+            enabled: true  # Enable/disable this specific violation
             type: fall_down
             description: "Person fall detected"
             object_type: person
@@ -96,16 +118,39 @@ actions:
 
       Road03:
         violations:
-          # Fall down detection: person with width/height ratio > 1.2 for 3 seconds
-          - name: person_fall_down
-            enabled: false  # Enable/disable this specific violation
-            type: fall_down
-            description: "Person fall detected"
-            object_type: person
-            width_height_ratio: 1.2
-            min_duration: 3
+          # No parking zone violation: vehicle stopped for more than 5 seconds
+          - name: no_parking_violation
+            enabled: true
+            type: sustained_condition
+            description: "Vehicle stopped in No_Parking zone for more than 5 seconds"
+            condition: "in_zone(no_parking) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+            monitor_duration: 5  # Vehicle must be stationary for 5 seconds
             duration: 30
-            severity: critical
+            severity: high
+            cooldown: 600
+
+          # No stop zone violation: vehicle stopped for more than 3 seconds
+          - name: no_stop_violation
+            enabled: true
+            type: sustained_condition
+            description: "Vehicle stopped in No_Stop zone for more than 3 seconds"
+            condition: "in_zone(no_stop) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+            monitor_duration: 3  # Vehicle must be stationary for 3 seconds
+            duration: 30
+            severity: high
+            cooldown: 600
+
+          # Speed limit violation: vehicle exceeding 80 km/h in speed estimation zone
+          # Uses Frigate's built-in speed estimation (zone must have 'distances' configured)
+          - name: speed_limit_violation
+            enabled: true
+            type: sustained_condition
+            description: "Vehicle exceeding 80 km/h speed limit"
+            condition: "in_zone(speed_estimation) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+            speed_threshold: 80  # Configurable: speed limit in km/h
+            monitor_duration: 2  # Vehicle must exceed speed for 2 seconds
+            duration: 30
+            severity: high
             cooldown: 600
 
       Road04:
@@ -161,6 +206,32 @@ actions:
             duration: 2  # Trigger after 2 seconds of continuous detection in zone
             severity: high
             cooldown: 600  # Wait 60 seconds before triggering again (prevents duplicate detections on looping video)
+
+      Road06:
+        violations:
+          # Aggressive turn: vehicle moving from no_exit_zone to exit_zone (dangerous maneuver)
+          - name: aggressive_turn
+            enabled: true
+            type: zone_sequence
+            description: "Vehicle making aggressive turn from No_Exit_Zone to Exit_Zone"
+            vehicle_types: [car, bus, truck, motorcycle]
+            from_zones: [no_exit_zone]
+            to_zone: exit_zone
+            min_detections: 2  # Require 2 consecutive detections to avoid false positives
+            duration: 30
+            severity: high
+            cooldown: 600
+
+          # No stop zone violation: vehicle stopped for more than 3 seconds
+          - name: no_stop_zone_violation
+            enabled: true
+            type: sustained_condition
+            description: "Vehicle stopped in No_Stop_Zone for more than 3 seconds"
+            condition: "in_zone(no_stop_zone) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+            monitor_duration: 3  # Vehicle must be stationary for 3 seconds
+            duration: 30
+            severity: high
+            cooldown: 600
 
 # Logging Configuration
 logging:

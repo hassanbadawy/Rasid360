@@ -27,6 +27,8 @@ class RuleValidator:
         self.logger = logging.getLogger(self.__class__.__name__)
         self.frigate_api = frigate_api
         self.frigate_cameras: Set[str] = set()
+        self.enabled_cameras: Set[str] = set()
+        self.disabled_cameras: Set[str] = set()
         self.frigate_zones: Dict[str, Set[str]] = {}  # camera -> zones
         self.frigate_labels: Set[str] = set()
 
@@ -35,6 +37,7 @@ class RuleValidator:
         Load Frigate configuration to validate against
 
         Fetches cameras, zones, and tracked objects from Frigate.
+        Also tracks which cameras are enabled/disabled.
         """
         if not self.frigate_api:
             self.logger.warning("No Frigate API provided, skipping config validation")
@@ -47,11 +50,25 @@ class RuleValidator:
                 self.logger.warning("Could not fetch Frigate config")
                 return
 
-            # Extract cameras
+            # Extract cameras and their enabled status
             cameras = config.get("cameras", {})
-            self.frigate_cameras = set(cameras.keys())
+            self.frigate_cameras = set()
 
-            # Extract zones per camera
+            # Track enabled and disabled cameras separately
+            self.enabled_cameras = set()
+            self.disabled_cameras = set()
+
+            for camera_name, camera_config in cameras.items():
+                self.frigate_cameras.add(camera_name)
+
+                # Check if camera is enabled (defaults to True if not specified)
+                is_enabled = camera_config.get("enabled", True)
+                if is_enabled:
+                    self.enabled_cameras.add(camera_name)
+                else:
+                    self.disabled_cameras.add(camera_name)
+
+            # Extract zones per camera (only for enabled cameras)
             for camera, camera_config in cameras.items():
                 zones = camera_config.get("zones", {})
                 self.frigate_zones[camera] = set(zones.keys())
@@ -62,7 +79,8 @@ class RuleValidator:
             self.frigate_labels = set(tracked_objects) if tracked_objects else set()
 
             self.logger.info(
-                f"Loaded Frigate config: {len(self.frigate_cameras)} cameras, "
+                f"Loaded Frigate config: {len(self.frigate_cameras)} cameras "
+                f"({len(self.enabled_cameras)} enabled, {len(self.disabled_cameras)} disabled), "
                 f"{sum(len(z) for z in self.frigate_zones.values())} zones, "
                 f"{len(self.frigate_labels)} tracked objects"
             )
@@ -181,12 +199,27 @@ class RuleValidator:
 
         Returns:
             List of validation errors (empty if valid)
+            Returns special marker ["SKIP_CAMERA"] if camera should be skipped
         """
         errors = []
 
         # Check if camera exists in Frigate
         if self.frigate_cameras and camera not in self.frigate_cameras:
-            errors.append(f"Camera '{camera}' not found in Frigate configuration")
+            # Camera not found - skip validation but don't fail
+            self.logger.warning(
+                f"Camera '{camera}' not found in Frigate configuration - "
+                f"skipping {len(rules)} rule(s)"
+            )
+            return ["SKIP_CAMERA"]
+
+        # Check if camera is disabled in Frigate
+        if self.disabled_cameras and camera in self.disabled_cameras:
+            # Camera is disabled - skip validation but don't fail
+            self.logger.info(
+                f"Camera '{camera}' is disabled in Frigate configuration - "
+                f"skipping {len(rules)} rule(s)"
+            )
+            return ["SKIP_CAMERA"]
 
         # Get zones for this camera
         camera_zones = self.frigate_zones.get(camera, set())
@@ -266,6 +299,7 @@ class RuleValidator:
             True if valid, False if errors found
         """
         all_errors = []
+        skipped_cameras = []
 
         # Load Frigate config
         self.load_frigate_config()
@@ -277,7 +311,20 @@ class RuleValidator:
         # Validate camera rules
         for camera, rules in camera_rules.items():
             rule_errors = self.validate_camera_rules(camera, rules)
+
+            # Check if camera should be skipped
+            if rule_errors == ["SKIP_CAMERA"]:
+                skipped_cameras.append(camera)
+                continue
+
             all_errors.extend(rule_errors)
+
+        # Log skipped cameras summary
+        if skipped_cameras:
+            self.logger.info(
+                f"Skipped validation for {len(skipped_cameras)} camera(s): "
+                f"{', '.join(skipped_cameras)}"
+            )
 
         # Log errors
         if all_errors:

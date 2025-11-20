@@ -50,17 +50,47 @@ class DSLViolationDetector(BaseAction):
         # Load templates
         self.parser.load_templates(self.templates_config)
 
+        # Get Frigate camera config to check if cameras exist and are enabled
+        frigate_config = None
+        if self.frigate_api:
+            try:
+                frigate_config = self.frigate_api.get_config()
+            except Exception as e:
+                self.log_warning(f"Could not fetch Frigate config: {e}")
+
+        frigate_cameras = frigate_config.get("cameras", {}) if frigate_config else {}
+
         # Parse rules for each camera
         for camera, camera_config in self.cameras_config.items():
             violations_config = camera_config.get("violations", [])
 
-            if violations_config:
-                try:
-                    rules = self.parser.parse_camera_violations(camera, violations_config)
-                    self.log_info(f"Loaded {len(rules)} rules for camera '{camera}'")
-                except Exception as e:
-                    self.log_error(f"Error loading rules for camera '{camera}': {e}")
-                    raise
+            if not violations_config:
+                continue
+
+            # Check if camera exists in Frigate config
+            if frigate_cameras and camera not in frigate_cameras:
+                self.log_warning(
+                    f"Camera '{camera}' not found in Frigate configuration - "
+                    f"skipping rule loading"
+                )
+                continue
+
+            # Check if camera is disabled in Frigate config
+            camera_frigate_config = frigate_cameras.get(camera, {})
+            is_enabled = camera_frigate_config.get("enabled", True)
+            if not is_enabled:
+                self.log_info(
+                    f"Camera '{camera}' is disabled in Frigate configuration - "
+                    f"skipping rule loading"
+                )
+                continue
+
+            try:
+                rules = self.parser.parse_camera_violations(camera, violations_config)
+                self.log_info(f"Loaded {len(rules)} rules for camera '{camera}'")
+            except Exception as e:
+                self.log_error(f"Error loading rules for camera '{camera}': {e}")
+                raise
 
     def _validate_rules(self):
         """Validate all loaded rules"""
