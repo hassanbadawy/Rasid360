@@ -114,7 +114,7 @@ face_recognition:
 cameras:
 
   Road01:
-    enabled: false
+    enabled: true
     lpr:
       enabled: false
     face_recognition:
@@ -164,12 +164,13 @@ cameras:
         objects:
           - bus
           - car
+          - truck
           - motorcycle
         friendly_name: WrongZone
         inertia: 3
 
   Road02:
-    enabled: false
+    enabled: true
     lpr:
       enabled: false
     face_recognition:
@@ -199,7 +200,7 @@ cameras:
           threshold: 0.01
 
   Road03:
-    enabled: false
+    enabled: true
     lpr:
       enabled: false
     face_recognition:
@@ -288,7 +289,7 @@ cameras:
         friendly_name: RightComeEnd
 
   Road05:
-    enabled: false
+    enabled: true
     lpr:
       enabled: false
     face_recognition:
@@ -349,7 +350,7 @@ cameras:
         inertia: 3
 
   Road06:
-    enabled: false
+    enabled: true
     lpr:
       enabled: false
     face_recognition:
@@ -398,7 +399,7 @@ cameras:
         inertia: 3
 
   EmbassyGate:
-    enabled: false
+    enabled: true
     lpr:
       enabled: false
     face_recognition:
@@ -452,7 +453,7 @@ cameras:
         friendly_name: EmbRedZone
 
   LPR_Camera:
-    enabled: true
+    enabled: false
     lpr:
       enabled: true
     face_recognition:
@@ -517,10 +518,10 @@ cameras:
       track:
         - person
 
-version: 0.17-0
 semantic_search:
   enabled: false
   model_size: small
 classification:
   object:
     enabled: false
+version: 0.17-0

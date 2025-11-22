@@ -92,7 +92,7 @@ actions:
         violations:
           # Wrong-way detection: vehicles moving from zone01 or zone02 to wrongzone
           - name: wrongway
-            enabled: false  # Enable/disable this specific violation
+            enabled: true  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving from zone01/zone02 to wrongzone"
             vehicle_types: [car, bus, truck, motorcycle]
@@ -157,7 +157,7 @@ actions:
         violations:
           # Wrong-way detection: vehicles moving from zone01 or zone02 to wrongzone
           - name: wrongway
-            enabled: false  # Enable/disable this specific violation
+            enabled: true  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving in wrong direction"
             vehicle_types: [car, bus, truck, motorcycle]
@@ -165,13 +165,13 @@ actions:
             to_zone: rightcomestart
             duration: 3
             severity: high
-            cooldown: 3
+            cooldown: 600
 
       Road05:
         violations:
           # Wrong-way detection: vehicles moving from rightcomeend to rightcomestart
           - name: wrongway
-            enabled: false  # Enable/disable this specific violation
+            enabled: true  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving in wrong direction (right lane)"
             vehicle_types: [car, bus, truck, motorcycle]
@@ -184,7 +184,7 @@ actions:
 
           # Wrong-way detection: vehicles moving from leftcomeend to leftcomestart
           - name: wrongway
-            enabled: false  # Enable/disable this specific violation
+            enabled: true  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving in wrong direction (left lane)"
             vehicle_types: [car, bus, truck, motorcycle]
