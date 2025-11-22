@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Naživo - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Naživo - Frigate",
+  "documentTitle": "Naživo - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Naživo - Rasid360",
   "lowBandwidthMode": "Režim nízkej šírky pásma",
   "twoWayTalk": {
     "enable": "Povoliť obojsmernú komunikáciu",
@@ -171,7 +171,7 @@
   },
   "noCameras": {
     "title": "Nie sú konfigurované žiadne kamery",
-    "description": "Začnite tým, že pripojíte kameru do Frigate.",
+    "description": "Začnite tým, že pripojíte kameru do Rasid360.",
     "buttonText": "Pridať kameru"
   },
   "snapshot": {

@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Apakah kamu yakin ingin memulai ulang Frigate?",
+    "title": "Apakah kamu yakin ingin memulai ulang Rasid360?",
     "button": "Mulai ulang",
     "restarting": {
-      "title": "Sedang Merestart Frigate",
+      "title": "Sedang Merestart Rasid360",
       "content": "Halaman ini akan memulai ulang dalam {{countdown}} detik.",
       "button": "Muat Ulang Sekarang"
     }
@@ -11,12 +11,12 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Kirim ke Frigate+",
+        "label": "Kirim ke Rasid360+",
         "desc": "Objek di lokasi yang ingin Anda hindari bukanlah deteksi palsu. Mengirimnya sebagai deteksi palsu akan membingungkan model."
       },
       "review": {
         "question": {
-          "label": "Konfirmasi label ini untuk Frigate Plus",
+          "label": "Konfirmasi label ini untuk Rasid360 Plus",
           "ask_a": "Apakah objek ini adalah sebuah<code>{{label}}</code>?"
         }
       }

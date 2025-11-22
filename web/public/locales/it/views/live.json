@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Dal vivo - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Dal vivo - Frigate",
+  "documentTitle": "Dal vivo - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Dal vivo - Rasid360",
   "lowBandwidthMode": "Modalità a bassa larghezza di banda",
   "twoWayTalk": {
     "enable": "Abilita audio bidirezionale",
@@ -174,7 +174,7 @@
   "noCameras": {
     "buttonText": "Aggiungi telecamera",
     "title": "Nessuna telecamera configurata",
-    "description": "Per iniziare, collega una telecamera a Frigate."
+    "description": "Per iniziare, collega una telecamera a Rasid360."
   },
   "snapshot": {
     "takeSnapshot": "Scarica l'istantanea attuale",

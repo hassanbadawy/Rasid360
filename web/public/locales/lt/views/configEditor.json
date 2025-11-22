@@ -1,5 +1,5 @@
 {
-  "documentTitle": "Konfiguracijos redaktorius - Frigate",
+  "documentTitle": "Konfiguracijos redaktorius - Rasid360",
   "configEditor": "Konfiguracijos Redaktorius",
   "copyConfig": "Kopijuoti Konfiguraciją",
   "saveAndRestart": "Išsaugoti ir Perkrauti",
@@ -14,5 +14,5 @@
     }
   },
   "safeConfigEditor": "Konfiguracijos Redaktorius (Saugus Rėžimas)",
-  "safeModeDescription": "Frigate yra saugiame rėžime dėl konfiguracijos tinkamumo klaidos."
+  "safeModeDescription": "Rasid360 yra saugiame rėžime dėl konfiguracijos tinkamumo klaidos."
 }

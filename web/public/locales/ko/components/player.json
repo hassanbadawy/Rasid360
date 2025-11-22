@@ -1,7 +1,7 @@
 {
-  "submitFrigatePlus": {
+  "submitRasid360Plus": {
     "submit": "제출",
-    "title": "이 프레임을 Frigate+에 제출하시겠습니까?"
+    "title": "이 프레임을 Rasid360+에 제출하시겠습니까?"
   },
   "stats": {
     "bandwidth": {
@@ -42,10 +42,10 @@
   "cameraDisabled": "카메라를 이용할 수 없습니다",
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Frigate+에 프레임이 성공적으로 제출됐습니다"
+      "submittedRasid360Plus": "Rasid360+에 프레임이 성공적으로 제출됐습니다"
     },
     "error": {
-      "submitFrigatePlusFailed": "Frigate+에 프레임을 보내지 못했습니다"
+      "submitRasid360PlusFailed": "Rasid360+에 프레임을 보내지 못했습니다"
     }
   }
 }

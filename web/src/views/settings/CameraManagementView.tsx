@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Toaster } from "sonner";
 import { Button } from "@/components/ui/button";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useTranslation } from "react-i18next";
 import { Label } from "@/components/ui/label";
 import CameraEditForm from "@/components/settings/CameraEditForm";
@@ -34,7 +34,7 @@ export default function CameraManagementView({
   const { t } = useTranslation(["views/settings"]);
 
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
 
   const [viewMode, setViewMode] = useState<"settings" | "add" | "edit">(
     "settings",

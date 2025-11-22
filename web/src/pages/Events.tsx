@@ -4,7 +4,7 @@ import { useCameraPreviews } from "@/hooks/use-camera-previews";
 import { useTimezone } from "@/hooks/use-date-utils";
 import { useOverlayState, useSearchEffect } from "@/hooks/use-overlay-state";
 import { usePersistence } from "@/hooks/use-persistence";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { RecordingStartingPoint } from "@/types/record";
 import {
   RecordingsSummary,
@@ -29,7 +29,7 @@ import useSWR from "swr";
 export default function Events() {
   const { t } = useTranslation(["views/events"]);
 
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
   const timezone = useTimezone(config);

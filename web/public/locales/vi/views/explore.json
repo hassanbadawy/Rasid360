@@ -34,7 +34,7 @@
         "label": "Độ lệch Chú thích",
         "tips": "MẸO: Hãy tưởng tượng có một clip sự kiện với một người đi từ trái sang phải. Nếu hộp giới hạn trên dòng thời gian sự kiện luôn ở bên trái của người đó thì giá trị nên được giảm xuống. Tương tự, nếu một người đi từ trái sang phải và hộp giới hạn luôn ở phía trước người đó thì giá trị nên được tăng lên.",
         "toast": {
-          "success": "Độ lệch chú thích cho {{camera}} đã được lưu vào tệp cấu hình. Khởi động lại Frigate để áp dụng các thay đổi của bạn."
+          "success": "Độ lệch chú thích cho {{camera}} đã được lưu vào tệp cấu hình. Khởi động lại Rasid360 để áp dụng các thay đổi của bạn."
         }
       },
       "title": "Cài đặt Chú thích"
@@ -72,7 +72,7 @@
       },
       "tips": {
         "mismatch_other": "{{count}} đối tượng không khả dụng đã được phát hiện và bao gồm trong mục xem lại này. Những đối tượng đó hoặc không đủ điều kiện là một cảnh báo hoặc phát hiện hoặc đã được dọn dẹp/xóa.",
-        "hasMissingObjects": "Điều chỉnh cấu hình của bạn nếu bạn muốn Frigate lưu các đối tượng được theo dõi cho các nhãn sau: <em>{{objects}}</em>"
+        "hasMissingObjects": "Điều chỉnh cấu hình của bạn nếu bạn muốn Rasid360 lưu các đối tượng được theo dõi cho các nhãn sau: <em>{{objects}}</em>"
       }
     },
     "expandRegenerationMenu": "Mở rộng menu tạo lại",
@@ -102,7 +102,7 @@
     "description": {
       "label": "Mô tả",
       "placeholder": "Mô tả của đối tượng được theo dõi",
-      "aiTips": "Frigate sẽ không yêu cầu mô tả từ nhà cung cấp AI tạo sinh của bạn cho đến khi vòng đời của đối tượng được theo dõi kết thúc."
+      "aiTips": "Rasid360 sẽ không yêu cầu mô tả từ nhà cung cấp AI tạo sinh của bạn cho đến khi vòng đời của đối tượng được theo dõi kết thúc."
     },
     "tips": {
       "descriptionSaved": "Lưu mô tả thành công",
@@ -140,8 +140,8 @@
       "aria": "Tìm các đối tượng được theo dõi tương tự"
     },
     "submitToPlus": {
-      "aria": "Gửi đến Frigate Plus",
-      "label": "Gửi đến Frigate+"
+      "aria": "Gửi đến Rasid360 Plus",
+      "label": "Gửi đến Rasid360+"
     },
     "viewInHistory": {
       "label": "Xem trong Lịch sử",
@@ -172,7 +172,7 @@
       "estimatedTime": "Thời gian ước tính còn lại:"
     },
     "downloadingModels": {
-      "context": "Frigate đang tải xuống các mô hình dữ liệu nhúng cần thiết để hỗ trợ tính năng Tìm kiếm theo Ngữ nghĩa. Quá trình này có thể mất vài phút tùy thuộc vào tốc độ kết nối mạng của bạn.",
+      "context": "Rasid360 đang tải xuống các mô hình dữ liệu nhúng cần thiết để hỗ trợ tính năng Tìm kiếm theo Ngữ nghĩa. Quá trình này có thể mất vài phút tùy thuộc vào tốc độ kết nối mạng của bạn.",
       "setup": {
         "visionModel": "Mô hình thị giác",
         "visionModelFeatureExtractor": "Trình trích xuất đặc trưng mô hình thị giác",
@@ -183,7 +183,7 @@
         "context": "Bạn có thể muốn tái lập chỉ mục dữ liệu nhúng của các đối tượng được theo dõi sau khi các mô hình được tải xuống.",
         "documentation": "Đọc tài liệu"
       },
-      "error": "Đã xảy ra lỗi. Vui lòng kiểm tra nhật ký của Frigate."
+      "error": "Đã xảy ra lỗi. Vui lòng kiểm tra nhật ký của Rasid360."
     },
     "title": "Tính năng Khám phá không khả dụng"
   },
@@ -212,7 +212,7 @@
     "object_lifecycle": "vòng đời đối tượng"
   },
   "fetchingTrackedObjectsFailed": "Lỗi khi tìm nạp các đối tượng được theo dõi: {{errorMessage}}",
-  "documentTitle": "Khám phá - Frigate",
+  "documentTitle": "Khám phá - Rasid360",
   "generativeAI": "AI Tạo sinh",
   "trackedObjectsCount_other": "{{count}} đối tượng được theo dõi ",
   "aiAnalysis": {

@@ -57,9 +57,9 @@
     "label": "Funkcijos",
     "hasSnapshot": "Turi Momentinę Nuotrauką",
     "hasVideoClip": "Turi vaizdo klipą",
-    "submittedToFrigatePlus": {
-      "label": "Pateikta į Frigate+",
-      "tips": "Pradžioje turite išfiltruoti sekamus objektus su momentinėmis nuotraukomis.<br /><br />Sekami Objektai be momentinių nuotraukų negali būti pateikti į Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Pateikta į Rasid360+",
+      "tips": "Pradžioje turite išfiltruoti sekamus objektus su momentinėmis nuotraukomis.<br /><br />Sekami Objektai be momentinių nuotraukų negali būti pateikti į Rasid360+."
     }
   },
   "sort": {

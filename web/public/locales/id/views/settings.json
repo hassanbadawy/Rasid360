@@ -1,15 +1,15 @@
 {
   "documentTitle": {
-    "default": "Pengaturan - Frigate",
-    "camera": "Pengaturan Kamera - Frigate",
-    "classification": "Pengaturan Klasifikasi - Frigate",
-    "authentication": "Pengaturan Autentikasi - Frigate",
-    "masksAndZones": "Editor Mask dan Zona - Frigate",
-    "motionTuner": "Penyetel Gerakan - Frigate",
-    "general": "Frigate - Pengaturan Umum",
-    "object": "Debug - Frigate",
-    "enrichments": "Frigate - Pengaturan Pengayaan",
-    "cameraManagement": "Pengaturan Kamera - Frigate"
+    "default": "Pengaturan - Rasid360",
+    "camera": "Pengaturan Kamera - Rasid360",
+    "classification": "Pengaturan Klasifikasi - Rasid360",
+    "authentication": "Pengaturan Autentikasi - Rasid360",
+    "masksAndZones": "Editor Mask dan Zona - Rasid360",
+    "motionTuner": "Penyetel Gerakan - Rasid360",
+    "general": "Rasid360 - Pengaturan Umum",
+    "object": "Debug - Rasid360",
+    "enrichments": "Rasid360 - Pengaturan Pengayaan",
+    "cameraManagement": "Pengaturan Kamera - Rasid360"
   },
   "menu": {
     "cameraManagement": "Pengaturan",

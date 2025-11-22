@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Directo - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Directo - Frigate",
+  "documentTitle": "Directo - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Directo - Rasid360",
   "twoWayTalk": {
     "disable": "Deshabilita a Conversa de dous sentidos",
     "enable": "Habilitar a Conversa de dous sentidos"

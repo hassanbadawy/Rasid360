@@ -1,5 +1,5 @@
 {
-  "documentTitle": "Căutare - Frigate",
+  "documentTitle": "Căutare - Rasid360",
   "generativeAI": "AI Generativ",
   "exploreIsUnavailable": {
     "title": "Explorarea este Indisponibila",
@@ -15,7 +15,7 @@
       "context": "Funcția de căutare poate fi utilizată după ce reindexarea obiectelor urmărite este finalizată."
     },
     "downloadingModels": {
-      "context": "Frigate descarcă modelele de încorporare necesare pentru a susține funcția de Căutare Semantică. Acest lucru poate dura câteva minute, în funcție de viteza conexiunii rețelei dvs.",
+      "context": "Rasid360 descarcă modelele de încorporare necesare pentru a susține funcția de Căutare Semantică. Acest lucru poate dura câteva minute, în funcție de viteza conexiunii rețelei dvs.",
       "setup": {
         "visionModel": "Model viziune",
         "visionModelFeatureExtractor": "Extractor de caracteristici pentru modelul de viziune",
@@ -26,7 +26,7 @@
         "context": "S-ar putea să dorești să reindexezi încorporările obiectelor urmărite odată ce modelele sunt descărcate.",
         "documentation": "Citește documentația"
       },
-      "error": "A apărut o eroare. Verifică jurnalele Frigate."
+      "error": "A apărut o eroare. Verifică jurnalele Rasid360."
     }
   },
   "type": {
@@ -75,7 +75,7 @@
         "millisecondsToOffset": "Millisecondele cu care să compensezi adnotările de detecție. <em>Implicit: 0</em>",
         "tips": "SFAT: Imaginează-ți că există un clip de eveniment cu o persoană care merge de la stânga la dreapta. Dacă caseta de delimitare de pe linia temporală a evenimentului este constant în partea stângă a persoanei, atunci valoarea ar trebui să fie scăzută. În mod similar, dacă persoana merge de la stânga la dreapta și caseta de delimitare este constant înaintea persoanei, atunci valoarea ar trebui să fie crescută.",
         "toast": {
-          "success": "Compensarea adnotării pentru {{camera}} a fost salvată în fișierul de configurație. Repornește Frigate pentru a aplica modificările."
+          "success": "Compensarea adnotării pentru {{camera}} a fost salvată în fișierul de configurație. Repornește Rasid360 pentru a aplica modificările."
         }
       },
       "title": "Setări adnotare"
@@ -98,7 +98,7 @@
         "mismatch_one": "{{count}} obiect indisponibil a fost detectat și inclus în acest element de revizuire. Acest obiect fie nu s-a calificat ca alertă sau detecție, fie a fost deja curățat/șters.",
         "mismatch_few": "{{count}} obiecte indisponibile au fost detectate și incluse în acest element de revizuire. Aceste obiecte fie nu s-au calificat ca alertă sau detecție, fie au fost deja curățate/șterse.",
         "mismatch_other": "{{count}} de obiecte indisponibile au fost detectate și incluse în acest element de revizuire. Aceste obiecte fie nu s-au calificat ca alertă sau detecție, fie au fost deja curățate/șterse.",
-        "hasMissingObjects": "Ajustează-ți configurația dacă vrei ca Frigate să salveze obiectele urmărite pentru următoarele etichete: <em>{{objects}}</em>"
+        "hasMissingObjects": "Ajustează-ți configurația dacă vrei ca Rasid360 să salveze obiectele urmărite pentru următoarele etichete: <em>{{objects}}</em>"
       },
       "toast": {
         "success": {
@@ -152,7 +152,7 @@
     "description": {
       "label": "Descriere",
       "placeholder": "Descrierea obiectului urmărit",
-      "aiTips": "Frigate nu va solicita o descriere de la furnizorul tău de AI până când ciclul de viață al obiectului urmărit nu se încheie."
+      "aiTips": "Rasid360 nu va solicita o descriere de la furnizorul tău de AI până când ciclul de viață al obiectului urmărit nu se încheie."
     },
     "expandRegenerationMenu": "Extinde meniul de regenerare",
     "regenerateFromSnapshot": "Regenerează din snapshot",
@@ -191,8 +191,8 @@
       "aria": "Descarcă video-ul"
     },
     "submitToPlus": {
-      "label": "Trimite către Frigate+",
-      "aria": "Trimite către Frigate Plus"
+      "label": "Trimite către Rasid360+",
+      "aria": "Trimite către Rasid360 Plus"
     },
     "addTrigger": {
       "label": "Adaugă declanșator",
@@ -275,7 +275,7 @@
         "millisecondsToOffset": "Millisecunde pentru a decalca adnotările de detectare. <em>Implicit: 0</em>",
         "tips": "SFAT: Imaginează-ți că există un clip al unui eveniment cu o persoană care merge de la stânga la dreapta. Dacă caseta delimitatoare a cronologiei evenimentului este constant în stânga persoanei, atunci valoarea ar trebui să fie scăzută. În mod similar, dacă o persoană merge de la stânga la dreapta și caseta delimitatoare este constant în fața persoanei, atunci valoarea ar trebui să fie crescută.",
         "toast": {
-          "success": "Decalajul de adnotare pentru {{camera}} a fost salvat în fișierul de configurare. Repornește Frigate pentru a aplica modificările."
+          "success": "Decalajul de adnotare pentru {{camera}} a fost salvat în fișierul de configurare. Repornește Rasid360 pentru a aplica modificările."
         }
       }
     },

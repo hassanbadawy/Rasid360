@@ -38,9 +38,9 @@
     "label": "Caracteristici",
     "hasSnapshot": "Are snapshot",
     "hasVideoClip": "Are un videoclip",
-    "submittedToFrigatePlus": {
-      "label": "Trimis către Frigate+",
-      "tips": "Trebuie mai întâi să filtrezi obiectele urmărite care au un snapshot.<br /><br />Obiectele urmărite fără snapshot nu pot fi trimise către Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Trimis către Rasid360+",
+      "tips": "Trebuie mai întâi să filtrezi obiectele urmărite care au un snapshot.<br /><br />Obiectele urmărite fără snapshot nu pot fi trimise către Rasid360+."
     }
   },
   "sort": {

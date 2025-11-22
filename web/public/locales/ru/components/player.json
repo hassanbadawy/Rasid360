@@ -1,8 +1,8 @@
 {
   "noRecordingsFoundForThisTime": "Не найдено ни одной записи",
   "noPreviewFound": "Предпросмотр не найден",
-  "submitFrigatePlus": {
-    "title": "Отправить этот кадр в Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Отправить этот кадр в Rasid360+?",
     "submit": "Отправить"
   },
   "noPreviewFoundFor": "Не найдено предпросмотра для {{cameraName}}",
@@ -42,10 +42,10 @@
   },
   "toast": {
     "error": {
-      "submitFrigatePlusFailed": "Не удалось отправить кадр в Frigate+"
+      "submitRasid360PlusFailed": "Не удалось отправить кадр в Rasid360+"
     },
     "success": {
-      "submittedFrigatePlus": "Кадр успешно загружен в Frigate+"
+      "submittedRasid360Plus": "Кадр успешно загружен в Rasid360+"
     }
   }
 }

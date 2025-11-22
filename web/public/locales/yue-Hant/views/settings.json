@@ -1,18 +1,18 @@
 {
   "documentTitle": {
-    "default": "設定 - Frigate",
-    "authentication": "認證設定 - Frigate",
-    "camera": "鏡頭設定 - Frigate",
-    "classification": "進階功能設定 - Frigate",
-    "masksAndZones": "遮罩與區域編輯器 - Frigate",
-    "motionTuner": "移動調校器 - Frigate",
-    "object": "除錯 - Frigate",
-    "general": "一般設定 - Frigate",
-    "frigatePlus": "Frigate+ 設定 - Frigate",
-    "notifications": "通知設定 - Frigate",
-    "enrichments": "進階功能設定 - Frigate",
-    "cameraManagement": "管理鏡頭 - Frigate",
-    "cameraReview": "鏡頭檢視設定 - Frigate"
+    "default": "設定 - Rasid360",
+    "authentication": "認證設定 - Rasid360",
+    "camera": "鏡頭設定 - Rasid360",
+    "classification": "進階功能設定 - Rasid360",
+    "masksAndZones": "遮罩與區域編輯器 - Rasid360",
+    "motionTuner": "移動調校器 - Rasid360",
+    "object": "除錯 - Rasid360",
+    "general": "一般設定 - Rasid360",
+    "frigatePlus": "Rasid360+ 設定 - Rasid360",
+    "notifications": "通知設定 - Rasid360",
+    "enrichments": "進階功能設定 - Rasid360",
+    "cameraManagement": "管理鏡頭 - Rasid360",
+    "cameraReview": "鏡頭檢視設定 - Rasid360"
   },
   "menu": {
     "ui": "介面",
@@ -23,7 +23,7 @@
     "debug": "除錯",
     "users": "用戶",
     "notifications": "通知",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "enrichments": "進階功能",
     "triggers": "觸發器",
     "roles": "角色",
@@ -97,7 +97,7 @@
     },
     "semanticSearch": {
       "title": "語意搜尋",
-      "desc": "Frigate 的語意搜尋功能讓你可以利用影像本身、自訂文字描述，或自動產生的描述，在審查項目中尋找已追蹤的物件。",
+      "desc": "Rasid360 的語意搜尋功能讓你可以利用影像本身、自訂文字描述，或自動產生的描述，在審查項目中尋找已追蹤的物件。",
       "readTheDocumentation": "閱讀文件",
       "reindexNow": {
         "label": "立即重建索引",
@@ -137,17 +137,17 @@
       },
       "readTheDocumentation": "閱讀文件",
       "title": "人臉識別",
-      "desc": "人臉識別功能允許為人物分配名字，當辨識到他們的臉孔時，Frigate 會將名字加到子標籤上。此資訊會顯示於介面、篩選器及通知中。"
+      "desc": "人臉識別功能允許為人物分配名字，當辨識到他們的臉孔時，Rasid360 會將名字加到子標籤上。此資訊會顯示於介面、篩選器及通知中。"
     },
     "licensePlateRecognition": {
       "title": "車牌識別",
       "readTheDocumentation": "閱讀文件",
-      "desc": "Frigate 可以識別車輛上的車牌，自動將偵測到的字元加到已辨識車牌欄位，或將已知名稱加到屬於車輛類型的物件的子標籤上。常見用途包括讀取駛入車道或在街道上駛過的車輛的車牌。"
+      "desc": "Rasid360 可以識別車輛上的車牌，自動將偵測到的字元加到已辨識車牌欄位，或將已知名稱加到屬於車輛類型的物件的子標籤上。常見用途包括讀取駛入車道或在街道上駛過的車輛的車牌。"
     },
     "restart_required": "需要重新啟動（分類設定已變更）",
     "toast": {
       "error": "儲存設定變更失敗：{{errorMessage}}",
-      "success": "分類設定已儲存。請重新啟動 Frigate 以套用你的更改。"
+      "success": "分類設定已儲存。請重新啟動 Rasid360 以套用你的更改。"
     },
     "title": "進階功能設定",
     "unsavedChanges": "進階功能設定更改尚未儲存"
@@ -156,11 +156,11 @@
     "title": "鏡頭設定",
     "streams": {
       "title": "串流",
-      "desc": "暫時停用鏡頭直到Frigate重新啟動。停用鏡頭會完全停止 Frigate 處理此鏡頭的串流。將會無法使用偵測、錄影和除錯功能。<br /><em>注意：這不會停用 go2rtc 的轉播功能。</em>"
+      "desc": "暫時停用鏡頭直到Rasid360重新啟動。停用鏡頭會完全停止 Rasid360 處理此鏡頭的串流。將會無法使用偵測、錄影和除錯功能。<br /><em>注意：這不會停用 go2rtc 的轉播功能。</em>"
     },
     "review": {
       "title": "審查",
-      "desc": "暫時啟用或停用此鏡頭的警報和偵測直到Frigate重新啟動。停用後，將不會產生新的審查項目。 ",
+      "desc": "暫時啟用或停用此鏡頭的警報和偵測直到Rasid360重新啟動。停用後，將不會產生新的審查項目。 ",
       "alerts": "警報 ",
       "detections": "偵測 "
     },
@@ -178,10 +178,10 @@
       "selectDetectionsZones": "選擇偵測的區域",
       "limitDetections": "限制偵測至特定區域",
       "title": "審查分類",
-      "desc": "Frigate會將審查項目分類為「警報」同「偵測」。預設情況下，所有<em>人</em>同<em>車</em> 的物件都會被視為警報。你可以透過設定所需區域，細分審查項目分類。",
+      "desc": "Rasid360會將審查項目分類為「警報」同「偵測」。預設情況下，所有<em>人</em>同<em>車</em> 的物件都會被視為警報。你可以透過設定所需區域，細分審查項目分類。",
       "selectAlertsZones": "選擇警報的區域",
       "toast": {
-        "success": "審查分類設定已儲存。請重新啟動Frigate以套用更改。"
+        "success": "審查分類設定已儲存。請重新啟動Rasid360以套用更改。"
       },
       "unsavedChanges": "{{camera}}的審查分類設定尚未儲存"
     },
@@ -326,17 +326,17 @@
         }
       },
       "toast": {
-        "success": "區域（{{zoneName}}）已儲存。請重新啟動Frigate以套用更改。"
+        "success": "區域（{{zoneName}}）已儲存。請重新啟動Rasid360以套用更改。"
       },
       "desc": {
         "title": "區域可讓你定義畫面中的特定範圍，以判斷物件是否進入該範圍。",
         "documentation": "文件"
       },
-      "documentTitle": "編輯區域 - Frigate"
+      "documentTitle": "編輯區域 - Rasid360"
     },
     "motionMasks": {
       "label": "移動遮罩",
-      "documentTitle": "編輯移動遮罩 - Frigate",
+      "documentTitle": "編輯移動遮罩 - Rasid360",
       "desc": {
         "title": "移動遮罩可防止不需要的移動觸發偵測。遮罩過多會令物件追蹤變得困難。",
         "documentation": "文件"
@@ -356,8 +356,8 @@
       "add": "新增移動遮罩",
       "toast": {
         "success": {
-          "title": "{{polygonName}}已儲存。請重新啟動Frigate以套用更改。",
-          "noName": "移動遮罩已儲存。請重新啟動Frigate以套用更改。"
+          "title": "{{polygonName}}已儲存。請重新啟動Rasid360以套用更改。",
+          "noName": "移動遮罩已儲存。請重新啟動Rasid360以套用更改。"
         }
       }
     },
@@ -378,11 +378,11 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}}已儲存。請重新啟動Frigate以套用更改。",
-          "noName": "物件遮罩已儲存。請重新啟動Frigate以套用更改。"
+          "title": "{{polygonName}}已儲存。請重新啟動Rasid360以套用更改。",
+          "noName": "物件遮罩已儲存。請重新啟動Rasid360以套用更改。"
         }
       },
-      "documentTitle": "編輯物件遮罩 - Frigate",
+      "documentTitle": "編輯物件遮罩 - Rasid360",
       "edit": "編輯物件遮罩"
     },
     "filter": {
@@ -395,7 +395,7 @@
   "motionDetectionTuner": {
     "title": "移動偵測調校器",
     "desc": {
-      "title": "Frigate首先利用移動偵測作初步篩選，以判斷畫面中是否出現值得進行物件偵測的情況。",
+      "title": "Rasid360首先利用移動偵測作初步篩選，以判斷畫面中是否出現值得進行物件偵測的情況。",
       "documentation": "閱讀移動調整指南"
     },
     "Threshold": {
@@ -446,7 +446,7 @@
       "title": "時間戳記",
       "desc": "在圖片上疊加時間戳記"
     },
-    "detectorDesc": "Frigate 使用你的偵測器（{{detectors}}）來偵測鏡頭影片串流中的物件。",
+    "detectorDesc": "Rasid360 使用你的偵測器（{{detectors}}）來偵測鏡頭影片串流中的物件。",
     "debugging": "除錯中",
     "mask": {
       "title": "移動遮罩",
@@ -477,7 +477,7 @@
   },
   "users": {
     "management": {
-      "desc": "管理此Frigate個體的用戶帳戶。",
+      "desc": "管理此Rasid360個體的用戶帳戶。",
       "title": "用戶管理"
     },
     "addUser": "新增用戶",
@@ -541,7 +541,7 @@
       },
       "createUser": {
         "title": "建立新用戶",
-        "desc": "新增用戶帳戶，並指定可存取Frigate介面各區域的角色。",
+        "desc": "新增用戶帳戶，並指定可存取Rasid360介面各區域的角色。",
         "usernameOnlyInclude": "用戶名稱只可包含字母、數字、句號或底線",
         "confirmPassword": "請確認你的密碼"
       },
@@ -577,12 +577,12 @@
     "title": "通知",
     "notificationSettings": {
       "title": "通知設定",
-      "desc": "Frigate可原生向你的裝置推送通知，無論在瀏覽器中運行或安裝為PWA。",
+      "desc": "Rasid360可原生向你的裝置推送通知，無論在瀏覽器中運行或安裝為PWA。",
       "documentation": "閱讀文件"
     },
     "notificationUnavailable": {
       "title": "無法使用通知功能",
-      "desc": "網頁推送通知需在安全環境下運作（<code>https://…</code>），這是瀏覽器的限制。請透過安全連線存取Frigate以使用通知功能。",
+      "desc": "網頁推送通知需在安全環境下運作（<code>https://…</code>），這是瀏覽器的限制。請透過安全連線存取Rasid360以使用通知功能。",
       "documentation": "閱讀文件"
     },
     "globalSettings": {
@@ -620,7 +620,7 @@
         "registerFailed": "儲存通知登記失敗。"
       },
       "success": {
-        "registered": "成功登記通知功能。必須重新啟動Frigate後，才能發送任何通知（包括測試通知）。",
+        "registered": "成功登記通知功能。必須重新啟動Rasid360後，才能發送任何通知（包括測試通知）。",
         "settingSaved": "通知設定已儲存。"
       }
     },
@@ -629,13 +629,13 @@
     "unsavedChanges": "通知設定更改尚未儲存"
   },
   "frigatePlus": {
-    "title": "Frigate+設定",
+    "title": "Rasid360+設定",
     "apiKey": {
-      "title": "Frigate+ API金鑰",
-      "validated": "已偵測並驗證Frigate+ API金鑰",
-      "notValidated": "未偵測到Frigate+ API金鑰或驗證失敗",
-      "desc": "Frigate+ API金鑰可啟用與Frigate+服務的整合功能。",
-      "plusLink": "了解更多Frigate+資料"
+      "title": "Rasid360+ API金鑰",
+      "validated": "已偵測並驗證Rasid360+ API金鑰",
+      "notValidated": "未偵測到Rasid360+ API金鑰或驗證失敗",
+      "desc": "Rasid360+ API金鑰可啟用與Rasid360+服務的整合功能。",
+      "plusLink": "了解更多Rasid360+資料"
     },
     "snapshotConfig": {
       "title": "快照設定",
@@ -645,8 +645,8 @@
         "snapshots": "快照",
         "cleanCopySnapshots": "<code>clean_copy</code> 快照"
       },
-      "cleanCopyWarning": "部分鏡頭已啟用快照，但未啟用乾淨副本。你必須於快照設定中啟用<code>clean_copy</code>，才能從這些鏡頭提交影像至Frigate+。",
-      "desc": "提交至Frigate+需要在設定中同時啟用快照及<code>clean_copy</code>快照功能。"
+      "cleanCopyWarning": "部分鏡頭已啟用快照，但未啟用乾淨副本。你必須於快照設定中啟用<code>clean_copy</code>，才能從這些鏡頭提交影像至Rasid360+。",
+      "desc": "提交至Rasid360+需要在設定中同時啟用快照及<code>clean_copy</code>快照功能。"
     },
     "modelInfo": {
       "title": "模型資料",
@@ -661,16 +661,16 @@
       "cameras": "鏡頭",
       "availableModels": "可用模型",
       "loadingAvailableModels": "正在載入可用模型…",
-      "modelSelect": "可於此選擇你在Frigate+上的可用模型。請注意，只能選擇與當前偵測器設定相容的模型。",
+      "modelSelect": "可於此選擇你在Rasid360+上的可用模型。請注意，只能選擇與當前偵測器設定相容的模型。",
       "loading": "正在載入模型資料…",
       "error": "載入模型資料失敗"
     },
     "toast": {
       "error": "儲存設定變更失敗：{{errorMessage}}",
-      "success": "Frigate+設定已儲存。請重新啟動Frigate以套用更改。"
+      "success": "Rasid360+設定已儲存。請重新啟動Rasid360以套用更改。"
     },
-    "restart_required": "需要重新啟動（已更改Frigate+模型）",
-    "unsavedChanges": "Frigate+ 設定更改尚未儲存"
+    "restart_required": "需要重新啟動（已更改Rasid360+模型）",
+    "unsavedChanges": "Rasid360+ 設定更改尚未儲存"
   },
   "enrichments": {
     "faceRecognition": {
@@ -686,7 +686,7 @@
           "desc": "使用<em>小型</em>模型會採用 FaceNet 臉部嵌入模型，在大多數 CPU 上能有效運行。"
         }
       },
-      "desc": "人臉識別功能允許為人物分配名字，當辨識到他們的臉孔時，Frigate 會將名字加到子標籤上。此資訊會顯示於介面、篩選器及通知中。",
+      "desc": "人臉識別功能允許為人物分配名字，當辨識到他們的臉孔時，Rasid360 會將名字加到子標籤上。此資訊會顯示於介面、篩選器及通知中。",
       "title": "人臉識別",
       "readTheDocumentation": "閱讀文件"
     },
@@ -695,7 +695,7 @@
       "desc": "鳥類分類會使用量化 Tensorflow 模型識別已知鳥類。當辨識到已知鳥類時，牠的常見名稱會加到子標籤上。此資訊會顯示在介面、篩選器及通知中。"
     },
     "semanticSearch": {
-      "desc": "Frigate 的語意搜尋功能讓你可以利用影像本身、自訂文字描述，或自動產生的描述，在審查項目中尋找已追蹤的物件。",
+      "desc": "Rasid360 的語意搜尋功能讓你可以利用影像本身、自訂文字描述，或自動產生的描述，在審查項目中尋找已追蹤的物件。",
       "reindexNow": {
         "confirmDesc": "你確定要重建索引所有已追蹤物件的嵌入向量嗎？這個過程會在背景運行，但可能會用盡你的 CPU，而且需要一定時間。你可以在「瀏覽」頁面查看進度。",
         "label": "立即重建索引",
@@ -723,21 +723,21 @@
     },
     "licensePlateRecognition": {
       "title": "車牌識別",
-      "desc": "Frigate 可以識別車輛上的車牌，自動將偵測到的字元加到已辨識車牌欄位，或將已知名稱加到屬於車輛類型的物件的子標籤上。常見用途包括讀取駛入車道或在街道上駛過的車輛的車牌。",
+      "desc": "Rasid360 可以識別車輛上的車牌，自動將偵測到的字元加到已辨識車牌欄位，或將已知名稱加到屬於車輛類型的物件的子標籤上。常見用途包括讀取駛入車道或在街道上駛過的車輛的車牌。",
       "readTheDocumentation": "閱讀文件"
     },
     "title": "進階功能設定",
     "unsavedChanges": "未儲存進階功能設定變更",
     "restart_required": "需要重新啟動（進階功能設定已變更）",
     "toast": {
-      "success": "進階功能設定已儲存。請重新啟動 Frigate 以套用你的更改。",
+      "success": "進階功能設定已儲存。請重新啟動 Rasid360 以套用你的更改。",
       "error": "儲存設定變更失敗：{{errorMessage}}"
     }
   },
   "roles": {
     "management": {
       "title": "觀察者角色管理",
-      "desc": "管理自訂觀察者角色及其對此 Frigate 實例的鏡頭存取權限。"
+      "desc": "管理自訂觀察者角色及其對此 Rasid360 實例的鏡頭存取權限。"
     },
     "addRole": "新增角色",
     "table": {
@@ -878,7 +878,7 @@
         },
         "actions": {
           "title": "操作",
-          "desc": "預設情況下，Frigate 會對所有觸發器發送 MQTT 訊息。可選擇額外操作，在觸發器觸發時執行。",
+          "desc": "預設情況下，Rasid360 會對所有觸發器發送 MQTT 訊息。可選擇額外操作，在觸發器觸發時執行。",
           "error": {
             "min": "至少需要選擇一個操作。"
           }
@@ -900,7 +900,7 @@
   },
   "cameraWizard": {
     "title": "新增鏡頭",
-    "description": "請依照以下步驟，將新鏡頭加入 Frigate。",
+    "description": "請依照以下步驟，將新鏡頭加入 Rasid360。",
     "steps": {
       "nameAndConnection": "名稱與連線",
       "streamConfiguration": "串流設定",
@@ -1046,7 +1046,7 @@
     "backToSettings": "返回鏡頭設定",
     "streams": {
       "title": "啟用／停用鏡頭",
-      "desc": "暫時停用鏡頭，直到 Frigate 重新啟動。停用鏡頭會完全停止 Frigate 對該鏡頭串流的處理。偵測、錄影及除錯功能將無法使用。<br /><em>注意：這不會停用 go2rtc 轉串流。</em>"
+      "desc": "暫時停用鏡頭，直到 Rasid360 重新啟動。停用鏡頭會完全停止 Rasid360 對該鏡頭串流的處理。偵測、錄影及除錯功能將無法使用。<br /><em>注意：這不會停用 go2rtc 轉串流。</em>"
     },
     "cameraConfig": {
       "add": "新增鏡頭",
@@ -1090,13 +1090,13 @@
     },
     "review": {
       "title": "審查",
-      "desc": "暫時啟用／停用此鏡頭的警報與偵測，直到 Frigate 重啟。停用時，不會產生新的審查項目。 ",
+      "desc": "暫時啟用／停用此鏡頭的警報與偵測，直到 Rasid360 重啟。停用時，不會產生新的審查項目。 ",
       "alerts": "警報 ",
       "detections": "偵測 "
     },
     "reviewClassification": {
       "title": "審查分類",
-      "desc": "Frigate 將審查項目分類為警報與偵測。預設情況下，所有 <em>person</em> 與 <em>car</em> 物件會視為警報。你可以透過設定對應區域來精確分類審查項目。",
+      "desc": "Rasid360 將審查項目分類為警報與偵測。預設情況下，所有 <em>person</em> 與 <em>car</em> 物件會視為警報。你可以透過設定對應區域來精確分類審查項目。",
       "noDefinedZones": "此鏡頭未定義任何區域。",
       "objectAlertsTips": "在{{cameraName}}上所有{{alertsLabels}}物件將會顯示為警報。",
       "zoneObjectAlertsTips": "在{{cameraName}}的{{zone}}區域偵測到的所有{{alertsLabels}}物件將會顯示為警報。",
@@ -1111,7 +1111,7 @@
       "selectDetectionsZones": "選擇偵測的區域",
       "limitDetections": "限制偵測至特定區域",
       "toast": {
-        "success": "審查分類設定已儲存。請重新啟動Frigate以套用更改。"
+        "success": "審查分類設定已儲存。請重新啟動Rasid360以套用更改。"
       }
     }
   }

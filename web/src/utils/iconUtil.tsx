@@ -1,5 +1,5 @@
 import { IconName } from "@/components/icons/IconPicker";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { BsPersonWalking } from "react-icons/bs";
 import {
   FaAmazon,
@@ -39,7 +39,7 @@ import * as LuIcons from "react-icons/lu";
 import { MdRecordVoiceOver } from "react-icons/md";
 import { PiBirdFill } from "react-icons/pi";
 
-export function getAttributeLabels(config?: FrigateConfig) {
+export function getAttributeLabels(config?: Rasid360Config) {
   if (!config) {
     return [];
   }

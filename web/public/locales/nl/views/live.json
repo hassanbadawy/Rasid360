@@ -97,8 +97,8 @@
   },
   "notifications": "Meldingen",
   "audio": "Geluid",
-  "documentTitle": "Live - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Live - Frigate",
+  "documentTitle": "Live - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Live - Rasid360",
   "autotracking": {
     "enable": "Automatisch volgen inschakelen",
     "disable": "Automatisch volgen uitschakelen"
@@ -179,7 +179,7 @@
   },
   "noCameras": {
     "title": "Geen camera’s ingesteld",
-    "description": "Begin door een camera te verbinden met Frigate.",
+    "description": "Begin door een camera te verbinden met Rasid360.",
     "buttonText": "Camera toevoegen"
   }
 }

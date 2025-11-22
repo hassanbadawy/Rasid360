@@ -1,23 +1,23 @@
 {
   "documentTitle": {
-    "default": "Ayarlar - Frigate",
-    "classification": "Sınıflandırma Ayarları - Frigate",
-    "camera": "Kamera Ayarları - Frigate",
-    "masksAndZones": "Maske ve Alan Düzenleyici - Frigate",
-    "authentication": "Kimlik Doğrulama Ayarları - Frigate",
-    "motionTuner": "Hareket Algılama Ayarları - Frigate",
-    "frigatePlus": "Frigate+ Ayarları - Frigate",
-    "object": "Hata Ayıklama - Frigate",
-    "general": "Genel Ayarlar - Frigate",
-    "notifications": "Bildirim Ayarları - Frigate",
-    "enrichments": "Zenginleştirme Ayarları - Frigate",
-    "cameraManagement": "Kameraları Yönet - Frigate",
-    "cameraReview": "Kamera İnceleme Ayarları - Frigate"
+    "default": "Ayarlar - Rasid360",
+    "classification": "Sınıflandırma Ayarları - Rasid360",
+    "camera": "Kamera Ayarları - Rasid360",
+    "masksAndZones": "Maske ve Alan Düzenleyici - Rasid360",
+    "authentication": "Kimlik Doğrulama Ayarları - Rasid360",
+    "motionTuner": "Hareket Algılama Ayarları - Rasid360",
+    "frigatePlus": "Rasid360+ Ayarları - Rasid360",
+    "object": "Hata Ayıklama - Rasid360",
+    "general": "Genel Ayarlar - Rasid360",
+    "notifications": "Bildirim Ayarları - Rasid360",
+    "enrichments": "Zenginleştirme Ayarları - Rasid360",
+    "cameraManagement": "Kameraları Yönet - Rasid360",
+    "cameraReview": "Kamera İnceleme Ayarları - Rasid360"
   },
   "menu": {
     "masksAndZones": "Maskeler / Alanlar",
     "users": "Kullanıcılar",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "ui": "Arayüz",
     "notifications": "Bildirimler",
     "motionTuner": "Hareket Algılama",
@@ -111,7 +111,7 @@
         },
         "desc": "Anlamsal arama için kullanılan dil modelinin büyüklüğü."
       },
-      "desc": "Frigate'daki Anlamsal Arama özelliği inceleme öğelerinizde takip edilen nesneleri bizzat nesnenin resmi ile aratarak ya da otomatik olarak veya kullanıcı tarafından yazılmış bir metin açıklaması içinde aratarak bulmanıza imkan sağlar."
+      "desc": "Rasid360'daki Anlamsal Arama özelliği inceleme öğelerinizde takip edilen nesneleri bizzat nesnenin resmi ile aratarak ya da otomatik olarak veya kullanıcı tarafından yazılmış bir metin açıklaması içinde aratarak bulmanıza imkan sağlar."
     },
     "faceRecognition": {
       "modelSize": {
@@ -127,21 +127,21 @@
         "desc": "Yüz tanıma için kullanılan modelin boyutu."
       },
       "title": "Yüz Tanıma",
-      "desc": "Yüz tanıma, tanınan insanlara isim vermenize olanak tanır ve bu yüzler tanındığında Frigate, kişinin adını alt etiket olarak ekler. Bu bilgi; kullanıcı arayüzü, filtreler ve bildirimlerde gösterilir.",
+      "desc": "Yüz tanıma, tanınan insanlara isim vermenize olanak tanır ve bu yüzler tanındığında Rasid360, kişinin adını alt etiket olarak ekler. Bu bilgi; kullanıcı arayüzü, filtreler ve bildirimlerde gösterilir.",
       "readTheDocumentation": "Dökümantasyonu Oku"
     },
     "toast": {
       "error": "Yapılandırma değişiklikleri kaydedilemedi: {{errorMessage}}",
-      "success": "Sınıflandırma ayarları kaydedildi. Değişikliklerinizi uygulamak için Frigate'i yeniden başlatın."
+      "success": "Sınıflandırma ayarları kaydedildi. Değişikliklerinizi uygulamak için Rasid360'i yeniden başlatın."
     },
     "licensePlateRecognition": {
-      "desc": "Frigate araç plakalarını tanıyabilir ve algılanan karakterleri otomatik olarak recognized_license_plate alanına veya belirli bir plaka için tanımladığınız bir takma ismi alt etiket olarak ilgili aracın tanımlanan nesnesine ekleyebilir. Bu sistem, garajınıza giren veya caddeden geçen araçların plakalarını okumak için kullanılabilir.",
+      "desc": "Rasid360 araç plakalarını tanıyabilir ve algılanan karakterleri otomatik olarak recognized_license_plate alanına veya belirli bir plaka için tanımladığınız bir takma ismi alt etiket olarak ilgili aracın tanımlanan nesnesine ekleyebilir. Bu sistem, garajınıza giren veya caddeden geçen araçların plakalarını okumak için kullanılabilir.",
       "title": "Plaka Tanıma",
       "readTheDocumentation": "Dökümantasyonu Oku"
     },
     "birdClassification": {
       "title": "Kuş Sınıflandırma",
-      "desc": "Kuş Sınıflandırma özelliği, bilinen kuş türlerini kuantize edilmiş bir Tensorflow modeli kullanarak teşhis etmenizi sağlar. Model bir kuş türünü teşhis ettiğinde, Frigate, bu türün adını alt etiket olarak ekler. Bu bilgi; kullanıcı arayüzü, filtreler ve bildirimlerde gösterilir."
+      "desc": "Kuş Sınıflandırma özelliği, bilinen kuş türlerini kuantize edilmiş bir Tensorflow modeli kullanarak teşhis etmenizi sağlar. Model bir kuş türünü teşhis ettiğinde, Rasid360, bu türün adını alt etiket olarak ekler. Bu bilgi; kullanıcı arayüzü, filtreler ve bildirimlerde gösterilir."
     },
     "restart_required": "Yeniden Başlatma Gerekli (Sınıflandırma ayarları değiştirildi)"
   },
@@ -161,7 +161,7 @@
       "title": "İncele",
       "alerts": "Alarmlar ",
       "detections": "Tespitler ",
-      "desc": "Bu kamera için uyarıları ve algılamaları geçici olarak etkinleştirin/devre dışı bırakın. Frigate yeniden başlatıldığında yapılandırmanızdaki tercihlere geri dönülür. Devre dışı bırakıldığında, yeni inceleme öğeleri oluşturulamaz. "
+      "desc": "Bu kamera için uyarıları ve algılamaları geçici olarak etkinleştirin/devre dışı bırakın. Rasid360 yeniden başlatıldığında yapılandırmanızdaki tercihlere geri dönülür. Devre dışı bırakıldığında, yeni inceleme öğeleri oluşturulamaz. "
     },
     "reviewClassification": {
       "readTheDocumentation": "Dökümantasyonu Oku",
@@ -172,7 +172,7 @@
         "text": "{{cameraName}} kamerasındaki {{zone}} alanındaki kategorize edilmemiş bütün {{detectionsLabels}} nesneleri Algılama olarak sınıflandırılacaktır."
       },
       "zoneObjectAlertsTips": "{{cameraName}} kamerasındaki {{zone}} alanında algılanan bütün {{alertsLabels}} nesneleri Alarm olarak sınıflandırılacaktır.",
-      "desc": "Frigate tespit edilen İnceleme öğelerini Alarmlar ve Tespitler olarak kategorize eder. Varsayılan olarak bütün <em>kişi</em> ve <em>araba</em> nesneleri Alarm olarak sınıflandırılır. İnceleme öğelerinizin sınıflandırmasını tespit sınırlandırma sayfasında gerekli alanlar seçerek sınırlandırabilirsiniz.",
+      "desc": "Rasid360 tespit edilen İnceleme öğelerini Alarmlar ve Tespitler olarak kategorize eder. Varsayılan olarak bütün <em>kişi</em> ve <em>araba</em> nesneleri Alarm olarak sınıflandırılır. İnceleme öğelerinizin sınıflandırmasını tespit sınırlandırma sayfasında gerekli alanlar seçerek sınırlandırabilirsiniz.",
       "objectDetectionsTips": "{{cameraName}} kamerasında kategorize edilmemiş bütün {{detectionsLabels}} nesneleri, hangi alanda olduklarına bakılmaksızın Algılama olarak sınıflandırılacaktır.",
       "selectDetectionsZones": "Algılamalar için alanları seçin",
       "title": "Tespit Sınıflandırmaları",
@@ -180,12 +180,12 @@
       "objectAlertsTips": "{{cameraName}} kamerasındaki bütün {{alertsLabels}} nesneleri Alarm olarak sınıflandırılacaktır.",
       "limitDetections": "Algılamaları belirli alanlara sınırla",
       "toast": {
-        "success": "İnceleme Sınıflandırma ayarları kaydedildi. Değişiklikleri uygulamak için Frigate'i yeniden başlatın."
+        "success": "İnceleme Sınıflandırma ayarları kaydedildi. Değişiklikleri uygulamak için Rasid360'i yeniden başlatın."
       },
       "unsavedChanges": "{{camera}} için Kaydedilmemiş Sınıflandırma Ayarları"
     },
     "streams": {
-      "desc": "Frigate yeniden başlataılana kadar bir kamerayı devre dışı bırakın. Bir kameranın devre dışı bırakılması, Frigate'in bu kamerayı işlemesini tamamen durdurur. Algılama, kayıt ve hata ayıklama özellikleri kullanılamaz.<br /> <em>Not: Bu eylem, go2rtc'deki yeniden akışları devre dışı bırakmaz.</em>",
+      "desc": "Rasid360 yeniden başlataılana kadar bir kamerayı devre dışı bırakın. Bir kameranın devre dışı bırakılması, Rasid360'in bu kamerayı işlemesini tamamen durdurur. Algılama, kayıt ve hata ayıklama özellikleri kullanılamaz.<br /> <em>Not: Bu eylem, go2rtc'deki yeniden akışları devre dışı bırakmaz.</em>",
       "title": "Akışlar"
     },
     "object_descriptions": {
@@ -291,7 +291,7 @@
     },
     "zones": {
       "label": "Alanlar",
-      "documentTitle": "Alanı Düzenle - Frigate",
+      "documentTitle": "Alanı Düzenle - Rasid360",
       "desc": {
         "documentation": "Dökümantasyon",
         "title": "Alanlar, görüntüde belirli bir alanını tanımlamanıza olanak tanır. Böylece bir nesnenin belirli bir alanda olup olmadığını tespit edebilirsiniz."
@@ -338,7 +338,7 @@
         "title": "Hız Alt Sınırı ({{unit}})"
       },
       "toast": {
-        "success": "Alan ({{zoneName}}) kaydedildi. Değişiklikleri uygulamak için Frigate'i yeniden başlatın."
+        "success": "Alan ({{zoneName}}) kaydedildi. Değişiklikleri uygulamak için Rasid360'i yeniden başlatın."
       },
       "allObjects": "Bütün Nesneler"
     },
@@ -358,8 +358,8 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} kaydedildi. Değişiklikleri uygulamak için Frigate'i yeniden başlatın.",
-          "noName": "Hareket Maskesi kaydedildi. Değişiklikleri uygulamak için Frigate'i yeniden başlatın."
+          "title": "{{polygonName}} kaydedildi. Değişiklikleri uygulamak için Rasid360'i yeniden başlatın.",
+          "noName": "Hareket Maskesi kaydedildi. Değişiklikleri uygulamak için Rasid360'i yeniden başlatın."
         }
       },
       "desc": {
@@ -368,7 +368,7 @@
       },
       "label": "Hareket Maskesi",
       "edit": "Hareket Maskesini Düzenle",
-      "documentTitle": "Hareket Maskesini Düzenle - Frigate"
+      "documentTitle": "Hareket Maskesini Düzenle - Rasid360"
     },
     "objectMasks": {
       "desc": {
@@ -387,11 +387,11 @@
       "edit": "Nesne Maskesini Düzenle",
       "toast": {
         "success": {
-          "noName": "Nesne Maskesi kaydedildi. Değişiklikleri uygulamak için Frigate'i yeniden başlatın.",
-          "title": "{{polygonName}} kaydedildi. Değişiklikleri uygulamak için Frigate'i yeniden başlatın."
+          "noName": "Nesne Maskesi kaydedildi. Değişiklikleri uygulamak için Rasid360'i yeniden başlatın.",
+          "title": "{{polygonName}} kaydedildi. Değişiklikleri uygulamak için Rasid360'i yeniden başlatın."
         }
       },
-      "documentTitle": "Nesne Maskesini Düzenle - Frigate",
+      "documentTitle": "Nesne Maskesini Düzenle - Rasid360",
       "label": "Nesne Maskeleri",
       "clickDrawPolygon": "Görüntü üzerinde bir çokgen çizmek için tıklayın."
     },
@@ -413,7 +413,7 @@
       "success": "Hareket ayarları kaydedildi."
     },
     "desc": {
-      "title": "Frigate, kamera görüntüsünde nesne tespiti ile kontrol etmeye değer bir şey olup olmadığını görmek için ilk olarak hareket algılamayı kullanır.",
+      "title": "Rasid360, kamera görüntüsünde nesne tespiti ile kontrol etmeye değer bir şey olup olmadığını görmek için ilk olarak hareket algılamayı kullanır.",
       "documentation": "Hareket Algılama İnce Ayar Kılavuzunu Okuyun"
     },
     "improveContrast": {
@@ -456,7 +456,7 @@
       "tips": "Alanını ve oranını göstermek için kamera görüntüsü üzerinde bir dikdörtgen çizmek için bu seçeneği etkinleştirin. Bu değerler daha sonra yapılandırmanızda nesne şekil filtresi parametrelerini ayarlamak için kullanılabilir."
     },
     "debugging": "Hata Ayıklama",
-    "detectorDesc": "Frigate, kamera video akışınızdaki nesneleri algılamak için algılayıcılar ({{detectors}}) kullanır.",
+    "detectorDesc": "Rasid360, kamera video akışınızdaki nesneleri algılamak için algılayıcılar ({{detectors}}) kullanır.",
     "noObjects": "Nesne Yok",
     "mask": {
       "title": "Hareket maskeleri",
@@ -486,7 +486,7 @@
     "title": "Kullanıcılar",
     "management": {
       "title": "Kullanıcı Yönetimi",
-      "desc": "Bu Frigate kurulumundaki kullanıcı hesaplarını yönetin."
+      "desc": "Bu Rasid360 kurulumundaki kullanıcı hesaplarını yönetin."
     },
     "addUser": "Kullanıcı Ekle",
     "toast": {
@@ -548,7 +548,7 @@
       },
       "createUser": {
         "title": "Yeni Kullanıcı Oluştur",
-        "desc": "Yeni bir kullanıcı hesabı ekleyin ve Frigate'deki erişim düzeylerini sınırlandırmak için bir rol belirtin.",
+        "desc": "Yeni bir kullanıcı hesabı ekleyin ve Rasid360'deki erişim düzeylerini sınırlandırmak için bir rol belirtin.",
         "usernameOnlyInclude": "Kullanıcı adı yalnızca harfler, sayılar, nokta veya alt çizgi (_) içerebilir",
         "confirmPassword": "Lütfen parolanızı onaylayın"
       },
@@ -584,12 +584,12 @@
     "notificationSettings": {
       "title": "Bildirim Ayarları",
       "documentation": "Dökümantasyonu Oku",
-      "desc": "Frigate, tarayıcıdan veya web uygulaması (PWA) olarak kullanıyor olmanız fark etmeksizin, tarayıcınızın bildirimler özelliği aracılığıyla bildirimler gönderebilir."
+      "desc": "Rasid360, tarayıcıdan veya web uygulaması (PWA) olarak kullanıyor olmanız fark etmeksizin, tarayıcınızın bildirimler özelliği aracılığıyla bildirimler gönderebilir."
     },
     "notificationUnavailable": {
       "title": "Bildirimler Kullanılamıyor",
       "documentation": "Dökümantasyonu Oku",
-      "desc": "Web push bildirimleri güvenli bağlantı (<code>https://…</code>) gerektirir. Bu tarayıcınızın bir sınırlandırmasıdır. Bildirimleri kullanmak için Frigate arayüzüne HTTPS ile erişin."
+      "desc": "Web push bildirimleri güvenli bağlantı (<code>https://…</code>) gerektirir. Bu tarayıcınızın bir sınırlandırmasıdır. Bildirimleri kullanmak için Rasid360 arayüzüne HTTPS ile erişin."
     },
     "globalSettings": {
       "title": "Genel Ayarlar",
@@ -619,7 +619,7 @@
     },
     "toast": {
       "success": {
-        "registered": "Bildirimlere başarıyla kaydolundu. Herhangi bir bildirimin (test bildirimi dahil) gönderilebilmesi için Frigate'in yeniden başlatılması gereklidir.",
+        "registered": "Bildirimlere başarıyla kaydolundu. Herhangi bir bildirimin (test bildirimi dahil) gönderilebilmesi için Rasid360'in yeniden başlatılması gereklidir.",
         "settingSaved": "Bildirim ayarları kaydedildi."
       },
       "error": {
@@ -635,13 +635,13 @@
     "unsavedRegistrations": "Kaydedilmemiş bildirim ayar değişiklikleri"
   },
   "frigatePlus": {
-    "title": "Frigate+ Ayarları",
+    "title": "Rasid360+ Ayarları",
     "apiKey": {
-      "title": "Frigate+ API Anahtarı",
-      "validated": "Frigate+ API anahtarınız doğrulandı",
-      "plusLink": "Frigate+ hakkında daha fazla bilgi edinin",
-      "notValidated": "Frigate+ API anahtarı bulunamadı veya doğrulanamadı",
-      "desc": "Frigate+ API anahtarı, Frigate+ hizmetiyle entegrasyonu sağlar."
+      "title": "Rasid360+ API Anahtarı",
+      "validated": "Rasid360+ API anahtarınız doğrulandı",
+      "plusLink": "Rasid360+ hakkında daha fazla bilgi edinin",
+      "notValidated": "Rasid360+ API anahtarı bulunamadı veya doğrulanamadı",
+      "desc": "Rasid360+ API anahtarı, Rasid360+ hizmetiyle entegrasyonu sağlar."
     },
     "snapshotConfig": {
       "title": "Fotoğraf Yapılandırması",
@@ -651,8 +651,8 @@
         "snapshots": "Fotoğraflar",
         "cleanCopySnapshots": "<code>clean_copy</code> Fotoğraflar"
       },
-      "desc": "Frigate+'a göndermek için yapılandırmanızda hem fotoğrafların hem de <code>clean_copy</code> fotoğraflarının etkinleştirilmesi gerekir.",
-      "cleanCopyWarning": "Bazı kameralarda fotoğraflar etkin ancak temiz kopya özelliği devre dışı. Bu kameralardan Frigate+'a görüntü gönderebilmek için fotoğraf(snapshots) yapılandırmanızda <code>clean_copy</code>'yi etkinleştirmeniz gerekiyor."
+      "desc": "Rasid360+'a göndermek için yapılandırmanızda hem fotoğrafların hem de <code>clean_copy</code> fotoğraflarının etkinleştirilmesi gerekir.",
+      "cleanCopyWarning": "Bazı kameralarda fotoğraflar etkin ancak temiz kopya özelliği devre dışı. Bu kameralardan Rasid360+'a görüntü gönderebilmek için fotoğraf(snapshots) yapılandırmanızda <code>clean_copy</code>'yi etkinleştirmeniz gerekiyor."
     },
     "modelInfo": {
       "error": "Model bilgileri yüklenemedi",
@@ -661,7 +661,7 @@
       "modelType": "Model Türü",
       "dimensions": "Boyutlar",
       "availableModels": "Kullanılabilir Modeller",
-      "modelSelect": "Frigate+'daki kullanılabilir modelleriniz buradan seçilebilir. Yalnızca mevcut algılayıcı yapılandırmanızla uyumlu modellerin seçilebileceğini unutmayın.",
+      "modelSelect": "Rasid360+'daki kullanılabilir modelleriniz buradan seçilebilir. Yalnızca mevcut algılayıcı yapılandırmanızla uyumlu modellerin seçilebileceğini unutmayın.",
       "baseModel": "Temel Model",
       "title": "Model Bilgileri",
       "trainDate": "Eğitim Tarihi",
@@ -673,11 +673,11 @@
       }
     },
     "toast": {
-      "success": "Frigate+ ayarları kaydedildi. Değişiklikleri uygulamak için Frigate'i yeniden başlatın.",
+      "success": "Rasid360+ ayarları kaydedildi. Değişiklikleri uygulamak için Rasid360'i yeniden başlatın.",
       "error": "Yapılandırma değişiklikleri kaydedilemedi: {{errorMessage}}"
     },
-    "restart_required": "Yeniden Başlatma Gerekli (Frigate+ modeli değiştirildi)",
-    "unsavedChanges": "Kaydedilmemiş Frigate+ ayar değişiklikleri"
+    "restart_required": "Yeniden Başlatma Gerekli (Rasid360+ modeli değiştirildi)",
+    "unsavedChanges": "Kaydedilmemiş Rasid360+ ayar değişiklikleri"
   },
   "enrichments": {
     "birdClassification": {
@@ -732,12 +732,12 @@
     },
     "licensePlateRecognition": {
       "title": "Plaka Tanıma",
-      "desc": "Frigate tespit edilen araçların tescil plakalarındaki karakterleri okuyabilir ve ilgili araba türündeki nesnenin recognized_license_plate bölümüne, varsa bilindik bir adını da sub_label bölümüne ekleyebilir. Bu özelliği bir yoldan geçen yahut evin önüne park eden araçların plakalarını okumak için kullanabilirsiniz.",
+      "desc": "Rasid360 tespit edilen araçların tescil plakalarındaki karakterleri okuyabilir ve ilgili araba türündeki nesnenin recognized_license_plate bölümüne, varsa bilindik bir adını da sub_label bölümüne ekleyebilir. Bu özelliği bir yoldan geçen yahut evin önüne park eden araçların plakalarını okumak için kullanabilirsiniz.",
       "readTheDocumentation": "Dökümantasyonu Oku"
     },
     "restart_required": "Yeniden başlatma gerekli (zenginleştirme ayarları değişti)",
     "toast": {
-      "success": "Zenginleştirme ayarları kaydedildi. Değişiklikleri uygulamak için Frigate'i yeniden başlatın.",
+      "success": "Zenginleştirme ayarları kaydedildi. Değişiklikleri uygulamak için Rasid360'i yeniden başlatın.",
       "error": "Yapılandırma değişiklikleri kaydedilemedi: {{errorMessage}}"
     }
   },
@@ -779,7 +779,7 @@
         },
         "actions": {
           "title": "Eylemler",
-          "desc": "Varsayılan olarak Frigate bütün tetkler için MQTT'ye bir mesaj atar. İsterseniz yapılacak ek bir eylem de belirleyebilirsiniz.",
+          "desc": "Varsayılan olarak Rasid360 bütün tetkler için MQTT'ye bir mesaj atar. İsterseniz yapılacak ek bir eylem de belirleyebilirsiniz.",
           "error": {
             "min": "En az bir eylem seçilmelidir."
           }

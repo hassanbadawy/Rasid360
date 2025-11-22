@@ -10,7 +10,7 @@ import ActivityIndicator from "../indicators/activity-indicator";
 import { Ffprobe } from "@/types/stats";
 import { Button } from "../ui/button";
 import copy from "copy-to-clipboard";
-import { CameraConfig } from "@/types/frigateConfig";
+import { CameraConfig } from "@/types/rasid360Config";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";

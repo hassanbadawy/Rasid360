@@ -17,9 +17,9 @@
     "aria": "Sélectionner les événements",
     "noFoundForTimePeriod": "Aucun événement n'a été trouvé pour cette plage de temps."
   },
-  "documentTitle": "Événements - Frigate",
+  "documentTitle": "Événements - Rasid360",
   "recordings": {
-    "documentTitle": "Enregistrements - Frigate"
+    "documentTitle": "Enregistrements - Rasid360"
   },
   "calendarFilter": {
     "last24Hours": "Dernières 24 heures"

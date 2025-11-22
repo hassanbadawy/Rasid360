@@ -38,9 +38,9 @@
     "label": "Vlastnosti",
     "hasSnapshot": "Má snímku",
     "hasVideoClip": "Má videoklip",
-    "submittedToFrigatePlus": {
-      "label": "Odoslané do Frigate+",
-      "tips": "Najprv musíte filtrovať sledované objekty, ktoré majú snímku.<br /><br />Sledované objekty bez snímky nie je možné odoslať do Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Odoslané do Rasid360+",
+      "tips": "Najprv musíte filtrovať sledované objekty, ktoré majú snímku.<br /><br />Sledované objekty bez snímky nie je možné odoslať do Rasid360+."
     }
   },
   "sort": {

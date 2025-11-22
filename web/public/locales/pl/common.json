@@ -14,7 +14,7 @@
     "10minutes": "10 minut",
     "30minutes": "30 minut",
     "untilForTime": "Do {{time}}",
-    "untilForRestart": "Do czasu restartu Frigate.",
+    "untilForRestart": "Do czasu restartu Rasid360.",
     "untilRestart": "Do restartu",
     "ago": "{{timeAgo}} temu",
     "justNow": "Właśnie teraz",
@@ -209,7 +209,7 @@
       "nord": "Nordycki",
       "highcontrast": "Wysoki kontrast"
     },
-    "restart": "Uruchom ponownie Frigate",
+    "restart": "Uruchom ponownie Rasid360",
     "live": {
       "title": "Na żywo",
       "allCameras": "Wszystkie kamery",
@@ -233,7 +233,7 @@
     },
     "documentation": {
       "title": "Dokumentacja",
-      "label": "Dokumentacja Frigate"
+      "label": "Dokumentacja Rasid360"
     },
     "explore": "Przeglądaj",
     "configurationEditor": "Edytor konfiguracji",
@@ -243,7 +243,7 @@
   },
   "role": {
     "viewer": "Przeglądający",
-    "desc": "Administratorzy mają pełny dostęp do wszystkich funkcji w interfejsie Frigate. Przeglądający mają ograniczony dostęp tylko do podglądu kamer, przeglądania nagrań i historycznych materiałów w interfejsie.",
+    "desc": "Administratorzy mają pełny dostęp do wszystkich funkcji w interfejsie Rasid360. Przeglądający mają ograniczony dostęp tylko do podglądu kamer, przeglądania nagrań i historycznych materiałów w interfejsie.",
     "title": "Rola",
     "admin": "Administrator"
   },
@@ -262,12 +262,12 @@
   "accessDenied": {
     "title": "Dostęp Zabroniony",
     "desc": "Nie masz uprawnień do wyświetlenia tej strony.",
-    "documentTitle": "Dostęp Zabroniony - Frigate"
+    "documentTitle": "Dostęp Zabroniony - Rasid360"
   },
   "notFound": {
     "title": "404",
     "desc": "Strona nie znaleziona",
-    "documentTitle": "Nie Znaleziono - Frigate"
+    "documentTitle": "Nie Znaleziono - Rasid360"
   },
   "selectItem": "Wybierz {{item}}",
   "toast": {

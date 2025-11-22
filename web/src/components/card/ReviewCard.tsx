@@ -1,6 +1,6 @@
 import { baseUrl } from "@/api/baseUrl";
 import { useFormattedTimestamp } from "@/hooks/use-date-utils";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { REVIEW_PADDING, ReviewSegment } from "@/types/review";
 import { getIconForLabel } from "@/utils/iconUtil";
 import { isDesktop, isIOS, isSafari } from "react-device-detect";
@@ -52,7 +52,7 @@ export default function ReviewCard({
   onClick,
 }: ReviewCardProps) {
   const { t } = useTranslation(["components/dialog"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
   const formattedDate = useFormattedTimestamp(
     event.start_time,
@@ -149,7 +149,7 @@ export default function ReviewCard({
             "outline outline-[3px] -outline-offset-[2.8px] outline-selected duration-200",
           imgLoaded ? "visible" : "invisible",
         )}
-        src={`${baseUrl}${event.thumb_path.replace("/media/frigate/", "")}${showBbox ? "?bbox=1" : ""}`}
+        src={`${baseUrl}${event.thumb_path.replace("/media/rasid360/", "")}${showBbox ? "?bbox=1" : ""}`}
         loading={isSafari ? "eager" : "lazy"}
         style={
           isIOS

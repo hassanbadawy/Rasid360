@@ -1,17 +1,17 @@
 {
   "documentTitle": {
-    "default": "Nastavitve - Frigate",
-    "authentication": "Nastavitve preverjanja pristnosti - Frigate",
-    "camera": "Nastavitve kamere - Frigate",
-    "notifications": "Nastavitve obvestil - Frigate",
-    "masksAndZones": "Urejevalnik mask in območij - Frigate",
-    "object": "Odpravljanje napak - Frigate",
-    "general": "Splošne Nastavitve - Frigate",
-    "frigatePlus": "Frigate+ Nastavitve - Frigate",
-    "enrichments": "Nastavitve Obogatitev - Frigate",
-    "motionTuner": "Nastavitev gibanja - Frigate",
-    "cameraManagement": "Upravljaj kamere - Frigate",
-    "cameraReview": "Nastavitve pregleda kamer – Frigate"
+    "default": "Nastavitve - Rasid360",
+    "authentication": "Nastavitve preverjanja pristnosti - Rasid360",
+    "camera": "Nastavitve kamere - Rasid360",
+    "notifications": "Nastavitve obvestil - Rasid360",
+    "masksAndZones": "Urejevalnik mask in območij - Rasid360",
+    "object": "Odpravljanje napak - Rasid360",
+    "general": "Splošne Nastavitve - Rasid360",
+    "frigatePlus": "Rasid360+ Nastavitve - Rasid360",
+    "enrichments": "Nastavitve Obogatitev - Rasid360",
+    "motionTuner": "Nastavitev gibanja - Rasid360",
+    "cameraManagement": "Upravljaj kamere - Rasid360",
+    "cameraReview": "Nastavitve pregleda kamer – Rasid360"
   },
   "menu": {
     "ui": "Uporabniški vmesnik",
@@ -21,7 +21,7 @@
     "debug": "Razhroščevanje",
     "users": "Uporabniki",
     "notifications": "Obvestila",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "motionTuner": "Nastavitev Gibanja",
     "triggers": "Prožilniki",
     "cameraManagement": "Upravljanje",
@@ -117,7 +117,7 @@
     },
     "semanticSearch": {
       "title": "Semantično Iskanje",
-      "desc": "Semantično iskanje v Frigate vam omogoča iskanje sledenih objektov znotraj vaših pregledov, pri čemer lahko uporabite izvorno sliko, uporabniško določen besedilni opis ali samodejno ustvarjen opis.",
+      "desc": "Semantično iskanje v Rasid360 vam omogoča iskanje sledenih objektov znotraj vaših pregledov, pri čemer lahko uporabite izvorno sliko, uporabniško določen besedilni opis ali samodejno ustvarjen opis.",
       "readTheDocumentation": "Preberi Dokumentacijo",
       "reindexNow": {
         "label": "Ponovno Indeksiraj Zdaj",
@@ -144,7 +144,7 @@
     },
     "faceRecognition": {
       "title": "Prepoznavanje Obrazov",
-      "desc": "Prepoznavanje obrazov omogoča, da se ljudem dodelijo imena, in ko Frigate prepozna njihov obraz, se detekciji dodeli ime kot podoznako. Te informacije so vključene v uporabniški vmesnik, filtre in obvestila.",
+      "desc": "Prepoznavanje obrazov omogoča, da se ljudem dodelijo imena, in ko Rasid360 prepozna njihov obraz, se detekciji dodeli ime kot podoznako. Te informacije so vključene v uporabniški vmesnik, filtre in obvestila.",
       "readTheDocumentation": "Preberi Dokumentacijo",
       "modelSize": {
         "label": "Velikost Modela",
@@ -161,12 +161,12 @@
     },
     "licensePlateRecognition": {
       "title": "Prepoznavanje Registrskih Tablic",
-      "desc": "Frigate lahko prepozna registrske tablice na vozilih in samodejno doda zaznane znake v polje recognized_license_plate ali znano ime kot podoznako objektom tipa car. Pogost primer uporabe je lahko branje registrskih tablic avtomobilov, ki se ustavijo na dovozu, ali avtomobilov, ki se peljejo mimo po ulici.",
+      "desc": "Rasid360 lahko prepozna registrske tablice na vozilih in samodejno doda zaznane znake v polje recognized_license_plate ali znano ime kot podoznako objektom tipa car. Pogost primer uporabe je lahko branje registrskih tablic avtomobilov, ki se ustavijo na dovozu, ali avtomobilov, ki se peljejo mimo po ulici.",
       "readTheDocumentation": "Preberi Dokumentacijo"
     },
     "restart_required": "Potreben je ponovni zagon (Nastavitve Obogatitve so bile spremenjene)",
     "toast": {
-      "success": "Nastavitve Obogatitev so shranjene. Znova zaženite Frigate, da uveljavite spremembe.",
+      "success": "Nastavitve Obogatitev so shranjene. Znova zaženite Rasid360, da uveljavite spremembe.",
       "error": "Shranjevanje sprememb konfiguracije ni uspelo: {{errorMessage}}"
     }
   },
@@ -181,7 +181,7 @@
     },
     "review": {
       "title": "Pregled",
-      "desc": "Začasno omogoči/onemogoči opozorila in zaznavanja za to kamero, dokler se Frigate ne zažene znova. Ko je onemogočeno, ne bodo ustvarjeni novi elementi pregleda. ",
+      "desc": "Začasno omogoči/onemogoči opozorila in zaznavanja za to kamero, dokler se Rasid360 ne zažene znova. Ko je onemogočeno, ne bodo ustvarjeni novi elementi pregleda. ",
       "alerts": "Opozorila ",
       "detections": "Detekcije "
     },
@@ -211,7 +211,7 @@
   },
   "cameraWizard": {
     "title": "Dodaj kamero",
-    "description": "Sledi spodnjim korakom, da dodaš novo kamero v svojo namestitev Frigate.",
+    "description": "Sledi spodnjim korakom, da dodaš novo kamero v svojo namestitev Rasid360.",
     "steps": {
       "nameAndConnection": "Ime & Zbirka",
       "streamConfiguration": "Konfiguracija pretoka",

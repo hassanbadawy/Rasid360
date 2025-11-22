@@ -30,8 +30,8 @@
   "noRecordingsFoundForThisTime": "No s'han trobat enregistraments en aquesta hora",
   "noPreviewFound": "No s'ha trobat previsualització",
   "noPreviewFoundFor": "No s'ha trobat cap previsualització per a {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Enviar aquesta imatge a Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Enviar aquesta imatge a Rasid360+?",
     "submit": "Enviar"
   },
   "livePlayerRequiredIOSVersion": "Es requereix iOS 17.1 o superior per a aquest tipus de reproducció en directe.",
@@ -42,10 +42,10 @@
   "cameraDisabled": "La càmera està desactivada",
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Fotograma enviat correctament a Frigate+"
+      "submittedRasid360Plus": "Fotograma enviat correctament a Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Error al enviar fotograma a Frigate+"
+      "submitRasid360PlusFailed": "Error al enviar fotograma a Rasid360+"
     }
   }
 }

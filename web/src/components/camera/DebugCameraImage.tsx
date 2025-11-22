@@ -1,6 +1,6 @@
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
-import { CameraConfig } from "@/types/frigateConfig";
+import { CameraConfig } from "@/types/rasid360Config";
 import { Button } from "../ui/button";
 import { LuSettings } from "react-icons/lu";
 import { useCallback, useMemo, useState } from "react";

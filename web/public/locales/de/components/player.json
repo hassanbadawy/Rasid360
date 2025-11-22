@@ -1,8 +1,8 @@
 {
   "noRecordingsFoundForThisTime": "Keine Aufnahmen für diesen Zeitpunkt gefunden",
   "noPreviewFound": "Keine Vorschau gefunden",
-  "submitFrigatePlus": {
-    "title": "Dieses Bild an Frigate+ senden?",
+  "submitRasid360Plus": {
+    "title": "Dieses Bild an Rasid360+ senden?",
     "submit": "Senden"
   },
   "livePlayerRequiredIOSVersion": "iOS 17.1 oder höher ist für diesen Typ eines Live-Streams erforderlich.",
@@ -41,10 +41,10 @@
   },
   "toast": {
     "error": {
-      "submitFrigatePlusFailed": "Bild an Frigate+ senden gescheitert"
+      "submitRasid360PlusFailed": "Bild an Rasid360+ senden gescheitert"
     },
     "success": {
-      "submittedFrigatePlus": "Bild erfolgreich an Frigate+ gesendet"
+      "submittedRasid360Plus": "Bild erfolgreich an Rasid360+ gesendet"
     }
   },
   "noPreviewFoundFor": "Keine Vorschau für {{cameraName}} gefunden"

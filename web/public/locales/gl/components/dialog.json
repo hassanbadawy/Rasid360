@@ -1,23 +1,23 @@
 {
   "restart": {
-    "title": "Estás seguro/a que queres reiniciar Frigate?",
+    "title": "Estás seguro/a que queres reiniciar Rasid360?",
     "button": "Reiniciar",
     "restarting": {
       "button": "Forzar reinicio",
       "content": "Esta páxina recargarase en {{countdown}} segundos.",
-      "title": "Frigate está Reiniciando"
+      "title": "Rasid360 está Reiniciando"
     }
   },
   "explore": {
     "plus": {
       "review": {
         "question": {
-          "label": "Confirma esta etiqueta para Frigate Plus",
+          "label": "Confirma esta etiqueta para Rasid360 Plus",
           "ask_an": "E isto un obxecto <code>{{label}}</code>?"
         }
       },
       "submitToPlus": {
-        "label": "Enviar a Frigate+"
+        "label": "Enviar a Rasid360+"
       }
     }
   }

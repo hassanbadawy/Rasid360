@@ -1,5 +1,5 @@
 import { ENV } from "@/env";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { NavData } from "@/types/navigation";
 import { useMemo } from "react";
 import { isDesktop } from "react-device-detect";
@@ -23,7 +23,7 @@ export const ID_CLASSIFICATION = 8;
 export default function useNavigation(
   variant: "primary" | "secondary" = "primary",
 ) {
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
   const isAdmin = useIsAdmin();

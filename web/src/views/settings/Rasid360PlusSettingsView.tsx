@@ -7,7 +7,7 @@ import ActivityIndicator from "@/components/indicators/activity-indicator";
 import { toast } from "sonner";
 import useSWR from "swr";
 import axios from "axios";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
 import { IoIosWarning } from "react-icons/io";
@@ -25,7 +25,7 @@ import {
 import { useDocDomain } from "@/hooks/use-doc-domain";
 import { CameraNameLabel } from "@/components/camera/FriendlyNameLabel";
 
-type FrigatePlusModel = {
+type Rasid360PlusModel = {
   id: string;
   type: string;
   name: string;
@@ -37,36 +37,36 @@ type FrigatePlusModel = {
   height: number;
 };
 
-type FrigatePlusSettings = {
+type Rasid360PlusSettings = {
   model: {
     id?: string;
   };
 };
 
-type FrigateSettingsViewProps = {
+type Rasid360SettingsViewProps = {
   setUnsavedChanges: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function FrigatePlusSettingsView({
+export default function Rasid360PlusSettingsView({
   setUnsavedChanges,
-}: FrigateSettingsViewProps) {
+}: Rasid360SettingsViewProps) {
   const { t } = useTranslation("views/settings");
   const { getLocaleDocUrl } = useDocDomain();
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
   const [changedValue, setChangedValue] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { addMessage, removeMessage } = useContext(StatusBarMessagesContext)!;
 
-  const [frigatePlusSettings, setFrigatePlusSettings] =
-    useState<FrigatePlusSettings>({
+  const [rasid360PlusSettings, setRasid360PlusSettings] =
+    useState<Rasid360PlusSettings>({
       model: {
         id: undefined,
       },
     });
 
-  const [origPlusSettings, setOrigPlusSettings] = useState<FrigatePlusSettings>(
+  const [origPlusSettings, setOrigPlusSettings] = useState<Rasid360PlusSettings>(
     {
       model: {
         id: undefined,
@@ -75,13 +75,13 @@ export default function FrigatePlusSettingsView({
   );
 
   const { data: availableModels = {} } = useSWR<
-    Record<string, FrigatePlusModel>
+    Record<string, Rasid360PlusModel>
   >("/plus/models", {
     fallbackData: {},
     fetcher: async (url) => {
       const res = await axios.get(url, { withCredentials: true });
       return res.data.reduce(
-        (obj: Record<string, FrigatePlusModel>, model: FrigatePlusModel) => {
+        (obj: Record<string, Rasid360PlusModel>, model: Rasid360PlusModel) => {
           obj[model.id] = model;
           return obj;
         },
@@ -92,8 +92,8 @@ export default function FrigatePlusSettingsView({
 
   useEffect(() => {
     if (config) {
-      if (frigatePlusSettings?.model.id == undefined) {
-        setFrigatePlusSettings({
+      if (rasid360PlusSettings?.model.id == undefined) {
+        setRasid360PlusSettings({
           model: {
             id: config.model.plus?.id,
           },
@@ -110,10 +110,10 @@ export default function FrigatePlusSettingsView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config]);
 
-  const handleFrigatePlusConfigChange = (
-    newConfig: Partial<FrigatePlusSettings>,
+  const handleRasid360PlusConfigChange = (
+    newConfig: Partial<Rasid360PlusSettings>,
   ) => {
-    setFrigatePlusSettings((prevConfig) => ({
+    setRasid360PlusSettings((prevConfig) => ({
       model: {
         ...prevConfig.model,
         ...newConfig.model,
@@ -127,19 +127,19 @@ export default function FrigatePlusSettingsView({
     setIsLoading(true);
 
     axios
-      .put(`config/set?model.path=plus://${frigatePlusSettings.model.id}`, {
+      .put(`config/set?model.path=plus://${rasid360PlusSettings.model.id}`, {
         requires_restart: 0,
       })
       .then((res) => {
         if (res.status === 200) {
-          toast.success(t("frigatePlus.toast.success"), {
+          toast.success(t("rasid360Plus.toast.success"), {
             position: "top-center",
           });
           setChangedValue(false);
           updateConfig();
         } else {
           toast.error(
-            t("frigatePlus.toast.error", { errorMessage: res.statusText }),
+            t("rasid360Plus.toast.error", { errorMessage: res.statusText }),
             {
               position: "top-center",
             },
@@ -161,16 +161,16 @@ export default function FrigatePlusSettingsView({
       .finally(() => {
         addMessage(
           "plus_restart",
-          t("frigatePlus.restart_required"),
+          t("rasid360Plus.restart_required"),
           undefined,
           "plus_restart",
         );
         setIsLoading(false);
       });
-  }, [updateConfig, addMessage, frigatePlusSettings, t]);
+  }, [updateConfig, addMessage, rasid360PlusSettings, t]);
 
   const onCancel = useCallback(() => {
-    setFrigatePlusSettings(origPlusSettings);
+    setRasid360PlusSettings(origPlusSettings);
     setChangedValue(false);
     removeMessage("plus_settings", "plus_settings");
   }, [origPlusSettings, removeMessage]);
@@ -179,7 +179,7 @@ export default function FrigatePlusSettingsView({
     if (changedValue) {
       addMessage(
         "plus_settings",
-        t("frigatePlus.unsavedChanges"),
+        t("rasid360Plus.unsavedChanges"),
         undefined,
         "plus_settings",
       );
@@ -191,7 +191,7 @@ export default function FrigatePlusSettingsView({
   }, [changedValue]);
 
   useEffect(() => {
-    document.title = t("documentTitle.frigatePlus");
+    document.title = t("documentTitle.rasid360Plus");
   }, [t]);
 
   const needCleanSnapshots = () => {
@@ -213,13 +213,13 @@ export default function FrigatePlusSettingsView({
         <Toaster position="top-center" closeButton={true} />
         <div className="scrollbar-container order-last mb-10 mt-2 flex h-full w-full flex-col overflow-y-auto pb-2 md:order-none">
           <Heading as="h4" className="mb-2">
-            {t("frigatePlus.title")}
+            {t("rasid360Plus.title")}
           </Heading>
 
           <Separator className="my-2 flex bg-secondary" />
 
           <Heading as="h4" className="my-2">
-            {t("frigatePlus.apiKey.title")}
+            {t("rasid360Plus.apiKey.title")}
           </Heading>
 
           <div className="mt-2 space-y-6">
@@ -232,22 +232,22 @@ export default function FrigatePlusSettingsView({
                 )}
                 <Label>
                   {config?.plus?.enabled
-                    ? t("frigatePlus.apiKey.validated")
-                    : t("frigatePlus.apiKey.notValidated")}
+                    ? t("rasid360Plus.apiKey.validated")
+                    : t("rasid360Plus.apiKey.notValidated")}
                 </Label>
               </div>
               <div className="my-2 max-w-5xl text-sm text-muted-foreground">
-                <p>{t("frigatePlus.apiKey.desc")}</p>
+                <p>{t("rasid360Plus.apiKey.desc")}</p>
                 {!config?.model.plus && (
                   <>
                     <div className="mt-2 flex items-center text-primary-variant">
                       <Link
-                        to="https://frigate.video/plus"
+                        to="https://rasid360.video/plus"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline"
                       >
-                        {t("frigatePlus.apiKey.plusLink")}
+                        {t("rasid360Plus.apiKey.plusLink")}
                         <LuExternalLink className="ml-2 inline-flex size-3" />
                       </Link>
                     </div>
@@ -261,40 +261,40 @@ export default function FrigatePlusSettingsView({
                 <Separator className="my-2 flex bg-secondary" />
                 <div className="mt-2 max-w-2xl">
                   <Heading as="h4" className="my-2">
-                    {t("frigatePlus.modelInfo.title")}
+                    {t("rasid360Plus.modelInfo.title")}
                   </Heading>
                   <div className="mt-2 space-y-3">
                     {!config?.model?.plus && (
                       <p className="text-muted-foreground">
-                        {t("frigatePlus.modelInfo.loading")}
+                        {t("rasid360Plus.modelInfo.loading")}
                       </p>
                     )}
                     {config?.model?.plus === null && (
                       <p className="text-danger">
-                        {t("frigatePlus.modelInfo.error")}
+                        {t("rasid360Plus.modelInfo.error")}
                       </p>
                     )}
                     {config?.model?.plus && (
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label className="text-muted-foreground">
-                            {t("frigatePlus.modelInfo.baseModel")}
+                            {t("rasid360Plus.modelInfo.baseModel")}
                           </Label>
                           <p>
                             {config.model.plus.baseModel} (
                             {config.model.plus.isBaseModel
                               ? t(
-                                  "frigatePlus.modelInfo.plusModelType.baseModel",
+                                  "rasid360Plus.modelInfo.plusModelType.baseModel",
                                 )
                               : t(
-                                  "frigatePlus.modelInfo.plusModelType.userModel",
+                                  "rasid360Plus.modelInfo.plusModelType.userModel",
                                 )}
                             )
                           </p>
                         </div>
                         <div>
                           <Label className="text-muted-foreground">
-                            {t("frigatePlus.modelInfo.trainDate")}
+                            {t("rasid360Plus.modelInfo.trainDate")}
                           </Label>
                           <p>
                             {new Date(
@@ -304,7 +304,7 @@ export default function FrigatePlusSettingsView({
                         </div>
                         <div>
                           <Label className="text-muted-foreground">
-                            {t("frigatePlus.modelInfo.modelType")}
+                            {t("rasid360Plus.modelInfo.modelType")}
                           </Label>
                           <p>
                             {config.model.plus.name} (
@@ -316,7 +316,7 @@ export default function FrigatePlusSettingsView({
                         </div>
                         <div>
                           <Label className="text-muted-foreground">
-                            {t("frigatePlus.modelInfo.supportedDetectors")}
+                            {t("rasid360Plus.modelInfo.supportedDetectors")}
                           </Label>
                           <p>
                             {config.model.plus.supportedDetectors.join(", ")}
@@ -325,59 +325,59 @@ export default function FrigatePlusSettingsView({
                         <div className="col-span-2">
                           <div className="space-y-2">
                             <div className="text-md">
-                              {t("frigatePlus.modelInfo.availableModels")}
+                              {t("rasid360Plus.modelInfo.availableModels")}
                             </div>
                             <div className="space-y-3 text-sm text-muted-foreground">
                               <p>
                                 <Trans ns="views/settings">
-                                  frigatePlus.modelInfo.modelSelect
+                                  rasid360Plus.modelInfo.modelSelect
                                 </Trans>
                               </p>
                             </div>
                           </div>
                           <Select
-                            value={frigatePlusSettings.model.id}
+                            value={rasid360PlusSettings.model.id}
                             onValueChange={(value) =>
-                              handleFrigatePlusConfigChange({
+                              handleRasid360PlusConfigChange({
                                 model: { id: value as string },
                               })
                             }
                           >
-                            {frigatePlusSettings.model.id &&
-                            availableModels?.[frigatePlusSettings.model.id] ? (
+                            {rasid360PlusSettings.model.id &&
+                            availableModels?.[rasid360PlusSettings.model.id] ? (
                               <SelectTrigger>
                                 {new Date(
                                   availableModels[
-                                    frigatePlusSettings.model.id
+                                    rasid360PlusSettings.model.id
                                   ].trainDate,
                                 ).toLocaleString() +
                                   " " +
-                                  availableModels[frigatePlusSettings.model.id]
+                                  availableModels[rasid360PlusSettings.model.id]
                                     .baseModel +
                                   " (" +
-                                  (availableModels[frigatePlusSettings.model.id]
+                                  (availableModels[rasid360PlusSettings.model.id]
                                     .isBaseModel
                                     ? t(
-                                        "frigatePlus.modelInfo.plusModelType.baseModel",
+                                        "rasid360Plus.modelInfo.plusModelType.baseModel",
                                       )
                                     : t(
-                                        "frigatePlus.modelInfo.plusModelType.userModel",
+                                        "rasid360Plus.modelInfo.plusModelType.userModel",
                                       )) +
                                   ") " +
-                                  availableModels[frigatePlusSettings.model.id]
+                                  availableModels[rasid360PlusSettings.model.id]
                                     .name +
                                   " (" +
-                                  availableModels[frigatePlusSettings.model.id]
+                                  availableModels[rasid360PlusSettings.model.id]
                                     .width +
                                   "x" +
-                                  availableModels[frigatePlusSettings.model.id]
+                                  availableModels[rasid360PlusSettings.model.id]
                                     .height +
                                   ")"}
                               </SelectTrigger>
                             ) : (
                               <SelectTrigger>
                                 {t(
-                                  "frigatePlus.modelInfo.loadingAvailableModels",
+                                  "rasid360Plus.modelInfo.loadingAvailableModels",
                                 )}
                               </SelectTrigger>
                             )}
@@ -404,10 +404,10 @@ export default function FrigatePlusSettingsView({
                                         {model.baseModel} {" ("}
                                         {model.isBaseModel
                                           ? t(
-                                              "frigatePlus.modelInfo.plusModelType.baseModel",
+                                              "rasid360Plus.modelInfo.plusModelType.baseModel",
                                             )
                                           : t(
-                                              "frigatePlus.modelInfo.plusModelType.userModel",
+                                              "rasid360Plus.modelInfo.plusModelType.userModel",
                                             )}
                                         {")"}
                                       </div>
@@ -417,7 +417,7 @@ export default function FrigatePlusSettingsView({
                                       </div>
                                       <div>
                                         {t(
-                                          "frigatePlus.modelInfo.supportedDetectors",
+                                          "rasid360Plus.modelInfo.supportedDetectors",
                                         )}
                                         : {model.supportedDetectors.join(", ")}
                                       </div>
@@ -442,13 +442,13 @@ export default function FrigatePlusSettingsView({
 
             <div className="mt-2 max-w-5xl">
               <Heading as="h4" className="my-2">
-                {t("frigatePlus.snapshotConfig.title")}
+                {t("rasid360Plus.snapshotConfig.title")}
               </Heading>
               <div className="mt-2 space-y-3">
                 <div className="my-2 text-sm text-muted-foreground">
                   <p>
                     <Trans ns="views/settings">
-                      frigatePlus.snapshotConfig.desc
+                      rasid360Plus.snapshotConfig.desc
                     </Trans>
                   </p>
                   <div className="mt-2 flex items-center text-primary-variant">
@@ -469,14 +469,14 @@ export default function FrigatePlusSettingsView({
                       <thead>
                         <tr className="border-b border-secondary">
                           <th className="px-4 py-2 text-left">
-                            {t("frigatePlus.snapshotConfig.table.camera")}
+                            {t("rasid360Plus.snapshotConfig.table.camera")}
                           </th>
                           <th className="px-4 py-2 text-center">
-                            {t("frigatePlus.snapshotConfig.table.snapshots")}
+                            {t("rasid360Plus.snapshotConfig.table.snapshots")}
                           </th>
                           <th className="px-4 py-2 text-center">
                             <Trans ns="views/settings">
-                              frigatePlus.snapshotConfig.table.cleanCopySnapshots
+                              rasid360Plus.snapshotConfig.table.cleanCopySnapshots
                             </Trans>
                           </th>
                         </tr>
@@ -519,7 +519,7 @@ export default function FrigatePlusSettingsView({
                       <IoIosWarning className="mr-2 size-5 text-danger" />
                       <div className="max-w-[85%] text-sm">
                         <Trans ns="views/settings">
-                          frigatePlus.snapshotConfig.cleanCopyWarning
+                          rasid360Plus.snapshotConfig.cleanCopyWarning
                         </Trans>
                       </div>
                     </div>

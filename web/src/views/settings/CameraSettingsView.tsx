@@ -16,7 +16,7 @@ import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { Checkbox } from "@/components/ui/checkbox";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
 import { StatusBarMessagesContext } from "@/context/statusbar-provider";
@@ -62,7 +62,7 @@ export default function CameraSettingsView({
   const { getLocaleDocUrl } = useDocDomain();
 
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
 
   const cameraConfig = useMemo(() => {
     if (config && selectedCamera) {

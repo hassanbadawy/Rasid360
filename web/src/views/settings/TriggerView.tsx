@@ -33,7 +33,7 @@ import ActivityIndicator from "@/components/indicators/activity-indicator";
 import TriggerWizardDialog from "@/components/trigger/TriggerWizardDialog";
 import CreateTriggerDialog from "@/components/overlay/CreateTriggerDialog";
 import DeleteTriggerDialog from "@/components/overlay/DeleteTriggerDialog";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { Trigger, TriggerAction, TriggerType } from "@/types/trigger";
 import { useSearchEffect } from "@/hooks/use-overlay-state";
 import { cn } from "@/lib/utils";
@@ -86,7 +86,7 @@ export default function TriggerView({
 }: TriggerViewProps) {
   const { t } = useTranslation("views/settings");
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
   const { data: trigger_status, mutate } = useSWR(
     config?.cameras[selectedCamera]?.semantic_search?.triggers &&
       Object.keys(config.cameras[selectedCamera].semantic_search.triggers)

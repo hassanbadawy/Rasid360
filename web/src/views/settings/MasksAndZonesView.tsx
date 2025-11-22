@@ -1,4 +1,4 @@
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import useSWR from "swr";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -49,7 +49,7 @@ export default function MasksAndZonesView({
 }: MasksAndZoneViewProps) {
   const { t } = useTranslation(["views/settings"]);
   const { getLocaleDocUrl } = useDocDomain();
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const [allPolygons, setAllPolygons] = useState<Polygon[]>([]);
   const [editingPolygons, setEditingPolygons] = useState<Polygon[]>([]);
   const [isLoading, setIsLoading] = useState(false);

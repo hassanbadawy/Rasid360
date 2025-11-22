@@ -1,14 +1,14 @@
 {
   "documentTitle": {
-    "storage": "Statistici Stocare - Frigate",
-    "cameras": "Statistici Camere - Frigate",
-    "general": "Statistici Generale - Frigate",
+    "storage": "Statistici Stocare - Rasid360",
+    "cameras": "Statistici Camere - Rasid360",
+    "general": "Statistici Generale - Rasid360",
     "logs": {
-      "go2rtc": "Jurnal Go2RTC - Frigate",
-      "nginx": "Jurnal Nginx - Frigate",
-      "frigate": "Jurnal Frigate - Frigate"
+      "go2rtc": "Jurnal Go2RTC - Rasid360",
+      "nginx": "Jurnal Nginx - Rasid360",
+      "frigate": "Jurnal Rasid360 - Rasid360"
     },
-    "enrichments": "Statistici îmbogățiri - Frigate"
+    "enrichments": "Statistici îmbogățiri - Rasid360"
   },
   "general": {
     "hardwareInfo": {
@@ -63,7 +63,7 @@
     "recordings": {
       "title": "Înregistrări",
       "earliestRecording": "Prima înregistrare disponibilă:",
-      "tips": "Această valoare reprezintă spațiul total de stocare utilizat de înregistrările din baza de date a Frigate. Frigate nu urmărește utilizarea spațiului pentru toate fișierele de pe discul tău."
+      "tips": "Această valoare reprezintă spațiul total de stocare utilizat de înregistrările din baza de date a Rasid360. Rasid360 nu urmărește utilizarea spațiului pentru toate fișierele de pe discul tău."
     },
     "title": "Spațiu stocare",
     "cameraStorage": {
@@ -74,7 +74,7 @@
       "percentageOfTotalUsed": "Procent din total",
       "unused": {
         "title": "Nefolosit",
-        "tips": "Această valoare este posibil să nu reprezinte cu acuratețe spațiul liber disponibil pentru Frigate dacă ai și alte fișiere stocate pe disc, în afara înregistrărilor Frigate. Frigate nu monitorizează utilizarea spațiului pentru fișiere din afara propriilor sale înregistrări."
+        "tips": "Această valoare este posibil să nu reprezinte cu acuratețe spațiul liber disponibil pentru Rasid360 dacă ai și alte fișiere stocate pe disc, în afara înregistrărilor Rasid360. Rasid360 nu monitorizează utilizarea spațiului pentru fișiere din afara propriilor sale înregistrări."
       },
       "bandwidth": "Lățime de bandă"
     },

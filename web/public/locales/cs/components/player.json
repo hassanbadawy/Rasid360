@@ -2,8 +2,8 @@
   "noRecordingsFoundForThisTime": "V tomto období nebyly nalezeny žádné záznamy",
   "noPreviewFound": "Náhled nenalezen",
   "noPreviewFoundFor": "Náhled nenalezen pro {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Odeslat tento snímek do služby Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Odeslat tento snímek do služby Rasid360+?",
     "submit": "Odeslat"
   },
   "livePlayerRequiredIOSVersion": "Pro tento typ živého přenosu je vyžadován systém iOS 17.1 nebo novější.",
@@ -42,10 +42,10 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Snimek byl úspěšně odeslán službě Frigate+"
+      "submittedRasid360Plus": "Snimek byl úspěšně odeslán službě Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Nepodařilo se odeslat snímek službě Frigate+"
+      "submitRasid360PlusFailed": "Nepodařilo se odeslat snímek službě Rasid360+"
     }
   }
 }

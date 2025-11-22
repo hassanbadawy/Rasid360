@@ -1,6 +1,6 @@
 {
   "time": {
-    "untilForRestart": "Frigate が再起動するまで。",
+    "untilForRestart": "Rasid360 が再起動するまで。",
     "untilRestart": "再起動まで",
     "untilForTime": "{{time}} まで",
     "ago": "{{timeAgo}} 前",
@@ -157,9 +157,9 @@
     "help": "ヘルプ",
     "documentation": {
       "title": "ドキュメント",
-      "label": "Frigate ドキュメント"
+      "label": "Rasid360 ドキュメント"
     },
-    "restart": "Frigate を再起動",
+    "restart": "Rasid360 を再起動",
     "live": {
       "title": "ライブ",
       "allCameras": "全カメラ",
@@ -240,7 +240,7 @@
     "title": "役割",
     "admin": "管理者",
     "viewer": "閲覧者",
-    "desc": "管理者はFrigate UIのすべての機能に完全にアクセスできます。閲覧者はカメラ、レビュー項目、履歴映像の閲覧に制限されます。"
+    "desc": "管理者はRasid360 UIのすべての機能に完全にアクセスできます。閲覧者はカメラ、レビュー項目、履歴映像の閲覧に制限されます。"
   },
   "pagination": {
     "label": "ページ移動",
@@ -255,12 +255,12 @@
     "more": "さらにページ"
   },
   "accessDenied": {
-    "documentTitle": "アクセス拒否 - Frigate",
+    "documentTitle": "アクセス拒否 - Rasid360",
     "title": "アクセス拒否",
     "desc": "このページを表示する権限がありません。"
   },
   "notFound": {
-    "documentTitle": "ページが見つかりません - Frigate",
+    "documentTitle": "ページが見つかりません - Rasid360",
     "title": "404",
     "desc": "ページが見つかりません"
   },

@@ -5,7 +5,7 @@
       "label": "Camera name."
     },
     "friendly_name": {
-      "label": "Camera friendly name used in the Frigate UI."
+      "label": "Camera friendly name used in the Rasid360 UI."
     },
     "enabled": {
       "label": "Enable camera."
@@ -655,7 +655,7 @@
               "label": "Enable PTZ object autotracking."
             },
             "calibrate_on_startup": {
-              "label": "Perform a camera calibration when Frigate starts."
+              "label": "Perform a camera calibration when Rasid360 starts."
             },
             "zooming": {
               "label": "Autotracker zooming mode."
@@ -698,7 +698,7 @@
           "label": "Order of camera in UI."
         },
         "dashboard": {
-          "label": "Show this camera in Frigate dashboard UI."
+          "label": "Show this camera in Rasid360 dashboard UI."
         }
       }
     },

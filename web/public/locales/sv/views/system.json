@@ -1,14 +1,14 @@
 {
   "documentTitle": {
-    "storage": "Lagringsstatistik - Frigate",
-    "general": "Allmän statistik - Frigate",
-    "cameras": "Kamerastatistik - Frigate",
+    "storage": "Lagringsstatistik - Rasid360",
+    "general": "Allmän statistik - Rasid360",
+    "cameras": "Kamerastatistik - Rasid360",
     "logs": {
-      "frigate": "Frigate-loggar - Frigate",
-      "go2rtc": "Go2RTC loggar - Frigate",
-      "nginx": "Nginx loggar - Frigate"
+      "frigate": "Rasid360-loggar - Rasid360",
+      "go2rtc": "Go2RTC loggar - Rasid360",
+      "nginx": "Nginx loggar - Rasid360"
     },
-    "enrichments": "Förbättringsstatistik - Frigate"
+    "enrichments": "Förbättringsstatistik - Rasid360"
   },
   "logs": {
     "copy": {
@@ -91,7 +91,7 @@
       "bandwidth": "Bandbredd",
       "unused": {
         "title": "Oanvänt",
-        "tips": "Det här värdet kanske inte korrekt representerar det lediga utrymmet tillgängligt för Frigate om du har andra filer lagrade på din hårddisk utöver Frigates inspelningar. Frigate spårar inte lagringsanvändning utanför sina egna inspelningar."
+        "tips": "Det här värdet kanske inte korrekt representerar det lediga utrymmet tillgängligt för Rasid360 om du har andra filer lagrade på din hårddisk utöver Rasid360s inspelningar. Rasid360 spårar inte lagringsanvändning utanför sina egna inspelningar."
       },
       "title": "Kamera lagring",
       "camera": "Kamera",
@@ -101,7 +101,7 @@
     "overview": "Översikt",
     "recordings": {
       "title": "Inspelningar",
-      "tips": "Detta värde representerar den totala lagringsmängden som används av inspelningarna i Frigates databas. Frigate spårar inte lagringsanvändningen för alla filer på din disk.",
+      "tips": "Detta värde representerar den totala lagringsmängden som används av inspelningarna i Rasid360s databas. Rasid360 spårar inte lagringsanvändningen för alla filer på din disk.",
       "earliestRecording": "Tidigast tillgängliga inspelning:"
     },
     "shm": {

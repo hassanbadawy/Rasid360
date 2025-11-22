@@ -1,6 +1,6 @@
 import { ReviewSegment } from "./review";
 
-type FrigateObjectState = {
+type Rasid360ObjectState = {
   id: string;
   camera: string;
   frame_time: number;
@@ -29,16 +29,16 @@ type FrigateObjectState = {
   };
 };
 
-export interface FrigateReview {
+export interface Rasid360Review {
   type: "new" | "update" | "end" | "genai";
   before: ReviewSegment;
   after: ReviewSegment;
 }
 
-export interface FrigateEvent {
+export interface Rasid360Event {
   type: "new" | "update" | "end";
-  before: FrigateObjectState;
-  after: FrigateObjectState;
+  before: Rasid360ObjectState;
+  after: Rasid360ObjectState;
 }
 
 export type ObjectType = {
@@ -57,7 +57,7 @@ export type AudioDetection = {
   score: number;
 };
 
-export interface FrigateCameraState {
+export interface Rasid360CameraState {
   config: {
     enabled: boolean;
     detect: boolean;
@@ -77,7 +77,7 @@ export interface FrigateCameraState {
   objects: ObjectType[];
   audio_detections: AudioDetection[];
 }
-export interface FrigateAudioDetections {
+export interface Rasid360AudioDetections {
   [camera: string]: AudioDetection[];
 }
 

@@ -1,5 +1,5 @@
 {
-  "documentTitle": "瀏覽 - Frigate",
+  "documentTitle": "瀏覽 - Rasid360",
   "generativeAI": "生成式人工智能",
   "exploreIsUnavailable": {
     "title": "無法使用瀏覽功能",
@@ -19,8 +19,8 @@
         "context": "下載完成後，你可能需要重新索引追蹤物件的嵌入。",
         "documentation": "閱讀文件"
       },
-      "error": "發生錯誤。請檢查 Frigate 日誌。",
-      "context": "Frigate 正在下載必要的嵌入模型以支援語意搜尋功能。這可能需要幾分鐘，視乎你的網絡速度。",
+      "error": "發生錯誤。請檢查 Rasid360 日誌。",
+      "context": "Rasid360 正在下載必要的嵌入模型以支援語意搜尋功能。這可能需要幾分鐘，視乎你的網絡速度。",
       "setup": {
         "textTokenizer": "文字分詞器",
         "textModel": "文字模型",
@@ -71,7 +71,7 @@
         "documentation": "閱讀文件 ",
         "millisecondsToOffset": "偵測註解的偏移毫秒數。<em>預設：0</em>",
         "toast": {
-          "success": "{{camera}} 的註解偏移量已儲存到設定檔。請重新啟動 Frigate 以套用更改。"
+          "success": "{{camera}} 的註解偏移量已儲存到設定檔。請重新啟動 Rasid360 以套用更改。"
         }
       }
     },
@@ -95,7 +95,7 @@
       },
       "tips": {
         "mismatch_other": "偵測到 {{count}} 個不可用的物件並包含在此審查項目中。這些物件可能未符合警報或偵測標準，或已被清除/刪除。",
-        "hasMissingObjects": "如果你想讓 Frigate 保存下列標籤的追蹤物件，請調整設定：<em>{{objects}}</em>"
+        "hasMissingObjects": "如果你想讓 Rasid360 保存下列標籤的追蹤物件，請調整設定：<em>{{objects}}</em>"
       },
       "toast": {
         "success": {
@@ -134,7 +134,7 @@
     "description": {
       "label": "描述",
       "placeholder": "追蹤物件的描述",
-      "aiTips": "Frigate 會等到追蹤物件生命周期結束後，才向你的生成式 AI 提供者請求描述。"
+      "aiTips": "Rasid360 會等到追蹤物件生命周期結束後，才向你的生成式 AI 提供者請求描述。"
     },
     "editLPR": {
       "descNoLabel": "為此追蹤物件輸入新的車牌號碼",
@@ -177,8 +177,8 @@
       "aria": "尋找相似追蹤物件"
     },
     "submitToPlus": {
-      "label": "提交到 Frigate+",
-      "aria": "提交到 Frigate Plus"
+      "label": "提交到 Rasid360+",
+      "aria": "提交到 Rasid360 Plus"
     },
     "viewInHistory": {
       "label": "在歷史記錄中查看",

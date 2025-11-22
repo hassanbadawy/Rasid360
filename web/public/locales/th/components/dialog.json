@@ -49,10 +49,10 @@
   "restart": {
     "restarting": {
       "button": "โหลดหน้าใหม่ตอนนี้",
-      "title": "Frigate กำลังรีสตาร์ท",
+      "title": "Rasid360 กำลังรีสตาร์ท",
       "content": "หน้านี้จะถูกโหลดในอีก {{countdown}} วินาที."
     },
-    "title": "คุณแน่ใจหรือว่าต้องการรีสตาร์ท Frigate?",
+    "title": "คุณแน่ใจหรือว่าต้องการรีสตาร์ท Rasid360?",
     "button": "รีสตาร์ท"
   },
   "explore": {
@@ -60,7 +60,7 @@
       "review": {
         "question": {
           "ask_full": "วัตถุนี้คือ <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?",
-          "label": "ยืนยันหมวดหมู่นี้สําหรับ Frigate+",
+          "label": "ยืนยันหมวดหมู่นี้สําหรับ Rasid360+",
           "ask_a": "วัตถุนี้คือ <code>{{label}}</code>?",
           "ask_an": "วัตถุนี้คือ <code>{{label}}</code>?"
         },
@@ -69,7 +69,7 @@
         }
       },
       "submitToPlus": {
-        "label": "ส่งไปยัง Frigate+"
+        "label": "ส่งไปยัง Rasid360+"
       }
     },
     "video": {

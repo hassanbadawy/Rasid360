@@ -12,9 +12,9 @@
   },
   "features": {
     "hasVideoClip": "Har et videoklipp",
-    "submittedToFrigatePlus": {
-      "label": "Sendt til Frigate+",
-      "tips": "Du må først filtrere på sporede objekter som har et øyeblikksbilde.<br /><br />Sporede objekter uten et øyeblikksbilde kan ikke sendes til Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Sendt til Rasid360+",
+      "tips": "Du må først filtrere på sporede objekter som har et øyeblikksbilde.<br /><br />Sporede objekter uten et øyeblikksbilde kan ikke sendes til Rasid360+."
     },
     "label": "Funksjoner",
     "hasSnapshot": "Har et øyeblikksbilde"

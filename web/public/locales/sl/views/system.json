@@ -1,14 +1,14 @@
 {
   "documentTitle": {
-    "cameras": "Statistika kamer - Frigate",
-    "storage": "Statistika prostora - Frigate",
-    "general": "Statistika - Frigate",
+    "cameras": "Statistika kamer - Rasid360",
+    "storage": "Statistika prostora - Rasid360",
+    "general": "Statistika - Rasid360",
     "logs": {
-      "frigate": "Frigate dnevniki - Frigate",
-      "go2rtc": "Go2RTC dnevniki - Frigate",
-      "nginx": "Nginx dnevniki - Frigate"
+      "frigate": "Rasid360 dnevniki - Rasid360",
+      "go2rtc": "Go2RTC dnevniki - Rasid360",
+      "nginx": "Nginx dnevniki - Rasid360"
     },
-    "enrichments": "Statistika Obogatitev - Frigate"
+    "enrichments": "Statistika Obogatitev - Rasid360"
   },
   "logs": {
     "download": {
@@ -36,7 +36,7 @@
   "storage": {
     "recordings": {
       "title": "Posnetki",
-      "tips": "Ta vrednost predstavlja velikost podatkovne zbirke posnetkov Frigate. Frigate ne spremlja velikost drugih datotek na disku.",
+      "tips": "Ta vrednost predstavlja velikost podatkovne zbirke posnetkov Rasid360. Rasid360 ne spremlja velikost drugih datotek na disku.",
       "earliestRecording": "Najstarejši posnetki:"
     },
     "title": "Hramba",
@@ -50,7 +50,7 @@
       "bandwidth": "Pasovna širina",
       "unused": {
         "title": "Neporabljeno",
-        "tips": "Ta vrednost ne predstavlja dejanske proste kapacitete za Frigate posnetke, če na disku shranjujete še druge datoteke. Frigate ne spremlja velikost drugih datotek na disku."
+        "tips": "Ta vrednost ne predstavlja dejanske proste kapacitete za Rasid360 posnetke, če na disku shranjujete še druge datoteke. Rasid360 ne spremlja velikost drugih datotek na disku."
       }
     }
   },

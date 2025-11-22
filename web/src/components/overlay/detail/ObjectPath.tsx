@@ -9,7 +9,7 @@ import { TooltipPortal } from "@radix-ui/react-tooltip";
 import { getLifecycleItemDescription } from "@/utils/lifecycleUtil";
 import { useTranslation } from "react-i18next";
 import { resolveZoneName } from "@/hooks/use-zone-friendly-name";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import useSWR from "swr";
 
 type ObjectPathProps = {
@@ -45,7 +45,7 @@ export function ObjectPath({
   visible = true,
 }: ObjectPathProps) {
   const { t } = useTranslation(["views/explore"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const getAbsolutePositions = useCallback(() => {
     if (!imgRef.current || !positions) return [];
     const imgRect = imgRef.current.getBoundingClientRect();

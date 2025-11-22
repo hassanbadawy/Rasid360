@@ -1,7 +1,7 @@
 {
   "time": {
     "untilForTime": "Totdat {{time}}",
-    "untilForRestart": "Totdat Frigate herstart.",
+    "untilForRestart": "Totdat Rasid360 herstart.",
     "untilRestart": "Tot herstart",
     "12hours": "12 uur",
     "lastWeek": "Vorige week",
@@ -226,10 +226,10 @@
         "count_other": "{{count}} Camera's"
       }
     },
-    "restart": "Herstart Frigate",
+    "restart": "Herstart Rasid360",
     "documentation": {
       "title": "Documentatie",
-      "label": "Frigate documentatie"
+      "label": "Rasid360 documentatie"
     },
     "review": "Beoordelen",
     "explore": "Verkennen",
@@ -259,7 +259,7 @@
     "title": "Rol",
     "admin": "Beheerder",
     "viewer": "Gebruiker",
-    "desc": "Beheerders hebben volledige toegang tot alle functies in de Frigate-interface. Kijkers kunnen alleen camera’s bekijken, items beoordelen en historische beelden terugkijken."
+    "desc": "Beheerders hebben volledige toegang tot alle functies in de Rasid360-interface. Kijkers kunnen alleen camera’s bekijken, items beoordelen en historische beelden terugkijken."
   },
   "pagination": {
     "previous": {
@@ -274,14 +274,14 @@
     }
   },
   "accessDenied": {
-    "documentTitle": "Toegang geweigerd - Frigate",
+    "documentTitle": "Toegang geweigerd - Rasid360",
     "desc": "Je hebt geen toestemming om deze pagina te bekijken.",
     "title": "Toegang geweigerd"
   },
   "notFound": {
     "desc": "Pagina niet gevonden",
     "title": "404",
-    "documentTitle": "Niet gevonden - Frigate"
+    "documentTitle": "Niet gevonden - Rasid360"
   },
   "selectItem": "Selecteer {{item}}",
   "readTheDocumentation": "Lees de documentatie",
@@ -295,6 +295,6 @@
   },
   "field": {
     "optional": "Optioneel",
-    "internalID": "De interne ID die Frigate gebruikt in de configuratie en database"
+    "internalID": "De interne ID die Rasid360 gebruikt in de configuratie en database"
   }
 }

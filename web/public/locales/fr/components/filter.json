@@ -46,9 +46,9 @@
     "relevance": "Pertinence"
   },
   "features": {
-    "submittedToFrigatePlus": {
-      "tips": "Vous devez d'abord filtrer les objets suivis qui ont un instantané.<br /><br />Les objets suivis sans instantané ne peuvent pas être soumis à Frigate+.",
-      "label": "Soumis à Frigate+"
+    "submittedToRasid360Plus": {
+      "tips": "Vous devez d'abord filtrer les objets suivis qui ont un instantané.<br /><br />Les objets suivis sans instantané ne peuvent pas être soumis à Rasid360+.",
+      "label": "Soumis à Rasid360+"
     },
     "hasVideoClip": "Avec une séquence vidéo",
     "hasSnapshot": "Avec un instantané",

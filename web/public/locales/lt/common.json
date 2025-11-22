@@ -1,7 +1,7 @@
 {
   "time": {
     "untilForTime": "Iki {{time}}",
-    "untilForRestart": "Iki kol Frigate persikraus.",
+    "untilForRestart": "Iki kol Rasid360 persikraus.",
     "untilRestart": "Iki perkrovimo",
     "ago": "prieš {{timeAgo}}",
     "justNow": "Ką tik",
@@ -212,9 +212,9 @@
     "help": "Pagalba",
     "documentation": {
       "title": "Dokumentacija",
-      "label": "Frigate dokumentacija"
+      "label": "Rasid360 dokumentacija"
     },
-    "restart": "Perkrauti Frigate",
+    "restart": "Perkrauti Rasid360",
     "live": {
       "title": "Tiesiogiai",
       "allCameras": "Visos Kameros",
@@ -253,7 +253,7 @@
     "title": "Rolė",
     "admin": "Adminas",
     "viewer": "Žiūrėtojas",
-    "desc": "Adminai turi pilną prieigą prie visų Frigate vartotojo sąsajos fukncijų. Žiūrėtojai yra apriboti peržiūrėti kameras, peržiūrų įrašus ir istorinius įrašus."
+    "desc": "Adminai turi pilną prieigą prie visų Rasid360 vartotojo sąsajos fukncijų. Žiūrėtojai yra apriboti peržiūrėti kameras, peržiūrų įrašus ir istorinius įrašus."
   },
   "pagination": {
     "label": "puslapiavimas",
@@ -268,12 +268,12 @@
     "more": "Daugiau puslapių"
   },
   "accessDenied": {
-    "documentTitle": "Priegai Nesuteikta - Frigate",
+    "documentTitle": "Priegai Nesuteikta - Rasid360",
     "title": "Prieiga Nesuteikta",
     "desc": "Jūs neturite leidimo žiūrėti šį puslapį."
   },
   "notFound": {
-    "documentTitle": "Nerasta - Frigate",
+    "documentTitle": "Nerasta - Rasid360",
     "title": "404",
     "desc": "Puslapis nerastas"
   },

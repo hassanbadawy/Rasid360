@@ -128,7 +128,7 @@
       "title": "Úložiště kamery",
       "unused": {
         "title": "Nepoužité",
-        "tips": "Tato hodnota nemusí přesně reprezentovat volné místo dostupné pro Frigate, pokud máte na disku uloženy další soubory kromě nahrávek Frigate. Frigate nesleduje využití úložiště mimo své nahrávky."
+        "tips": "Tato hodnota nemusí přesně reprezentovat volné místo dostupné pro Rasid360, pokud máte na disku uloženy další soubory kromě nahrávek Rasid360. Rasid360 nesleduje využití úložiště mimo své nahrávky."
       },
       "bandwidth": "Šířka pásma",
       "unusedStorageInformation": "Informace o nepoužitém úložišti",
@@ -137,7 +137,7 @@
     "recordings": {
       "title": "Záznamy",
       "earliestRecording": "Nejstarší dostupná nahrávka:",
-      "tips": "Tato hodnota uvádí celkové využití disku záznamy uloženými v databázi Frigate. Frigate nesleduje využití disku ostatními soubory na vašem disku."
+      "tips": "Tato hodnota uvádí celkové využití disku záznamy uloženými v databázi Rasid360. Rasid360 nesleduje využití disku ostatními soubory na vašem disku."
     },
     "title": "Úložiště",
     "overview": "Přehled",
@@ -148,14 +148,14 @@
   },
   "lastRefreshed": "Poslední aktualizace: ",
   "documentTitle": {
-    "cameras": "Statistiky kamer – Frigate",
-    "storage": "Statistiky uložiště - Frigate",
-    "general": "Obecné statistiky - Frigate",
-    "enrichments": "Statistiky obohacení - Frigate",
+    "cameras": "Statistiky kamer – Rasid360",
+    "storage": "Statistiky uložiště - Rasid360",
+    "general": "Obecné statistiky - Rasid360",
+    "enrichments": "Statistiky obohacení - Rasid360",
     "logs": {
-      "frigate": "Protokoly Frigate - Frigate",
-      "go2rtc": "Protokoly Go2RTC - Frigate",
-      "nginx": "Protokoly Nginx - Frigate"
+      "frigate": "Protokoly Rasid360 - Rasid360",
+      "go2rtc": "Protokoly Go2RTC - Rasid360",
+      "nginx": "Protokoly Nginx - Rasid360"
     }
   },
   "title": "Systém",

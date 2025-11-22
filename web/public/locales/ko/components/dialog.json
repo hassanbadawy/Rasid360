@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Frigate을 정말로 다시 시작할까요?",
+    "title": "Rasid360을 정말로 다시 시작할까요?",
     "button": "재시작",
     "restarting": {
-      "title": "Frigate이 재시작 중입니다",
+      "title": "Rasid360이 재시작 중입니다",
       "content": "이 페이지는 {{countdown}} 뒤에 새로 고침 됩니다.",
       "button": "강제 재시작"
     }
@@ -11,11 +11,11 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Frigate+에 등록하기"
+        "label": "Rasid360+에 등록하기"
       },
       "review": {
         "question": {
-          "label": "Frigate +에 이 레이블 등록하기"
+          "label": "Rasid360 +에 이 레이블 등록하기"
         }
       }
     },

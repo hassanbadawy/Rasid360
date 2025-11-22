@@ -33,9 +33,9 @@
   "estimatedSpeed": "Velocidad estimada ({{unit}})",
   "features": {
     "label": "Características",
-    "submittedToFrigatePlus": {
-      "label": "Enviado a Frigate+",
-      "tips": "Primero debes filtrar por objetos rastreados que tengan una captura de pantalla.<br /><br />Los objetos rastreados sin una captura de pantalla no pueden enviarse a Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Enviado a Rasid360+",
+      "tips": "Primero debes filtrar por objetos rastreados que tengan una captura de pantalla.<br /><br />Los objetos rastreados sin una captura de pantalla no pueden enviarse a Rasid360+."
     },
     "hasSnapshot": "Tiene una captura instantánea",
     "hasVideoClip": "Tiene un clip de vídeo"

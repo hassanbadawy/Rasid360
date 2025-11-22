@@ -1,7 +1,7 @@
 {
   "time": {
     "untilForTime": "Până la {{time}}",
-    "untilForRestart": "Pana la repornirea Frigate.",
+    "untilForRestart": "Pana la repornirea Rasid360.",
     "untilRestart": "Pana la repornire",
     "ago": "{{timeAgo}} în urmă",
     "justNow": "Acum",
@@ -83,7 +83,7 @@
   "menu": {
     "documentation": {
       "title": "Documentație",
-      "label": "Documentație Frigate"
+      "label": "Documentație Rasid360"
     },
     "explore": "Căutare",
     "uiPlayground": "UI Playground",
@@ -178,7 +178,7 @@
       }
     },
     "withSystem": "Modul sistemului",
-    "restart": "Repornește Frigate",
+    "restart": "Repornește Rasid360",
     "review": "Revizuire"
   },
   "button": {
@@ -257,7 +257,7 @@
   },
   "role": {
     "viewer": "Vizualizator",
-    "desc": "Administratorii au acces complet la toate funcționalitățile din interfața Frigate. Vizualizatorii sunt limitați la vizualizarea camerelor, a elementelor de revizuire și a înregistrărilor istorice în interfață.",
+    "desc": "Administratorii au acces complet la toate funcționalitățile din interfața Rasid360. Vizualizatorii sunt limitați la vizualizarea camerelor, a elementelor de revizuire și a înregistrărilor istorice în interfață.",
     "admin": "Administrator",
     "title": "Rol"
   },
@@ -274,10 +274,10 @@
   "accessDenied": {
     "title": "Acces refuzat",
     "desc": "Nu ai permisiunea să vizualizezi această pagină.",
-    "documentTitle": "Acces refuzat - Frigate"
+    "documentTitle": "Acces refuzat - Rasid360"
   },
   "notFound": {
-    "documentTitle": "Nu a fost găsit - Frigate",
+    "documentTitle": "Nu a fost găsit - Rasid360",
     "title": "404",
     "desc": "Pagină negăsită"
   },
@@ -292,6 +292,6 @@
   },
   "field": {
     "optional": "Opțional",
-    "internalID": "ID-ul Intern pe care Frigate îl folosește în configurație și în baza de date"
+    "internalID": "ID-ul Intern pe care Rasid360 îl folosește în configurație și în baza de date"
   }
 }

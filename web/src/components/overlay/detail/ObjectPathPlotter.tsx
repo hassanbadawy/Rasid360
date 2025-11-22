@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { useApiHost } from "@/api";
 import type { SearchResult } from "@/types/search";
 import { ObjectPath } from "./ObjectPath";
-import type { FrigateConfig } from "@/types/frigateConfig";
+import type { Rasid360Config } from "@/types/rasid360Config";
 import {
   Select,
   SelectContent,
@@ -28,7 +28,7 @@ import {
 export default function ObjectPathPlotter() {
   const apiHost = useApiHost();
   const [timeRange, setTimeRange] = useState("1d");
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const imgRef = useRef<HTMLImageElement>(null);
   const timezone = useTimezone(config);
   const [selectedCamera, setSelectedCamera] = useState<string>("");

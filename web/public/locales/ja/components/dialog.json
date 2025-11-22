@@ -1,8 +1,8 @@
 {
   "restart": {
-    "title": "Frigate を再起動してもよろしいですか？",
+    "title": "Rasid360 を再起動してもよろしいですか？",
     "restarting": {
-      "title": "Frigate を再起動中",
+      "title": "Rasid360 を再起動中",
       "content": "このページは {{countdown}} 秒後に再読み込みされます。",
       "button": "今すぐ強制再読み込み"
     },
@@ -11,12 +11,12 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Frigate+ に送信",
+        "label": "Rasid360+ に送信",
         "desc": "回避したい場所でのオブジェクトは誤検出ではありません。誤検出として送信するとモデルが混乱します。"
       },
       "review": {
         "question": {
-          "label": "Frigate Plus 用ラベルの確認",
+          "label": "Rasid360 Plus 用ラベルの確認",
           "ask_a": "このオブジェクトは <code>{{label}}</code> ですか？",
           "ask_an": "このオブジェクトは <code>{{label}}</code> ですか？",
           "ask_full": "このオブジェクトは <code>{{untranslatedLabel}}</code>（{{translatedLabel}}）ですか？"

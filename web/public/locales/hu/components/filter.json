@@ -54,9 +54,9 @@
   "estimatedSpeed": "Becsült Sebesség {{unit}}",
   "features": {
     "hasSnapshot": "Van pillanatképe",
-    "submittedToFrigatePlus": {
-      "label": "Elküldve a Frigate+-hoz",
-      "tips": "Először szűrjön azokra a követett objektumokra, amelyek rendelkeznek pillanatképpel.<br /><br />A pillanatkép nélküli követett objektumokat nem lehet beküldeni a Frigate+ rendszerébe."
+    "submittedToRasid360Plus": {
+      "label": "Elküldve a Rasid360+-hoz",
+      "tips": "Először szűrjön azokra a követett objektumokra, amelyek rendelkeznek pillanatképpel.<br /><br />A pillanatkép nélküli követett objektumokat nem lehet beküldeni a Rasid360+ rendszerébe."
     },
     "label": "Funkciók",
     "hasVideoClip": "Van videója"

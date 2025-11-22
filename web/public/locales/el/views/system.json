@@ -1,13 +1,13 @@
 {
   "documentTitle": {
-    "cameras": "Στατιστικά Καμερών - Frigate",
-    "storage": "Στατιστικά αποθήκευσης - Frigate",
-    "general": "Γενικά στατιστικά - Frigate",
-    "enrichments": "Στατιστικά Εμπλουτισμού - Frigate",
+    "cameras": "Στατιστικά Καμερών - Rasid360",
+    "storage": "Στατιστικά αποθήκευσης - Rasid360",
+    "general": "Γενικά στατιστικά - Rasid360",
+    "enrichments": "Στατιστικά Εμπλουτισμού - Rasid360",
     "logs": {
-      "frigate": "Frigate αρχέιο καταγραφών - Frigate",
-      "go2rtc": "Αρχείο καταγραφής Go2RTC - Frigate",
-      "nginx": "Αρχείο καταγραφών Nginx - Frigate"
+      "frigate": "Rasid360 αρχέιο καταγραφών - Rasid360",
+      "go2rtc": "Αρχείο καταγραφής Go2RTC - Rasid360",
+      "nginx": "Αρχείο καταγραφών Nginx - Rasid360"
     }
   },
   "title": "Σύστημα",

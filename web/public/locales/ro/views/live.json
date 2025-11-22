@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Frigate - Live",
-  "documentTitle.withCamera": "{{camera}} - Frigate - Live",
+  "documentTitle": "Rasid360 - Live",
+  "documentTitle.withCamera": "{{camera}} - Rasid360 - Live",
   "lowBandwidthMode": "Mod Latime de Banda Limitata",
   "twoWayTalk": {
     "enable": "Activare dialog",
@@ -179,7 +179,7 @@
   },
   "noCameras": {
     "title": "Nicio Cameră Configurată",
-    "description": "Începe prin a conecta o cameră la Frigate.",
+    "description": "Începe prin a conecta o cameră la Rasid360.",
     "buttonText": "Adaugă cameră"
   }
 }

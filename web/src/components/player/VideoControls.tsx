@@ -20,7 +20,7 @@ import useKeyboardListener, {
   KeyModifiers,
 } from "@/hooks/use-keyboard-listener";
 import { VolumeSlider } from "../ui/slider";
-import FrigatePlusIcon from "../icons/FrigatePlusIcon";
+import Rasid360PlusIcon from "../icons/Rasid360PlusIcon";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -273,7 +273,7 @@ export default function VideoControls({
         </DropdownMenu>
       )}
       {features.plusUpload && onUploadFrame && (
-        <FrigatePlusUploadButton
+        <Rasid360PlusUploadButton
           video={video}
           onClose={() => {
             if (setControlsOpen) {
@@ -301,7 +301,7 @@ export default function VideoControls({
   );
 }
 
-type FrigatePlusUploadButtonProps = {
+type Rasid360PlusUploadButtonProps = {
   video?: HTMLVideoElement | null;
   onOpen: () => void;
   onClose: () => void;
@@ -309,14 +309,14 @@ type FrigatePlusUploadButtonProps = {
   containerRef?: React.MutableRefObject<HTMLDivElement | null>;
   fullscreen?: boolean;
 };
-function FrigatePlusUploadButton({
+function Rasid360PlusUploadButton({
   video,
   onOpen,
   onClose,
   onUploadFrame,
   containerRef,
   fullscreen,
-}: FrigatePlusUploadButtonProps) {
+}: Rasid360PlusUploadButtonProps) {
   const { t } = useTranslation(["components/player"]);
 
   const [videoImg, setVideoImg] = useState<string>();
@@ -330,7 +330,7 @@ function FrigatePlusUploadButton({
       }}
     >
       <AlertDialogTrigger asChild>
-        <FrigatePlusIcon
+        <Rasid360PlusIcon
           className="size-5 cursor-pointer"
           onClick={() => {
             onOpen();
@@ -360,12 +360,12 @@ function FrigatePlusUploadButton({
         className="md:max-w-2xl lg:max-w-3xl xl:max-w-4xl"
       >
         <AlertDialogHeader>
-          <AlertDialogTitle>{t("submitFrigatePlus.title")}</AlertDialogTitle>
+          <AlertDialogTitle>{t("submitRasid360Plus.title")}</AlertDialogTitle>
         </AlertDialogHeader>
         <img className="aspect-video w-full object-contain" src={videoImg} />
         <AlertDialogFooter>
           <AlertDialogAction className="bg-selected" onClick={onUploadFrame}>
-            {t("submitFrigatePlus.submit")}
+            {t("submitRasid360Plus.submit")}
           </AlertDialogAction>
           <AlertDialogCancel>
             {t("button.cancel", { ns: "common" })}

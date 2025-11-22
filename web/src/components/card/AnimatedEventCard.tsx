@@ -2,7 +2,7 @@ import TimeAgo from "../dynamic/TimeAgo";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { REVIEW_PADDING, ReviewSegment } from "@/types/review";
 import { useNavigate } from "react-router-dom";
 import { RecordingStartingPoint } from "@/types/record";
@@ -31,7 +31,7 @@ export function AnimatedEventCard({
   updateEvents,
 }: AnimatedEventCardProps) {
   const { t } = useTranslation(["views/events"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const apiHost = useApiHost();
 
   const currentHour = useMemo(() => isCurrentHour(event.start_time), [event]);
@@ -177,7 +177,7 @@ export function AnimatedEventCard({
                     "h-full w-auto min-w-10 select-none object-contain",
                     isSafari && !isLoaded ? "hidden" : "visible",
                   )}
-                  src={`${apiHost}${event.thumb_path.replace("/media/frigate/", "")}`}
+                  src={`${apiHost}${event.thumb_path.replace("/media/rasid360/", "")}`}
                   loading={isSafari ? "eager" : "lazy"}
                   onLoad={() => setIsLoaded(true)}
                 />

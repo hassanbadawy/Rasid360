@@ -8,7 +8,7 @@ import ActivityIndicator from "@/components/indicators/activity-indicator";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useTimelineUtils } from "@/hooks/use-timeline-utils";
 import { useScrollLockout } from "@/hooks/use-mouse-listener";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { Preview } from "@/types/preview";
 import {
   MotionData,
@@ -96,7 +96,7 @@ export default function EventView({
   updateFilter,
 }: EventViewProps) {
   const { t } = useTranslation(["views/events"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   // review counts
@@ -887,7 +887,7 @@ function MotionReview({
 }: MotionReviewProps) {
   const { t } = useTranslation(["views/events"]);
   const segmentDuration = 30;
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const reviewCameras = useMemo(() => {
     if (!config) {

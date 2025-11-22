@@ -11,7 +11,7 @@
           "label": "Header name from upstream proxy to identify user role."
         },
         "role_map": {
-          "label": "Mapping of Frigate roles to upstream group values. "
+          "label": "Mapping of Rasid360 roles to upstream group values. "
         }
       }
     },

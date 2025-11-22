@@ -1,7 +1,7 @@
 {
   "time": {
     "untilForTime": "直到 {{time}}",
-    "untilForRestart": "直到 Frigate 重启。",
+    "untilForRestart": "直到 Rasid360 重启。",
     "untilRestart": "直到重启",
     "ago": "{{timeAgo}} 前",
     "justNow": "刚才",
@@ -225,7 +225,7 @@
     "help": "帮助",
     "documentation": {
       "title": "文档",
-      "label": "Frigate 的官方文档"
+      "label": "Rasid360 的官方文档"
     },
     "live": {
       "title": "实时监控",
@@ -248,7 +248,7 @@
       "setPassword": "设置密码",
       "title": "用户"
     },
-    "restart": "重启 Frigate"
+    "restart": "重启 Rasid360"
   },
   "toast": {
     "copyUrlToClipboard": "已复制链接到剪贴板。",
@@ -264,15 +264,15 @@
     "title": "权限组",
     "admin": "管理员",
     "viewer": "成员",
-    "desc": "管理员可以完全访问Frigate界面上所有功能。成员则仅能查看摄像头、核查项和历史录像。"
+    "desc": "管理员可以完全访问Rasid360界面上所有功能。成员则仅能查看摄像头、核查项和历史录像。"
   },
   "accessDenied": {
-    "documentTitle": "没有权限 - Frigate",
+    "documentTitle": "没有权限 - Rasid360",
     "title": "没有权限",
     "desc": "您没有权限查看此页面。"
   },
   "notFound": {
-    "documentTitle": "没有找到页面 - Frigate",
+    "documentTitle": "没有找到页面 - Rasid360",
     "title": "404",
     "desc": "页面未找到"
   },
@@ -288,6 +288,6 @@
   },
   "field": {
     "optional": "可选",
-    "internalID": "Frigate 在配置与数据库中使用的内部 ID"
+    "internalID": "Rasid360 在配置与数据库中使用的内部 ID"
   }
 }

@@ -2,8 +2,8 @@
   "noRecordingsFoundForThisTime": "Nenhuma gravação encontrada para este horário",
   "noPreviewFound": "Nenhuma pré-visualização encontrada",
   "noPreviewFoundFor": "Nenhuma Pré-Visualização Encontrada em {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Enviar esse frame para Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Enviar esse frame para Rasid360+?",
     "submit": "Enviar"
   },
   "livePlayerRequiredIOSVersion": "iOS 17.1 ou superior é necessário para esse tipo de transmissão ao vivo.",
@@ -42,10 +42,10 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Quadro enviado ao Frigate+ com sucesso"
+      "submittedRasid360Plus": "Quadro enviado ao Rasid360+ com sucesso"
     },
     "error": {
-      "submitFrigatePlusFailed": "Falha em submeter quadro ao Frigate+"
+      "submitRasid360PlusFailed": "Falha em submeter quadro ao Rasid360+"
     }
   }
 }

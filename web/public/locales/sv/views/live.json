@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Live - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Live - Frigate",
+  "documentTitle": "Live - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Live - Rasid360",
   "twoWayTalk": {
     "enable": "Aktivera tvåvägssamtal",
     "disable": "Avaktivera tvåvägssamtal"
@@ -173,7 +173,7 @@
   },
   "noCameras": {
     "title": "Inga kameror konfigurerade",
-    "description": "Börja med att ansluta en kamera till Frigate.",
+    "description": "Börja med att ansluta en kamera till Rasid360.",
     "buttonText": "Lägg till kamera"
   },
   "snapshot": {

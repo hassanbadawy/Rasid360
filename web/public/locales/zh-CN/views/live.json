@@ -1,6 +1,6 @@
 {
-  "documentTitle": "实时监控 - Frigate",
-  "documentTitle.withCamera": "{{camera}} - 实时监控 - Frigate",
+  "documentTitle": "实时监控 - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - 实时监控 - Rasid360",
   "lowBandwidthMode": "低带宽模式",
   "twoWayTalk": {
     "enable": "开启实时对话",
@@ -173,7 +173,7 @@
   },
   "noCameras": {
     "title": "未设置摄像头",
-    "description": "准备开始连接摄像头至 Frigate 。",
+    "description": "准备开始连接摄像头至 Rasid360 。",
     "buttonText": "添加摄像头"
   },
   "snapshot": {

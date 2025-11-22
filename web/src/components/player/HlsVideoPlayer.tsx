@@ -11,7 +11,7 @@ import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import VideoControls from "./VideoControls";
 import { VideoResolutionType } from "@/types/live";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { AxiosResponse } from "axios";
 import { toast } from "sonner";
 import { useOverlayState } from "@/hooks/use-overlay-state";
@@ -42,7 +42,7 @@ type HlsVideoPlayerProps = {
   hotKeys: boolean;
   supportsFullscreen: boolean;
   fullscreen: boolean;
-  frigateControls?: boolean;
+  rasid360Controls?: boolean;
   inpointOffset?: number;
   onClipEnded?: (currentTime: number) => void;
   onPlayerLoaded?: () => void;
@@ -66,7 +66,7 @@ export default function HlsVideoPlayer({
   hotKeys,
   supportsFullscreen,
   fullscreen,
-  frigateControls = true,
+  rasid360Controls = true,
   inpointOffset = 0,
   onClipEnded,
   onPlayerLoaded,
@@ -82,7 +82,7 @@ export default function HlsVideoPlayer({
   currentTimeOverride,
 }: HlsVideoPlayerProps) {
   const { t } = useTranslation("components/player");
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   // for detail stream context in History
   const currentTime = currentTimeOverride;
@@ -238,9 +238,9 @@ export default function HlsVideoPlayer({
       minScale={1.0}
       wheel={{ smoothStep: 0.005 }}
       onZoom={(zoom) => setZoomScale(zoom.state.scale)}
-      disabled={!frigateControls}
+      disabled={!rasid360Controls}
     >
-      {frigateControls && (
+      {rasid360Controls && (
         <VideoControls
           className={cn(
             "absolute left-1/2 z-50 -translate-x-1/2",
@@ -286,11 +286,11 @@ export default function HlsVideoPlayer({
               const resp = await onUploadFrame(frameTime);
 
               if (resp && resp.status == 200) {
-                toast.success(t("toast.success.submittedFrigatePlus"), {
+                toast.success(t("toast.success.submittedRasid360Plus"), {
                   position: "top-center",
                 });
               } else {
-                toast.success(t("toast.error.submitFrigatePlusFailed"), {
+                toast.success(t("toast.error.submitRasid360PlusFailed"), {
                   position: "top-center",
                 });
               }
@@ -342,7 +342,7 @@ export default function HlsVideoPlayer({
           className={`size-full rounded-lg bg-black md:rounded-2xl ${loadedMetadata ? "" : "invisible"} cursor-pointer`}
           preload="auto"
           autoPlay
-          controls={!frigateControls}
+          controls={!rasid360Controls}
           playsInline
           muted={muted}
           onClick={
@@ -354,7 +354,7 @@ export default function HlsVideoPlayer({
           }
           onVolumeChange={() => {
             setVolume(videoRef.current?.volume ?? 1.0, true);
-            if (!frigateControls) {
+            if (!rasid360Controls) {
               setMuted(videoRef.current?.muted);
             }
           }}

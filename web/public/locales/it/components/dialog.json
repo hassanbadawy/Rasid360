@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Sei sicuro di voler riavviare Frigate?",
+    "title": "Sei sicuro di voler riavviare Rasid360?",
     "button": "Riavvia",
     "restarting": {
-      "title": "Frigate si sta riavviando",
+      "title": "Rasid360 si sta riavviando",
       "content": "Questa pagina si ricaricherà in {{countdown}} secondi.",
       "button": "Forza ricarica ora"
     }
@@ -11,18 +11,18 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Invia a Frigate+",
+        "label": "Invia a Rasid360+",
         "desc": "Gli oggetti in posizioni che si desidera evitare non sono falsi positivi. Inviarli come falsi positivi confonderà il modello."
       },
       "review": {
         "false": {
-          "label": "Non confermare questa etichetta per Frigate Plus",
+          "label": "Non confermare questa etichetta per Rasid360 Plus",
           "false_one": "Questo non è un {{label}}",
           "false_many": "Questi non sono un {{label}}",
           "false_other": "Questi non sono un {{label}}"
         },
         "true": {
-          "label": "Conferma questa etichetta per Frigate Plus",
+          "label": "Conferma questa etichetta per Rasid360 Plus",
           "true_one": "Questo è un {{label}}",
           "true_many": "Questi sono {{label}}",
           "true_other": "Questi sono {{label}}"
@@ -31,7 +31,7 @@
           "submitted": "Inviato"
         },
         "question": {
-          "label": "Conferma questa etichetta per Frigate Plus",
+          "label": "Conferma questa etichetta per Rasid360 Plus",
           "ask_a": "Questo oggetto è un <code>{{label}}</code>?",
           "ask_an": "Questo oggetto è un <code>{{label}}</code>?",
           "ask_full": "Questo oggetto è un <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"

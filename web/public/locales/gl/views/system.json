@@ -1,11 +1,11 @@
 {
   "documentTitle": {
-    "cameras": "Estatísticas de cámaras - Frigate",
-    "storage": "Estatísticas de Almacenamento - Frigate",
-    "general": "Estatísticas Xerais - Frigate",
-    "enrichments": "Estatísticas complementarias - Frigate",
+    "cameras": "Estatísticas de cámaras - Rasid360",
+    "storage": "Estatísticas de Almacenamento - Rasid360",
+    "general": "Estatísticas Xerais - Rasid360",
+    "enrichments": "Estatísticas complementarias - Rasid360",
     "logs": {
-      "frigate": "Rexistros de Frigate - Frigate"
+      "frigate": "Rexistros de Rasid360 - Rasid360"
     }
   },
   "title": "Sistema",

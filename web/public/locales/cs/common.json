@@ -133,7 +133,7 @@
   "selectItem": "Vybrat {{item}}",
   "menu": {
     "documentation": {
-      "label": "Dokumentace Frigate",
+      "label": "Dokumentace Rasid360",
       "title": "Dokumentace"
     },
     "live": {
@@ -205,7 +205,7 @@
       "red": "Červená"
     },
     "help": "Nápověda",
-    "restart": "Restartovat Frigate",
+    "restart": "Restartovat Rasid360",
     "user": {
       "logout": "Odhlásit",
       "setPassword": "Nastavit heslo",
@@ -245,13 +245,13 @@
     "more": "Více stran"
   },
   "accessDenied": {
-    "documentTitle": "Přístup odepřen - Frigate",
+    "documentTitle": "Přístup odepřen - Rasid360",
     "title": "Přístup odepřen",
     "desc": "Nemáte oprávnění zobrazit tuto stránku."
   },
   "notFound": {
     "desc": "Stránka nenalezena",
-    "documentTitle": "Nenalezeno - Frigate",
+    "documentTitle": "Nenalezeno - Rasid360",
     "title": "404"
   },
   "toast": {
@@ -268,7 +268,7 @@
     "title": "Role",
     "admin": "Správce",
     "viewer": "Divák",
-    "desc": "Správci mají plný přístup ke všem funkcím v uživatelském rozhraní Frigate. Diváci jsou omezeni na sledování kamer, položek přehledu a historických záznamů v UI."
+    "desc": "Správci mají plný přístup ke všem funkcím v uživatelském rozhraní Rasid360. Diváci jsou omezeni na sledování kamer, položek přehledu a historických záznamů v UI."
   },
   "readTheDocumentation": "Přečtěte si dokumentaci"
 }

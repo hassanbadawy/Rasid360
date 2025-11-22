@@ -3,7 +3,7 @@
     "title": "Rol",
     "viewer": "Visualitzador",
     "admin": "Administrador",
-    "desc": "Els administradors tenen accés complet a totes les característiques de la interfície d'usuari de Frigate. Els visualitzadors es limiten a visualitzar càmeres, articles de revisió i imatges històriques a la interfície d'usuari."
+    "desc": "Els administradors tenen accés complet a totes les característiques de la interfície d'usuari de Rasid360. Els visualitzadors es limiten a visualitzar càmeres, articles de revisió i imatges històriques a la interfície d'usuari."
   },
   "menu": {
     "language": {
@@ -79,9 +79,9 @@
     "help": "Ajuda",
     "documentation": {
       "title": "Documentació",
-      "label": "Documentació de Frigate"
+      "label": "Documentació de Rasid360"
     },
-    "restart": "Reinicia Frigate",
+    "restart": "Reinicia Rasid360",
     "live": {
       "title": "Directe",
       "allCameras": "Totes les càmeres",
@@ -120,7 +120,7 @@
   },
   "time": {
     "untilForTime": "Fins les {{time}}",
-    "untilForRestart": "Fins que Frigate es reiniciï.",
+    "untilForRestart": "Fins que Rasid360 es reiniciï.",
     "untilRestart": "Fins que es reiniciï",
     "ago": "Fa {{timeAgo}}",
     "justNow": "Ara mateix",
@@ -272,11 +272,11 @@
   },
   "accessDenied": {
     "desc": "No teniu permís per veure aquesta pàgina.",
-    "documentTitle": "Accés Denegat - Frigate",
+    "documentTitle": "Accés Denegat - Rasid360",
     "title": "Accés Denegat"
   },
   "notFound": {
-    "documentTitle": "No s'ha trobat - Frigate",
+    "documentTitle": "No s'ha trobat - Rasid360",
     "title": "404",
     "desc": "Pàgina no trobada"
   },
@@ -292,6 +292,6 @@
   },
   "field": {
     "optional": "Opcional",
-    "internalID": "L'ID intern que Frigate s'utilitza a la configuració i a la base de dades"
+    "internalID": "L'ID intern que Rasid360 s'utilitza a la configuració i a la base de dades"
   }
 }

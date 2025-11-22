@@ -28,9 +28,9 @@
     "label": "Ripristina i filtri ai valori predefiniti"
   },
   "features": {
-    "submittedToFrigatePlus": {
-      "label": "Inviato a Frigate+",
-      "tips": "Devi prima filtrare gli oggetti tracciati che hanno un'istantanea.<br /><br />Gli oggetti tracciati senza istantanee non possono essere inviati a Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Inviato a Rasid360+",
+      "tips": "Devi prima filtrare gli oggetti tracciati che hanno un'istantanea.<br /><br />Gli oggetti tracciati senza istantanee non possono essere inviati a Rasid360+."
     },
     "hasSnapshot": "Contiene una istantanea",
     "hasVideoClip": "Contiene un filmato video",

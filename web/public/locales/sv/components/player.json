@@ -2,8 +2,8 @@
   "noPreviewFound": "Ingen Förhandsvisning Hittad",
   "noRecordingsFoundForThisTime": "Inga inspelningar hittade för denna tid",
   "noPreviewFoundFor": "Ingen förhandsvisning hittad för {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Skicka denna bild till Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Skicka denna bild till Rasid360+?",
     "submit": "Skicka"
   },
   "livePlayerRequiredIOSVersion": "iOS 17.1 eller senare krävs för den här typen av livestream.",
@@ -42,10 +42,10 @@
   "cameraDisabled": "Kameran är inaktiverad",
   "toast": {
     "error": {
-      "submitFrigatePlusFailed": "Bildruta har skickats till Frigate+ med misslyckat resultat"
+      "submitRasid360PlusFailed": "Bildruta har skickats till Rasid360+ med misslyckat resultat"
     },
     "success": {
-      "submittedFrigatePlus": "Bildruta har skickats till Frigate+ med lyckat resultat"
+      "submittedRasid360Plus": "Bildruta har skickats till Rasid360+ med lyckat resultat"
     }
   }
 }

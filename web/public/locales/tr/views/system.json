@@ -1,14 +1,14 @@
 {
   "documentTitle": {
     "logs": {
-      "frigate": "Frigate Günlükleri - Frigate",
-      "go2rtc": "Go2RTC Günlükleri - Frigate",
-      "nginx": "Nginx Günlükleri - Frigate"
+      "frigate": "Rasid360 Günlükleri - Rasid360",
+      "go2rtc": "Go2RTC Günlükleri - Rasid360",
+      "nginx": "Nginx Günlükleri - Rasid360"
     },
-    "general": "Genel İstatistikler - Frigate",
-    "storage": "Depolama İstatistikleri - Frigate",
-    "cameras": "Kamera İstatistikleri - Frigate",
-    "enrichments": "Zenginleştirme İstatistikleri - Frigate"
+    "general": "Genel İstatistikler - Rasid360",
+    "storage": "Depolama İstatistikleri - Rasid360",
+    "cameras": "Kamera İstatistikleri - Rasid360",
+    "enrichments": "Zenginleştirme İstatistikleri - Rasid360"
   },
   "metrics": "Sistem metrikleri",
   "general": {
@@ -66,13 +66,13 @@
     "recordings": {
       "title": "Kayıtlar",
       "earliestRecording": "Mevcut en erken kayıt:",
-      "tips": "Burada gösterilen değer, Frigate’in veritabanına göre kayıtların diskinizde kullandığı toplam alanı ifade eder. Frigate, diskinizdeki tüm dosyaların alan kullanımını takip etmez."
+      "tips": "Burada gösterilen değer, Rasid360’in veritabanına göre kayıtların diskinizde kullandığı toplam alanı ifade eder. Rasid360, diskinizdeki tüm dosyaların alan kullanımını takip etmez."
     },
     "cameraStorage": {
       "title": "Kamera Depolaması",
       "camera": "Kamera",
       "unused": {
-        "tips": "Eğer diskinizde Frigate'in kayıtları dışında dosyalar varsa bu değer diskinizdeki boş alanı doğru olarak göstermeyebilir. Frigate kendi kayıtları dışındaki dosyaların disk kullanımını takip etmez.",
+        "tips": "Eğer diskinizde Rasid360'in kayıtları dışında dosyalar varsa bu değer diskinizdeki boş alanı doğru olarak göstermeyebilir. Rasid360 kendi kayıtları dışındaki dosyaların disk kullanımını takip etmez.",
         "title": "Kullanılmayan"
       },
       "percentageOfTotalUsed": "Toplam Yüzde",

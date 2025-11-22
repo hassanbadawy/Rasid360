@@ -38,9 +38,9 @@
     "hasSnapshot": "Tem um snapshot",
     "label": "Características",
     "hasVideoClip": "Possui videoclipe",
-    "submittedToFrigatePlus": {
-      "label": "Enviado ao Frigate+",
-      "tips": "Você deve filtrar primeiro objetos que possuem capturas de imagem.<br /><br />Objetos rastreados sem capturas de imagem não serão enviados ao Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Enviado ao Rasid360+",
+      "tips": "Você deve filtrar primeiro objetos que possuem capturas de imagem.<br /><br />Objetos rastreados sem capturas de imagem não serão enviados ao Rasid360+."
     }
   },
   "sort": {

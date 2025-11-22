@@ -1,6 +1,6 @@
 import { useTheme } from "@/context/theme-provider";
 import { useDateLocale } from "@/hooks/use-date-locale";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { formatUnixTimestampToDateTime } from "@/utils/dateUtil";
 import { useCallback, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
@@ -26,7 +26,7 @@ export function CameraLineGraph({
   data,
 }: CameraLineGraphProps) {
   const { t } = useTranslation(["views/system", "common"]);
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
 
@@ -174,7 +174,7 @@ export function EventsPerSecondsLineGraph({
   updateTimes,
   data,
 }: EventsPerSecondLineGraphProps) {
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
 

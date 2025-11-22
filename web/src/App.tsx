@@ -13,7 +13,7 @@ import { isPWA } from "./utils/isPWA";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { AuthProvider } from "@/context/auth-context";
 import useSWR from "swr";
-import { FrigateConfig } from "./types/frigateConfig";
+import { Rasid360Config } from "./types/rasid360Config";
 
 const Live = lazy(() => import("@/pages/Live"));
 const Events = lazy(() => import("@/pages/Events"));
@@ -30,7 +30,7 @@ const Logs = lazy(() => import("@/pages/Logs"));
 const AccessDenied = lazy(() => import("@/pages/AccessDenied"));
 
 function App() {
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
 
@@ -48,7 +48,7 @@ function App() {
 }
 
 function DefaultAppView() {
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
   return (

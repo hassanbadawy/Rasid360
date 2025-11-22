@@ -1,7 +1,7 @@
 {
   "time": {
     "justNow": "כעת",
-    "untilForRestart": "עד לאתחול של Frigate.",
+    "untilForRestart": "עד לאתחול של Rasid360.",
     "untilRestart": "עד לאתחול",
     "ago": "לפני {{timeAgo}}",
     "today": "היום",
@@ -206,7 +206,7 @@
     "help": "עזרה",
     "documentation": {
       "title": "תיעוד",
-      "label": "תיעוד Frigate"
+      "label": "תיעוד Rasid360"
     },
     "restart": "הפעלה מחדש",
     "live": {
@@ -245,7 +245,7 @@
     "title": "הרשאה",
     "admin": "מנהל",
     "viewer": "צופה",
-    "desc": "למנהלי מערכת יש גישה מלאה לכל התכונות בממשק המשתמש של Frigate. הצופים מוגבלים לצפייה במצלמות, סקירת פריטים וצילומים היסטוריים בממשק המשתמש."
+    "desc": "למנהלי מערכת יש גישה מלאה לכל התכונות בממשק המשתמש של Rasid360. הצופים מוגבלים לצפייה במצלמות, סקירת פריטים וצילומים היסטוריים בממשק המשתמש."
   },
   "pagination": {
     "next": {
@@ -262,10 +262,10 @@
   "accessDenied": {
     "title": "הגישה נדחתה",
     "desc": "אין לך הרשאה לצפות בדף הזה.",
-    "documentTitle": "גישה נדחתה - Frigate"
+    "documentTitle": "גישה נדחתה - Rasid360"
   },
   "notFound": {
-    "documentTitle": "לא נמצא - Frigate",
+    "documentTitle": "לא נמצא - Rasid360",
     "title": "404",
     "desc": "דף לא נמצא"
   },

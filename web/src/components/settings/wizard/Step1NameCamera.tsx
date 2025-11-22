@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 import { useState, useCallback, useMemo } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import {
   WizardFormData,
   CameraBrand,
@@ -54,7 +54,7 @@ export default function Step1NameCamera({
   onCancel,
 }: Step1NameCameraProps) {
   const { t } = useTranslation(["views/settings"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const [showPassword, setShowPassword] = useState(false);
   const [probeMode, setProbeMode] = useState<boolean>(
     wizardData.probeMode ?? true,

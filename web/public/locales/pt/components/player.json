@@ -1,8 +1,8 @@
 {
   "noPreviewFound": "Nenhuma pré-visualização encontrada",
   "noPreviewFoundFor": "Nenhuma pré-visualização encontrada para {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Submeter esta imagem para Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Submeter esta imagem para Rasid360+?",
     "submit": "Submeter"
   },
   "streamOffline": {
@@ -42,10 +42,10 @@
   "livePlayerRequiredIOSVersion": "É necessário o iOS 17.1 ou superior para este tipo de transmissão ao vivo.",
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Imagem submetida com sucesso para Frigate+"
+      "submittedRasid360Plus": "Imagem submetida com sucesso para Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Não foi possível submeter a imagem para Frigate+"
+      "submitRasid360PlusFailed": "Não foi possível submeter a imagem para Rasid360+"
     }
   }
 }

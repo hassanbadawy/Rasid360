@@ -1,16 +1,16 @@
 {
   "documentTitle": {
-    "default": "Settings - Frigate",
-    "authentication": "Authentication Settings - Frigate",
-    "cameraManagement": "Manage Cameras - Frigate",
-    "cameraReview": "Camera Review Settings - Frigate",
-    "enrichments": "Enrichments Settings - Frigate",
-    "masksAndZones": "Mask and Zone Editor - Frigate",
-    "motionTuner": "Motion Tuner - Frigate",
-    "object": "Debug - Frigate",
-    "general": "UI Settings - Frigate",
-    "frigatePlus": "Frigate+ Settings - Frigate",
-    "notifications": "Notification Settings - Frigate"
+    "default": "Settings - Rasid360",
+    "authentication": "Authentication Settings - Rasid360",
+    "cameraManagement": "Manage Cameras - Rasid360",
+    "cameraReview": "Camera Review Settings - Rasid360",
+    "enrichments": "Enrichments Settings - Rasid360",
+    "masksAndZones": "Mask and Zone Editor - Rasid360",
+    "motionTuner": "Motion Tuner - Rasid360",
+    "object": "Debug - Rasid360",
+    "general": "UI Settings - Rasid360",
+    "frigatePlus": "Rasid360+ Settings - Rasid360",
+    "notifications": "Notification Settings - Rasid360"
   },
   "menu": {
     "ui": "UI",
@@ -24,7 +24,7 @@
     "users": "Users",
     "roles": "Roles",
     "notifications": "Notifications",
-    "frigateplus": "Frigate+"
+    "frigateplus": "Rasid360+"
   },
   "dialog": {
     "unsavedChanges": {
@@ -97,13 +97,13 @@
   "enrichments": {
     "title": "Enrichments Settings",
     "unsavedChanges": "Unsaved Enrichments settings changes",
-    "birdClassification": {
-      "title": "Bird Classification",
-      "desc": "Bird classification identifies known birds using a quantized Tensorflow model. When a known bird is recognized, its common name will be added as a sub_label. This information is included in the UI, filters, as well as in notifications."
+    "classification": {
+      "title": "Classification",
+      "desc": "Classification identifies known objects using a quantized Tensorflow model. When a known object is recognized, its common name will be added as a sub_label. This information is included in the UI, filters, as well as in notifications."
     },
     "semanticSearch": {
       "title": "Semantic Search",
-      "desc": "Semantic Search in Frigate allows you to find tracked objects within your review items using either the image itself, a user-defined text description, or an automatically generated one.",
+      "desc": "Semantic Search in Rasid360 allows you to find tracked objects within your review items using either the image itself, a user-defined text description, or an automatically generated one.",
       "reindexNow": {
         "label": "Reindex Now",
         "desc": "Reindexing will regenerate embeddings for all tracked object. This process runs in the background and may max out your CPU and take a fair amount of time depending on the number of tracked objects you have.",
@@ -129,7 +129,7 @@
     },
     "faceRecognition": {
       "title": "Face Recognition",
-      "desc": "Face recognition allows people to be assigned names and when their face is recognized Frigate will assign the person's name as a sub label. This information is included in the UI, filters, as well as in notifications.",
+      "desc": "Face recognition allows people to be assigned names and when their face is recognized Rasid360 will assign the person's name as a sub label. This information is included in the UI, filters, as well as in notifications.",
       "modelSize": {
         "label": "Model Size",
         "desc": "The size of the model used for face recognition.",
@@ -145,17 +145,17 @@
     },
     "licensePlateRecognition": {
       "title": "License Plate Recognition",
-      "desc": "Frigate can recognize license plates on vehicles and automatically add the detected characters to the recognized_license_plate field or a known name as a sub_label to objects that are of type car. A common use case may be to read the license plates of cars pulling into a driveway or cars passing by on a street."
+      "desc": "Rasid360 can recognize license plates on vehicles and automatically add the detected characters to the recognized_license_plate field or a known name as a sub_label to objects that are of type car. A common use case may be to read the license plates of cars pulling into a driveway or cars passing by on a street."
     },
     "restart_required": "Restart required (Enrichments settings changed)",
     "toast": {
-      "success": "Enrichments settings have been saved. Restart Frigate to apply your changes.",
+      "success": "Enrichments settings have been saved. Restart Rasid360 to apply your changes.",
       "error": "Failed to save config changes: {{errorMessage}}"
     }
   },
   "cameraWizard": {
     "title": "Add Camera",
-    "description": "Follow the steps below to add a new camera to your Frigate installation.",
+    "description": "Follow the steps below to add a new camera to your Rasid360 installation.",
     "steps": {
       "nameAndConnection": "Name & Connection",
       "probeOrSnapshot": "Probe or Snapshot",
@@ -312,7 +312,7 @@
       "estimatedBandwidth": "Estimated Bandwidth",
       "roles": "Roles",
       "ffmpegModule": "Use stream compatibility mode",
-      "ffmpegModuleDescription": "If the stream does not load after several attempts, try enabling this. When enabled, Frigate will use the ffmpeg module with go2rtc. This may provide better compatibility with some camera streams.",
+      "ffmpegModuleDescription": "If the stream does not load after several attempts, try enabling this. When enabled, Rasid360 will use the ffmpeg module with go2rtc. This may provide better compatibility with some camera streams.",
       "none": "None",
       "error": "Error",
       "streamValidated": "Stream {{number}} validated successfully",
@@ -349,7 +349,7 @@
     "backToSettings": "Back to Camera Settings",
     "streams": {
       "title": "Enable / Disable Cameras",
-      "desc": "Temporarily disable a camera until Frigate restarts. Disabling a camera completely stops Frigate's processing of this camera's streams. Detection, recording, and debugging will be unavailable.<br /> <em>Note: This does not disable go2rtc restreams.</em>"
+      "desc": "Temporarily disable a camera until Rasid360 restarts. Disabling a camera completely stops Rasid360's processing of this camera's streams. Detection, recording, and debugging will be unavailable.<br /> <em>Note: This does not disable go2rtc restreams.</em>"
     },
     "cameraConfig": {
       "add": "Add Camera",
@@ -393,13 +393,13 @@
     },
     "review": {
       "title": "Review",
-      "desc": "Temporarily enable/disable alerts and detections for this camera until Frigate restarts. When disabled, no new review items will be generated. ",
+      "desc": "Temporarily enable/disable alerts and detections for this camera until Rasid360 restarts. When disabled, no new review items will be generated. ",
       "alerts": "Alerts ",
       "detections": "Detections "
     },
     "reviewClassification": {
       "title": "Review Classification",
-      "desc": "Frigate categorizes review items as Alerts and Detections. By default, all <em>person</em> and <em>car</em> objects are considered Alerts. You can refine categorization of your review items by configuring required zones for them.",
+      "desc": "Rasid360 categorizes review items as Alerts and Detections. By default, all <em>person</em> and <em>car</em> objects are considered Alerts. You can refine categorization of your review items by configuring required zones for them.",
 
       "noDefinedZones": "No zones are defined for this camera.",
       "objectAlertsTips": "All {{alertsLabels}} objects on {{cameraName}} will be shown as Alerts.",
@@ -415,7 +415,7 @@
       "selectDetectionsZones": "Select zones for Detections",
       "limitDetections": "Limit detections to specific zones",
       "toast": {
-        "success": "Review Classification configuration has been saved. Restart Frigate to apply changes."
+        "success": "Review Classification configuration has been saved. Restart Rasid360 to apply changes."
       }
     }
   },
@@ -487,7 +487,7 @@
     },
     "zones": {
       "label": "Zones",
-      "documentTitle": "Edit Zone - Frigate",
+      "documentTitle": "Edit Zone - Rasid360",
       "desc": {
         "title": "Zones allow you to define a specific area of the frame so you can determine whether or not an object is within a particular area.",
         "documentation": "Documentation"
@@ -534,12 +534,12 @@
         }
       },
       "toast": {
-        "success": "Zone ({{zoneName}}) has been saved. Restart Frigate to apply changes."
+        "success": "Zone ({{zoneName}}) has been saved. Restart Rasid360 to apply changes."
       }
     },
     "motionMasks": {
       "label": "Motion Mask",
-      "documentTitle": "Edit Motion Mask - Frigate",
+      "documentTitle": "Edit Motion Mask - Rasid360",
       "desc": {
         "title": "Motion masks are used to prevent unwanted types of motion from triggering detection. Over masking will make it more difficult for objects to be tracked.",
         "documentation": "Documentation"
@@ -558,14 +558,14 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} has been saved. Restart Frigate to apply changes.",
-          "noName": "Motion Mask has been saved. Restart Frigate to apply changes."
+          "title": "{{polygonName}} has been saved. Restart Rasid360 to apply changes.",
+          "noName": "Motion Mask has been saved. Restart Rasid360 to apply changes."
         }
       }
     },
     "objectMasks": {
       "label": "Object Masks",
-      "documentTitle": "Edit Object Mask - Frigate",
+      "documentTitle": "Edit Object Mask - Rasid360",
       "desc": {
         "title": "Object filter masks are used to filter out false positives for a given object type based on location.",
         "documentation": "Documentation"
@@ -583,8 +583,8 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} has been saved. Restart Frigate to apply changes.",
-          "noName": "Object Mask has been saved. Restart Frigate to apply changes."
+          "title": "{{polygonName}} has been saved. Restart Rasid360 to apply changes.",
+          "noName": "Object Mask has been saved. Restart Rasid360 to apply changes."
         }
       }
     }
@@ -593,7 +593,7 @@
     "title": "Motion Detection Tuner",
     "unsavedChanges": "Unsaved Motion Tuner changes ({{camera}})",
     "desc": {
-      "title": "Frigate uses motion detection as a first line check to see if there is anything happening in the frame worth checking with object detection.",
+      "title": "Rasid360 uses motion detection as a first line check to see if there is anything happening in the frame worth checking with object detection.",
       "documentation": "Read the Motion Tuning Guide"
     },
     "Threshold": {
@@ -614,7 +614,7 @@
   },
   "debug": {
     "title": "Debug",
-    "detectorDesc": "Frigate uses your detectors ({{detectors}}) to detect objects in your camera's video stream.",
+    "detectorDesc": "Rasid360 uses your detectors ({{detectors}}) to detect objects in your camera's video stream.",
     "desc": "Debugging view shows a real-time view of tracked objects and their statistics. The object list shows a time-delayed summary of detected objects.",
     "openCameraWebUI": "Open {{camera}}'s Web UI",
     "debugging": "Debugging",
@@ -675,7 +675,7 @@
     "title": "Users",
     "management": {
       "title": "User Management",
-      "desc": "Manage this Frigate instance's user accounts."
+      "desc": "Manage this Rasid360 instance's user accounts."
     },
     "addUser": "Add User",
     "updatePassword": "Update Password",
@@ -738,7 +738,7 @@
       },
       "createUser": {
         "title": "Create New User",
-        "desc": "Add a new user account and specify an role for access to areas of the Frigate UI.",
+        "desc": "Add a new user account and specify an role for access to areas of the Rasid360 UI.",
         "usernameOnlyInclude": "Username may only include letters, numbers, . or _",
         "confirmPassword": "Please confirm your password"
       },
@@ -772,7 +772,7 @@
   "roles": {
     "management": {
       "title": "Viewer Role Management",
-      "desc": "Manage custom viewer roles and their camera access permissions for this Frigate instance."
+      "desc": "Manage custom viewer roles and their camera access permissions for this Rasid360 instance."
     },
     "addRole": "Add Role",
     "table": {
@@ -834,11 +834,11 @@
     "title": "Notifications",
     "notificationSettings": {
       "title": "Notification Settings",
-      "desc": "Frigate can natively send push notifications to your device when it is running in the browser or installed as a PWA."
+      "desc": "Rasid360 can natively send push notifications to your device when it is running in the browser or installed as a PWA."
     },
     "notificationUnavailable": {
       "title": "Notifications Unavailable",
-      "desc": "Web push notifications require a secure context (<code>https://…</code>). This is a browser limitation. Access Frigate securely to use notifications."
+      "desc": "Web push notifications require a secure context (<code>https://…</code>). This is a browser limitation. Access Rasid360 securely to use notifications."
     },
     "globalSettings": {
       "title": "Global Settings",
@@ -875,7 +875,7 @@
     "cancelSuspension": "Cancel Suspension",
     "toast": {
       "success": {
-        "registered": "Successfully registered for notifications. Restarting Frigate is required before any notifications (including a test notification) can be sent.",
+        "registered": "Successfully registered for notifications. Restarting Rasid360 is required before any notifications (including a test notification) can be sent.",
         "settingSaved": "Notification settings have been saved."
       },
       "error": {
@@ -884,18 +884,18 @@
     }
   },
   "frigatePlus": {
-    "title": "Frigate+ Settings",
+    "title": "Rasid360+ Settings",
     "apiKey": {
-      "title": "Frigate+ API Key",
-      "validated": "Frigate+ API key is detected and validated",
-      "notValidated": "Frigate+ API key is not detected or not validated",
-      "desc": "The Frigate+ API key enables integration with the Frigate+ service.",
-      "plusLink": "Read more about Frigate+"
+      "title": "Rasid360+ API Key",
+      "validated": "Rasid360+ API key is detected and validated",
+      "notValidated": "Rasid360+ API key is not detected or not validated",
+      "desc": "The Rasid360+ API key enables integration with the Rasid360+ service.",
+      "plusLink": "Read more about Rasid360+"
     },
     "snapshotConfig": {
       "title": "Snapshot Configuration",
-      "desc": "Submitting to Frigate+ requires both snapshots and <code>clean_copy</code> snapshots to be enabled in your config.",
-      "cleanCopyWarning": "Some cameras have snapshots enabled but have the clean copy disabled. You need to enable <code>clean_copy</code> in your snapshot config to be able to submit images from these cameras to Frigate+.",
+      "desc": "Submitting to Rasid360+ requires both snapshots and <code>clean_copy</code> snapshots to be enabled in your config.",
+      "cleanCopyWarning": "Some cameras have snapshots enabled but have the clean copy disabled. You need to enable <code>clean_copy</code> in your snapshot config to be able to submit images from these cameras to Rasid360+.",
       "table": {
         "camera": "Camera",
         "snapshots": "Snapshots",
@@ -917,12 +917,12 @@
       "error": "Failed to load model information",
       "availableModels": "Available Models",
       "loadingAvailableModels": "Loading available models…",
-      "modelSelect": "Your available models on Frigate+ can be selected here. Note that only models compatible with your current detector configuration can be selected."
+      "modelSelect": "Your available models on Rasid360+ can be selected here. Note that only models compatible with your current detector configuration can be selected."
     },
-    "unsavedChanges": "Unsaved Frigate+ settings changes",
-    "restart_required": "Restart required (Frigate+ model changed)",
+    "unsavedChanges": "Unsaved Rasid360+ settings changes",
+    "restart_required": "Restart required (Rasid360+ model changed)",
     "toast": {
-      "success": "Frigate+ settings have been saved. Restart Frigate to apply changes.",
+      "success": "Rasid360+ settings have been saved. Restart Rasid360 to apply changes.",
       "error": "Failed to save config changes: {{errorMessage}}"
     }
   },
@@ -1010,7 +1010,7 @@
         },
         "actions": {
           "title": "Actions",
-          "desc": "By default, Frigate fires an MQTT message for all triggers. Sub labels add the trigger name to the object label. Attributes are searchable metadata stored separately in the tracked object metadata.",
+          "desc": "By default, Rasid360 fires an MQTT message for all triggers. Sub labels add the trigger name to the object label. Attributes are searchable metadata stored separately in the tracked object metadata.",
           "error": {
             "min": "At least one action must be selected."
           }

@@ -30,8 +30,8 @@
   },
   "noPreviewFound": "Ingen forhåndsvisning funnet",
   "noPreviewFoundFor": "Ingen forhåndsvisning funnet for {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Send dette bildet til Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Send dette bildet til Rasid360+?",
     "submit": "Send"
   },
   "livePlayerRequiredIOSVersion": "iOS 17.1 eller høyere kreves for denne typen direkte-strømming.",
@@ -42,10 +42,10 @@
   "cameraDisabled": "Kameraet er deaktivert",
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Bildet ble sendt til Frigate+"
+      "submittedRasid360Plus": "Bildet ble sendt til Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Kunne ikke sende bildet til Frigate+"
+      "submitRasid360PlusFailed": "Kunne ikke sende bildet til Rasid360+"
     }
   }
 }

@@ -1,7 +1,7 @@
 {
-  "documentTitle": "Direct - Frigate",
+  "documentTitle": "Direct - Rasid360",
   "lowBandwidthMode": "Mode bande passante faible",
-  "documentTitle.withCamera": "{{camera}} - Direct - Frigate",
+  "documentTitle.withCamera": "{{camera}} - Direct - Rasid360",
   "twoWayTalk": {
     "disable": "Désactiver la conversation bidirectionnelle",
     "enable": "Activer la conversation bidirectionnelle"
@@ -173,7 +173,7 @@
   },
   "noCameras": {
     "title": "Aucune caméra n'est configurée",
-    "description": "Pour commencer, connectez une caméra à Frigate.",
+    "description": "Pour commencer, connectez une caméra à Rasid360.",
     "buttonText": "Ajouter une caméra"
   },
   "snapshot": {

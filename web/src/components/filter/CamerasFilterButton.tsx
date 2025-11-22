@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { CameraGroupConfig } from "@/types/frigateConfig";
+import { CameraGroupConfig } from "@/types/rasid360Config";
 import { useEffect, useMemo, useState } from "react";
 import {
   DropdownMenu,

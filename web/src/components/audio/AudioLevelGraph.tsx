@@ -6,7 +6,7 @@ import { useWs } from "@/api/ws";
 import { useDateLocale } from "@/hooks/use-date-locale";
 import { formatUnixTimestampToDateTime } from "@/utils/dateUtil";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useTranslation } from "react-i18next";
 
 const GRAPH_COLORS = ["#3b82f6", "#ef4444"]; // RMS, dBFS
@@ -22,7 +22,7 @@ export function AudioLevelGraph({ cameraName }: AudioLevelGraphProps) {
   const [maxDataPoints] = useState(50);
 
   // config for time formatting
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
   const locale = useDateLocale();

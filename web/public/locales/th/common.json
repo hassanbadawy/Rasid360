@@ -4,7 +4,7 @@
     "justNow": "ตอนนี้",
     "yesterday": "เมื่อวาน",
     "lastWeek": "สัปดาห์ที่แล้ว",
-    "untilForRestart": "จนกว่า Frigate รีสตาร์ท.",
+    "untilForRestart": "จนกว่า Rasid360 รีสตาร์ท.",
     "untilRestart": "จนกว่า รีสตาร์ท",
     "ago": "{{timeAgo}} ที่แล้ว",
     "last7": "7 วันที่แล้ว",
@@ -109,7 +109,7 @@
     "unsuspended": "ยกเลิกถูกระงับ"
   },
   "menu": {
-    "restart": "รีสตาร์ท Frigate",
+    "restart": "รีสตาร์ท Rasid360",
     "user": {
       "logout": "ออกจากระบบ",
       "title": "ผู้ใช้",
@@ -193,7 +193,7 @@
     "help": "ช่วยเหลือ",
     "documentation": {
       "title": "เอกสาร",
-      "label": "เอกสาร Frigate"
+      "label": "เอกสาร Rasid360"
     },
     "systemMetrics": "ตัวชี้วัดของระบบ",
     "appearance": "หน้าตา"
@@ -202,7 +202,7 @@
     "viewer": "ผู้ชม",
     "title": "บทบาท",
     "admin": "ผู้ดูแล",
-    "desc": "ผู้ดูแลสามารถเข้าถึงระบบได้ทั้งหมดใน UI Frigate. ผู้ชมสามารถทำได้แค่ ดูกล้อง, ดูรีวิว, และ ประวัติคลิปใน UI."
+    "desc": "ผู้ดูแลสามารถเข้าถึงระบบได้ทั้งหมดใน UI Rasid360. ผู้ชมสามารถทำได้แค่ ดูกล้อง, ดูรีวิว, และ ประวัติคลิปใน UI."
   },
   "toast": {
     "save": {
@@ -227,12 +227,12 @@
     "label": "แบ่งหน้า"
   },
   "accessDenied": {
-    "documentTitle": "ไม่สามารถเข้าถึงได้ - Frigate",
+    "documentTitle": "ไม่สามารถเข้าถึงได้ - Rasid360",
     "title": "ไม่สามารถเข้าถึงได้",
     "desc": "คุณไม่มีสิทธิ์ในการเข้าถึงหน้านี้"
   },
   "notFound": {
-    "documentTitle": "ไม่พบ - Frigate",
+    "documentTitle": "ไม่พบ - Rasid360",
     "desc": "ไม่พบหน้านี้",
     "title": "๔๐๔"
   },

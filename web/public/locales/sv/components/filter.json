@@ -20,9 +20,9 @@
   "features": {
     "hasSnapshot": "Har ögonblicksbild",
     "hasVideoClip": "Har ett video klipp",
-    "submittedToFrigatePlus": {
-      "label": "Skickat till Frigate+",
-      "tips": "Du måste först filtrera på spårade objekt som har en ögonblicksbild. <br /><br />Spårade objekt utan ögonblicksbild kan inte skickas till Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Skickat till Rasid360+",
+      "tips": "Du måste först filtrera på spårade objekt som har en ögonblicksbild. <br /><br />Spårade objekt utan ögonblicksbild kan inte skickas till Rasid360+."
     },
     "label": "Detaljer"
   },

@@ -1,7 +1,7 @@
 {
   "time": {
     "untilForTime": "Until {{time}}",
-    "untilForRestart": "Until Frigate restarts.",
+    "untilForRestart": "Until Rasid360 restarts.",
     "untilRestart": "Until restart",
     "ago": "{{timeAgo}} ago",
     "justNow": "Just now",
@@ -110,7 +110,7 @@
   },
   "field": {
     "optional": "Optional",
-    "internalID": "The Internal ID Frigate uses in the configuration and database"
+    "internalID": "The Internal ID Rasid360 uses in the configuration and database"
   },
   "button": {
     "apply": "Apply",
@@ -224,9 +224,9 @@
     "help": "Help",
     "documentation": {
       "title": "Documentation",
-      "label": "Frigate documentation"
+      "label": "Rasid360 documentation"
     },
-    "restart": "Restart Frigate",
+    "restart": "Restart Rasid360",
     "live": {
       "title": "Live",
       "allCameras": "All Cameras",
@@ -265,7 +265,7 @@
     "title": "Role",
     "admin": "Admin",
     "viewer": "Viewer",
-    "desc": "Admins have full access to all features in the Frigate UI. Viewers are limited to viewing cameras, review items, and historical footage in the UI."
+    "desc": "Admins have full access to all features in the Rasid360 UI. Viewers are limited to viewing cameras, review items, and historical footage in the UI."
   },
   "pagination": {
     "label": "pagination",
@@ -280,12 +280,12 @@
     "more": "More pages"
   },
   "accessDenied": {
-    "documentTitle": "Access Denied - Frigate",
+    "documentTitle": "Access Denied - Rasid360",
     "title": "Access Denied",
     "desc": "You don't have permission to view this page."
   },
   "notFound": {
-    "documentTitle": "Not Found - Frigate",
+    "documentTitle": "Not Found - Rasid360",
     "title": "404",
     "desc": "Page not found"
   },

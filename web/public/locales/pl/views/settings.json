@@ -5,7 +5,7 @@
     "ui": "Interfejs Użytkownika",
     "classification": "Klasyfikacja",
     "cameras": "Ustawienia Kamery",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "masksAndZones": "Maski / Strefy",
     "motionTuner": "Konfigurator Ruchu",
     "debug": "Debugowanie",
@@ -74,18 +74,18 @@
     }
   },
   "documentTitle": {
-    "default": "Ustawienia - Frigate",
-    "camera": "Ustawienia Kamery - Frigate",
-    "masksAndZones": "Edytor Masek i Stref - Frigate",
-    "frigatePlus": "Ustawienia Frigate+ - Frigate",
-    "classification": "Ustawienia Klasyfikacji - Frigate",
-    "general": "Ustawienia Ogólne - Frigate",
-    "authentication": "Ustawienia Uwierzytelniania - Frigate",
-    "motionTuner": "Konfigurator Ruchu - Frigate",
-    "object": "Debug - Frigate",
-    "notifications": "Ustawienia powiadomień - Frigate",
-    "enrichments": "Ustawienia wzbogacania - Frigate",
-    "cameraManagement": "Zarządzanie kamerami – Frigate"
+    "default": "Ustawienia - Rasid360",
+    "camera": "Ustawienia Kamery - Rasid360",
+    "masksAndZones": "Edytor Masek i Stref - Rasid360",
+    "frigatePlus": "Ustawienia Rasid360+ - Rasid360",
+    "classification": "Ustawienia Klasyfikacji - Rasid360",
+    "general": "Ustawienia Ogólne - Rasid360",
+    "authentication": "Ustawienia Uwierzytelniania - Rasid360",
+    "motionTuner": "Konfigurator Ruchu - Rasid360",
+    "object": "Debug - Rasid360",
+    "notifications": "Ustawienia powiadomień - Rasid360",
+    "enrichments": "Ustawienia wzbogacania - Rasid360",
+    "cameraManagement": "Zarządzanie kamerami – Rasid360"
   },
   "classification": {
     "title": "Ustawienia Klasyfikacji",
@@ -103,7 +103,7 @@
         "label": "Rozmiar Modelu"
       },
       "title": "Wyszukiwanie Semantyczne",
-      "desc": "Wyszukiwanie semantyczne w Frigate pozwala znaleźć śledzone obiekty w elementach przeglądu za pomocą samego obrazu, zdefiniowanego przez użytkownika opisu tekstowego lub automatycznie wygenerowanego opisu.",
+      "desc": "Wyszukiwanie semantyczne w Rasid360 pozwala znaleźć śledzone obiekty w elementach przeglądu za pomocą samego obrazu, zdefiniowanego przez użytkownika opisu tekstowego lub automatycznie wygenerowanego opisu.",
       "readTheDocumentation": "Przeczytaj Dokumentację",
       "reindexNow": {
         "label": "Przeindeksuj Teraz",
@@ -118,7 +118,7 @@
     },
     "faceRecognition": {
       "title": "Rozpoznawanie Twarzy",
-      "desc": "Rozpoznawanie twarzy pozwala na przypisanie imion do osób przez Frigate jako podrzędna etykieta. Ta informacja jest zawarta w interfejsie użytkownika, filtrach jak i w powiadomieniach.",
+      "desc": "Rozpoznawanie twarzy pozwala na przypisanie imion do osób przez Rasid360 jako podrzędna etykieta. Ta informacja jest zawarta w interfejsie użytkownika, filtrach jak i w powiadomieniach.",
       "modelSize": {
         "label": "Rozmiar Modelu",
         "desc": "Rozmiar modelu używanego do rozpoznawania twarzy.",
@@ -135,12 +135,12 @@
     },
     "licensePlateRecognition": {
       "title": "Rozpoznawanie Tablic Rejestracyjnych",
-      "desc": "Frigate może rozpoznawać tablice rejestracyjne pojazdów i automatycznie dodawać wykryte znaki do pola recognized_license_plate albo znaną nazwę jako etykietę podrzędną do obiektów typu samochód. Częstym przypadkiem użycia może być odczytywanie tablic rejestracyjnych samochodów wjeżdżających na podjazd albo przejeżdżających ulicą.",
+      "desc": "Rasid360 może rozpoznawać tablice rejestracyjne pojazdów i automatycznie dodawać wykryte znaki do pola recognized_license_plate albo znaną nazwę jako etykietę podrzędną do obiektów typu samochód. Częstym przypadkiem użycia może być odczytywanie tablic rejestracyjnych samochodów wjeżdżających na podjazd albo przejeżdżających ulicą.",
       "readTheDocumentation": "Przeczytaj Dokumentację"
     },
     "toast": {
       "error": "Nie udało się zapisać zmian w konfiguracji: {{errorMessage}}",
-      "success": "Ustawienia klasyfikacji zostały zapisane. Uruchom ponownie Frigate aby wprowadzić swoje zmiany."
+      "success": "Ustawienia klasyfikacji zostały zapisane. Uruchom ponownie Rasid360 aby wprowadzić swoje zmiany."
     },
     "birdClassification": {
       "desc": "Klasyfikacja ptaków identyfikuje znane ptaki przy użyciu skwantyzowanego modelu Tensorflow. Gdy znany ptak zostanie rozpoznany, jego popularna nazwa zostanie dodana jako sub_label. Ta informacja jest uwzględniana w interfejsie użytkownika, filtrach oraz powiadomieniach.",
@@ -155,7 +155,7 @@
       "noDefinedZones": "Brak stref zdefiniowanych dla tej kamery.",
       "selectAlertsZones": "Wybierz strefy dla Alertów",
       "title": "Klasyfikacja Przeglądu",
-      "desc": "Frigate kategoryzuje elementy przeglądu jako Alerty i Wykrycia. Domyślnie wszystkie obiekty <em>osoba</em> i <em>samochód</em> są traktowane jako Alerty. Możesz doprecyzować kategoryzację elementów przeglądu, konfigurując dla nich wymagane strefy.",
+      "desc": "Rasid360 kategoryzuje elementy przeglądu jako Alerty i Wykrycia. Domyślnie wszystkie obiekty <em>osoba</em> i <em>samochód</em> są traktowane jako Alerty. Możesz doprecyzować kategoryzację elementów przeglądu, konfigurując dla nich wymagane strefy.",
       "readTheDocumentation": "Przeczytaj Dokumentację",
       "objectAlertsTips": "Wszystkie obiekty {{alertsLabels}} na {{cameraName}} będą wyświetlane jako Alerty.",
       "zoneObjectAlertsTips": "Wszystkie obiekty {{alertsLabels}} wykryte w strefie {{zone}} na {{cameraName}} będą wyświetlane jako Alerty.",
@@ -165,7 +165,7 @@
         "text": "Wszystkie nieskategoryzowane obiekty {{detectionsLabels}} w strefie {{zone}} na {{cameraName}} będą wyświetlane jako Wykrycia."
       },
       "toast": {
-        "success": "Konfiguracja klasyfikacji przeglądu została zapisana. Uruchom ponownie Frigate, aby zastosować zmiany."
+        "success": "Konfiguracja klasyfikacji przeglądu została zapisana. Uruchom ponownie Rasid360, aby zastosować zmiany."
       },
       "objectDetectionsTips": "Wszystkie nieskategoryzowane obiekty {{detectionsLabels}} na {{cameraName}} będą wyświetlane jako Wykrycia niezależnie od strefy, w której się znajdują.",
       "limitDetections": "Ogranicz wykrycia do określonych stref",
@@ -176,10 +176,10 @@
       "alerts": "Alerty ",
       "title": "Przegląd",
       "detections": "Wykrycia ",
-      "desc": "Tymczasowo włącz/wyłącz alerty i wykrywania dla tej kamery do czasu restartu Frigate. Po wyłączeniu nie będą generowane nowe elementy do przeglądu. "
+      "desc": "Tymczasowo włącz/wyłącz alerty i wykrywania dla tej kamery do czasu restartu Rasid360. Po wyłączeniu nie będą generowane nowe elementy do przeglądu. "
     },
     "streams": {
-      "desc": "Tymczasowo wyłącz kamerę dopóki Frigate nie uruchomi się ponownie. Wyłączenie kamery całkowicie zatrzymuje przetwarzanie strumieni tej kamery przez Frigate. Wykrywanie, nagrywanie i debugowanie będą niedostępne.<br /><em>Uwaga: Nie wyłącza to przekazywania strumieni go2rtc.</em>",
+      "desc": "Tymczasowo wyłącz kamerę dopóki Rasid360 nie uruchomi się ponownie. Wyłączenie kamery całkowicie zatrzymuje przetwarzanie strumieni tej kamery przez Rasid360. Wykrywanie, nagrywanie i debugowanie będą niedostępne.<br /><em>Uwaga: Nie wyłącza to przekazywania strumieni go2rtc.</em>",
       "title": "Strumienie"
     },
     "object_descriptions": {
@@ -276,7 +276,7 @@
     },
     "zones": {
       "label": "Strefy",
-      "documentTitle": "Edytuj Strefę - Frigate",
+      "documentTitle": "Edytuj Strefę - Rasid360",
       "desc": {
         "title": "Strefy pozwalają na zdefiniowanie konkretnych obszarów kadru, dzięki czemu można sprawdzić, czy obiekt znajduje się w danym obszarze.",
         "documentation": "Dokumentacja"
@@ -325,7 +325,7 @@
         "lineDDistance": "Odległość linii D ({{unit}})"
       },
       "toast": {
-        "success": "Strefa ({{zoneName}}) została zapisana. Uruchom ponownie Frigate, aby zastosować zmiany."
+        "success": "Strefa ({{zoneName}}) została zapisana. Uruchom ponownie Rasid360, aby zastosować zmiany."
       }
     },
     "motionMasks": {
@@ -337,7 +337,7 @@
       "point_few": "{{count}} punkty",
       "point_many": "{{count}} punktów",
       "clickDrawPolygon": "Kliknij aby narysować wielokąt na obrazie.",
-      "documentTitle": "Edytuj maskę ruchu - Frigate",
+      "documentTitle": "Edytuj maskę ruchu - Rasid360",
       "add": "Nowa Maska Ruchu",
       "polygonAreaTooLarge": {
         "tips": "Maski ruchu nie zapobiegają wykrywaniu obiektów. Powinieneś użyć wymaganej strefy zamiast tego.",
@@ -346,8 +346,8 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} został zapisany. Uruchom ponownie Frigate, aby zastosować zmiany.",
-          "noName": "Maska Ruchu została zapisana. Uruchom ponownie Frigate, aby zastosować zmiany."
+          "title": "{{polygonName}} został zapisany. Uruchom ponownie Rasid360, aby zastosować zmiany.",
+          "noName": "Maska Ruchu została zapisana. Uruchom ponownie Rasid360, aby zastosować zmiany."
         }
       },
       "label": "Maska ruchu",
@@ -360,8 +360,8 @@
     "objectMasks": {
       "toast": {
         "success": {
-          "title": "{{polygonName}} został zapisany. Uruchom ponownie Frigate aby wprowadzić zmiany.",
-          "noName": "Maska Obiektu została zapisana. Uruchom ponownie Frigate, aby zastosować zmiany."
+          "title": "{{polygonName}} został zapisany. Uruchom ponownie Rasid360 aby wprowadzić zmiany.",
+          "noName": "Maska Obiektu została zapisana. Uruchom ponownie Rasid360, aby zastosować zmiany."
         }
       },
       "objects": {
@@ -373,7 +373,7 @@
       "point_few": "{{count}} punkty",
       "point_many": "{{count}} punktów",
       "label": "Maski Obiektów",
-      "documentTitle": "Edytuj Maskę Obiektu - Frigate",
+      "documentTitle": "Edytuj Maskę Obiektu - Rasid360",
       "desc": {
         "title": "Maski filtrujące obiekty są używane do filtrowania fałszywych detekcji dla danego typu obiektu na podstawie lokalizacji.",
         "documentation": "Dokumentacja"
@@ -399,7 +399,7 @@
     "objectList": "Lista Obiektów",
     "debugging": "Debugowanie",
     "title": "Debugowanie",
-    "detectorDesc": "Frigate używa twoich detektorów ({{detectors}}) do wykrywania obiektów w strumieniu wideo kamery.",
+    "detectorDesc": "Rasid360 używa twoich detektorów ({{detectors}}) do wykrywania obiektów w strumieniu wideo kamery.",
     "boundingBoxes": {
       "desc": "Pokaż ramki ograniczające wokół śledzonych obiektów",
       "colors": {
@@ -458,7 +458,7 @@
   "motionDetectionTuner": {
     "title": "Tuner Wykrywania Ruchu",
     "desc": {
-      "title": "Frigate używa wykrywania ruchu jako pierwszej linii sprawdzenia, czy w kadrze dzieje się coś wartego sprawdzenia przez detekcję obiektów.",
+      "title": "Rasid360 używa wykrywania ruchu jako pierwszej linii sprawdzenia, czy w kadrze dzieje się coś wartego sprawdzenia przez detekcję obiektów.",
       "documentation": "Przeczytaj Przewodnik Dostrajania Ruchu"
     },
     "Threshold": {
@@ -553,7 +553,7 @@
       },
       "createUser": {
         "title": "Utwórz nowego użytkownika",
-        "desc": "Dodaj nowe konto użytkownika i określ rolę dla dostępu do obszarów interfejsu Frigate.",
+        "desc": "Dodaj nowe konto użytkownika i określ rolę dla dostępu do obszarów interfejsu Rasid360.",
         "usernameOnlyInclude": "Nazwa użytkownika może zawierać tylko litery, cyfry lub znak _",
         "confirmPassword": "Proszę potwierdź swoje hasło"
       },
@@ -572,7 +572,7 @@
     },
     "management": {
       "title": "Zarządzanie Użytkownikami",
-      "desc": "Zarządzaj kontami użytkowników tej instancji Frigate."
+      "desc": "Zarządzaj kontami użytkowników tej instancji Rasid360."
     },
     "title": "Użytkownicy"
   },
@@ -580,12 +580,12 @@
     "title": "Powiadomienia",
     "notificationSettings": {
       "title": "Ustawienia powiadomień",
-      "desc": "Frigate może wysyłać natywne powiadomienia push na twoje urządzenie, gdy działa w przeglądarce lub jest zainstalowany jako PWA.",
+      "desc": "Rasid360 może wysyłać natywne powiadomienia push na twoje urządzenie, gdy działa w przeglądarce lub jest zainstalowany jako PWA.",
       "documentation": "Przeczytaj dokumentację"
     },
     "notificationUnavailable": {
       "title": "Powiadomienia niedostępne",
-      "desc": "Powiadomienia push w przeglądarce wymagają bezpiecznego kontekstu (<code>https://…</code>). To jest ograniczenie przeglądarki. Uzyskaj dostęp do Frigate przez bezpieczne połączenie, aby korzystać z powiadomień.",
+      "desc": "Powiadomienia push w przeglądarce wymagają bezpiecznego kontekstu (<code>https://…</code>). To jest ograniczenie przeglądarki. Uzyskaj dostęp do Rasid360 przez bezpieczne połączenie, aby korzystać z powiadomień.",
       "documentation": "Przeczytaj dokumentację"
     },
     "globalSettings": {
@@ -609,7 +609,7 @@
       },
       "success": {
         "settingSaved": "Ustawienia powiadomień zostały zapisane.",
-        "registered": "Rejestracja powiadomień zakończona powodzeniem. Przed wysłaniem jakichkolwiek powiadomień (włącznie z testowym) wymagane jest ponowne uruchomienie Frigate."
+        "registered": "Rejestracja powiadomień zakończona powodzeniem. Przed wysłaniem jakichkolwiek powiadomień (włącznie z testowym) wymagane jest ponowne uruchomienie Rasid360."
       }
     },
     "email": {
@@ -632,24 +632,24 @@
     "unsavedChanges": "Niezapisane zmiany ustawień powiadomień"
   },
   "frigatePlus": {
-    "title": "Ustawienia Frigate+",
+    "title": "Ustawienia Rasid360+",
     "apiKey": {
-      "title": "Klucz API Frigate+",
-      "validated": "Klucz API Frigate+ został wykryty i zweryfikowany",
-      "plusLink": "Dowiedz się więcej o Frigate+",
-      "notValidated": "Klucz API Frigate+ nie został wykryty lub nie został zweryfikowany",
-      "desc": "Klucz API Frigate+ umożliwia integrację z usługą Frigate+."
+      "title": "Klucz API Rasid360+",
+      "validated": "Klucz API Rasid360+ został wykryty i zweryfikowany",
+      "plusLink": "Dowiedz się więcej o Rasid360+",
+      "notValidated": "Klucz API Rasid360+ nie został wykryty lub nie został zweryfikowany",
+      "desc": "Klucz API Rasid360+ umożliwia integrację z usługą Rasid360+."
     },
     "snapshotConfig": {
       "title": "Konfiguracja zrzutów ekranu",
       "documentation": "Przeczytaj dokumentację",
-      "desc": "Aby wysyłać dane do Frigate+, w konfiguracji muszą być włączone zarówno zwykłe zrzuty ekranu, jak i zrzuty typu <code>clean_copy</code>.",
+      "desc": "Aby wysyłać dane do Rasid360+, w konfiguracji muszą być włączone zarówno zwykłe zrzuty ekranu, jak i zrzuty typu <code>clean_copy</code>.",
       "table": {
         "snapshots": "Zrzuty ekranu",
         "cleanCopySnapshots": "Zrzuty ekranu <code>clean_copy</code>",
         "camera": "Kamera"
       },
-      "cleanCopyWarning": "Niektóre kamery mają włączone zrzuty ekranu, ale mają wyłączoną funkcję czystej kopii. Musisz włączyć <code>clean_copy</code> w konfiguracji zrzutów ekranu, aby móc przesyłać obrazy z tych kamer do Frigate+."
+      "cleanCopyWarning": "Niektóre kamery mają włączone zrzuty ekranu, ale mają wyłączoną funkcję czystej kopii. Musisz włączyć <code>clean_copy</code> w konfiguracji zrzutów ekranu, aby móc przesyłać obrazy z tych kamer do Rasid360+."
     },
     "modelInfo": {
       "title": "Informacje o modelu",
@@ -663,23 +663,23 @@
       "availableModels": "Dostępne modele",
       "loadingAvailableModels": "Ładowanie dostępnych modeli…",
       "baseModel": "Model bazowy",
-      "modelSelect": "Tutaj możesz wybrać swoje dostępne modele w Frigate+. Pamiętaj, że można wybrać tylko modele kompatybilne z Twoją aktualną konfiguracją detektora.",
+      "modelSelect": "Tutaj możesz wybrać swoje dostępne modele w Rasid360+. Pamiętaj, że można wybrać tylko modele kompatybilne z Twoją aktualną konfiguracją detektora.",
       "plusModelType": {
         "baseModel": "Model bazowy",
         "userModel": "Dostrojony"
       }
     },
     "toast": {
-      "success": "Ustawienia Frigate+ zostały zapisane. Uruchom ponownie Frigate, aby zastosować zmiany.",
+      "success": "Ustawienia Rasid360+ zostały zapisane. Uruchom ponownie Rasid360, aby zastosować zmiany.",
       "error": "Nie udało się zapisać zmian konfiguracji: {{errorMessage}}"
     },
-    "restart_required": "Wymagane ponowne uruchomienie (Zmieniony model Frigate+)",
-    "unsavedChanges": "Niezapisane zmiany ustawień Frigate+"
+    "restart_required": "Wymagane ponowne uruchomienie (Zmieniony model Rasid360+)",
+    "unsavedChanges": "Niezapisane zmiany ustawień Rasid360+"
   },
   "enrichments": {
     "faceRecognition": {
       "title": "Rozpoznawanie twarzy",
-      "desc": "Rozpoznawanie twarzy pozwala na przypisywanie imion osobom, a gdy ich twarz zostanie rozpoznana, Frigate przypisze imię osoby jako sub label. Ta informacja jest wyświetlana w interfejsie, filtrach oraz powiadomieniach.",
+      "desc": "Rozpoznawanie twarzy pozwala na przypisywanie imion osobom, a gdy ich twarz zostanie rozpoznana, Rasid360 przypisze imię osoby jako sub label. Ta informacja jest wyświetlana w interfejsie, filtrach oraz powiadomieniach.",
       "readTheDocumentation": "Przeczytaj Dokumentację",
       "modelSize": {
         "label": "Rozmiar modelu",
@@ -702,7 +702,7 @@
     },
     "semanticSearch": {
       "title": "Wyszukiwanie semantyczne",
-      "desc": "Wyszukiwanie semantyczne w Frigate pozwala na znajdowanie śledzonych obiektów w elementach przeglądowych za pomocą samego obrazu, opisu tekstowego zdefiniowanego przez użytkownika lub automatycznie wygenerowanego.",
+      "desc": "Wyszukiwanie semantyczne w Rasid360 pozwala na znajdowanie śledzonych obiektów w elementach przeglądowych za pomocą samego obrazu, opisu tekstowego zdefiniowanego przez użytkownika lub automatycznie wygenerowanego.",
       "readTheDocumentation": "Przeczytaj Dokumentację",
       "reindexNow": {
         "label": "Reindeksuj teraz",
@@ -729,19 +729,19 @@
     },
     "licensePlateRecognition": {
       "title": "Rozpoznawanie tablic rejestracyjnych",
-      "desc": "Frigate może rozpoznawać tablice rejestracyjne na pojazdach i automatycznie dodawać wykryte znaki do pola recognized_license_plate lub znaną nazwę jako sub_label do obiektów typu samochód. Typowy przypadek użycia to odczytywanie tablic rejestracyjnych samochodów wjeżdżających na podjazd lub przejeżdżających ulicą.",
+      "desc": "Rasid360 może rozpoznawać tablice rejestracyjne na pojazdach i automatycznie dodawać wykryte znaki do pola recognized_license_plate lub znaną nazwę jako sub_label do obiektów typu samochód. Typowy przypadek użycia to odczytywanie tablic rejestracyjnych samochodów wjeżdżających na podjazd lub przejeżdżających ulicą.",
       "readTheDocumentation": "Przeczytaj Dokumentację"
     },
     "restart_required": "Wymagany restart (zmieniono ustawienia wzbogacania)",
     "toast": {
-      "success": "Ustawienia wzbogacania zostały zapisane. Uruchom ponownie Frigate, aby zastosować zmiany.",
+      "success": "Ustawienia wzbogacania zostały zapisane. Uruchom ponownie Rasid360, aby zastosować zmiany.",
       "error": "Nie udało się zapisać zmian konfiguracji: {{errorMessage}}"
     }
   },
   "roles": {
     "management": {
       "title": "Zarządzanie rolami podglądu",
-      "desc": "Zarządzaj własnymi rolami podglądu i ich dostępem do kamer dla tej instancji Frigate."
+      "desc": "Zarządzaj własnymi rolami podglądu i ich dostępem do kamer dla tej instancji Rasid360."
     },
     "addRole": "Dodaj rolę",
     "table": {
@@ -875,7 +875,7 @@
         },
         "actions": {
           "title": "Akcje",
-          "desc": "Domyślnie Frigate wysyła wiadomość MQTT dla wszystkich wyzwalaczy. Wybierz dodatkową akcję, która ma zostać wykonana po uruchomieniu tego wyzwalacza.",
+          "desc": "Domyślnie Rasid360 wysyła wiadomość MQTT dla wszystkich wyzwalaczy. Wybierz dodatkową akcję, która ma zostać wykonana po uruchomieniu tego wyzwalacza.",
           "error": {
             "min": "Musisz wybrać co najmniej jedną akcję."
           }

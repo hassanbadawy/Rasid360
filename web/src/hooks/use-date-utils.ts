@@ -1,4 +1,4 @@
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { formatUnixTimestampToDateTime } from "@/utils/dateUtil";
 import { useMemo } from "react";
 import { useDateLocale } from "@/hooks/use-date-locale";
@@ -48,7 +48,7 @@ export function useFormattedRange(
   return `${formattedStart} - ${formattedEnd}`;
 }
 
-export function useTimezone(config: FrigateConfig | undefined) {
+export function useTimezone(config: Rasid360Config | undefined) {
   return useMemo(() => {
     if (!config) {
       return undefined;
@@ -60,7 +60,7 @@ export function useTimezone(config: FrigateConfig | undefined) {
   }, [config]);
 }
 
-export function use24HourTime(config: FrigateConfig | undefined) {
+export function use24HourTime(config: Rasid360Config | undefined) {
   const localeUses24HourTime = useMemo(
     () =>
       new Intl.DateTimeFormat(undefined, {
@@ -85,7 +85,7 @@ export function use24HourTime(config: FrigateConfig | undefined) {
 }
 
 export function useFormattedHour(
-  config: FrigateConfig | undefined,
+  config: Rasid360Config | undefined,
   time: string, // hour is assumed to be in 24 hour format per the Date object
 ) {
   const hour24 = use24HourTime(config);

@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "你確定要重新啟動 Frigate 嗎？",
+    "title": "你確定要重新啟動 Rasid360 嗎？",
     "button": "重新啟動",
     "restarting": {
-      "title": "Frigate 正在重新啟動",
+      "title": "Rasid360 正在重新啟動",
       "content": "此頁面將在 {{countdown}} 秒後重新載入。",
       "button": "立即強制重新載入"
     }
@@ -11,12 +11,12 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "提交到 Frigate+",
+        "label": "提交到 Rasid360+",
         "desc": "位於你想避免的區域的物件並不是誤判。提交這些作為誤判會令模型混淆。"
       },
       "review": {
         "question": {
-          "label": "確認此標籤給 Frigate Plus",
+          "label": "確認此標籤給 Rasid360 Plus",
           "ask_a": "此物件是 <code>{{label}}</code> 嗎？",
           "ask_an": "此物件是 <code>{{label}}</code> 嗎？",
           "ask_full": "此物件是 <code>{{untranslatedLabel}}</code>（{{translatedLabel}}）嗎？"

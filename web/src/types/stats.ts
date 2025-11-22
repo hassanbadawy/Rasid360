@@ -1,4 +1,4 @@
-export interface FrigateStats {
+export interface Rasid360Stats {
   cameras: { [camera_name: string]: CameraStats };
   cpu_usages: { [pid: string]: CpuStats };
   detectors: { [detectorKey: string]: DetectorStats };

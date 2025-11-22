@@ -8,12 +8,12 @@
         "textModel": "Besedilni model",
         "textTokenizer": "Tokenizator besedila"
       },
-      "context": "Frigate prenaša potrebne modele vdelave za podporo funkcije semantičnega iskanja. To lahko traja nekaj minut, odvisno od hitrosti vaše omrežne povezave.",
+      "context": "Rasid360 prenaša potrebne modele vdelave za podporo funkcije semantičnega iskanja. To lahko traja nekaj minut, odvisno od hitrosti vaše omrežne povezave.",
       "tips": {
         "context": "Morda boste želeli ponovno indeksirati vdelave (embeddings) svojih sledenih objektov, ko bodo modeli preneseni.",
         "documentation": "Preberi dokumentacijo"
       },
-      "error": "Prišlo je do napake. Preverite dnevnike Frigate."
+      "error": "Prišlo je do napake. Preverite dnevnike Rasid360."
     },
     "embeddingsReindexing": {
       "step": {
@@ -27,7 +27,7 @@
       "finishingShortly": "Kmalu končano"
     }
   },
-  "documentTitle": "Razišči - Frigate",
+  "documentTitle": "Razišči - Rasid360",
   "generativeAI": "Generativna UI",
   "exploreMore": "Razišči več {{label}} objektov",
   "details": {
@@ -43,7 +43,7 @@
     "description": {
       "placeholder": "Opis sledenega predmeta",
       "label": "Opis",
-      "aiTips": "Frigate od vašega ponudnika generativne UI ne bo zahteval opisa, dokler se življenjski cikel sledenega objekta ne konča."
+      "aiTips": "Rasid360 od vašega ponudnika generativne UI ne bo zahteval opisa, dokler se življenjski cikel sledenega objekta ne konča."
     },
     "recognizedLicensePlate": "Prepoznana registrska tablica",
     "objects": "Predmeti",
@@ -55,7 +55,7 @@
         "viewInExplore": "Poglej v Razišči Pogledu"
       },
       "tips": {
-        "hasMissingObjects": "Prilagodite konfiguracijo, če želite, da Frigate shranjuje sledene objekte za naslednje oznake: <em>{{objects}}</em>"
+        "hasMissingObjects": "Prilagodite konfiguracijo, če želite, da Rasid360 shranjuje sledene objekte za naslednje oznake: <em>{{objects}}</em>"
       },
       "toast": {
         "success": {
@@ -104,8 +104,8 @@
       "label": "Najdi podobno"
     },
     "submitToPlus": {
-      "label": "Predloži v Frigate+",
-      "aria": "Predloži v Frigate Plus"
+      "label": "Predloži v Rasid360+",
+      "aria": "Predloži v Rasid360 Plus"
     },
     "viewInHistory": {
       "label": "Poglej v zgodovini",
@@ -185,7 +185,7 @@
         "millisecondsToOffset": "Odmik zaznanih anotacij v milisekundah. <em>Privzeto: 0</em>",
         "tips": "NASVET: Predstavljajte si posnetek dogodka, v katerem oseba hodi od leve proti desni. Če je okvir dogodka na časovnici preveč levo od osebe, je treba vrednost zmanjšati. Podobno je treba vrednost povečati, če oseba hodi od leve proti desni in je okvir preveč pred njo.",
         "toast": {
-          "success": "Odmik anotacij za {{camera}} je bil shranjen v konfiguracijsko datoteko. Znova zaženite Frigate, da uveljavite spremembe."
+          "success": "Odmik anotacij za {{camera}} je bil shranjen v konfiguracijsko datoteko. Znova zaženite Rasid360, da uveljavite spremembe."
         }
       }
     },

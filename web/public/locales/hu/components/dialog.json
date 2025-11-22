@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Biztosan újra szeretnéd indítani a Frigate-et?",
+    "title": "Biztosan újra szeretnéd indítani a Rasid360-et?",
     "button": "Újraindítás",
     "restarting": {
-      "title": "A Frigate újraindul",
+      "title": "A Rasid360 újraindul",
       "content": "Az oldal újratölt {{countdown}} másodperc múlva.",
       "button": "Erőltetett újraindítás azonnal"
     }
@@ -11,7 +11,7 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Küldés a Frigate+-nak",
+        "label": "Küldés a Rasid360+-nak",
         "desc": "Objektumok, amelyek olyan helyeken vannak, ahol nem akarod, hogy felismerésre kerüljenek, nem számítanak téves egyezésnek. Ha téves egyezésként küldöd be őket, az összezavarja a modellt."
       },
       "review": {
@@ -20,7 +20,7 @@
         },
         "question": {
           "ask_a": "Ez a tárgy egy <code>{{label}}</code>?",
-          "label": "Erősítse meg ezt a cimkét a Frigate plus felé",
+          "label": "Erősítse meg ezt a cimkét a Rasid360 plus felé",
           "ask_an": "Ez a tárgy egy <code>{{label}}</code>?",
           "ask_full": "Ez a tárgy egy {{translatedLabel}} (<code>{{untranslatedLabel}}</code>)?"
         }

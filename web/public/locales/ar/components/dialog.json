@@ -11,7 +11,7 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "التقديم إلى Frigate+",
+        "label": "التقديم إلى Rasid360+",
         "desc": "الكائنات الموجودة في الأماكن التي تريد تجنبها ليست ضمن النتائج الإيجابية الخاطئة. إرسالها كنتائج إيجابية خاطئة سيؤدي إلى إرباك النموذج."
       },
       "review": {
@@ -19,7 +19,7 @@
           "submitted": "تم تقديمه"
         },
         "question": {
-          "label": "تأكد من صحة هذه التسمية لـ Frigate Plus",
+          "label": "تأكد من صحة هذه التسمية لـ Rasid360 Plus",
           "ask_a": "هل هذا الكائن هو <code>{{label}}</code>؟",
           "ask_an": "هل هذا الكائن هو <code>{{label}}</code>؟",
           "ask_full": "هل هذا الكائن هو <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"

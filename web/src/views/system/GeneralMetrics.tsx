@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import { FrigateStats, GpuInfo } from "@/types/stats";
+import { Rasid360Stats, GpuInfo } from "@/types/stats";
 import { useEffect, useMemo, useState } from "react";
-import { useFrigateStats } from "@/api/ws";
+import { useRasid360Stats } from "@/api/ws";
 import {
   DetectorCpuThreshold,
   DetectorMemThreshold,
@@ -37,7 +37,7 @@ export default function GeneralMetrics({
 
   // stats
 
-  const { data: initialStats } = useSWR<FrigateStats[]>(
+  const { data: initialStats } = useSWR<Rasid360Stats[]>(
     [
       "stats/history",
       { keys: "cpu_usages,detectors,gpu_usages,npu_usages,processes,service" },
@@ -47,8 +47,8 @@ export default function GeneralMetrics({
     },
   );
 
-  const [statsHistory, setStatsHistory] = useState<FrigateStats[]>([]);
-  const updatedStats = useFrigateStats();
+  const [statsHistory, setStatsHistory] = useState<Rasid360Stats[]>([]);
+  const updatedStats = useRasid360Stats();
 
   useEffect(() => {
     if (initialStats == undefined || initialStats.length == 0) {

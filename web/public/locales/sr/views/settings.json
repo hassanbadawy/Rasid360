@@ -1,11 +1,11 @@
 {
   "documentTitle": {
-    "default": "Podešavanja - Frigate",
+    "default": "Podešavanja - Rasid360",
     "authentication": "Podešavanja autentifikacije - Fregate",
-    "camera": "Podešavanje kamera - Frigate",
-    "enrichments": "Podešavanja obogaćivanja - Frigate",
-    "masksAndZones": "Uređivač maski i zona - Frigate",
-    "motionTuner": "Tjuner pokreta - Frigate",
-    "general": "Generalna podešavanja - Frigate"
+    "camera": "Podešavanje kamera - Rasid360",
+    "enrichments": "Podešavanja obogaćivanja - Rasid360",
+    "masksAndZones": "Uređivač maski i zona - Rasid360",
+    "motionTuner": "Tjuner pokreta - Rasid360",
+    "general": "Generalna podešavanja - Rasid360"
   }
 }

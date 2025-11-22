@@ -2,8 +2,8 @@
   "noPreviewFound": "Nessuna anteprima trovata",
   "noRecordingsFoundForThisTime": "Nessuna registrazione trovata per questo intervallo",
   "noPreviewFoundFor": "Nessuna anteprima trovata per {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Vuoi inviare questo fotogramma a Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Vuoi inviare questo fotogramma a Rasid360+?",
     "submit": "Invia"
   },
   "livePlayerRequiredIOSVersion": "Per questo tipo di trasmissione dal vivo è richiesto iOS 17.1 o versione successiva.",
@@ -41,10 +41,10 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Fotogramma inviato correttamente a Frigate+"
+      "submittedRasid360Plus": "Fotogramma inviato correttamente a Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Impossibile inviare il fotogramma a Frigate+"
+      "submitRasid360PlusFailed": "Impossibile inviare il fotogramma a Rasid360+"
     }
   },
   "cameraDisabled": "La telecamera è disattivata"

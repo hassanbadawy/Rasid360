@@ -23,8 +23,8 @@
   "estimatedSpeed": "ความเร็วโดยประมาณ {{unit}}",
   "features": {
     "label": "คุณสมบัติ",
-    "submittedToFrigatePlus": {
-      "label": "ส่งไปยัง Frigate+",
+    "submittedToRasid360Plus": {
+      "label": "ส่งไปยัง Rasid360+",
       "tips": "คุณต้องกรองครั้งแรกบนวัตถุที่มีภาพ. <br /><br /> วัตถุที่ไม่มีภาพไม่สามารถส่งออกได้."
     },
     "hasSnapshot": "มีภาพ",

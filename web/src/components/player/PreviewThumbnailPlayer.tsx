@@ -5,7 +5,7 @@ import { ReviewSegment } from "@/types/review";
 import { getIconForLabel } from "@/utils/iconUtil";
 import TimeAgo from "../dynamic/TimeAgo";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { isIOS, isMobile, isSafari } from "react-device-detect";
 import Chip from "@/components/indicators/Chip";
 import { useFormattedTimestamp } from "@/hooks/use-date-utils";
@@ -46,7 +46,7 @@ export default function PreviewThumbnailPlayer({
 }: PreviewPlayerProps) {
   const { t } = useTranslation(["components/player"]);
   const apiHost = useApiHost();
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
 
   // interaction
@@ -222,7 +222,7 @@ export default function PreviewThumbnailPlayer({
               : undefined
           }
           draggable={false}
-          src={`${apiHost}${review.thumb_path.replace("/media/frigate/", "")}`}
+          src={`${apiHost}${review.thumb_path.replace("/media/rasid360/", "")}`}
           loading={isSafari ? "eager" : "lazy"}
           onLoad={() => {
             onImgLoad();

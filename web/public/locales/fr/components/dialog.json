@@ -1,8 +1,8 @@
 {
   "restart": {
-    "title": "Êtes-vous sûr de vouloir redémarrer Frigate ?",
+    "title": "Êtes-vous sûr de vouloir redémarrer Rasid360 ?",
     "restarting": {
-      "title": "Redémarrage de Frigate en cours",
+      "title": "Redémarrage de Rasid360 en cours",
       "content": "Cette page sera rechargée dans {{countdown}} secondes.",
       "button": "Forcer l'actualisation maintenant"
     },
@@ -11,12 +11,12 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Soumettre à Frigate+",
+        "label": "Soumettre à Rasid360+",
         "desc": "Les objets situés dans des zones à ignorer ne doivent pas être signalés comme de faux positifs, car cela nuirait à la précision du modèle."
       },
       "review": {
         "true": {
-          "label": "Confirmez cette étiquette pour Frigate Plus",
+          "label": "Confirmez cette étiquette pour Rasid360 Plus",
           "true_one": "C'est un {{label}}",
           "true_many": "Ce sont des {{label}}",
           "true_other": "Ce sont des {{label}}"
@@ -25,13 +25,13 @@
           "false_one": "Ceci n'est pas un {{label}}",
           "false_many": "Ceux-ci ne sont pas des {{label}}",
           "false_other": "Ceux-ci ne sont pas des {{label}}",
-          "label": "Ne pas confirmer cette étiquette pour Frigate Plus"
+          "label": "Ne pas confirmer cette étiquette pour Rasid360 Plus"
         },
         "state": {
           "submitted": "Soumis"
         },
         "question": {
-          "label": "Confirmez cette étiquette pour Frigate+.",
+          "label": "Confirmez cette étiquette pour Rasid360+.",
           "ask_an": "Cet objet est-il un(e) <code>{{label}}</code> ?",
           "ask_a": "Cet objet est-il un(e) <code>{{label}}</code> ?",
           "ask_full": "Cet objet est-il un(e) <code>{{translatedLabel}}</code>  ?"

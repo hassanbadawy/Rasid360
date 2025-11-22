@@ -10,7 +10,7 @@ import {
   SearchFilter,
   SearchSource,
 } from "@/types/search";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import {
   Popover,
   PopoverContent,
@@ -45,7 +45,7 @@ import { LuCheck, LuSquareCheck, LuX } from "react-icons/lu";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
 
 type SearchFilterDialogProps = {
-  config?: FrigateConfig;
+  config?: Rasid360Config;
   filter?: SearchFilter;
   filterValues: {
     cameras: string[];
@@ -170,7 +170,7 @@ export default function SearchFilterDialog({
             ? currentFilter.has_clip === 1
             : undefined
         }
-        submittedToFrigatePlus={
+        submittedToRasid360Plus={
           currentFilter.is_submitted !== undefined
             ? currentFilter.is_submitted === 1
             : undefined
@@ -249,7 +249,7 @@ export default function SearchFilterDialog({
 }
 
 type TimeRangeFilterContentProps = {
-  config?: FrigateConfig;
+  config?: Rasid360Config;
   timeRange?: string;
   updateTimeRange: (range: string | undefined) => void;
 };
@@ -579,7 +579,7 @@ export function ScoreFilterContent({
 }
 
 type SpeedFilterContentProps = {
-  config?: FrigateConfig;
+  config?: Rasid360Config;
   minSpeed: number | undefined;
   maxSpeed: number | undefined;
   setSpeedRange: (min: number | undefined, max: number | undefined) => void;
@@ -642,14 +642,14 @@ export function SpeedFilterContent({
 }
 
 type SnapshotClipContentProps = {
-  config?: FrigateConfig;
+  config?: Rasid360Config;
   hasSnapshot: boolean | undefined;
   hasClip: boolean | undefined;
-  submittedToFrigatePlus: boolean | undefined;
+  submittedToRasid360Plus: boolean | undefined;
   setSnapshotClip: (
     snapshot: boolean | undefined,
     clip: boolean | undefined,
-    submittedToFrigate: boolean | undefined,
+    submittedToRasid360: boolean | undefined,
   ) => void;
 };
 
@@ -657,7 +657,7 @@ export function SnapshotClipFilterContent({
   config,
   hasSnapshot,
   hasClip,
-  submittedToFrigatePlus,
+  submittedToRasid360Plus,
   setSnapshotClip,
 }: SnapshotClipContentProps) {
   const { t } = useTranslation(["components/filter"]);
@@ -667,8 +667,8 @@ export function SnapshotClipFilterContent({
   const [isClipFilterActive, setIsClipFilterActive] = useState(
     hasClip !== undefined,
   );
-  const [isFrigatePlusFilterActive, setIsFrigatePlusFilterActive] = useState(
-    submittedToFrigatePlus !== undefined,
+  const [isRasid360PlusFilterActive, setIsRasid360PlusFilterActive] = useState(
+    submittedToRasid360Plus !== undefined,
   );
 
   useEffect(() => {
@@ -680,10 +680,10 @@ export function SnapshotClipFilterContent({
   }, [hasClip]);
 
   useEffect(() => {
-    setIsFrigatePlusFilterActive(submittedToFrigatePlus !== undefined);
-  }, [submittedToFrigatePlus]);
+    setIsRasid360PlusFilterActive(submittedToRasid360Plus !== undefined);
+  }, [submittedToRasid360Plus]);
 
-  const isFrigatePlusFilterDisabled =
+  const isRasid360PlusFilterDisabled =
     !isSnapshotFilterActive || hasSnapshot !== true;
 
   return (
@@ -701,7 +701,7 @@ export function SnapshotClipFilterContent({
               onCheckedChange={(checked) => {
                 setIsSnapshotFilterActive(checked as boolean);
                 if (checked) {
-                  setSnapshotClip(true, hasClip, submittedToFrigatePlus);
+                  setSnapshotClip(true, hasClip, submittedToRasid360Plus);
                 } else {
                   setSnapshotClip(undefined, hasClip, undefined);
                 }
@@ -721,7 +721,7 @@ export function SnapshotClipFilterContent({
             }
             onValueChange={(value) => {
               if (value === "yes")
-                setSnapshotClip(true, hasClip, submittedToFrigatePlus);
+                setSnapshotClip(true, hasClip, submittedToRasid360Plus);
               else if (value === "no")
                 setSnapshotClip(false, hasClip, undefined);
             }}
@@ -754,10 +754,10 @@ export function SnapshotClipFilterContent({
                       <Checkbox
                         id="plus-filter"
                         className="size-5 text-white accent-white data-[state=checked]:bg-selected data-[state=checked]:text-white"
-                        checked={isFrigatePlusFilterActive}
-                        disabled={isFrigatePlusFilterDisabled}
+                        checked={isRasid360PlusFilterActive}
+                        disabled={isRasid360PlusFilterDisabled}
                         onCheckedChange={(checked) => {
-                          setIsFrigatePlusFilterActive(checked as boolean);
+                          setIsRasid360PlusFilterActive(checked as boolean);
                           if (checked) {
                             setSnapshotClip(hasSnapshot, hasClip, false);
                           } else {
@@ -767,14 +767,14 @@ export function SnapshotClipFilterContent({
                       />
                     </div>
                   </TooltipTrigger>
-                  {isFrigatePlusFilterDisabled && (
+                  {isRasid360PlusFilterDisabled && (
                     <TooltipContent
                       className="max-w-60"
                       side="left"
                       sideOffset={5}
                     >
                       <Trans ns="components/filter">
-                        features.submittedToFrigatePlus.tips
+                        features.submittedToRasid360Plus.tips
                       </Trans>
                     </TooltipContent>
                   )}
@@ -784,15 +784,15 @@ export function SnapshotClipFilterContent({
                 htmlFor="plus-filter"
                 className="cursor-pointer text-sm font-medium leading-none"
               >
-                {t("features.submittedToFrigatePlus.label")}
+                {t("features.submittedToRasid360Plus.label")}
               </Label>
             </div>
             <ToggleGroup
               type="single"
               value={
-                submittedToFrigatePlus === undefined
+                submittedToRasid360Plus === undefined
                   ? undefined
-                  : submittedToFrigatePlus
+                  : submittedToRasid360Plus
                     ? "yes"
                     : "no"
               }
@@ -803,7 +803,7 @@ export function SnapshotClipFilterContent({
                   setSnapshotClip(hasSnapshot, hasClip, false);
                 else setSnapshotClip(hasSnapshot, hasClip, undefined);
               }}
-              disabled={!isFrigatePlusFilterActive}
+              disabled={!isRasid360PlusFilterActive}
             >
               <ToggleGroupItem
                 value="yes"
@@ -832,12 +832,12 @@ export function SnapshotClipFilterContent({
               onCheckedChange={(checked) => {
                 setIsClipFilterActive(checked as boolean);
                 if (checked) {
-                  setSnapshotClip(hasSnapshot, true, submittedToFrigatePlus);
+                  setSnapshotClip(hasSnapshot, true, submittedToRasid360Plus);
                 } else {
                   setSnapshotClip(
                     hasSnapshot,
                     undefined,
-                    submittedToFrigatePlus,
+                    submittedToRasid360Plus,
                   );
                 }
               }}
@@ -854,9 +854,9 @@ export function SnapshotClipFilterContent({
             value={hasClip === undefined ? undefined : hasClip ? "yes" : "no"}
             onValueChange={(value) => {
               if (value === "yes")
-                setSnapshotClip(hasSnapshot, true, submittedToFrigatePlus);
+                setSnapshotClip(hasSnapshot, true, submittedToRasid360Plus);
               else if (value === "no")
-                setSnapshotClip(hasSnapshot, false, submittedToFrigatePlus);
+                setSnapshotClip(hasSnapshot, false, submittedToRasid360Plus);
             }}
             disabled={!isClipFilterActive}
           >

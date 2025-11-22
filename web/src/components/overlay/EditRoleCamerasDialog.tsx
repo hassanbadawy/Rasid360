@@ -23,12 +23,12 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Trans, useTranslation } from "react-i18next";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { CameraNameLabel } from "@/components/camera/FriendlyNameLabel";
 
 type EditRoleCamerasOverlayProps = {
   show: boolean;
-  config: FrigateConfig;
+  config: Rasid360Config;
   role: string;
   currentCameras: string[];
   onSave: (cameras: string[]) => void;

@@ -33,7 +33,7 @@ import {
 import useKeyboardListener from "@/hooks/use-keyboard-listener";
 import useOptimisticState from "@/hooks/use-optimistic-state";
 import { cn } from "@/lib/utils";
-import { CustomClassificationModelConfig } from "@/types/frigateConfig";
+import { CustomClassificationModelConfig } from "@/types/rasid360Config";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import axios from "axios";
 import {

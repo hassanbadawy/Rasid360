@@ -1,5 +1,5 @@
 {
-  "documentTitle": "Urejevalnik konfiguracij - Frigate",
+  "documentTitle": "Urejevalnik konfiguracij - Rasid360",
   "configEditor": "Urejevalnik konfiguracij",
   "copyConfig": "Kopiraj konfiguracijo",
   "saveAndRestart": "Shrani & ponovno zaženi",
@@ -14,5 +14,5 @@
   },
   "confirm": "Izhod brez shranjevanja?",
   "safeConfigEditor": "Urejevalnik konfiguracij (Varni Način)",
-  "safeModeDescription": "Frigate je v varnem načinu zaradi napake pri preverjanju konfiguracije."
+  "safeModeDescription": "Rasid360 je v varnem načinu zaradi napake pri preverjanju konfiguracije."
 }

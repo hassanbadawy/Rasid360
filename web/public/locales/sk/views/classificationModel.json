@@ -120,7 +120,7 @@
       "selectImagesDescription": "Kliknite na obrázky a vyberte ich. Po dokončení tejto hodiny kliknite na tlačidlo Pokračovať.",
       "generating": {
         "title": "Generovanie vzorových obrázkov",
-        "description": "Frigate načítava reprezentatívne obrázky z vašich nahrávok. Môže to chvíľu trvať..."
+        "description": "Rasid360 načítava reprezentatívne obrázky z vašich nahrávok. Môže to chvíľu trvať..."
       },
       "training": {
         "title": "Tréningový model",

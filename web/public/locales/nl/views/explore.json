@@ -19,8 +19,8 @@
         "visionModelFeatureExtractor": "kenmerkextractie van een visiemodel",
         "textModel": "Tekstmodel"
       },
-      "error": "Er is iets misgegaan. Raadpleeg de Frigate-logs.",
-      "context": "Frigate downloadt de vereiste inbedmodellen om de functie Semantisch zoeken te ondersteunen. Dit kan enkele minuten duren, afhankelijk van de snelheid van je netwerkverbinding.",
+      "error": "Er is iets misgegaan. Raadpleeg de Rasid360-logs.",
+      "context": "Rasid360 downloadt de vereiste inbedmodellen om de functie Semantisch zoeken te ondersteunen. Dit kan enkele minuten duren, afhankelijk van de snelheid van je netwerkverbinding.",
       "tips": {
         "context": "Je wilt misschien de embeddings van je gevolgde objecten opnieuw indexeren zodra de modellen zijn gedownload.",
         "documentation": "Lees de documentatie"
@@ -65,7 +65,7 @@
         "label": "Annotatie-afwijking",
         "tips": "TIP: Stel je voor dat er een clip is waarin een persoon van links naar rechts loopt. Als het objectkader in de tijdlijn van het object steeds links van de persoon ligt, dan moet de waarde verlaagd worden. Op dezelfde manier als het objectkader consequent vóór de persoon ligt dus vooruitloopt, moet de waarde verhoogd worden.",
         "toast": {
-          "success": "Annotatieverschuiving voor {{camera}} is opgeslagen in het configuratiebestand. Herstart Frigate om je wijzigingen toe te passen."
+          "success": "Annotatieverschuiving voor {{camera}} is opgeslagen in het configuratiebestand. Herstart Rasid360 om je wijzigingen toe te passen."
         }
       },
       "showAllZones": {
@@ -85,7 +85,7 @@
     "count": "{{first}} van {{second}}",
     "trackedPoint": "Volgpunt"
   },
-  "documentTitle": "Verken - Frigate",
+  "documentTitle": "Verken - Rasid360",
   "details": {
     "item": {
       "button": {
@@ -95,7 +95,7 @@
       "title": "Details van item bekijken",
       "desc": "Details van item bekijken",
       "tips": {
-        "hasMissingObjects": "Pas je configuratie aan als je wilt dat Frigate gevolgde objecten opslaat voor de volgende labels: <em>{{objects}}</em>",
+        "hasMissingObjects": "Pas je configuratie aan als je wilt dat Rasid360 gevolgde objecten opslaat voor de volgende labels: <em>{{objects}}</em>",
         "mismatch_one": "{{count}} Niet-beschikbaar object werd gedetecteerd en opgenomen in dit beoordelingsitem. Het voldeed mogelijk niet aan de criteria voor een waarschuwing of detectie, of is inmiddels opgeschoond of verwijderd.",
         "mismatch_other": "{{count}} Niet-beschikbare objecten zijn gedetecteerd en opgenomen in dit beoordelingsitem. Deze objecten voldeden mogelijk niet aan de voorwaarden voor een waarschuwing of detectie, of zijn inmiddels verwijderd of opgeruimd."
       },
@@ -136,7 +136,7 @@
     "description": {
       "placeholder": "Beschrijving van het gevolgde object",
       "label": "Beschrijving",
-      "aiTips": "Frigate vraagt pas om een beschrijving van uw Generative AI-provider als de levenscyclus van het gevolgde object is afgelopen."
+      "aiTips": "Rasid360 vraagt pas om een beschrijving van uw Generative AI-provider als de levenscyclus van het gevolgde object is afgelopen."
     },
     "expandRegenerationMenu": "Regeneratiemenu uitbreiden",
     "regenerateFromSnapshot": "Regenereren vanuit Snapshot",
@@ -171,8 +171,8 @@
       "label": "Levenscyclus van object bekijken"
     },
     "submitToPlus": {
-      "label": "Verzenden naar Frigate+",
-      "aria": "Verzenden naar Frigate Plus"
+      "label": "Verzenden naar Rasid360+",
+      "aria": "Verzenden naar Rasid360 Plus"
     },
     "viewInHistory": {
       "aria": "Bekijk in Geschiedenis",
@@ -273,7 +273,7 @@
         "millisecondsToOffset": "Aantal milliseconden om objectkader mee te verschuiven. <em>Standaard: 0</em>",
         "tips": "TIP: Stel je voor dat er een clip is waarin een persoon van links naar rechts loopt. Als het objectkader in de tijdlijn van de activiteit steeds links van de persoon ligt, dan moet de waarde verlaagd worden. Op dezelfde manier als het objectkader consequent vóór de persoon ligt dus vooruitloopt, moet de waarde verhoogd worden.",
         "toast": {
-          "success": "Annotatieverschuiving voor {{camera}} is opgeslagen in het configuratiebestand. Herstart Frigate om je wijzigingen toe te passen."
+          "success": "Annotatieverschuiving voor {{camera}} is opgeslagen in het configuratiebestand. Herstart Rasid360 om je wijzigingen toe te passen."
         }
       }
     },

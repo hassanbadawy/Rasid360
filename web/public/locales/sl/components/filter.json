@@ -105,9 +105,9 @@
     "label": "Lastnosti",
     "hasSnapshot": "Ima sliko",
     "hasVideoClip": "Ima posnetek",
-    "submittedToFrigatePlus": {
-      "label": "Poslano na Frigate+",
-      "tips": "Najprej morate filtrirati po sledenih objektih, ki imajo sliko.<br /><br />Slednih objektov brez slike ni mogoče poslati v Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Poslano na Rasid360+",
+      "tips": "Najprej morate filtrirati po sledenih objektih, ki imajo sliko.<br /><br />Slednih objektov brez slike ni mogoče poslati v Rasid360+."
     }
   },
   "cameras": {

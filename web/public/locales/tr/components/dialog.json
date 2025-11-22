@@ -1,10 +1,10 @@
 {
   "restart": {
-    "title": "Frigate'i yeniden başlatmak istediğinize emin misiniz?",
+    "title": "Rasid360'i yeniden başlatmak istediğinize emin misiniz?",
     "button": "Yeniden Başlat",
     "restarting": {
       "content": "Bu sayfa {{countdown}} saniye sonra yeniden yüklenecektir.",
-      "title": "Frigate Yeniden Başlatılıyor",
+      "title": "Rasid360 Yeniden Başlatılıyor",
       "button": "Şimdi Yeniden Yükle"
     }
   },
@@ -17,22 +17,22 @@
         "true": {
           "true_one": "Bu bir {{label}}",
           "true_other": "Bu bir {{label}}",
-          "label": "Frigate+ için bu etiketi onaylayın"
+          "label": "Rasid360+ için bu etiketi onaylayın"
         },
         "false": {
-          "label": "Bu etiketi Frigate+ için onaylamaktan vazgeç",
+          "label": "Bu etiketi Rasid360+ için onaylamaktan vazgeç",
           "false_one": "Bu bir {{label}} değil",
           "false_other": "Bu bir {{label}} değil"
         },
         "question": {
           "ask_an": "Bu nesne bir <code>{{label}}</code> nesnesi mi?",
-          "label": "Bu etiketi Frigate+ için onaylayın",
+          "label": "Bu etiketi Rasid360+ için onaylayın",
           "ask_a": "Bu nesne bir <code>{{label}}</code> mi?",
           "ask_full": "Bu nesne bir <code>{{untranslatedLabel}}</code> ({{translatedLabel}}) nesnesi mi?"
         }
       },
       "submitToPlus": {
-        "label": "Frigate+'ya Gönder",
+        "label": "Rasid360+'ya Gönder",
         "desc": "Görülmesini istemediğiniz yerlerdeki nesneler yanlış pozitif değildir. Bunları yanlış pozitif olarak göndermek modeli yanıltacaktır."
       }
     },

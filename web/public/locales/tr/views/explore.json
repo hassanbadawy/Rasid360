@@ -1,5 +1,5 @@
 {
-  "documentTitle": "Keşfet - Frigate",
+  "documentTitle": "Keşfet - Rasid360",
   "details": {
     "timestamp": "Zaman Damgası",
     "item": {
@@ -10,7 +10,7 @@
         "viewInExplore": "Keşfet'te Görüntüle"
       },
       "tips": {
-        "hasMissingObjects": "Eğer Frigate'in <em>{{objects}}</em> etiketine sahip nesneleri kaydetmesini istiyorsanız yapılandırmanızı buna göre ayarlayın.",
+        "hasMissingObjects": "Eğer Rasid360'in <em>{{objects}}</em> etiketine sahip nesneleri kaydetmesini istiyorsanız yapılandırmanızı buna göre ayarlayın.",
         "mismatch_one": "Tespit edilmiş olan bir nesne bu İncele öğesine dahil edildi. Bu nesne Alarm veya Tespit olarak derecelendirilemedi veya çoktan silindi/temizlendi.",
         "mismatch_other": "Tespit edilmiş olan {{count}} adet nesne bu İncele öğesine dahil edildi. Bu nesneler Alarm veya Tespit olarak derecelendirilemedi veya çoktan silindi/temizlendi."
       },
@@ -40,7 +40,7 @@
     "zones": "Alanlar",
     "description": {
       "label": "Açıklama",
-      "aiTips": "Frigate, Nesne Geçmişi tamamlanana kadar Üretken Yapay Zeka sağlayıcısından bir resim açıklaması talep etmeyecektir.",
+      "aiTips": "Rasid360, Nesne Geçmişi tamamlanana kadar Üretken Yapay Zeka sağlayıcısından bir resim açıklaması talep etmeyecektir.",
       "placeholder": "Takip edilen nesnenin açıklaması"
     },
     "expandRegenerationMenu": "Yeniden Üret menüsünü genişlet",
@@ -96,12 +96,12 @@
         "textModel": "Metin modeli",
         "textTokenizer": "Metin tokenizeri"
       },
-      "error": "Bir hata oluştu. Frigate günlüklerini kontrol edin.",
+      "error": "Bir hata oluştu. Rasid360 günlüklerini kontrol edin.",
       "tips": {
         "documentation": "Dökümantasyonu oku",
         "context": "Model indirildikten sonra takip edilmiş nesnelerinizin gömüleri tekrar dizinlemeyi tercih edebilirsiniz."
       },
-      "context": "Frigate, Anlamsal Arama özelliği için gerekli olan gömü modellerini indiriyor. Ağ bağlantınızın hızına göre bu işlem bir kaç dakika sürebilir."
+      "context": "Rasid360, Anlamsal Arama özelliği için gerekli olan gömü modellerini indiriyor. Ağ bağlantınızın hızına göre bu işlem bir kaç dakika sürebilir."
     }
   },
   "trackedObjectDetails": "Takip Edilen Nesne Detayları",
@@ -143,7 +143,7 @@
         "desc": "Tespit belirteç verisi kameranızın tespit yayınından gelir fakat kameranızın kayıt yayını üzerine çizilir. Bu iki yayın zaman zaman senkrondan kayar. Bunun sonucu olarak görüntü ve belirteç karelerinin zaman uyumu kayabilir. Bunu telafi etmek için <code>annotation_offset</code> alanı kullanılarak gecikmeyi ayarlanabilir.",
         "tips": "İPUCU: Videoda bir kişinin soldan sağa doğru yürüdüğünü hayal edin. Eğer belirteç sürekli olarak kişinin solunda/arkasında ise bu değer daha küçük veya negatif olarak ayarlanmalıdır. Benzer şekilde, eğer kişi sağdan sola doğru yürürken belirteç karesi sürekli olarak kişinin önünde/sağında kalıyorsa bu değer daha büyük veya pozitif olarak ayarlanmalıdır.",
         "toast": {
-          "success": "{{camera}} kamerası için belirteç telafi değeri yapılandırma dosyasına kaydedildi. Değişikliklerin uygulamak için Frigate'i yeniden başlatın."
+          "success": "{{camera}} kamerası için belirteç telafi değeri yapılandırma dosyasına kaydedildi. Değişikliklerin uygulamak için Rasid360'i yeniden başlatın."
         }
       },
       "title": "Belirteç Ayarları",
@@ -171,8 +171,8 @@
       "label": "Benzerini bul"
     },
     "submitToPlus": {
-      "label": "Frigate+'a gönder",
-      "aria": "Frigate+'a gönder"
+      "label": "Rasid360+'a gönder",
+      "aria": "Rasid360+'a gönder"
     },
     "viewInHistory": {
       "label": "Geçmiş görünümünde görüntüle",

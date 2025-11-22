@@ -1,13 +1,13 @@
 {
   "documentTitle": {
-    "cameras": "鏡頭統計 - Frigate",
-    "storage": "儲存裝置統計 - Frigate",
-    "general": "統計總覽 - Frigate",
-    "enrichments": "進階統計 - Frigate",
+    "cameras": "鏡頭統計 - Rasid360",
+    "storage": "儲存裝置統計 - Rasid360",
+    "general": "統計總覽 - Rasid360",
+    "enrichments": "進階統計 - Rasid360",
     "logs": {
-      "frigate": "Frigate 日誌 - Frigate",
-      "go2rtc": "Go2RTC 日誌 - Frigate",
-      "nginx": "Nginx 日誌 - Frigate"
+      "frigate": "Rasid360 日誌 - Rasid360",
+      "go2rtc": "Go2RTC 日誌 - Rasid360",
+      "nginx": "Nginx 日誌 - Rasid360"
     }
   },
   "title": "系統",
@@ -89,7 +89,7 @@
     "overview": "總覽",
     "recordings": {
       "title": "錄影檔案",
-      "tips": "此數值僅代表 Frigate 資料庫中錄影資料的儲存空間用量。Frigate 不會追蹤硬碟上所有檔案的使用量。",
+      "tips": "此數值僅代表 Rasid360 資料庫中錄影資料的儲存空間用量。Rasid360 不會追蹤硬碟上所有檔案的使用量。",
       "earliestRecording": "最早的錄影檔案："
     },
     "cameraStorage": {
@@ -101,7 +101,7 @@
       "bandwidth": "頻寬",
       "unused": {
         "title": "未使用",
-        "tips": "在磁碟中有除了 Frigate 錄影內容以外的檔案時，此數值可能無法正確反應可用的空間。Frigate 不會追蹤錄影資料以外的檔案的儲存空間用量。"
+        "tips": "在磁碟中有除了 Rasid360 錄影內容以外的檔案時，此數值可能無法正確反應可用的空間。Rasid360 不會追蹤錄影資料以外的檔案的儲存空間用量。"
       }
     }
   },

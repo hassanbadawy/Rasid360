@@ -1,5 +1,5 @@
 {
-  "documentTitle": "Explorar - Frigate",
+  "documentTitle": "Explorar - Rasid360",
   "generativeAI": "IA Generativa",
   "exploreMore": "Explorar mais objetos {{label}}",
   "exploreIsUnavailable": {
@@ -16,7 +16,7 @@
       }
     },
     "downloadingModels": {
-      "context": "Frigate está baixando os modelos de embeddings necessários para oferecer suporte ao recurso de Pesquisa Semântica. Isso pode levar vários minutos, dependendo da velocidade da sua conexão de rede.",
+      "context": "Rasid360 está baixando os modelos de embeddings necessários para oferecer suporte ao recurso de Pesquisa Semântica. Isso pode levar vários minutos, dependendo da velocidade da sua conexão de rede.",
       "setup": {
         "textModel": "Modelo de texto",
         "textTokenizer": "Tokenizador de Texto",
@@ -27,7 +27,7 @@
         "context": "Você pode querer reindexar os embeddings de seus objetos rastreados uma vez que os modelos forem baixados.",
         "documentation": "Leia a documentação"
       },
-      "error": "Um erro ocorreu. Verifique os registos do Frigate."
+      "error": "Um erro ocorreu. Verifique os registos do Rasid360."
     }
   },
   "details": {
@@ -43,7 +43,7 @@
         "mismatch_one": "{{count}} objeto indisponível foi detectado e incluido nesse item de revisão. Esse objeto ou não se qualifica para um alerta ou detecção, ou já foi limpo/deletado.",
         "mismatch_many": "{{count}} objetos indisponíveis foram detectados e incluídos nesse item de revisão. Esses objetos ou não se qualificam para um alerta ou detecção, ou já foram limpos/deletados.",
         "mismatch_other": "{{count}} objetos indisponíveis foram detectados e incluídos nesse item de revisão. Esses objetos ou não se qualificam para um alerta ou detecção, ou já foram limpos/deletados.",
-        "hasMissingObjects": "Ajustar a sua configuração se quiser que o Frigate salve objetos rastreados com os seguintes rótulos: <em>{{objects}}</em>"
+        "hasMissingObjects": "Ajustar a sua configuração se quiser que o Rasid360 salve objetos rastreados com os seguintes rótulos: <em>{{objects}}</em>"
       },
       "toast": {
         "success": {
@@ -93,7 +93,7 @@
     "description": {
       "label": "Descrição",
       "placeholder": "Descrição do objeto rastreado",
-      "aiTips": "O Frigate não solicitará a descrição do seu fornecedor de IA Generativa até que o ciclo de vida do objeto rastreado tenha finalizado."
+      "aiTips": "O Rasid360 não solicitará a descrição do seu fornecedor de IA Generativa até que o ciclo de vida do objeto rastreado tenha finalizado."
     },
     "expandRegenerationMenu": "Expandir menu de regeneração",
     "regenerateFromSnapshot": "Regenerar a partir de Captura de Imagem",
@@ -154,7 +154,7 @@
         "millisecondsToOffset": "Milisegundos para separar detecções de anotações.<em>Default: 0</em>",
         "tips": "DICA: Imagine que haja um clipe de evento com uma pessoa caminhando da esquerda para a direita. Se a caixa delimitadora da linha do tempo do evento está consistentemente à esquerda da pessoa, então o valor deve ser reduzido. Similarmente, se a pessoa está caminhando da esquerda para a direita e a caixa delimitadora está consistentemente à frente da pessoa, então o valor deve ser aumentado.",
         "toast": {
-          "success": "O deslocamento de anotação para a câmera {{camera}} foi salvo no arquivo de configuração. Reinicie o Frigate para aplicar as alterações."
+          "success": "O deslocamento de anotação para a câmera {{camera}} foi salvo no arquivo de configuração. Reinicie o Rasid360 para aplicar as alterações."
         }
       }
     },
@@ -169,8 +169,8 @@
       "label": "Encontrar similar"
     },
     "submitToPlus": {
-      "label": "Enviar ao Frigate+",
-      "aria": "Enviar ao Frigate Plus"
+      "label": "Enviar ao Rasid360+",
+      "aria": "Enviar ao Rasid360 Plus"
     },
     "downloadVideo": {
       "label": "Baixar vídeo",

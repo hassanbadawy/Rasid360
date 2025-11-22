@@ -1,5 +1,5 @@
 import WebRtcPlayer from "./WebRTCPlayer";
-import { CameraConfig } from "@/types/frigateConfig";
+import { CameraConfig } from "@/types/rasid360Config";
 import AutoUpdatingCameraImage from "../camera/AutoUpdatingCameraImage";
 import ActivityIndicator from "../indicators/activity-indicator";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

@@ -66,7 +66,7 @@
     },
     "management": {
       "title": "จัดการผู้ใช้",
-      "desc": "จัดการบัญชีของ Frigate นี้."
+      "desc": "จัดการบัญชีของ Rasid360 นี้."
     },
     "addUser": "แก้ไขผู้ใช้",
     "title": "ผู้ใช้",
@@ -98,18 +98,18 @@
     }
   },
   "documentTitle": {
-    "default": "ตั้งค่า - Frigate",
-    "authentication": "การตั้งค่าการตรวจสอบสิทธิ์ - Frigate",
-    "camera": "การตั้งค่ากล้อง - Frigate",
-    "classification": "การตั้งค่าการจำแนกประเภท - Frigate",
-    "masksAndZones": "ตัวแก้ไขแมสและโซน - Frigate",
-    "general": "การตั้งค่าทั่วไป - Frigate",
-    "frigatePlus": "การตั้งค่า Frigate+ - Frigate",
-    "notifications": "การตั้งค่าการแจ้งเตือน - Frigate"
+    "default": "ตั้งค่า - Rasid360",
+    "authentication": "การตั้งค่าการตรวจสอบสิทธิ์ - Rasid360",
+    "camera": "การตั้งค่ากล้อง - Rasid360",
+    "classification": "การตั้งค่าการจำแนกประเภท - Rasid360",
+    "masksAndZones": "ตัวแก้ไขแมสและโซน - Rasid360",
+    "general": "การตั้งค่าทั่วไป - Rasid360",
+    "frigatePlus": "การตั้งค่า Rasid360+ - Rasid360",
+    "notifications": "การตั้งค่าการแจ้งเตือน - Rasid360"
   },
   "menu": {
     "notifications": "การแจ้งเตือน",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "cameras": "ตั้งค่ากล้อง",
     "users": "ผู้ใช้",
     "classification": "การจําแนกประเภท",
@@ -218,7 +218,7 @@
     }
   },
   "frigatePlus": {
-    "title": "การตั้งค่า Frigate+",
+    "title": "การตั้งค่า Rasid360+",
     "modelInfo": {
       "cameras": "กล้อง"
     },

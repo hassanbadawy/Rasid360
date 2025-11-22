@@ -1,7 +1,7 @@
 {
   "time": {
     "untilForTime": "Till {{time}}",
-    "untilForRestart": "Tills Frigate startar om.",
+    "untilForRestart": "Tills Rasid360 startar om.",
     "untilRestart": "Tills omstart",
     "ago": "{{timeAgo}} sedan",
     "justNow": "Just nu",
@@ -201,10 +201,10 @@
     "help": "Hjälp",
     "documentation": {
       "title": "Dokumentation",
-      "label": "Frigate dokumentation"
+      "label": "Rasid360 dokumentation"
     },
     "uiPlayground": "UI Testmiljö",
-    "restart": "Starta om Frigate",
+    "restart": "Starta om Rasid360",
     "review": "Granska",
     "languages": "Språk",
     "configurationEditor": "Konfigurationsredigerare",
@@ -226,16 +226,16 @@
   "accessDenied": {
     "title": "Åtkomst Förbjuden",
     "desc": "Du har inte rättigheter att visa den här sidan.",
-    "documentTitle": "Åtkomst Förbjuden - Frigate"
+    "documentTitle": "Åtkomst Förbjuden - Rasid360"
   },
   "role": {
     "admin": "Admin",
     "viewer": "Tittare",
-    "desc": "Administratörer har fullständig åtkomst till alla funktioner i Frigates gränssnitt. Tittare kan endast visa kameror, granska objekt och se historiskt videomaterial.",
+    "desc": "Administratörer har fullständig åtkomst till alla funktioner i Rasid360s gränssnitt. Tittare kan endast visa kameror, granska objekt och se historiskt videomaterial.",
     "title": "Roll"
   },
   "notFound": {
-    "documentTitle": "Hittades Inte - Frigate",
+    "documentTitle": "Hittades Inte - Rasid360",
     "desc": "Sidan hittades inte",
     "title": "404"
   },
@@ -285,6 +285,6 @@
   },
   "field": {
     "optional": "Valfritt",
-    "internalID": "Det interna ID som Frigate använder i konfigurationen och databasen"
+    "internalID": "Det interna ID som Rasid360 använder i konfigurationen och databasen"
   }
 }

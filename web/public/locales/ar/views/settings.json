@@ -4,11 +4,11 @@
     "default": "الإعدادات - فرايجيت",
     "authentication": "إعدادات المصادقة - فرايجيت",
     "enrichments": "إحصاء الاعدادات",
-    "masksAndZones": "القناع ومحرر المنطقة - Frigate",
+    "masksAndZones": "القناع ومحرر المنطقة - Rasid360",
     "motionTuner": "مضبط الحركة - Firgate",
-    "object": "تصحيح الأخطاء - Frigate",
-    "general": "الإعدادات العامة - Frigate",
-    "notifications": "إعدادات الإشعارات - Frigate"
+    "object": "تصحيح الأخطاء - Rasid360",
+    "general": "الإعدادات العامة - Rasid360",
+    "notifications": "إعدادات الإشعارات - Rasid360"
   },
   "menu": {
     "ui": "واجهة المستخدم",

@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from "react";
 import { TrackingDetailsSequence, LifecycleClassType } from "@/types/timeline";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import useSWR from "swr";
 import { useDetailStream } from "@/context/detail-stream-context";
 import {
@@ -54,7 +54,7 @@ export default function ObjectTrackOverlay({
   onSeekToTime,
 }: ObjectTrackOverlayProps) {
   const { t } = useTranslation("views/events");
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const { annotationOffset, selectedObjectIds } = useDetailStream();
 
   const effectiveCurrentTime = currentTime - annotationOffset / 1000;
@@ -115,7 +115,7 @@ export default function ObjectTrackOverlay({
     { revalidateOnFocus: false },
   );
 
-  const getZonesFriendlyNames = (zones: string[], config: FrigateConfig) => {
+  const getZonesFriendlyNames = (zones: string[], config: Rasid360Config) => {
     return zones?.map((zone) => resolveZoneName(config, zone)) ?? [];
   };
 

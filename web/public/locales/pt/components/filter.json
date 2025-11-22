@@ -37,9 +37,9 @@
     "label": "Funcionalidades",
     "hasSnapshot": "Tem uma captura",
     "hasVideoClip": "Tem um videoclipe",
-    "submittedToFrigatePlus": {
-      "label": "Submetido para Frigate+",
-      "tips": "Primeiro, deve filtrar os objetos rastreados que têm uma captura.<br /><br />Os objetos rastreados sem uma captura não podem ser submetidos para Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Submetido para Rasid360+",
+      "tips": "Primeiro, deve filtrar os objetos rastreados que têm uma captura.<br /><br />Os objetos rastreados sem uma captura não podem ser submetidos para Rasid360+."
     }
   },
   "sort": {

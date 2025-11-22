@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { useCameraFriendlyName } from "@/hooks/use-camera-friendly-name";
-import { CameraConfig } from "@/types/frigateConfig";
+import { CameraConfig } from "@/types/rasid360Config";
 import { useZoneFriendlyName } from "@/hooks/use-zone-friendly-name";
 
 interface CameraNameLabelProps

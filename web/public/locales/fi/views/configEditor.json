@@ -1,5 +1,5 @@
 {
-  "documentTitle": "Frigaten konfiguraatioeditori",
+  "documentTitle": "Rasid360n konfiguraatioeditori",
   "confirm": "Poistu tallentamatta?",
   "saveOnly": "Vain tallennus",
   "toast": {
@@ -14,5 +14,5 @@
   "copyConfig": "Kopioi konfiguraatio",
   "saveAndRestart": "Tallenna & uudelleenkäynnistä",
   "safeConfigEditor": "Konfiguraatioeditori (vikasietotila)",
-  "safeModeDescription": "Frigate on vikasietotilassa konfiguraation vahvistusvirheen vuoksi."
+  "safeModeDescription": "Rasid360 on vikasietotilassa konfiguraation vahvistusvirheen vuoksi."
 }

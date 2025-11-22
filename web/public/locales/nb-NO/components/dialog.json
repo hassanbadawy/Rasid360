@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Er du sikker på at du vil starte Frigate på nytt?",
+    "title": "Er du sikker på at du vil starte Rasid360 på nytt?",
     "button": "Start på nytt",
     "restarting": {
-      "title": "Frigate starter på nytt",
+      "title": "Rasid360 starter på nytt",
       "button": "Tving omlasting nå",
       "content": "Denne siden vil lastes inn på nytt om {{countdown}} sekunder."
     }
@@ -11,12 +11,12 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Send til Frigate+",
+        "label": "Send til Rasid360+",
         "desc": "Objekter på steder du vil unngå er ikke falske positiver. Å sende dem som falske positiver vil forvirre modellen."
       },
       "review": {
         "true": {
-          "label": "Bekreft denne merkelappen for Frigate Plus",
+          "label": "Bekreft denne merkelappen for Rasid360 Plus",
           "true_one": "Dette er en {{label}}",
           "true_other": "Dette er en {{label}}"
         },
@@ -24,12 +24,12 @@
           "submitted": "Sendt inn"
         },
         "false": {
-          "label": "Ikke bekreft denne merkelappen for Frigate Plus",
+          "label": "Ikke bekreft denne merkelappen for Rasid360 Plus",
           "false_one": "Dette er ikke en {{label}}",
           "false_other": "Dette er ikke en {{label}}"
         },
         "question": {
-          "label": "Bekreft denne etiketten for Frigate Plus",
+          "label": "Bekreft denne etiketten for Rasid360 Plus",
           "ask_an": "Er dette objekt en <code>{{label}}</code>?",
           "ask_a": "Er dette objektet en <code>{{label}}</code>?",
           "ask_full": "Er dette objekt en <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"

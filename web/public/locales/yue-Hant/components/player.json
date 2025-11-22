@@ -1,9 +1,9 @@
 {
   "noRecordingsFoundForThisTime": "此時間段內沒有錄影",
   "noPreviewFound": "找不到預覽",
-  "submitFrigatePlus": {
+  "submitRasid360Plus": {
     "submit": "提交",
-    "title": "提交此畫面至 Frigate+？"
+    "title": "提交此畫面至 Rasid360+？"
   },
   "streamOffline": {
     "desc": "{{cameraName}} 的 <code>detect</code> 串流未接收到任何畫面，請檢查錯誤日誌",
@@ -40,10 +40,10 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "成功提交畫面至 Frigate+"
+      "submittedRasid360Plus": "成功提交畫面至 Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "提交畫面至 Frigate+ 失敗"
+      "submitRasid360PlusFailed": "提交畫面至 Rasid360+ 失敗"
     }
   },
   "noPreviewFoundFor": "找不到 {{cameraName}} 的預覽",

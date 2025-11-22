@@ -1,14 +1,14 @@
 {
   "documentTitle": {
-    "storage": "Frigate - Estatísticas de Armazenamento",
-    "general": "Frigate - Estatísticas Gerais",
-    "enrichments": "Frigate - Estatísticas de Enriquecimento",
+    "storage": "Rasid360 - Estatísticas de Armazenamento",
+    "general": "Rasid360 - Estatísticas Gerais",
+    "enrichments": "Rasid360 - Estatísticas de Enriquecimento",
     "logs": {
-      "frigate": "Frigate - Registos de Eventos do Frigate",
-      "go2rtc": "Frigate - Registos de Eventos do Go2RTC",
-      "nginx": "Frigate - Registos de Eventos do Nginx"
+      "frigate": "Rasid360 - Registos de Eventos do Rasid360",
+      "go2rtc": "Rasid360 - Registos de Eventos do Go2RTC",
+      "nginx": "Rasid360 - Registos de Eventos do Nginx"
     },
-    "cameras": "Frigate - Estatísticas das Câmaras"
+    "cameras": "Rasid360 - Estatísticas das Câmaras"
   },
   "title": "Sistema",
   "metrics": "Métricas do sistema",
@@ -42,7 +42,7 @@
       "percentageOfTotalUsed": "Porcentagem do total",
       "bandwidth": "Largura de banda",
       "unused": {
-        "tips": "Este valor pode não representar com precisão o espaço livre disponível para o Frigate se você tiver outros ficheiros armazenados em sua unidade além das gravações do Frigate. O Frigate não rastreia o uso de armazenamento fora de suas gravações.",
+        "tips": "Este valor pode não representar com precisão o espaço livre disponível para o Rasid360 se você tiver outros ficheiros armazenados em sua unidade além das gravações do Rasid360. O Rasid360 não rastreia o uso de armazenamento fora de suas gravações.",
         "title": "Não utilizado"
       },
       "unusedStorageInformation": "Informações de armazenamento não utilizado",
@@ -53,7 +53,7 @@
     "recordings": {
       "title": "Gravações",
       "earliestRecording": "Primeira gravação disponível:",
-      "tips": "Este valor representa o armazenamento total utilizado pelas gravações na base de dados do Frigate. O Frigate não acompanha a utilização do armazenamento de todos os ficheiros no seu disco."
+      "tips": "Este valor representa o armazenamento total utilizado pelas gravações na base de dados do Rasid360. O Rasid360 não acompanha a utilização do armazenamento de todos os ficheiros no seu disco."
     },
     "shm": {
       "title": "Alocação SHM (memória partilhada)",

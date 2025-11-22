@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Bạn có chắc chắn muốn khởi động lại Frigate không?",
+    "title": "Bạn có chắc chắn muốn khởi động lại Rasid360 không?",
     "button": "Khởi động lại",
     "restarting": {
-      "title": "Đang khởi động lại Frigate",
+      "title": "Đang khởi động lại Rasid360",
       "content": "Trang này sẽ tải lại sau {{countdown}} giây.",
       "button": "Tải lại ngay"
     }
@@ -14,7 +14,7 @@
         "question": {
           "ask_a": "Đối tượng này có phải là một <code>{{label}}</code> không?",
           "ask_an": "Đối tượng này có phải là một <code>{{label}}</code> không?",
-          "label": "Xác nhận nhãn này cho Frigate Plus",
+          "label": "Xác nhận nhãn này cho Rasid360 Plus",
           "ask_full": "Đối tượng này có phải là một <code>{{untranslatedLabel}}</code> ({{translatedLabel}}) không?"
         },
         "state": {
@@ -22,7 +22,7 @@
         }
       },
       "submitToPlus": {
-        "label": "Gửi lên Frigate+",
+        "label": "Gửi lên Rasid360+",
         "desc": "Đối tượng xuất hiện ở các khu vực bạn muốn tránh không được xem là phát hiện sai. Gửi chúng lên dưới dạng phát hiện sai có thể làm mô hình bị nhầm lẫn."
       }
     },

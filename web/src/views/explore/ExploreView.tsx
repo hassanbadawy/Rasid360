@@ -20,7 +20,7 @@ import { isEqual } from "lodash";
 import TimeAgo from "@/components/dynamic/TimeAgo";
 import SearchResultActions from "@/components/menu/SearchResultActions";
 import { SearchTab } from "@/components/overlay/detail/SearchDetailDialog";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useTranslation } from "react-i18next";
 import { getTranslatedLabel } from "@/utils/i18n";
 
@@ -228,7 +228,7 @@ function ExploreThumbnailImage({
   onSelectSearch,
 }: ExploreThumbnailImageProps) {
   const apiHost = useApiHost();
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const [imgRef, imgLoaded, onImgLoad] = useImageLoaded();
   const navigate = useNavigate();
 

@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Uživo - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Uživo - Frigate",
+  "documentTitle": "Uživo - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Uživo - Rasid360",
   "lowBandwidthMode": "Režim niskog propusnog opsega",
   "twoWayTalk": {
     "enable": "Omogući dvosmerni razgovor",

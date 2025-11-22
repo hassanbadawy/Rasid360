@@ -1,8 +1,8 @@
 {
   "noRecordingsFoundForThisTime": "Ebben az időpontban nem található felvétel",
   "noPreviewFound": "Nincs elérhető előkép",
-  "submitFrigatePlus": {
-    "title": "Elküldi ezt a képet a Frigate+-nak?",
+  "submitRasid360Plus": {
+    "title": "Elküldi ezt a képet a Rasid360+-nak?",
     "submit": "Küldés"
   },
   "noPreviewFoundFor": "Nem található előnézet {{cameraName}}-hoz/-hez/-höz",
@@ -42,10 +42,10 @@
   },
   "toast": {
     "error": {
-      "submitFrigatePlusFailed": "Kép küldése a Frigate+-hoz meghiúsult"
+      "submitRasid360PlusFailed": "Kép küldése a Rasid360+-hoz meghiúsult"
     },
     "success": {
-      "submittedFrigatePlus": "Kép sikeresen elküldve a Frigate+-nak"
+      "submittedRasid360Plus": "Kép sikeresen elküldve a Rasid360+-nak"
     }
   }
 }

@@ -38,9 +38,9 @@
     "label": "Filtreleri varsayılanlara sıfırla"
   },
   "features": {
-    "submittedToFrigatePlus": {
-      "tips": "Öncelikle izlenen nesneler içinde fotoğrafı olanlar için filtre uygulamalısınız.<br /><br />Fotoğrafı olmayan nesneler Frigate+’a gönderilemez.",
-      "label": "Frigate+'a Gönderildi"
+    "submittedToRasid360Plus": {
+      "tips": "Öncelikle izlenen nesneler içinde fotoğrafı olanlar için filtre uygulamalısınız.<br /><br />Fotoğrafı olmayan nesneler Rasid360+’a gönderilemez.",
+      "label": "Rasid360+'a Gönderildi"
     },
     "hasVideoClip": "Video klibi var",
     "hasSnapshot": "Fotoğrafı var",

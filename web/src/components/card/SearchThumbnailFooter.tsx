@@ -1,6 +1,6 @@
 import TimeAgo from "../dynamic/TimeAgo";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useFormattedTimestamp } from "@/hooks/use-date-utils";
 import { SearchResult } from "@/types/search";
 import ActivityIndicator from "../indicators/activity-indicator";
@@ -26,7 +26,7 @@ export default function SearchThumbnailFooter({
   addTrigger,
 }: SearchThumbnailProps) {
   const { t } = useTranslation(["views/search"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   // date
   const formattedDate = useFormattedTimestamp(
@@ -53,6 +53,11 @@ export default function SearchThumbnailFooter({
           </div>
         )}
         {formattedDate}
+        {searchResult.data.recognized_license_plate && (
+          <div className="mt-1 rounded bg-blue-600 px-1.5 py-0.5 font-mono text-xs font-semibold text-white">
+            {searchResult.data.recognized_license_plate}
+          </div>
+        )}
       </div>
       <div className="flex flex-row items-center justify-end gap-5 md:gap-4">
         <SearchResultActions

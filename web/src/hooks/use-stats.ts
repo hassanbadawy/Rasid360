@@ -1,21 +1,21 @@
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import {
   CameraDetectThreshold,
   CameraFfmpegThreshold,
   InferenceThreshold,
 } from "@/types/graph";
-import { FrigateStats, PotentialProblem } from "@/types/stats";
+import { Rasid360Stats, PotentialProblem } from "@/types/stats";
 import { useMemo } from "react";
 import useSWR from "swr";
 import useDeepMemo from "./use-deep-memo";
 import { capitalizeAll, capitalizeFirstLetter } from "@/utils/stringUtil";
-import { useFrigateStats } from "@/api/ws";
+import { useRasid360Stats } from "@/api/ws";
 
 import { useTranslation } from "react-i18next";
 
-export default function useStats(stats: FrigateStats | undefined) {
+export default function useStats(stats: Rasid360Stats | undefined) {
   const { t } = useTranslation(["views/system"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const memoizedStats = useDeepMemo(stats);
 
@@ -26,7 +26,7 @@ export default function useStats(stats: FrigateStats | undefined) {
       return problems;
     }
 
-    // if frigate has just started
+    // if rasid360 has just started
     // don't look for issues
     if (memoizedStats.service.uptime < 120) {
       return problems;
@@ -125,11 +125,11 @@ export default function useStats(stats: FrigateStats | undefined) {
   return { potentialProblems };
 }
 
-export function useAutoFrigateStats() {
-  const { data: initialStats } = useSWR<FrigateStats>("stats", {
+export function useAutoRasid360Stats() {
+  const { data: initialStats } = useSWR<Rasid360Stats>("stats", {
     revalidateOnFocus: false,
   });
-  const latestStats = useFrigateStats();
+  const latestStats = useRasid360Stats();
 
   const stats = useMemo(() => {
     if (latestStats) {

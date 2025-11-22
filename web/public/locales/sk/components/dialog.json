@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Ste si istý, že chcete reštartovať Frigate ?",
+    "title": "Ste si istý, že chcete reštartovať Rasid360 ?",
     "button": "Reštart",
     "restarting": {
-      "title": "Frigate sa reštartuje",
+      "title": "Rasid360 sa reštartuje",
       "content": "Táto stránka bude obnovená o {{countdown}} sekúnd.",
       "button": "Vynútiť opätovné načítanie teraz"
     }
@@ -11,12 +11,12 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Odoslať do Frigate+",
+        "label": "Odoslať do Rasid360+",
         "desc": "Objekty na miestach, ktorým sa chcete vyhnúť, nie sú falošne pozitívne. Ich odoslanie ako falošne pozitívnych výsledkov spôsobí zmätok v modeli."
       },
       "review": {
         "question": {
-          "label": "Potvrďte tento štítok pre Frigate Plus",
+          "label": "Potvrďte tento štítok pre Rasid360 Plus",
           "ask_a": "Je tento objekt typom <code>{{label}}</code>?",
           "ask_an": "Tento objekt je <code>{{label}}</code>?",
           "ask_full": "Je tento objekt typom <code>{{untranslatedLabel}}</code>{{translatedLabel}}?"

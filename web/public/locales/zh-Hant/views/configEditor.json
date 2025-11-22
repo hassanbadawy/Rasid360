@@ -1,5 +1,5 @@
 {
-  "documentTitle": "設定編輯器 - Frigate",
+  "documentTitle": "設定編輯器 - Rasid360",
   "configEditor": "設定編輯器",
   "copyConfig": "複製設定",
   "saveAndRestart": "保存並重新啟動",
@@ -14,5 +14,5 @@
   "saveOnly": "僅保存",
   "confirm": "是否不保存就離開？",
   "safeConfigEditor": "設定編輯器（安全模式）",
-  "safeModeDescription": "由於設定驗證有誤，Frigate 進入安全模式。"
+  "safeModeDescription": "由於設定驗證有誤，Rasid360 進入安全模式。"
 }

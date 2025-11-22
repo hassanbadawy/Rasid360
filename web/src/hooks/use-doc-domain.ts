@@ -12,12 +12,12 @@ export function useDocDomain() {
 
   // Map of language codes to their specific documentation domains
   const DOC_DOMAINS: Record<string, string> = {
-    "zh-CN": "docs.frigate-cn.video",
+    "zh-CN": "docs.rasid360-cn.video",
     // Add other language-specific domains here as needed
   };
 
   // Get the appropriate documentation domain for current language
-  const docDomain = DOC_DOMAINS[i18n.language] || "docs.frigate.video";
+  const docDomain = DOC_DOMAINS[i18n.language] || "docs.rasid360.video";
 
   /**
    * Get full documentation URL for a given path

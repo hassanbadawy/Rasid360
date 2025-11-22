@@ -19,7 +19,7 @@ import { Input } from "../ui/input";
 import { TimeRange } from "@/types/timeline";
 import { useFormattedTimestamp } from "@/hooks/use-date-utils";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { TimezoneAwareCalendar } from "./ReviewActivityCalendar";
 import { SelectSeparator } from "../ui/select";
@@ -366,7 +366,7 @@ function CustomTimeSelector({
   setRange,
 }: CustomTimeSelectorProps) {
   const { t } = useTranslation(["components/dialog"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   // times
 

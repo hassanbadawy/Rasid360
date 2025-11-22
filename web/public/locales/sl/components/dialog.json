@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Ali ste prepričani, da želite ponovno zagnati Frigate?",
+    "title": "Ali ste prepričani, da želite ponovno zagnati Rasid360?",
     "button": "Ponovni zagon",
     "restarting": {
-      "title": "Frigate se ponovno zaganja",
+      "title": "Rasid360 se ponovno zaganja",
       "content": "Ta stran se bo osvežila čez {{countdown}}.",
       "button": "Osveži zdaj"
     }
@@ -13,7 +13,7 @@
       "review": {
         "question": {
           "ask_full": "Ali je ta objekt <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?",
-          "label": "Potrdi to oznako za Frigate Plus",
+          "label": "Potrdi to oznako za Rasid360 Plus",
           "ask_a": "Ali je ta objekt <code>{{label}}</code>?",
           "ask_an": "Ali je ta objekt <code>{{label}}</code>?"
         },
@@ -22,7 +22,7 @@
         }
       },
       "submitToPlus": {
-        "label": "Pošlji v Frigate+",
+        "label": "Pošlji v Rasid360+",
         "desc": "Predmeti na lokacijah, ki se jim želite izogniti, niso lažni alarmi. Če jih označite kot lažne alarme, boste zmedli model."
       }
     },

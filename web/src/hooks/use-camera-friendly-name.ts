@@ -1,9 +1,9 @@
-import { CameraConfig, FrigateConfig } from "@/types/frigateConfig";
+import { CameraConfig, Rasid360Config } from "@/types/rasid360Config";
 import { useMemo } from "react";
 import useSWR from "swr";
 
 export function resolveCameraName(
-  config: FrigateConfig | undefined,
+  config: Rasid360Config | undefined,
   cameraId: string | CameraConfig | undefined,
 ) {
   if (typeof cameraId === "object" && cameraId !== null) {
@@ -18,7 +18,7 @@ export function resolveCameraName(
 export function useCameraFriendlyName(
   cameraId: string | CameraConfig | undefined,
 ): string {
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const name = useMemo(
     () => resolveCameraName(config, cameraId),

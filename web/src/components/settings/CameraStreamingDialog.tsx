@@ -22,10 +22,10 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
-  FrigateConfig,
+  Rasid360Config,
   GroupStreamingSettings,
   StreamType,
-} from "@/types/frigateConfig";
+} from "@/types/rasid360Config";
 import ActivityIndicator from "../indicators/activity-indicator";
 import useSWR from "swr";
 import { LuCheck, LuExternalLink, LuInfo, LuX } from "react-icons/lu";
@@ -55,7 +55,7 @@ export function CameraStreamingDialog({
   const { t } = useTranslation(["components/camera", "components/dialog"]);
 
   const { getLocaleDocUrl } = useDocDomain();
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const cameraName = useCameraFriendlyName(camera);
 

@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Suora - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Suora - Frigate",
+  "documentTitle": "Suora - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Suora - Rasid360",
   "lowBandwidthMode": "Pienen kaistanleveyden tila",
   "twoWayTalk": {
     "enable": "Ota käyttöön kaksisuuntainen puhe",

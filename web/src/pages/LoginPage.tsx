@@ -6,7 +6,7 @@ import { LanguageProvider } from "@/context/language-provider";
 
 function LoginPage() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="frigate-ui-theme">
+    <ThemeProvider defaultTheme="system" storageKey="rasid360-ui-theme">
       <LanguageProvider>
         <div className="size-full overflow-hidden">
           <div className="p-8">

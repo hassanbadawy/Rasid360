@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Weet je zeker dat je Frigate opnieuw wilt opstarten?",
+    "title": "Weet je zeker dat je Rasid360 opnieuw wilt opstarten?",
     "button": "Herstart",
     "restarting": {
-      "title": "Frigate wordt opnieuw gestart",
+      "title": "Rasid360 wordt opnieuw gestart",
       "button": "Forceer herladen nu",
       "content": "Deze pagina zal herladen in {{countdown}} seconden."
     }
@@ -11,26 +11,26 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Verzenden naar Frigate+",
+        "label": "Verzenden naar Rasid360+",
         "desc": "Objecten op locaties die je wilt vermijden, zijn geen vals-positieven. Als je ze als vals-positieven indient, brengt dit het model in verwarring."
       },
       "review": {
         "true": {
           "true_one": "Dit is een {{label}}",
           "true_other": "Dit zijn {{label}}",
-          "label": "Bevestig dit label voor Frigate Plus"
+          "label": "Bevestig dit label voor Rasid360 Plus"
         },
         "false": {
           "false_one": "Dit is geen {{label}}",
           "false_other": "Dit zijn geen {{label}}",
-          "label": "Bevestig dit label niet voor Frigate Plus"
+          "label": "Bevestig dit label niet voor Rasid360 Plus"
         },
         "state": {
           "submitted": "Ingediend"
         },
         "question": {
           "ask_an": "Is dit object een <code>{{label}}</code>?",
-          "label": "Bevestig dit label voor Frigate Plus",
+          "label": "Bevestig dit label voor Rasid360 Plus",
           "ask_a": "Is dit object een <code>{{label}}</code>?",
           "ask_full": "Is dit object een <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"
         }

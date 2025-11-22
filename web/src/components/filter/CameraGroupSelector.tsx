@@ -1,9 +1,9 @@
 import {
   AllGroupsStreamingSettings,
   CameraGroupConfig,
-  FrigateConfig,
+  Rasid360Config,
   GroupStreamingSettings,
-} from "@/types/frigateConfig";
+} from "@/types/rasid360Config";
 import { isDesktop, isMobile } from "react-device-detect";
 import useSWR from "swr";
 import { MdHome } from "react-icons/md";
@@ -86,7 +86,7 @@ type CameraGroupSelectorProps = {
 
 export function CameraGroupSelector({ className }: CameraGroupSelectorProps) {
   const { t } = useTranslation(["components/camera"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   // tooltip
 
@@ -238,7 +238,7 @@ function NewGroupDialog({
   deleteGroup,
 }: NewGroupDialogProps) {
   const { t } = useTranslation(["components/camera"]);
-  const { mutate: updateConfig } = useSWR<FrigateConfig>("config");
+  const { mutate: updateConfig } = useSWR<Rasid360Config>("config");
 
   // editing group and state
 
@@ -642,7 +642,7 @@ export function CameraGroupEdit({
 }: CameraGroupEditProps) {
   const { t } = useTranslation(["components/camera"]);
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
 
   const { allGroupsStreamingSettings, setAllGroupsStreamingSettings } =
     useStreamingSettings();

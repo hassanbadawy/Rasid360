@@ -1,5 +1,5 @@
 import { useFormattedTimestamp } from "@/hooks/use-date-utils";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import useSWR from "swr";
@@ -34,7 +34,7 @@ export function MinimapBounds({
   firstMinimapSegmentRef,
   dense,
 }: MinimapSegmentProps) {
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const { t } = useTranslation(["common"]);
   const timeFormat = config?.ui.time_format === "24hour" ? "24hour" : "12hour";
 
@@ -102,7 +102,7 @@ export function Timestamp({
   segmentKey,
 }: TimestampSegmentProps) {
   const { t } = useTranslation(["common"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const timeFormat = config?.ui.time_format === "24hour" ? "24hour" : "12hour";
   const format = t(`time.formattedTimestampHourMinute.${timeFormat}`);

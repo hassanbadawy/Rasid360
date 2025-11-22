@@ -1,5 +1,5 @@
 import { Event } from "@/types/event";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useCallback, useState } from "react";
@@ -39,7 +39,7 @@ export function AnnotationSettingsPane({
   const { getLocaleDocUrl } = useDocDomain();
 
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
 
   const [isLoading, setIsLoading] = useState(false);
 

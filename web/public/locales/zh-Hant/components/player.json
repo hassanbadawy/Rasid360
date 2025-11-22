@@ -2,8 +2,8 @@
   "noRecordingsFoundForThisTime": "此時間段內沒有錄影",
   "noPreviewFound": "找不到預覽",
   "noPreviewFoundFor": "找不到 {{cameraName}} 的預覽",
-  "submitFrigatePlus": {
-    "title": "提交此畫面至 Frigate+？",
+  "submitRasid360Plus": {
+    "title": "提交此畫面至 Rasid360+？",
     "submit": "提交"
   },
   "streamOffline": {
@@ -42,10 +42,10 @@
   "livePlayerRequiredIOSVersion": "此串流類型需要 IOS 17.1 或以上版本。",
   "toast": {
     "success": {
-      "submittedFrigatePlus": "成功提交畫面至 Frigate+"
+      "submittedRasid360Plus": "成功提交畫面至 Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "提交畫面至 Frigate+ 失敗"
+      "submitRasid360PlusFailed": "提交畫面至 Rasid360+ 失敗"
     }
   }
 }

@@ -1,18 +1,18 @@
 import {
   useAudioDetections,
   useEnabledState,
-  useFrigateEvents,
+  useRasid360Events,
   useInitialCameraState,
   useMotionActivity,
 } from "@/api/ws";
-import { CameraConfig, FrigateConfig } from "@/types/frigateConfig";
+import { CameraConfig, Rasid360Config } from "@/types/rasid360Config";
 import { MotionData, ReviewSegment } from "@/types/review";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTimelineUtils } from "./use-timeline-utils";
 import { AudioDetection, ObjectType } from "@/types/ws";
 import useDeepMemo from "./use-deep-memo";
 import { isEqual } from "lodash";
-import { useAutoFrigateStats } from "./use-stats";
+import { useAutoRasid360Stats } from "./use-stats";
 import useSWR from "swr";
 import { getAttributeLabels } from "@/utils/iconUtil";
 
@@ -29,7 +29,7 @@ export function useCameraActivity(
   camera: CameraConfig,
   revalidateOnFocus: boolean = true,
 ): useCameraActivityReturn {
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
   const attributeLabels = useMemo(() => {
@@ -74,7 +74,7 @@ export function useCameraActivity(
 
   const { payload: cameraEnabled } = useEnabledState(camera.name);
   const { payload: detectingMotion } = useMotionActivity(camera.name);
-  const { payload: event } = useFrigateEvents();
+  const { payload: event } = useRasid360Events();
   const updatedEvent = useDeepMemo(event);
 
   const handleSetObjects = useCallback(
@@ -145,7 +145,7 @@ export function useCameraActivity(
 
   // determine if camera is offline
 
-  const stats = useAutoFrigateStats();
+  const stats = useAutoRasid360Stats();
 
   const offline = useMemo(() => {
     if (!stats) {

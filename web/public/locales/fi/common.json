@@ -7,7 +7,7 @@
     "yesterday": "Eilen",
     "last14": "Viimeiset 14 päivää",
     "untilForTime": "Kunnes {{time}}",
-    "untilForRestart": "Kunnes Frigate uudelleenkäynnistyy.",
+    "untilForRestart": "Kunnes Rasid360 uudelleenkäynnistyy.",
     "thisWeek": "Tämä viikko",
     "lastWeek": "Viime viikko",
     "last7": "Viimeiset 7 päivää",
@@ -57,18 +57,18 @@
     "label": "sivutus"
   },
   "accessDenied": {
-    "documentTitle": "Pääsy kielletty - Frigate",
+    "documentTitle": "Pääsy kielletty - Rasid360",
     "title": "Pääsy kielletty",
     "desc": "Sinulla ei ole oikeuksia tarkastella tätä sivua."
   },
   "role": {
     "admin": "Järjestelmänvalvoja",
     "viewer": "Katselija",
-    "desc": "Järjestelmänvalvojalla on täysi käyttöoikeus kaikkiin Frigaten käyttöliittymän toimintoihin. Katselijoiden oikeudet on rajoitettu kameroiden katseluun, kohteiden arviointiin ja historian tarkasteluun.",
+    "desc": "Järjestelmänvalvojalla on täysi käyttöoikeus kaikkiin Rasid360n käyttöliittymän toimintoihin. Katselijoiden oikeudet on rajoitettu kameroiden katseluun, kohteiden arviointiin ja historian tarkasteluun.",
     "title": "Rooli"
   },
   "notFound": {
-    "documentTitle": "Ei löytynyt - Frigate",
+    "documentTitle": "Ei löytynyt - Rasid360",
     "title": "404",
     "desc": "Sivua ei löytynyt"
   },
@@ -124,7 +124,7 @@
     "help": "Apua",
     "documentation": {
       "title": "Dokumentaatio",
-      "label": "Frigaten dokumentaatio"
+      "label": "Rasid360n dokumentaatio"
     },
     "restart": "Käynnistä uudelleen",
     "languages": "Kielet",

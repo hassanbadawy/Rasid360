@@ -1,17 +1,17 @@
 {
   "documentTitle": {
-    "default": "Nastavenia - Frigate",
-    "authentication": "Nastavenie autentifikácie- Frigate",
-    "camera": "Nastavenia Kamier– Frigate",
-    "enrichments": "Nastavenia obohatenia – Frigate",
-    "masksAndZones": "Editor masky a zón - Frigate",
-    "motionTuner": "Ladič detekcie pohybu - Frigate",
-    "object": "Ladenie - Frigate",
-    "general": "Všeobecné nastavenia – Frigate",
-    "frigatePlus": "Nastavenia Frigate+ – Frigate",
-    "notifications": "Nastavenia upozornení – Frigate",
-    "cameraManagement": "Manažment kamier - Frigate",
-    "cameraReview": "Nastavenie kamier - Frigate"
+    "default": "Nastavenia - Rasid360",
+    "authentication": "Nastavenie autentifikácie- Rasid360",
+    "camera": "Nastavenia Kamier– Rasid360",
+    "enrichments": "Nastavenia obohatenia – Rasid360",
+    "masksAndZones": "Editor masky a zón - Rasid360",
+    "motionTuner": "Ladič detekcie pohybu - Rasid360",
+    "object": "Ladenie - Rasid360",
+    "general": "Všeobecné nastavenia – Rasid360",
+    "frigatePlus": "Nastavenia Rasid360+ – Rasid360",
+    "notifications": "Nastavenia upozornení – Rasid360",
+    "cameraManagement": "Manažment kamier - Rasid360",
+    "cameraReview": "Nastavenie kamier - Rasid360"
   },
   "menu": {
     "ui": "Uživaťelské rozohranie",
@@ -22,7 +22,7 @@
     "debug": "Ladenie",
     "users": "Uživatelia",
     "notifications": "Notifikacie",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "triggers": "Spúšťače",
     "roles": "Roly",
     "cameraManagement": "Manažment",
@@ -101,7 +101,7 @@
     },
     "semanticSearch": {
       "title": "Sémantické vyhľadávanie",
-      "desc": "Sémantické vyhľadávanie vo Frigate vám umožňuje nájsť sledované objekty v rámci vašich recenzovaných položiek pomocou samotného obrázka, textového popisu definovaného používateľom alebo automaticky vygenerovaného popisu.",
+      "desc": "Sémantické vyhľadávanie vo Rasid360 vám umožňuje nájsť sledované objekty v rámci vašich recenzovaných položiek pomocou samotného obrázka, textového popisu definovaného používateľom alebo automaticky vygenerovaného popisu.",
       "reindexNow": {
         "label": "Preindexovať teraz",
         "desc": "Reindexovanie obnoví vložené súbory pre všetky sledované objekty. Tento proces beží na pozadí a môže maximálne zaťažiť váš procesor a trvať pomerne dlho v závislosti od počtu sledovaných objektov, ktoré máte.",
@@ -127,7 +127,7 @@
     },
     "faceRecognition": {
       "title": "Rozpoznávanie tváre",
-      "desc": "Rozpoznávanie tváre umožňuje priradiť ľuďom mená a po rozpoznaní ich tváre Frigate priradí meno osoby ako podštítok. Tieto informácie sú zahrnuté v používateľskom rozhraní, filtroch, ako aj v upozorneniach.",
+      "desc": "Rozpoznávanie tváre umožňuje priradiť ľuďom mená a po rozpoznaní ich tváre Rasid360 priradí meno osoby ako podštítok. Tieto informácie sú zahrnuté v používateľskom rozhraní, filtroch, ako aj v upozorneniach.",
       "modelSize": {
         "label": "Veľkosť modelu",
         "desc": "Veľkosť modelu použitého na rozpoznávanie tváre.",
@@ -143,11 +143,11 @@
     },
     "licensePlateRecognition": {
       "title": "Rozpoznávanie ŠPZ",
-      "desc": "Frigate dokáže rozpoznávať evidenčné čísla vozidiel a automaticky pridávať detekované znaky do poľa recognized_license_plate alebo známy názov ako podradený štítok k objektom typu car. Bežným prípadom použitia môže byť čítanie evidenčných čísel áut vchádzajúcich na príjazdovú cestu alebo áut prechádzajúcich po ulici."
+      "desc": "Rasid360 dokáže rozpoznávať evidenčné čísla vozidiel a automaticky pridávať detekované znaky do poľa recognized_license_plate alebo známy názov ako podradený štítok k objektom typu car. Bežným prípadom použitia môže byť čítanie evidenčných čísel áut vchádzajúcich na príjazdovú cestu alebo áut prechádzajúcich po ulici."
     },
     "restart_required": "Vyžaduje sa reštart (zmenené nastavenia obohatenia)",
     "toast": {
-      "success": "Nastavenia obohatenia boli uložené. Reštartujte Frigate, aby sa zmeny prejavili.",
+      "success": "Nastavenia obohatenia boli uložené. Reštartujte Rasid360, aby sa zmeny prejavili.",
       "error": "Nepodarilo sa uložiť zmeny konfigurácie: {{errorMessage}}"
     }
   },
@@ -155,11 +155,11 @@
     "title": "Nastavenie kamier",
     "streams": {
       "title": "Streamy",
-      "desc": "Dočasne deaktivujte kameru, kým sa Frigate nereštartuje. Deaktivácia kamery úplne zastaví spracovanie streamov z tejto kamery aplikáciou Frigate. Detekcia, nahrávanie a ladenie nebudú k dispozícii.<br /> <em>Poznámka: Toto nezakáže restreamy go2rtc.</em>"
+      "desc": "Dočasne deaktivujte kameru, kým sa Rasid360 nereštartuje. Deaktivácia kamery úplne zastaví spracovanie streamov z tejto kamery aplikáciou Rasid360. Detekcia, nahrávanie a ladenie nebudú k dispozícii.<br /> <em>Poznámka: Toto nezakáže restreamy go2rtc.</em>"
     },
     "review": {
       "title": "Recenzia",
-      "desc": "Dočasne povoliť/zakázať upozornenia a detekcie pre túto kameru, kým sa Frigate nereštartuje. Po zakázaní sa nebudú generovať žiadne nové položky kontroly. ",
+      "desc": "Dočasne povoliť/zakázať upozornenia a detekcie pre túto kameru, kým sa Rasid360 nereštartuje. Po zakázaní sa nebudú generovať žiadne nové položky kontroly. ",
       "alerts": "Upozornenia ",
       "detections": "Detekcie "
     },
@@ -173,7 +173,7 @@
     },
     "reviewClassification": {
       "title": "Preskúmať klasifikáciu",
-      "desc": "Frigate kategorizuje položky recenzií ako Upozornenia a Detekcie. Predvolene sa všetky objekty typu <em>osoba</em> a <em>auto</em> považujú za Upozornenia. Kategorizáciu položiek recenzií môžete spresniť konfiguráciou požadovaných zón pre ne.",
+      "desc": "Rasid360 kategorizuje položky recenzií ako Upozornenia a Detekcie. Predvolene sa všetky objekty typu <em>osoba</em> a <em>auto</em> považujú za Upozornenia. Kategorizáciu položiek recenzií môžete spresniť konfiguráciou požadovaných zón pre ne.",
       "noDefinedZones": "Pre túto kameru nie sú definované žiadne zóny.",
       "objectAlertsTips": "Všetky objekty {{alertsLabels}} na {{cameraName}} sa zobrazia ako Upozornenia.",
       "zoneObjectAlertsTips": "Všetky objekty {{alertsLabels}} detekované v {{zone}} na {{cameraName}} budú zobrazené ako Upozornenia.",
@@ -188,7 +188,7 @@
       "selectDetectionsZones": "Vyberte zóny pre detekcie",
       "limitDetections": "Obmedziť detekciu na konkrétne zóny",
       "toast": {
-        "success": "Konfigurácia klasifikácie bola uložená. Reštartujte Frigate, aby sa zmeny prejavili."
+        "success": "Konfigurácia klasifikácie bola uložená. Reštartujte Rasid360, aby sa zmeny prejavili."
       }
     },
     "addCamera": "Pridať novu kameru",
@@ -287,7 +287,7 @@
     },
     "zones": {
       "label": "Zóny",
-      "documentTitle": "Upraviť Zónu - Frigate",
+      "documentTitle": "Upraviť Zónu - Rasid360",
       "desc": {
         "title": "Zóny umožňujú definovať konkrétnu oblasť v zábere, vďaka čomu je možné určiť, či sa objekt nachádza v danej oblasti alebo nie.",
         "documentation": "Dokumentácia"
@@ -330,7 +330,7 @@
         }
       },
       "toast": {
-        "success": "Zóna {{zoneName}} bola uložená. Reštartujte Frigate pre aplikovanie zmien."
+        "success": "Zóna {{zoneName}} bola uložená. Reštartujte Rasid360 pre aplikovanie zmien."
       },
       "add": "Pridať zónu",
       "edit": "Upraviť zónu",
@@ -340,7 +340,7 @@
     },
     "motionMasks": {
       "label": "Maska Detekcia pohybu",
-      "documentTitle": "Editovať Masku Detekcia pohybu - Frigate",
+      "documentTitle": "Editovať Masku Detekcia pohybu - Rasid360",
       "desc": {
         "title": "Masky detekcie pohybu slúžia na zabránenie nežiaducim typom pohybu v spustení detekcie. Príliš rozsiahle maskovanie však môže sťažiť sledovanie objektov.",
         "documentation": "Dokumentácia"
@@ -360,14 +360,14 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} bol uložený. Reštartujte Frigate pre aplikovanie zmien.",
-          "noName": "Maska Detekcia pohybu bola uložená. Reštartujte Frigate pre aplikovanie zmien."
+          "title": "{{polygonName}} bol uložený. Reštartujte Rasid360 pre aplikovanie zmien.",
+          "noName": "Maska Detekcia pohybu bola uložená. Reštartujte Rasid360 pre aplikovanie zmien."
         }
       }
     },
     "objectMasks": {
       "label": "Masky Objektu",
-      "documentTitle": "Upraviť Masku Objektu - Frigate",
+      "documentTitle": "Upraviť Masku Objektu - Rasid360",
       "desc": {
         "title": "Masky filtrovania objektov slúžia na odfiltrovanie falošných detekcií daného typu objektu na základe jeho umiestnenia.",
         "documentation": "Dokumentácia"
@@ -386,8 +386,8 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} bol uložený. Reštartujte Frigate pre aplikovanie zmien.",
-          "noName": "Maska Objektu bola uložená. Reštartujte Frigate pre aplikovanie zmien."
+          "title": "{{polygonName}} bol uložený. Reštartujte Rasid360 pre aplikovanie zmien.",
+          "noName": "Maska Objektu bola uložená. Reštartujte Rasid360 pre aplikovanie zmien."
         }
       }
     },
@@ -398,7 +398,7 @@
     "title": "Ladenie detekcie pohybu",
     "unsavedChanges": "Neuložené zmeny ladenia detekcie pohybu {{camera}}",
     "desc": {
-      "title": "Frigate používa detekciu pohybu ako prvú kontrolu na overenie, či sa v snímke deje niečo, čo stojí za ďalšiu analýzu pomocou detekcie objektov.",
+      "title": "Rasid360 používa detekciu pohybu ako prvú kontrolu na overenie, či sa v snímke deje niečo, čo stojí za ďalšiu analýzu pomocou detekcie objektov.",
       "documentation": "Prečítajte si príručku Ladenie detekcie pohybu"
     },
     "Threshold": {
@@ -419,7 +419,7 @@
   },
   "debug": {
     "title": "Ladenie",
-    "detectorDesc": "Frigate používa vaše detektory {{detectors}} na detekciu objektov v streame vašich kamier.",
+    "detectorDesc": "Rasid360 používa vaše detektory {{detectors}} na detekciu objektov v streame vašich kamier.",
     "desc": "Ladiace zobrazenie ukazuje sledované objekty a ich štatistiky v reálnom čase. Zoznam objektov zobrazuje časovo oneskorený prehľad detekovaných objektov.",
     "openCameraWebUI": "Otvoriť webové rozhranie {{camera}}",
     "debugging": "Ladenie",
@@ -478,7 +478,7 @@
   },
   "cameraWizard": {
     "title": "Pridať kameru",
-    "description": "Postupujte podľa pokynov nižšie a pridajte novú kameru na inštaláciu Frigate.",
+    "description": "Postupujte podľa pokynov nižšie a pridajte novú kameru na inštaláciu Rasid360.",
     "steps": {
       "nameAndConnection": "Meno a pripojenie",
       "streamConfiguration": "Konfigurácia prúdu",
@@ -631,7 +631,7 @@
     "backToSettings": "Späť na nastavenia kamery",
     "streams": {
       "title": "Enable / Disable kamery",
-      "desc": "Dočasne deaktivujte kameru, kým sa Frigate nereštartuje. Deaktivácia kamery úplne zastaví spracovanie streamov z tejto kamery aplikáciou Frigate. Detekcia, nahrávanie a ladenie nebudú k dispozícii.<br /> <em>Poznámka: Toto nezakáže restreamy go2rtc.</em>"
+      "desc": "Dočasne deaktivujte kameru, kým sa Rasid360 nereštartuje. Deaktivácia kamery úplne zastaví spracovanie streamov z tejto kamery aplikáciou Rasid360. Detekcia, nahrávanie a ladenie nebudú k dispozícii.<br /> <em>Poznámka: Toto nezakáže restreamy go2rtc.</em>"
     },
     "cameraConfig": {
       "add": "Pridať kameru",
@@ -675,13 +675,13 @@
     },
     "review": {
       "title": "Recenzia",
-      "desc": "Dočasne umožňujú/disable upozornenia a detekcia pre tento fotoaparát až do reštartu Frigate. Pri vypnutých, nebudú vygenerované žiadne nové položky preskúmania. ",
+      "desc": "Dočasne umožňujú/disable upozornenia a detekcia pre tento fotoaparát až do reštartu Rasid360. Pri vypnutých, nebudú vygenerované žiadne nové položky preskúmania. ",
       "alerts": "Upozornenia ",
       "detections": "Detekcie "
     },
     "reviewClassification": {
       "title": "Preskúmať klasifikáciu",
-      "desc": "Frigate kategorizuje položky recenzií ako Upozornenia a Detekcie. Predvolene sa všetky objekty typu <em>osoba</em> a <em>auto</em> považujú za Upozornenia. Kategorizáciu položiek recenzií môžete spresniť konfiguráciou požadovaných zón pre ne.",
+      "desc": "Rasid360 kategorizuje položky recenzií ako Upozornenia a Detekcie. Predvolene sa všetky objekty typu <em>osoba</em> a <em>auto</em> považujú za Upozornenia. Kategorizáciu položiek recenzií môžete spresniť konfiguráciou požadovaných zón pre ne.",
       "noDefinedZones": "Pre túto kameru nie sú definované žiadne zóny.",
       "objectAlertsTips": "Všetky objekty {{alertsLabels}} na {{cameraName}} sa zobrazia ako Upozornenia.",
       "zoneObjectAlertsTips": "Všetky objekty {{alertsLabels}} detekované v {{zone}} na {{cameraName}} budú zobrazené ako Upozornenia.",
@@ -696,7 +696,7 @@
       "selectDetectionsZones": "Vyberte zóny pre detekcie",
       "limitDetections": "Obmedziť detekciu na konkrétne zóny",
       "toast": {
-        "success": "Konfigurácia klasifikácie bola uložená. Reštartujte Frigate, aby sa zmeny prejavili."
+        "success": "Konfigurácia klasifikácie bola uložená. Reštartujte Rasid360, aby sa zmeny prejavili."
       }
     }
   },
@@ -704,7 +704,7 @@
     "title": "Používatelia",
     "management": {
       "title": "Správa používateľov",
-      "desc": "Spravovať používateľské účty tejto inštancie Frigate."
+      "desc": "Spravovať používateľské účty tejto inštancie Rasid360."
     },
     "addUser": "Pridať používateľa",
     "updatePassword": "Aktualizovať heslo",
@@ -767,7 +767,7 @@
       },
       "createUser": {
         "title": "Vytvorenie nového užívateľa",
-        "desc": "Pridajte nový používateľský účet a zadajte rolu pre prístup k oblastiam používateľského rozhrania Frigate.",
+        "desc": "Pridajte nový používateľský účet a zadajte rolu pre prístup k oblastiam používateľského rozhrania Rasid360.",
         "usernameOnlyInclude": "Používateľské meno môže obsahovať iba písmená, číslice, . alebo _",
         "confirmPassword": "Potvrďte svoje heslo"
       },
@@ -801,7 +801,7 @@
   "roles": {
     "management": {
       "title": "Správa roly diváka",
-      "desc": "Spravujte vlastné roly divákov a ich povolenia na prístup ku kamere pre túto inštanciu Frigate."
+      "desc": "Spravujte vlastné roly divákov a ich povolenia na prístup ku kamere pre túto inštanciu Rasid360."
     },
     "addRole": "Pridať rolu",
     "table": {
@@ -864,11 +864,11 @@
     "title": "Notifikacie",
     "notificationSettings": {
       "title": "Nastavenia notifikácií",
-      "desc": "Frigate dokáže natívne odosielať push notifikácie do vášho zariadenia, keď je spustený v prehliadači alebo nainštalovaný ako PWA."
+      "desc": "Rasid360 dokáže natívne odosielať push notifikácie do vášho zariadenia, keď je spustený v prehliadači alebo nainštalovaný ako PWA."
     },
     "notificationUnavailable": {
       "title": "Notifikacie su nedostupné",
-      "desc": "Webové push notifikácie vyžadujú zabezpečený kontext (<code>https://…</code>). Ide o obmedzenie prehliadača. Ak chcete používať notifikácie, pristupujte k Frigate bezpečne."
+      "desc": "Webové push notifikácie vyžadujú zabezpečený kontext (<code>https://…</code>). Ide o obmedzenie prehliadača. Ak chcete používať notifikácie, pristupujte k Rasid360 bezpečne."
     },
     "globalSettings": {
       "title": "Globálne nastavenia",
@@ -905,7 +905,7 @@
     "cancelSuspension": "Zrušiť pozastavenie",
     "toast": {
       "success": {
-        "registered": "Úspešne zaregistrované pre upozornenia. Pred odoslaním akýchkoľvek upozornení (vrátane testovacieho upozornenia) je potrebné reštartovať Frigate.",
+        "registered": "Úspešne zaregistrované pre upozornenia. Pred odoslaním akýchkoľvek upozornení (vrátane testovacieho upozornenia) je potrebné reštartovať Rasid360.",
         "settingSaved": "Nastavenie oznámenia boli uložené."
       },
       "error": {
@@ -914,18 +914,18 @@
     }
   },
   "frigatePlus": {
-    "title": "Nastavenie Frigate+",
+    "title": "Nastavenie Rasid360+",
     "apiKey": {
-      "title": "Frigate + API kľúč",
-      "validated": "Frigate + API kľúč je detekovaný a overený",
-      "notValidated": "Frigate + API kľúč nie je detekovaný alebo nie je overený",
-      "desc": "Frigate+ API kľúč umožňuje integráciu s Frigate+ služby.",
-      "plusLink": "Prečítajte si viac o Frigate+"
+      "title": "Rasid360 + API kľúč",
+      "validated": "Rasid360 + API kľúč je detekovaný a overený",
+      "notValidated": "Rasid360 + API kľúč nie je detekovaný alebo nie je overený",
+      "desc": "Rasid360+ API kľúč umožňuje integráciu s Rasid360+ služby.",
+      "plusLink": "Prečítajte si viac o Rasid360+"
     },
     "snapshotConfig": {
       "title": "Konfigurácia snímky",
-      "desc": "Odosielanie do Frigate+ vyžaduje, aby boli v konfigurácii povolené snímky aj snímky <code>clean_copy</code>.",
-      "cleanCopyWarning": "Niektoré kamery majú povolené snímky, ale voľba <code>clean_copy</code> je zakázaná. Pre možnosť odosielania snímok z týchto kamier do služby Frigate+ je nutné túto voľbu povoliť v konfigurácii snímok.",
+      "desc": "Odosielanie do Rasid360+ vyžaduje, aby boli v konfigurácii povolené snímky aj snímky <code>clean_copy</code>.",
+      "cleanCopyWarning": "Niektoré kamery majú povolené snímky, ale voľba <code>clean_copy</code> je zakázaná. Pre možnosť odosielania snímok z týchto kamier do služby Rasid360+ je nutné túto voľbu povoliť v konfigurácii snímok.",
       "table": {
         "camera": "Kamera",
         "snapshots": "Snímky",
@@ -947,12 +947,12 @@
       "error": "Chyba načítania informácií o modeli",
       "availableModels": "Dostupné Moduly",
       "loadingAvailableModels": "Načítavam dostupné modely…",
-      "modelSelect": "Tu môžete vybrať dostupné modely zo služby Frigate+. Upozorňujeme, že je možné zvoliť iba modely kompatibilné s aktuálnou konfiguráciou detektora."
+      "modelSelect": "Tu môžete vybrať dostupné modely zo služby Rasid360+. Upozorňujeme, že je možné zvoliť iba modely kompatibilné s aktuálnou konfiguráciou detektora."
     },
-    "unsavedChanges": "Neuložené zmeny nastavenia Frigate+",
-    "restart_required": "Vyžadovaný reštart (model Frigate+ zmenený)",
+    "unsavedChanges": "Neuložené zmeny nastavenia Rasid360+",
+    "restart_required": "Vyžadovaný reštart (model Rasid360+ zmenený)",
     "toast": {
-      "success": "Nastavenia Frigate+ boli uložené. Reštartujte Frigate+ pre aplikovanie zmien.",
+      "success": "Nastavenia Rasid360+ boli uložené. Reštartujte Rasid360+ pre aplikovanie zmien.",
       "error": "Chyba pri ukladaní zmien konfigurácie: {{errorMessage}}"
     }
   },
@@ -1040,7 +1040,7 @@
         },
         "actions": {
           "title": "Akcie",
-          "desc": "V predvolenom nastavení Frigate odosiela MQTT správu pre všetky spúšťače. Zvoľte dodatočnú akciu, ktorá sa má vykonať, keď sa tento spúšťač aktivuje.",
+          "desc": "V predvolenom nastavení Rasid360 odosiela MQTT správu pre všetky spúšťače. Zvoľte dodatočnú akciu, ktorá sa má vykonať, keď sa tento spúšťač aktivuje.",
           "error": {
             "min": "Musí byť vybraná aspoň jedna akcia."
           }

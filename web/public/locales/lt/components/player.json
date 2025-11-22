@@ -2,8 +2,8 @@
   "noRecordingsFoundForThisTime": "Šiam laiko tarpui įrašų nerasta",
   "noPreviewFound": "Peržiūrų nerasta",
   "noPreviewFoundFor": "Peržiūrų nerasta {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Pateikti šį kadrą į Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Pateikti šį kadrą į Rasid360+?",
     "submit": "Pateikti"
   },
   "livePlayerRequiredIOSVersion": "iOS 17.1 ar naujesni yra privalomi šiam tiesioginės transliacijos tipui.",
@@ -42,10 +42,10 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Kadras sėkmingai pateiktas į Frigate+"
+      "submittedRasid360Plus": "Kadras sėkmingai pateiktas į Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Nepavyko pateikti kadro į Frigate+"
+      "submitRasid360PlusFailed": "Nepavyko pateikti kadro į Rasid360+"
     }
   }
 }

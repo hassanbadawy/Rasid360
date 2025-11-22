@@ -1,9 +1,9 @@
-import { useFrigateStats } from "@/api/ws";
+import { useRasid360Stats } from "@/api/ws";
 import { CameraLineGraph } from "@/components/graph/LineGraph";
 import CameraInfoDialog from "@/components/overlay/CameraInfoDialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { FrigateConfig } from "@/types/frigateConfig";
-import { FrigateStats } from "@/types/stats";
+import { Rasid360Config } from "@/types/rasid360Config";
+import { Rasid360Stats } from "@/types/stats";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdInfo } from "react-icons/md";
 import {
@@ -24,7 +24,7 @@ export default function CameraMetrics({
   lastUpdated,
   setLastUpdated,
 }: CameraMetricsProps) {
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const { t } = useTranslation(["views/system"]);
   // camera info dialog
 
@@ -38,7 +38,7 @@ export default function CameraMetrics({
 
   // stats
 
-  const { data: initialStats } = useSWR<FrigateStats[]>(
+  const { data: initialStats } = useSWR<Rasid360Stats[]>(
     [
       "stats/history",
       {
@@ -50,8 +50,8 @@ export default function CameraMetrics({
     },
   );
 
-  const [statsHistory, setStatsHistory] = useState<FrigateStats[]>([]);
-  const updatedStats = useFrigateStats();
+  const [statsHistory, setStatsHistory] = useState<Rasid360Stats[]>([]);
+  const updatedStats = useRasid360Stats();
 
   useEffect(() => {
     if (initialStats == undefined || initialStats.length == 0) {

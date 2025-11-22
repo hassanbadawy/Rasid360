@@ -1,5 +1,5 @@
 import Heading from "@/components/ui/heading";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import useSWR from "swr";
 import axios from "axios";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
@@ -42,7 +42,7 @@ export default function MotionTunerView({
   const { t } = useTranslation(["views/settings"]);
   const { getLocaleDocUrl } = useDocDomain();
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
   const [changedValue, setChangedValue] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

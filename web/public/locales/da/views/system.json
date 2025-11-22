@@ -1,11 +1,11 @@
 {
   "documentTitle": {
-    "cameras": "Kamera Statistik - Frigate",
-    "storage": "Lagrings Statistik - Frigate",
+    "cameras": "Kamera Statistik - Rasid360",
+    "storage": "Lagrings Statistik - Rasid360",
     "logs": {
-      "frigate": "Frigate Logs - Frigate",
-      "go2rtc": "Go2RTC Logs - Frigate",
-      "nginx": "Nginx Logs - Frigate"
+      "frigate": "Rasid360 Logs - Rasid360",
+      "go2rtc": "Go2RTC Logs - Rasid360",
+      "nginx": "Nginx Logs - Rasid360"
     }
   },
   "title": "System"

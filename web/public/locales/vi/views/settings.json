@@ -1,17 +1,17 @@
 {
   "documentTitle": {
-    "default": "Cài đặt - Frigate",
-    "authentication": "Cài đặt Xác thực - Frigate",
-    "camera": "Cài đặt Camera - Frigate",
-    "enrichments": "Cài đặt Làm giàu Dữ liệu - Frigate",
-    "notifications": "Cài đặt Thông báo - Frigate",
-    "masksAndZones": "Trình chỉnh sửa Mặt nạ và Vùng - Frigate",
-    "object": "Gỡ lỗi - Frigate",
-    "general": "Cài đặt Chung - Frigate",
-    "frigatePlus": "Cài đặt Frigate+ - Frigate",
-    "motionTuner": "Bộ tinh chỉnh Chuyển động - Frigate",
-    "cameraManagement": "Quản Lý Camera - Frigate",
-    "cameraReview": "Cài Đặt Xem Lại Camera - Frigate"
+    "default": "Cài đặt - Rasid360",
+    "authentication": "Cài đặt Xác thực - Rasid360",
+    "camera": "Cài đặt Camera - Rasid360",
+    "enrichments": "Cài đặt Làm giàu Dữ liệu - Rasid360",
+    "notifications": "Cài đặt Thông báo - Rasid360",
+    "masksAndZones": "Trình chỉnh sửa Mặt nạ và Vùng - Rasid360",
+    "object": "Gỡ lỗi - Rasid360",
+    "general": "Cài đặt Chung - Rasid360",
+    "frigatePlus": "Cài đặt Rasid360+ - Rasid360",
+    "motionTuner": "Bộ tinh chỉnh Chuyển động - Rasid360",
+    "cameraManagement": "Quản Lý Camera - Rasid360",
+    "cameraReview": "Cài Đặt Xem Lại Camera - Rasid360"
   },
   "notification": {
     "toast": {
@@ -20,7 +20,7 @@
       },
       "success": {
         "settingSaved": "Cài đặt thông báo đã được lưu.",
-        "registered": "Đã đăng ký nhận thông báo thành công. Cần khởi động lại Frigate trước khi có thể gửi bất kỳ thông báo nào (kể cả thông báo thử)."
+        "registered": "Đã đăng ký nhận thông báo thành công. Cần khởi động lại Rasid360 trước khi có thể gửi bất kỳ thông báo nào (kể cả thông báo thử)."
       }
     },
     "unsavedChanges": "Các thay đổi Thông báo chưa được lưu",
@@ -53,12 +53,12 @@
       "10minutes": "Tạm dừng trong 10 phút"
     },
     "notificationSettings": {
-      "desc": "Frigate có thể gửi thông báo đẩy tự nhiên đến thiết bị của bạn khi nó đang chạy trong trình duyệt hoặc được cài đặt dưới dạng PWA.",
+      "desc": "Rasid360 có thể gửi thông báo đẩy tự nhiên đến thiết bị của bạn khi nó đang chạy trong trình duyệt hoặc được cài đặt dưới dạng PWA.",
       "title": "Cài đặt Thông báo",
       "documentation": "Đọc tài liệu"
     },
     "notificationUnavailable": {
-      "desc": "Thông báo đẩy web yêu cầu một ngữ cảnh an toàn (<code>https://…</code>). Đây là một hạn chế của trình duyệt. Truy cập Frigate một cách an toàn để sử dụng thông báo.",
+      "desc": "Thông báo đẩy web yêu cầu một ngữ cảnh an toàn (<code>https://…</code>). Đây là một hạn chế của trình duyệt. Truy cập Rasid360 một cách an toàn để sử dụng thông báo.",
       "title": "Thông báo không khả dụng",
       "documentation": "Đọc tài liệu"
     },
@@ -69,13 +69,13 @@
     "title": "Thông báo"
   },
   "frigatePlus": {
-    "title": "Cài đặt Frigate+",
+    "title": "Cài đặt Rasid360+",
     "apiKey": {
-      "title": "Khóa API Frigate+",
-      "validated": "Khóa API Frigate+ đã được phát hiện và xác thực",
-      "notValidated": "Khóa API Frigate+ không được phát hiện hoặc chưa được xác thực",
-      "desc": "Khóa API Frigate+ cho phép tích hợp với dịch vụ Frigate+.",
-      "plusLink": "Đọc thêm về Frigate+"
+      "title": "Khóa API Rasid360+",
+      "validated": "Khóa API Rasid360+ đã được phát hiện và xác thực",
+      "notValidated": "Khóa API Rasid360+ không được phát hiện hoặc chưa được xác thực",
+      "desc": "Khóa API Rasid360+ cho phép tích hợp với dịch vụ Rasid360+.",
+      "plusLink": "Đọc thêm về Rasid360+"
     },
     "snapshotConfig": {
       "table": {
@@ -83,8 +83,8 @@
         "cleanCopySnapshots": "Ảnh chụp nhanh <code>clean_copy</code>",
         "snapshots": "Ảnh chụp nhanh"
       },
-      "desc": "Việc gửi đến Frigate+ yêu cầu cả ảnh chụp nhanh và ảnh chụp nhanh <code>clean_copy</code> phải được bật trong cấu hình của bạn.",
-      "cleanCopyWarning": "Một số camera đã bật ảnh chụp nhanh nhưng đã tắt bản sao sạch. Bạn cần bật <code>clean_copy</code> trong cấu hình ảnh chụp nhanh của mình để có thể gửi hình ảnh từ các camera này đến Frigate+.",
+      "desc": "Việc gửi đến Rasid360+ yêu cầu cả ảnh chụp nhanh và ảnh chụp nhanh <code>clean_copy</code> phải được bật trong cấu hình của bạn.",
+      "cleanCopyWarning": "Một số camera đã bật ảnh chụp nhanh nhưng đã tắt bản sao sạch. Bạn cần bật <code>clean_copy</code> trong cấu hình ảnh chụp nhanh của mình để có thể gửi hình ảnh từ các camera này đến Rasid360+.",
       "title": "Cấu hình Ảnh chụp nhanh",
       "documentation": "Đọc tài liệu"
     },
@@ -99,18 +99,18 @@
       "baseModel": "Mô hình Cơ sở",
       "availableModels": "Các mô hình có sẵn",
       "loadingAvailableModels": "Đang tải các mô hình có sẵn…",
-      "modelSelect": "Các mô hình có sẵn của bạn trên Frigate+ có thể được chọn ở đây. Lưu ý rằng chỉ những mô hình tương thích với cấu hình bộ phát hiện hiện tại của bạn mới có thể được chọn.",
+      "modelSelect": "Các mô hình có sẵn của bạn trên Rasid360+ có thể được chọn ở đây. Lưu ý rằng chỉ những mô hình tương thích với cấu hình bộ phát hiện hiện tại của bạn mới có thể được chọn.",
       "cameras": "Camera",
       "loading": "Đang tải thông tin mô hình…",
       "modelType": "Loại Mô hình",
       "trainDate": "Ngày Huấn luyện"
     },
-    "unsavedChanges": "Các thay đổi cài đặt Frigate+ chưa được lưu",
+    "unsavedChanges": "Các thay đổi cài đặt Rasid360+ chưa được lưu",
     "toast": {
-      "success": "Cài đặt Frigate+ đã được lưu. Khởi động lại Frigate để áp dụng các thay đổi.",
+      "success": "Cài đặt Rasid360+ đã được lưu. Khởi động lại Rasid360 để áp dụng các thay đổi.",
       "error": "Không thể lưu các thay đổi cấu hình: {{errorMessage}}"
     },
-    "restart_required": "Yêu cầu khởi động lại (mô hình Frigate+ đã thay đổi)"
+    "restart_required": "Yêu cầu khởi động lại (mô hình Rasid360+ đã thay đổi)"
   },
   "camera": {
     "title": "Cài đặt Camera",
@@ -118,21 +118,21 @@
       "alerts": "Cảnh báo ",
       "detections": "Phát hiện ",
       "title": "Xem lại",
-      "desc": "Tạm thời bật/tắt cảnh báo và phát hiện cho camera này cho đến khi Frigate khởi động lại. Khi bị vô hiệu hóa, sẽ không có mục xem lại mới nào được tạo ra. "
+      "desc": "Tạm thời bật/tắt cảnh báo và phát hiện cho camera này cho đến khi Rasid360 khởi động lại. Khi bị vô hiệu hóa, sẽ không có mục xem lại mới nào được tạo ra. "
     },
     "reviewClassification": {
       "title": "Phân loại mục Xem lại",
       "unsavedChanges": "Các thay đổi cài đặt Phân loại mục Xem lại chưa được lưu cho {{camera}}",
       "readTheDocumentation": "Đọc tài liệu",
       "objectDetectionsTips": "Tất cả các đối tượng {{detectionsLabels}} không được phân loại trên {{cameraName}} sẽ được hiển thị dưới dạng Phát hiện bất kể chúng ở trong vùng nào.",
-      "desc": "Frigate phân loại các mục xem lại thành Cảnh báo và Phát hiện. Theo mặc định, tất cả các đối tượng <em>người</em> và <em>ô tô</em> được coi là Cảnh báo. Bạn có thể tinh chỉnh việc phân loại các mục xem lại của mình bằng cách định cấu hình các vùng bắt buộc cho chúng.",
+      "desc": "Rasid360 phân loại các mục xem lại thành Cảnh báo và Phát hiện. Theo mặc định, tất cả các đối tượng <em>người</em> và <em>ô tô</em> được coi là Cảnh báo. Bạn có thể tinh chỉnh việc phân loại các mục xem lại của mình bằng cách định cấu hình các vùng bắt buộc cho chúng.",
       "zoneObjectDetectionsTips": {
         "text": "Tất cả các đối tượng {{detectionsLabels}} không được phân loại trong vùng {{zone}} trên {{cameraName}} sẽ được hiển thị dưới dạng Phát hiện.",
         "notSelectDetections": "Tất cả các đối tượng {{detectionsLabels}} được phát hiện trong vùng {{zone}} trên {{cameraName}} không được phân loại là Cảnh báo sẽ được hiển thị dưới dạng Phát hiện bất kể chúng ở trong vùng nào.",
         "regardlessOfZoneObjectDetectionsTips": "Tất cả các đối tượng {{detectionsLabels}} không được phân loại trên {{cameraName}} sẽ được hiển thị dưới dạng Phát hiện bất kể chúng ở trong vùng nào."
       },
       "toast": {
-        "success": "Cấu hình Phân loại mục Xem lại đã được lưu. Khởi động lại Frigate để áp dụng các thay đổi."
+        "success": "Cấu hình Phân loại mục Xem lại đã được lưu. Khởi động lại Rasid360 để áp dụng các thay đổi."
       },
       "limitDetections": "Giới hạn phát hiện trong các vùng cụ thể",
       "selectDetectionsZones": "Chọn vùng cho Phát hiện",
@@ -143,7 +143,7 @@
     },
     "streams": {
       "title": "Luồng phát",
-      "desc": "Tạm thời vô hiệu hóa một camera cho đến khi Frigate khởi động lại. Vô hiệu hóa một camera sẽ dừng hoàn toàn quá trình xử lý các luồng của camera này của Frigate. Việc phát hiện, ghi hình và gỡ lỗi sẽ không khả dụng.<br /> <em>Lưu ý: Điều này không vô hiệu hóa các luồng phát lại của go2rtc.</em>"
+      "desc": "Tạm thời vô hiệu hóa một camera cho đến khi Rasid360 khởi động lại. Vô hiệu hóa một camera sẽ dừng hoàn toàn quá trình xử lý các luồng của camera này của Rasid360. Việc phát hiện, ghi hình và gỡ lỗi sẽ không khả dụng.<br /> <em>Lưu ý: Điều này không vô hiệu hóa các luồng phát lại của go2rtc.</em>"
     },
     "object_descriptions": {
       "title": "Mô tả đối tượng bằng AI tạo sinh",
@@ -244,7 +244,7 @@
         "title": "Đối tượng",
         "desc": "Loại đối tượng áp dụng cho mặt nạ đối tượng này."
       },
-      "documentTitle": "Chỉnh sửa Mặt nạ đối tượng - Frigate",
+      "documentTitle": "Chỉnh sửa Mặt nạ đối tượng - Rasid360",
       "desc": {
         "title": "Mặt nạ lọc đối tượng được sử dụng để lọc ra các kết quả dương tính giả cho một loại đối tượng nhất định dựa trên vị trí.",
         "documentation": "Tài liệu"
@@ -252,8 +252,8 @@
       "point_other": "{{count}} điểm",
       "toast": {
         "success": {
-          "noName": "Mặt nạ đối tượng đã được lưu. Khởi động lại Frigate để áp dụng các thay đổi.",
-          "title": "{{polygonName}} đã được lưu. Khởi động lại Frigate để áp dụng các thay đổi."
+          "noName": "Mặt nạ đối tượng đã được lưu. Khởi động lại Rasid360 để áp dụng các thay đổi.",
+          "title": "{{polygonName}} đã được lưu. Khởi động lại Rasid360 để áp dụng các thay đổi."
         }
       },
       "label": "Mặt nạ đối tượng",
@@ -296,7 +296,7 @@
         "desc": "Danh sách các đối tượng áp dụng cho vùng này."
       },
       "toast": {
-        "success": "Vùng ({{zoneName}}) đã được lưu. Khởi động lại Frigate để áp dụng các thay đổi."
+        "success": "Vùng ({{zoneName}}) đã được lưu. Khởi động lại Rasid360 để áp dụng các thay đổi."
       },
       "name": {
         "inputPlaceHolder": "Nhập tên…",
@@ -305,14 +305,14 @@
       },
       "edit": "Chỉnh sửa Vùng",
       "label": "Vùng",
-      "documentTitle": "Chỉnh sửa Vùng - Frigate",
+      "documentTitle": "Chỉnh sửa Vùng - Rasid360",
       "inertia": {
         "title": "Quán tính",
         "desc": "Chỉ định số khung hình mà một đối tượng phải ở trong một vùng trước khi được coi là ở trong vùng. <em>Mặc định: 3</em>"
       }
     },
     "motionMasks": {
-      "documentTitle": "Chỉnh sửa Mặt nạ chuyển động - Frigate",
+      "documentTitle": "Chỉnh sửa Mặt nạ chuyển động - Rasid360",
       "desc": {
         "documentation": "Tài liệu",
         "title": "Mặt nạ chuyển động được sử dụng để ngăn các loại chuyển động không mong muốn kích hoạt phát hiện. Việc che quá nhiều sẽ khiến việc theo dõi đối tượng trở nên khó khăn hơn."
@@ -333,8 +333,8 @@
       "clickDrawPolygon": "Nhấp để vẽ một đa giác trên hình ảnh.",
       "toast": {
         "success": {
-          "title": "{{polygonName}} đã được lưu. Khởi động lại Frigate để áp dụng các thay đổi.",
-          "noName": "Mặt nạ chuyển động đã được lưu. Khởi động lại Frigate để áp dụng các thay đổi."
+          "title": "{{polygonName}} đã được lưu. Khởi động lại Rasid360 để áp dụng các thay đổi.",
+          "noName": "Mặt nạ chuyển động đã được lưu. Khởi động lại Rasid360 để áp dụng các thay đổi."
         }
       }
     },
@@ -365,7 +365,7 @@
     },
     "title": "Bộ tinh chỉnh Phát hiện Chuyển động",
     "desc": {
-      "title": "Frigate sử dụng phát hiện chuyển động như một bước kiểm tra đầu tiên để xem có điều gì đang xảy ra trong khung hình đáng để kiểm tra bằng phát hiện đối tượng hay không.",
+      "title": "Rasid360 sử dụng phát hiện chuyển động như một bước kiểm tra đầu tiên để xem có điều gì đang xảy ra trong khung hình đáng để kiểm tra bằng phát hiện đối tượng hay không.",
       "documentation": "Đọc Hướng dẫn Tinh chỉnh Chuyển động"
     },
     "improveContrast": {
@@ -386,7 +386,7 @@
       "ratio": "Tỷ lệ",
       "area": "Diện tích"
     },
-    "detectorDesc": "Frigate sử dụng các bộ phát hiện của bạn ({{detectors}}) để phát hiện các đối tượng trong luồng video của camera.",
+    "detectorDesc": "Rasid360 sử dụng các bộ phát hiện của bạn ({{detectors}}) để phát hiện các đối tượng trong luồng video của camera.",
     "boundingBoxes": {
       "colors": {
         "label": "Màu sắc Hộp giới hạn Đối tượng",
@@ -440,7 +440,7 @@
     "title": "Người dùng",
     "management": {
       "title": "Quản lý Người dùng",
-      "desc": "Quản lý các tài khoản người dùng của phiên bản Frigate này."
+      "desc": "Quản lý các tài khoản người dùng của phiên bản Rasid360 này."
     },
     "table": {
       "noUsers": "Không tìm thấy người dùng nào.",
@@ -486,7 +486,7 @@
         "passwordIsRequired": "Mật khẩu là bắt buộc"
       },
       "createUser": {
-        "desc": "Thêm một tài khoản người dùng mới và chỉ định một vai trò để truy cập vào các khu vực của giao diện người dùng Frigate.",
+        "desc": "Thêm một tài khoản người dùng mới và chỉ định một vai trò để truy cập vào các khu vực của giao diện người dùng Rasid360.",
         "usernameOnlyInclude": "Tên người dùng chỉ có thể bao gồm chữ cái, số, . hoặc _",
         "title": "Tạo Người dùng Mới",
         "confirmPassword": "Vui lòng xác nhận mật khẩu của bạn"
@@ -598,7 +598,7 @@
     },
     "semanticSearch": {
       "title": "Tìm kiếm theo Ngữ nghĩa",
-      "desc": "Tìm kiếm theo Ngữ nghĩa trong Frigate cho phép bạn tìm các đối tượng được theo dõi trong các mục xem lại của mình bằng cách sử dụng chính hình ảnh, mô tả văn bản do người dùng xác định hoặc mô tả được tạo tự động.",
+      "desc": "Tìm kiếm theo Ngữ nghĩa trong Rasid360 cho phép bạn tìm các đối tượng được theo dõi trong các mục xem lại của mình bằng cách sử dụng chính hình ảnh, mô tả văn bản do người dùng xác định hoặc mô tả được tạo tự động.",
       "reindexNow": {
         "desc": "Việc tái lập chỉ mục sẽ tạo lại các nhúng (embeddings) cho tất cả các đối tượng được theo dõi. Quá trình này chạy ở chế độ nền và có thể làm CPU của bạn hoạt động tối đa và mất một khoảng thời gian đáng kể tùy thuộc vào số lượng đối tượng bạn đã theo dõi.",
         "confirmTitle": "Xác nhận Tái lập chỉ mục",
@@ -625,7 +625,7 @@
     },
     "faceRecognition": {
       "title": "Nhận dạng Khuôn mặt",
-      "desc": "Nhận dạng khuôn mặt cho phép gán tên cho người và khi khuôn mặt của họ được nhận dạng, Frigate sẽ gán tên của người đó làm nhãn phụ. Thông tin này được bao gồm trong giao diện người dùng, bộ lọc, cũng như trong các thông báo.",
+      "desc": "Nhận dạng khuôn mặt cho phép gán tên cho người và khi khuôn mặt của họ được nhận dạng, Rasid360 sẽ gán tên của người đó làm nhãn phụ. Thông tin này được bao gồm trong giao diện người dùng, bộ lọc, cũng như trong các thông báo.",
       "readTheDocumentation": "Đọc tài liệu",
       "modelSize": {
         "label": "Kích thước Mô hình",
@@ -642,17 +642,17 @@
     },
     "licensePlateRecognition": {
       "title": "Nhận dạng Biển số xe",
-      "desc": "Frigate có thể nhận dạng biển số xe trên các phương tiện và tự động thêm các ký tự được phát hiện vào trường recognized_license_plate hoặc một tên đã biết làm nhãn phụ cho các đối tượng thuộc loại ô tô. Một trường hợp sử dụng phổ biến có thể là đọc biển số xe ô tô đi vào đường lái xe hoặc ô tô đi ngang qua trên đường phố.",
+      "desc": "Rasid360 có thể nhận dạng biển số xe trên các phương tiện và tự động thêm các ký tự được phát hiện vào trường recognized_license_plate hoặc một tên đã biết làm nhãn phụ cho các đối tượng thuộc loại ô tô. Một trường hợp sử dụng phổ biến có thể là đọc biển số xe ô tô đi vào đường lái xe hoặc ô tô đi ngang qua trên đường phố.",
       "readTheDocumentation": "Đọc tài liệu"
     },
     "restart_required": "Yêu cầu khởi động lại (cài đặt Làm giàu Dữ liệu đã thay đổi)",
     "toast": {
-      "success": "Cài đặt Làm giàu Dữ liệu đã được lưu. Khởi động lại Frigate để áp dụng các thay đổi của bạn.",
+      "success": "Cài đặt Làm giàu Dữ liệu đã được lưu. Khởi động lại Rasid360 để áp dụng các thay đổi của bạn.",
       "error": "Không thể lưu các thay đổi cấu hình: {{errorMessage}}"
     }
   },
   "menu": {
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "ui": "Giao diện người dùng",
     "masksAndZones": "Mặt nạ / Vùng",
     "debug": "Gỡ lỗi",

@@ -1,7 +1,7 @@
 {
   "time": {
     "untilForTime": "Indtil{{time}}",
-    "untilForRestart": "Indtil Frigate genstarter.",
+    "untilForRestart": "Indtil Rasid360 genstarter.",
     "untilRestart": "Indtil genstart",
     "ago": "{{timeAgo}} siden",
     "justNow": "Lige nu",
@@ -190,9 +190,9 @@
     "help": "Hjælp",
     "documentation": {
       "title": "Dokumentation",
-      "label": "Frigate dokumentation"
+      "label": "Rasid360 dokumentation"
     },
-    "restart": "Genstart Frigate",
+    "restart": "Genstart Rasid360",
     "live": {
       "title": "Live",
       "allCameras": "Alle kameraer",
@@ -230,7 +230,7 @@
     "title": "Rolle",
     "admin": "Admin",
     "viewer": "Viewer",
-    "desc": "Admins har fuld adgang til Frigate UI. Viewers er begrænset til at se kameraer, gennemse items, og historik i UI."
+    "desc": "Admins har fuld adgang til Rasid360 UI. Viewers er begrænset til at se kameraer, gennemse items, og historik i UI."
   },
   "pagination": {
     "label": "paginering",
@@ -245,12 +245,12 @@
     "more": "Flere sider"
   },
   "accessDenied": {
-    "documentTitle": "Adgang forbudt - Frigate",
+    "documentTitle": "Adgang forbudt - Rasid360",
     "title": "Adgang forbudt",
     "desc": "Du har ikke tiiladelse til at se denne side."
   },
   "notFound": {
-    "documentTitle": "Ikke fundet - Frigate",
+    "documentTitle": "Ikke fundet - Rasid360",
     "title": "404",
     "desc": "Side ikke fundet"
   },

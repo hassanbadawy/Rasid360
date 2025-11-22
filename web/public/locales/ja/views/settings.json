@@ -1,17 +1,17 @@
 {
   "documentTitle": {
-    "authentication": "認証設定 - Frigate",
-    "camera": "カメラ設定 - Frigate",
-    "default": "設定 - Frigate",
-    "enrichments": "高度解析設定 - Frigate",
-    "masksAndZones": "マスク／ゾーンエディタ - Frigate",
-    "motionTuner": "モーションチューナー - Frigate",
-    "object": "デバッグ - Frigate",
-    "general": "一般設定 - Frigate",
-    "frigatePlus": "Frigate+ 設定 - Frigate",
-    "notifications": "通知設定 - Frigate",
-    "cameraManagement": "カメラ設定 - Frigate",
-    "cameraReview": "カメラレビュー設定 - Frigate"
+    "authentication": "認証設定 - Rasid360",
+    "camera": "カメラ設定 - Rasid360",
+    "default": "設定 - Rasid360",
+    "enrichments": "高度解析設定 - Rasid360",
+    "masksAndZones": "マスク／ゾーンエディタ - Rasid360",
+    "motionTuner": "モーションチューナー - Rasid360",
+    "object": "デバッグ - Rasid360",
+    "general": "一般設定 - Rasid360",
+    "frigatePlus": "Rasid360+ 設定 - Rasid360",
+    "notifications": "通知設定 - Rasid360",
+    "cameraManagement": "カメラ設定 - Rasid360",
+    "cameraReview": "カメラレビュー設定 - Rasid360"
   },
   "menu": {
     "ui": "UI",
@@ -23,7 +23,7 @@
     "debug": "デバッグ",
     "users": "ユーザー",
     "notifications": "通知",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "cameraManagement": "管理",
     "cameraReview": "レビュー",
     "roles": "区分"
@@ -97,7 +97,7 @@
     },
     "semanticSearch": {
       "title": "セマンティック検索",
-      "desc": "Frigate のセマンティック検索では、画像そのもの、ユーザー定義のテキスト説明、または自動生成された説明を用いて、レビュー項目内の追跡オブジェクトを検索できます。",
+      "desc": "Rasid360 のセマンティック検索では、画像そのもの、ユーザー定義のテキスト説明、または自動生成された説明を用いて、レビュー項目内の追跡オブジェクトを検索できます。",
       "reindexNow": {
         "label": "今すぐ再インデックス",
         "desc": "再インデックスは、すべての追跡オブジェクトの埋め込みを再生成します。バックグラウンドで実行され、追跡オブジェクト数によっては CPU を使い切り、相応の時間がかかる場合があります。",
@@ -143,7 +143,7 @@
     },
     "restart_required": "再起動が必要です（高度解析設定を変更）",
     "toast": {
-      "success": "高度解析設定を保存しました。変更を適用するには Frigate を再起動してください。",
+      "success": "高度解析設定を保存しました。変更を適用するには Rasid360 を再起動してください。",
       "error": "設定変更の保存に失敗しました: {{errorMessage}}"
     }
   },
@@ -151,7 +151,7 @@
     "title": "カメラ設定",
     "streams": {
       "title": "ストリーム",
-      "desc": "Frigate の再起動まで、カメラを一時的に無効化します。無効化すると、このカメラのストリーム処理は完全に停止します。検出、録画、デバッグは利用できません。<br /> <em>注: これは go2rtc のリストリームは無効化しません。</em>"
+      "desc": "Rasid360 の再起動まで、カメラを一時的に無効化します。無効化すると、このカメラのストリーム処理は完全に停止します。検出、録画、デバッグは利用できません。<br /> <em>注: これは go2rtc のリストリームは無効化しません。</em>"
     },
     "object_descriptions": {
       "title": "生成 AI オブジェクト説明",
@@ -163,13 +163,13 @@
     },
     "review": {
       "title": "レビュー",
-      "desc": "Frigate の再起動まで、このカメラのアラートと検出を一時的に有効／無効にします。無効時は新しいレビュー項目は生成されません。 ",
+      "desc": "Rasid360 の再起動まで、このカメラのアラートと検出を一時的に有効／無効にします。無効時は新しいレビュー項目は生成されません。 ",
       "alerts": "アラート ",
       "detections": "検出 "
     },
     "reviewClassification": {
       "title": "レビュー分類",
-      "desc": "Frigate はレビュー項目をアラートと検出に分類します。既定では <em>person</em> と <em>car</em> はアラートです。必要ゾーンを設定することで分類を細かく調整できます。",
+      "desc": "Rasid360 はレビュー項目をアラートと検出に分類します。既定では <em>person</em> と <em>car</em> はアラートです。必要ゾーンを設定することで分類を細かく調整できます。",
       "noDefinedZones": "このカメラにはゾーンが定義されていません。",
       "objectAlertsTips": "{{cameraName}} 上の {{alertsLabels}} はすべてアラートとして表示されます。",
       "zoneObjectAlertsTips": "{{cameraName}} の {{zone}} で検出された {{alertsLabels}} はすべてアラートとして表示されます。",
@@ -184,7 +184,7 @@
       "selectDetectionsZones": "検出のゾーンを選択",
       "limitDetections": "検出を特定ゾーンに制限",
       "toast": {
-        "success": "レビュー分類設定を保存しました。変更を適用するには Frigate を再起動してください。"
+        "success": "レビュー分類設定を保存しました。変更を適用するには Rasid360 を再起動してください。"
       }
     },
     "addCamera": "新しいカメラを追加",
@@ -284,7 +284,7 @@
     },
     "zones": {
       "label": "ゾーン",
-      "documentTitle": "ゾーンを編集 - Frigate",
+      "documentTitle": "ゾーンを編集 - Rasid360",
       "desc": {
         "title": "ゾーンを使うと、フレーム内の特定領域を定義し、オブジェクトがその領域内にいるかどうかを判断できます。",
         "documentation": "ドキュメント"
@@ -330,12 +330,12 @@
         }
       },
       "toast": {
-        "success": "ゾーン（{{zoneName}}）を保存しました。変更を適用するには Frigate を再起動してください。"
+        "success": "ゾーン（{{zoneName}}）を保存しました。変更を適用するには Rasid360 を再起動してください。"
       }
     },
     "motionMasks": {
       "label": "モーションマスク",
-      "documentTitle": "モーションマスクを編集 - Frigate",
+      "documentTitle": "モーションマスクを編集 - Rasid360",
       "desc": {
         "title": "モーションマスクは、望ましくない種類の動きで検出がトリガーされるのを防ぎます。過度なマスクはオブジェクト追跡を困難にします。",
         "documentation": "ドキュメント"
@@ -353,14 +353,14 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} を保存しました。変更を適用するには Frigate を再起動してください。",
-          "noName": "モーションマスクを保存しました。変更を適用するには Frigate を再起動してください。"
+          "title": "{{polygonName}} を保存しました。変更を適用するには Rasid360 を再起動してください。",
+          "noName": "モーションマスクを保存しました。変更を適用するには Rasid360 を再起動してください。"
         }
       }
     },
     "objectMasks": {
       "label": "オブジェクトマスク",
-      "documentTitle": "オブジェクトマスクを編集 - Frigate",
+      "documentTitle": "オブジェクトマスクを編集 - Rasid360",
       "desc": {
         "title": "オブジェクトフィルタマスクは、位置に基づいて特定のオブジェクトタイプの誤検出を除外するために使用します。",
         "documentation": "ドキュメント"
@@ -377,8 +377,8 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} を保存しました。変更を適用するには Frigate を再起動してください。",
-          "noName": "オブジェクトマスクを保存しました。変更を適用するには Frigate を再起動してください。"
+          "title": "{{polygonName}} を保存しました。変更を適用するには Rasid360 を再起動してください。",
+          "noName": "オブジェクトマスクを保存しました。変更を適用するには Rasid360 を再起動してください。"
         }
       }
     }
@@ -387,7 +387,7 @@
     "title": "モーション検出チューナー",
     "unsavedChanges": "未保存のモーションチューナーの変更（{{camera}}）",
     "desc": {
-      "title": "Frigate は、フレーム内に物体検出で確認すべき動きがあるかの一次チェックとしてモーション検出を使用します。",
+      "title": "Rasid360 は、フレーム内に物体検出で確認すべき動きがあるかの一次チェックとしてモーション検出を使用します。",
       "documentation": "モーション調整ガイドを読む"
     },
     "Threshold": {
@@ -408,7 +408,7 @@
   },
   "debug": {
     "title": "デバッグ",
-    "detectorDesc": "Frigate は検出器（{{detectors}}）を使用して、カメラの映像ストリーム内のオブジェクトを検出します。",
+    "detectorDesc": "Rasid360 は検出器（{{detectors}}）を使用して、カメラの映像ストリーム内のオブジェクトを検出します。",
     "desc": "デバッグビューは、追跡オブジェクトとその統計をリアルタイムに表示します。オブジェクト一覧には、検出オブジェクトの時差サマリが表示されます。",
     "openCameraWebUI": "{{camera}} の Web UI を開く",
     "debugging": "デバッグ",
@@ -469,7 +469,7 @@
     "title": "ユーザー",
     "management": {
       "title": "ユーザー管理",
-      "desc": "この Frigate インスタンスのユーザーアカウントを管理します。"
+      "desc": "この Rasid360 インスタンスのユーザーアカウントを管理します。"
     },
     "addUser": "ユーザーを追加",
     "updatePassword": "パスワードを更新",
@@ -532,7 +532,7 @@
       },
       "createUser": {
         "title": "新規ユーザーを作成",
-        "desc": "新しいユーザーアカウントを追加し、Frigate UI へのアクセスロールを指定します。",
+        "desc": "新しいユーザーアカウントを追加し、Rasid360 UI へのアクセスロールを指定します。",
         "usernameOnlyInclude": "ユーザー名に使用できるのは英数字、.、_ のみです",
         "confirmPassword": "パスワードを確認してください"
       },
@@ -566,7 +566,7 @@
   "roles": {
     "management": {
       "title": "閲覧者ロール管理",
-      "desc": "この Frigate インスタンスのカスタム閲覧者ロールと、そのカメラアクセス権を管理します。"
+      "desc": "この Rasid360 インスタンスのカスタム閲覧者ロールと、そのカメラアクセス権を管理します。"
     },
     "addRole": "ロールを追加",
     "table": {
@@ -627,11 +627,11 @@
     "title": "通知",
     "notificationSettings": {
       "title": "通知設定",
-      "desc": "Frigate はブラウザで実行中、または PWA としてインストールされている場合に、端末へネイティブのプッシュ通知を送信できます。"
+      "desc": "Rasid360 はブラウザで実行中、または PWA としてインストールされている場合に、端末へネイティブのプッシュ通知を送信できます。"
     },
     "notificationUnavailable": {
       "title": "通知は利用できません",
-      "desc": "Web プッシュ通知にはセキュアコンテキスト（<code>https://…</code>）が必要です。これはブラウザの制限です。通知を利用するには、セキュアに Frigate へアクセスしてください。"
+      "desc": "Web プッシュ通知にはセキュアコンテキスト（<code>https://…</code>）が必要です。これはブラウザの制限です。通知を利用するには、セキュアに Rasid360 へアクセスしてください。"
     },
     "globalSettings": {
       "title": "グローバル設定",
@@ -668,7 +668,7 @@
     "cancelSuspension": "一時停止を解除",
     "toast": {
       "success": {
-        "registered": "通知の登録に成功しました。通知（テスト通知を含む）を送信するには Frigate の再起動が必要です。",
+        "registered": "通知の登録に成功しました。通知（テスト通知を含む）を送信するには Rasid360 の再起動が必要です。",
         "settingSaved": "通知設定を保存しました。"
       },
       "error": {
@@ -677,18 +677,18 @@
     }
   },
   "frigatePlus": {
-    "title": "Frigate+ 設定",
+    "title": "Rasid360+ 設定",
     "apiKey": {
-      "title": "Frigate+ API キー",
-      "validated": "Frigate+ API キーが検出され、検証されました",
-      "notValidated": "Frigate+ API キーが検出されないか、検証されていません",
-      "desc": "Frigate+ API キーは Frigate+ サービスとの統合を有効にします。",
-      "plusLink": "Frigate+ の詳細を読む"
+      "title": "Rasid360+ API キー",
+      "validated": "Rasid360+ API キーが検出され、検証されました",
+      "notValidated": "Rasid360+ API キーが検出されないか、検証されていません",
+      "desc": "Rasid360+ API キーは Rasid360+ サービスとの統合を有効にします。",
+      "plusLink": "Rasid360+ の詳細を読む"
     },
     "snapshotConfig": {
       "title": "スナップショット設定",
-      "desc": "Frigate+ への送信には、設定でスナップショットと <code>clean_copy</code> スナップショットの両方を有効にする必要があります。",
-      "cleanCopyWarning": "一部のカメラではスナップショットは有効ですが、クリーンコピーが無効です。これらのカメラから Frigate+ へ画像を送信するには、スナップショット設定で <code>clean_copy</code> を有効にしてください。",
+      "desc": "Rasid360+ への送信には、設定でスナップショットと <code>clean_copy</code> スナップショットの両方を有効にする必要があります。",
+      "cleanCopyWarning": "一部のカメラではスナップショットは有効ですが、クリーンコピーが無効です。これらのカメラから Rasid360+ へ画像を送信するには、スナップショット設定で <code>clean_copy</code> を有効にしてください。",
       "table": {
         "camera": "カメラ",
         "snapshots": "スナップショット",
@@ -710,12 +710,12 @@
       "error": "モデル情報の読み込みに失敗しました",
       "availableModels": "利用可能なモデル",
       "loadingAvailableModels": "利用可能なモデルを読み込み中…",
-      "modelSelect": "ここで Frigate+ 上の利用可能なモデルを選択できます。現在の検出器構成と互換性のあるモデルのみ選択可能です。"
+      "modelSelect": "ここで Rasid360+ 上の利用可能なモデルを選択できます。現在の検出器構成と互換性のあるモデルのみ選択可能です。"
     },
-    "unsavedChanges": "未保存の Frigate+ 設定の変更",
-    "restart_required": "再起動が必要です（Frigate+ モデルを変更）",
+    "unsavedChanges": "未保存の Rasid360+ 設定の変更",
+    "restart_required": "再起動が必要です（Rasid360+ モデルを変更）",
     "toast": {
-      "success": "Frigate+ 設定を保存しました。変更を適用するには Frigate を再起動してください。",
+      "success": "Rasid360+ 設定を保存しました。変更を適用するには Rasid360 を再起動してください。",
       "error": "設定変更の保存に失敗しました: {{errorMessage}}"
     }
   },
@@ -865,7 +865,7 @@
       }
     },
     "title": "カメラを追加",
-    "description": "以下の手順に従って、Frigate に新しいカメラを追加します。",
+    "description": "以下の手順に従って、Rasid360 に新しいカメラを追加します。",
     "steps": {
       "nameAndConnection": "名称と接続",
       "streamConfiguration": "ストリーム設定",
@@ -971,7 +971,7 @@
     "backToSettings": "カメラ設定に戻る",
     "streams": {
       "title": "カメラの有効化／無効化",
-      "desc": "Frigate を再起動するまで一時的にカメラを無効化します。無効化すると、このカメラのストリーム処理は完全に停止し、検出・録画・デバッグは利用できません。<br /> <em>注: これは go2rtc のリストリームを無効にはしません。</em>"
+      "desc": "Rasid360 を再起動するまで一時的にカメラを無効化します。無効化すると、このカメラのストリーム処理は完全に停止し、検出・録画・デバッグは利用できません。<br /> <em>注: これは go2rtc のリストリームを無効にはしません。</em>"
     },
     "cameraConfig": {
       "add": "カメラを追加",
@@ -1015,13 +1015,13 @@
     },
     "review": {
       "title": "レビュー",
-      "desc": "Frigate を再起動するまで、このカメラのアラートと検出を一時的に有効／無効にします。無効にすると、新しいレビュー項目は生成されません。 ",
+      "desc": "Rasid360 を再起動するまで、このカメラのアラートと検出を一時的に有効／無効にします。無効にすると、新しいレビュー項目は生成されません。 ",
       "alerts": "アラート ",
       "detections": "検出 "
     },
     "reviewClassification": {
       "title": "レビュー分類",
-      "desc": "Frigate はレビュー項目をアラートと検出に分類します。既定では、すべての <em>person</em> と <em>car</em> オブジェクトはアラートとして扱われます。必須ゾーンを設定することで、分類をより細かく調整できます。",
+      "desc": "Rasid360 はレビュー項目をアラートと検出に分類します。既定では、すべての <em>person</em> と <em>car</em> オブジェクトはアラートとして扱われます。必須ゾーンを設定することで、分類をより細かく調整できます。",
       "noDefinedZones": "このカメラにはゾーンが定義されていません。",
       "objectAlertsTips": "すべての {{alertsLabels}} オブジェクトは {{cameraName}} でアラートとして表示されます。",
       "zoneObjectAlertsTips": "{{cameraName}} の {{zone}} で検出されたすべての {{alertsLabels}} オブジェクトはアラートとして表示されます。",
@@ -1036,7 +1036,7 @@
       "selectDetectionsZones": "検出用のゾーンを選択",
       "limitDetections": "特定のゾーンに検出を限定する",
       "toast": {
-        "success": "レビュー分類の設定を保存しました。変更を適用するには Frigate を再起動してください。"
+        "success": "レビュー分類の設定を保存しました。変更を適用するには Rasid360 を再起動してください。"
       }
     }
   }

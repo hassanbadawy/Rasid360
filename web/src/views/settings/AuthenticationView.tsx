@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { Toaster } from "@/components/ui/sonner";
 import useSWR from "swr";
 import Heading from "@/components/ui/heading";
@@ -47,7 +47,7 @@ export default function AuthenticationView({
 }: AuthenticationViewProps) {
   const { t } = useTranslation("views/settings");
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
   const { data: users, mutate: mutateUsers } = useSWR<User[]>("users");
 
   const [showSetPassword, setShowSetPassword] = useState(false);

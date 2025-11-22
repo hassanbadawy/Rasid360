@@ -2,10 +2,10 @@
   "label": "Object classification config.",
   "properties": {
     "bird": {
-      "label": "Bird classification config.",
+      "label": "classification config.",
       "properties": {
         "enabled": {
-          "label": "Enable bird classification."
+          "label": "Enable classification."
         },
         "threshold": {
           "label": "Minimum classification score required to be considered a match."

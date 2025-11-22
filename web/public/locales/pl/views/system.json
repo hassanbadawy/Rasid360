@@ -1,13 +1,13 @@
 {
   "documentTitle": {
-    "cameras": "Statystyki kamer - Frigate",
-    "storage": "Statystyki Magazynowania - Frigate",
-    "general": "Statystyki Ogólne - Frigate",
-    "enrichments": "Statystyki Wzbogacania - Frigate",
+    "cameras": "Statystyki kamer - Rasid360",
+    "storage": "Statystyki Magazynowania - Rasid360",
+    "general": "Statystyki Ogólne - Rasid360",
+    "enrichments": "Statystyki Wzbogacania - Rasid360",
     "logs": {
-      "frigate": "Logi Frigate - Frigate",
-      "go2rtc": "Logi Go2RTC - Frigate",
-      "nginx": "Logi Nginx - Frigate"
+      "frigate": "Logi Rasid360 - Rasid360",
+      "go2rtc": "Logi Go2RTC - Rasid360",
+      "nginx": "Logi Nginx - Rasid360"
     }
   },
   "general": {
@@ -109,7 +109,7 @@
     "cameraStorage": {
       "unused": {
         "title": "Niewykorzystane",
-        "tips": "Ta wartość może niedokładnie przedstawiać wolne miejsce dostępne dla Frigate, jeśli masz inne pliki przechowywane na dysku poza nagraniami Frigate. Frigate nie śledzi wykorzystania magazynu poza swoimi nagraniami."
+        "tips": "Ta wartość może niedokładnie przedstawiać wolne miejsce dostępne dla Rasid360, jeśli masz inne pliki przechowywane na dysku poza nagraniami Rasid360. Rasid360 nie śledzi wykorzystania magazynu poza swoimi nagraniami."
       },
       "title": "Magazyn kamery",
       "camera": "Kamera",
@@ -122,7 +122,7 @@
     "overview": "Przegląd",
     "recordings": {
       "title": "Nagrania",
-      "tips": "Ta wartość reprezentuje całkowite miejsce zajmowane przez nagrania w bazie danych Frigate. Frigate nie śledzi wykorzystania magazynu dla wszystkich plików na twoim dysku.",
+      "tips": "Ta wartość reprezentuje całkowite miejsce zajmowane przez nagrania w bazie danych Rasid360. Rasid360 nie śledzi wykorzystania magazynu dla wszystkich plików na twoim dysku.",
       "earliestRecording": "Najwcześniejsze dostępne nagranie:"
     },
     "shm": {

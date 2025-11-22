@@ -38,9 +38,9 @@
     "label": "Característiques",
     "hasSnapshot": "Té una instantània",
     "hasVideoClip": "Té un clip de vídeo",
-    "submittedToFrigatePlus": {
-      "label": "Enviat a Frigate+",
-      "tips": "Primer heu de filtrar els objectes de seguiment que tenen una instantània.<br /><br />Els objectes de seguiment sense una instantània no es poden enviar a Frigate+."
+    "submittedToRasid360Plus": {
+      "label": "Enviat a Rasid360+",
+      "tips": "Primer heu de filtrar els objectes de seguiment que tenen una instantània.<br /><br />Els objectes de seguiment sense una instantània no es poden enviar a Rasid360+."
     }
   },
   "sort": {

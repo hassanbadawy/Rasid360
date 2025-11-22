@@ -1,5 +1,5 @@
 {
-  "documentTitle": "Preskúmať - Frigate",
+  "documentTitle": "Preskúmať - Rasid360",
   "generativeAI": "Generatívna AI",
   "details": {
     "timestamp": "Časová pečiatka",
@@ -14,7 +14,7 @@
         "mismatch_one": "Bol zistený a zahrnutý do tejto položky kontroly nedostupný objekt ({{count}}). Tieto objekty buď neboli kvalifikované ako upozornenie alebo detekcia, alebo už boli vyčistené/odstránené.",
         "mismatch_few": "Bolo zistených a zahrnutých do tejto položky kontroly {{count}} nedostupných objektov. Tieto objekty buď neboli kvalifikované ako upozornenie alebo detekcia, alebo už boli vyčistené/odstránené.",
         "mismatch_other": "Bolo zistených a zahrnutých do tejto položky kontroly {{count}} nedostupných objektov. Tieto objekty buď neboli kvalifikované ako upozornenie alebo detekcia, alebo už boli vyčistené/odstránené.",
-        "hasMissingObjects": "Upravte si konfiguráciu, ak chcete, aby Frigate ukladal sledované objekty pre nasledujúce označenia: <em>{{objects}}<em>"
+        "hasMissingObjects": "Upravte si konfiguráciu, ak chcete, aby Rasid360 ukladal sledované objekty pre nasledujúce označenia: <em>{{objects}}<em>"
       },
       "toast": {
         "success": {
@@ -66,7 +66,7 @@
     },
     "description": {
       "placeholder": "Popis sledovaného objektu",
-      "aiTips": "Frigate si od vášho poskytovateľa generatívnej umelej inteligencie nevyžiada popis, kým sa neukončí životný cyklus sledovaného objektu.",
+      "aiTips": "Rasid360 si od vášho poskytovateľa generatívnej umelej inteligencie nevyžiada popis, kým sa neukončí životný cyklus sledovaného objektu.",
       "label": "Popis"
     },
     "expandRegenerationMenu": "Rozbaľte ponuku regenerácie",
@@ -92,7 +92,7 @@
       }
     },
     "downloadingModels": {
-      "context": "Frigate sťahuje potrebné modely vkladania na podporu funkcie sémantického vyhľadávania. V závislosti od rýchlosti vášho sieťového pripojenia to môže trvať niekoľko minút.",
+      "context": "Rasid360 sťahuje potrebné modely vkladania na podporu funkcie sémantického vyhľadávania. V závislosti od rýchlosti vášho sieťového pripojenia to môže trvať niekoľko minút.",
       "setup": {
         "visionModel": "Model vízie",
         "visionModelFeatureExtractor": "Extraktor prvkov modelu videnia",
@@ -154,7 +154,7 @@
         "millisecondsToOffset": "Milisekundy na posunutie detekcie anotácií. <em>Predvolené: 0</em>",
         "tips": "TIP: Predstavte si klip udalosti, v ktorom osoba kráča zľava doprava. Ak je ohraničujúci rámček časovej osi udalosti stále naľavo od osoby, hodnota by sa mala znížiť. Podobne, ak osoba kráča zľava doprava a ohraničujúci rámček je stále pred ňou, hodnota by sa mala zvýšiť.",
         "toast": {
-          "success": "Odsadenie anotácie pre {{camera}} bolo uložené do konfiguračného súboru. Reštartujte Frigate, aby sa zmeny prejavili."
+          "success": "Odsadenie anotácie pre {{camera}} bolo uložené do konfiguračného súboru. Reštartujte Rasid360, aby sa zmeny prejavili."
         }
       }
     },
@@ -189,8 +189,8 @@
       "aria": "Požiadajte o prepis zvuku"
     },
     "submitToPlus": {
-      "label": "Odoslať na Frigate+",
-      "aria": "Odoslať na Frigate Plus"
+      "label": "Odoslať na Rasid360+",
+      "aria": "Odoslať na Rasid360 Plus"
     },
     "viewInHistory": {
       "label": "Zobraziť v histórii",
@@ -275,7 +275,7 @@
         "millisecondsToOffset": "Milisekundy na posunutie detekcie anotácií. <em>Predvolené: 0</em>",
         "tips": "TIP: Predstavte si klip udalosti, v ktorom osoba kráča zľava doprava. Ak je ohraničujúci rámček časovej osi udalosti stále naľavo od osoby, hodnota by sa mala znížiť. Podobne, ak osoba kráča zľava doprava a ohraničujúci rámček je stále pred ňou, hodnota by sa mala zvýšiť.",
         "toast": {
-          "success": "Odsadenie anotácie pre {{camera}} bolo uložené do konfiguračného súboru. Reštartujte Frigate, aby sa zmeny prejavili."
+          "success": "Odsadenie anotácie pre {{camera}} bolo uložené do konfiguračného súboru. Reštartujte Rasid360, aby sa zmeny prejavili."
         }
       }
     },

@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Estàs segur que vols reiniciar Frigate?",
+    "title": "Estàs segur que vols reiniciar Rasid360?",
     "button": "Reiniciar",
     "restarting": {
-      "title": "Frigate s'està reiniciant",
+      "title": "Rasid360 s'està reiniciant",
       "content": "Aquesta pàgina es tornarà a carregar d'aquí a {{countdown}} segons.",
       "button": "Forçar la recàrrega ara"
     }
@@ -11,12 +11,12 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Enviar a Frigate+",
+        "label": "Enviar a Rasid360+",
         "desc": "Els objectes a les ubicacions que voleu evitar no són falsos positius. Enviar-los com a falsos positius confondrà el model."
       },
       "review": {
         "question": {
-          "label": "Confirmar aquesta etiqueta per a Frigate Plus",
+          "label": "Confirmar aquesta etiqueta per a Rasid360 Plus",
           "ask_a": "Aquest objecte és un <code>{{label}}</code>?",
           "ask_an": "Aquest objecte és un <code>{{label}}</code>?",
           "ask_full": "Aquest objecte és un <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"

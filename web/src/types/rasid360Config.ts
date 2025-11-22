@@ -327,7 +327,7 @@ export type AllGroupsStreamingSettings = {
   [groupName: string]: GroupStreamingSettings;
 };
 
-export interface FrigateConfig {
+export interface Rasid360Config {
   version: string;
   safe_mode: boolean;
 

@@ -1,6 +1,6 @@
 {
   "generativeAI": "Generativní AI",
-  "documentTitle": "Prozkoumat – Frigate",
+  "documentTitle": "Prozkoumat – Rasid360",
   "details": {
     "timestamp": "Časové razítko",
     "snapshotScore": {
@@ -14,7 +14,7 @@
         "viewInExplore": "Zobrazit v Průzkumu"
       },
       "tips": {
-        "hasMissingObjects": "Upravte svou konfiguraci, pokud chcete, aby Frigate ukládal sledované objekty pro následující štítky: <em>{{objects}}</em>",
+        "hasMissingObjects": "Upravte svou konfiguraci, pokud chcete, aby Rasid360 ukládal sledované objekty pro následující štítky: <em>{{objects}}</em>",
         "mismatch_one": "{{count}} nedostupný objekt byl detekován a vložen do této položky kontroly. Tento objekt se buď nekvalifikoval jako výstraha nebo detekce, nebo již byl vyčištěn/smazán.",
         "mismatch_few": "{{count}} nedostupné objekty byly detekovány a vloženy do této položky kontroly. Tyto objekty se buď nekvalifikovaly jako výstraha nebo detekce, nebo již byly vyčištěny/smazány.",
         "mismatch_other": "{{count}} nedostupných objektů bylo detekováno a vloženo do této položky kontroly. Tyto objekty se buď nekvalifikovaly jako výstraha nebo detekce, nebo již byly vyčištěny/smazány."
@@ -58,7 +58,7 @@
     "description": {
       "label": "Popis",
       "placeholder": "Popis sledovaného objektu",
-      "aiTips": "Frigate nebude vyžadovat popis od vašeho poskytovatele generativní AI, dokud neskončí životní cyklus sledovaného objektu."
+      "aiTips": "Rasid360 nebude vyžadovat popis od vašeho poskytovatele generativní AI, dokud neskončí životní cyklus sledovaného objektu."
     },
     "expandRegenerationMenu": "Rozbalte nabídku regenerace",
     "regenerateFromSnapshot": "Regenerovat ze snímku",
@@ -91,7 +91,7 @@
       }
     },
     "downloadingModels": {
-      "context": "Frigate stahuje potřebné modely vložení pro podporu funkce sémantického vyhledávání. To může trvat několik minut v závislosti na rychlosti vašeho síťového připojení.",
+      "context": "Rasid360 stahuje potřebné modely vložení pro podporu funkce sémantického vyhledávání. To může trvat několik minut v závislosti na rychlosti vašeho síťového připojení.",
       "setup": {
         "visionModelFeatureExtractor": "Extraktor funkcí Vision modelu",
         "visionModel": "Vision model",
@@ -102,7 +102,7 @@
         "documentation": "Přečtěte si dokumentaci",
         "context": "Můžete reindexovat vložení vašich sledovaných oběktů hned jak budou modely staženy."
       },
-      "error": "Nastala chyba. Zkontrolujte protokoly Frigate."
+      "error": "Nastala chyba. Zkontrolujte protokoly Rasid360."
     }
   },
   "trackedObjectsCount_one": "{{count}} sledovaný objekt ",
@@ -150,7 +150,7 @@
         "desc": "Tato data pocházejí z detekčního zdroje vaší kamery, ale jsou překryta na snímcích ze záznamu. Je nepravděpodobné, že by tyto dva proudy byly dokonale synchronizované. Výsledkem je, že ohraničující rámeček a stopáž nebudou dokonale zarovnány. K nastavení však lze použít pole <code>annotation_offset</code>.",
         "tips": "TIP: Představte si, že existuje klip události s osobou, která jde zleva doprava. Pokud je ohraničovací rámeček na časové ose události konzistentně vlevo od osoby, měla by být hodnota snížena. Podobně, pokud osoba chodí zleva doprava a ohraničující rámeček je trvale před osobou, měla by být hodnota zvýšena.",
         "toast": {
-          "success": "Posun anotace pro {{camera}} byl uložen do konfiguračního souboru. Restartujte Frigate, aby se změny projevily."
+          "success": "Posun anotace pro {{camera}} byl uložen do konfiguračního souboru. Restartujte Rasid360, aby se změny projevily."
         }
       },
       "title": "Nastavení popisků"
@@ -187,8 +187,8 @@
       "label": "Najít podobné"
     },
     "submitToPlus": {
-      "aria": "Odeslat do Frigate Plus",
-      "label": "Odeslat do Frigate+"
+      "aria": "Odeslat do Rasid360 Plus",
+      "label": "Odeslat do Rasid360+"
     },
     "viewObjectLifecycle": {
       "label": "Zobrazit životní cyklus objektu",

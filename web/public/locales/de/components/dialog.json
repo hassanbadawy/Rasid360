@@ -1,8 +1,8 @@
 {
   "restart": {
-    "title": "Sind Sie sicher, dass Sie Frigate neustarten wollen?",
+    "title": "Sind Sie sicher, dass Sie Rasid360 neustarten wollen?",
     "restarting": {
-      "title": "Frigate startet neu",
+      "title": "Rasid360 startet neu",
       "content": "Diese Seite wird in {{countdown}} Sekunde(n) aktualisiert.",
       "button": "Neuladen erzwingen"
     },
@@ -12,7 +12,7 @@
     "plus": {
       "review": {
         "true": {
-          "label": "Bestätigen Sie das Label für Frigate Plus",
+          "label": "Bestätigen Sie das Label für Rasid360 Plus",
           "true_one": "Das ist ein/eine {{label}}",
           "true_other": "Dies sind {{label}}"
         },
@@ -22,17 +22,17 @@
         "false": {
           "false_one": "Das ist kein(e) {{label}}",
           "false_other": "Das sind kein(e) {{label}}",
-          "label": "Bestätige dieses Label nicht für Frigate Plus"
+          "label": "Bestätige dieses Label nicht für Rasid360 Plus"
         },
         "question": {
-          "label": "Bestätige diese Beschriftung für Frigate Plus",
+          "label": "Bestätige diese Beschriftung für Rasid360 Plus",
           "ask_a": "Ist dieses Objekt ein <code>{{label}}</code>?",
           "ask_an": "Ist dieses Objekt ein <code>{{label}}</code>?",
           "ask_full": "Ist dieses Objekt ein <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"
         }
       },
       "submitToPlus": {
-        "label": "An Frigate+ übermitteln",
+        "label": "An Rasid360+ übermitteln",
         "desc": "Objekte an Orten die du vermeiden möchtest, sind keine Fehlalarme. Wenn du sie als Fehlalarme meldest, verwirrst du das Modell."
       }
     },

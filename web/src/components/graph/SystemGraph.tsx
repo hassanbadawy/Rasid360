@@ -1,6 +1,6 @@
 import { useTheme } from "@/context/theme-provider";
 import { useDateLocale } from "@/hooks/use-date-locale";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { Threshold } from "@/types/graph";
 import { formatUnixTimestampToDateTime } from "@/utils/dateUtil";
 import { useCallback, useEffect, useMemo } from "react";
@@ -25,7 +25,7 @@ export function ThresholdBarGraph({
   updateTimes,
   data,
 }: ThresholdBarGraphProps) {
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
 

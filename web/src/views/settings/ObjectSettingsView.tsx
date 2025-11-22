@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
 import AutoUpdatingCameraImage from "@/components/camera/AutoUpdatingCameraImage";
-import { CameraConfig, FrigateConfig } from "@/types/frigateConfig";
+import { CameraConfig, Rasid360Config } from "@/types/rasid360Config";
 import { Toaster } from "@/components/ui/sonner";
 import { Label } from "@/components/ui/label";
 import useSWR from "swr";
@@ -49,7 +49,7 @@ export default function ObjectSettingsView({
 
   const { getLocaleDocUrl } = useDocDomain();
 
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -367,7 +367,7 @@ type ObjectListProps = {
 
 function ObjectList({ cameraConfig, objects }: ObjectListProps) {
   const { t } = useTranslation(["views/settings"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const colormap = useMemo(() => {
     if (!config) {

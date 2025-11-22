@@ -31,7 +31,7 @@ import axios from "axios";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { reviewQueries } from "@/utils/zoneEdutUtil";
 import IconWrapper from "../ui/icon-wrapper";
 import { StatusBarMessagesContext } from "@/context/statusbar-provider";
@@ -59,7 +59,7 @@ export default function PolygonItem({
 }: PolygonItemProps) {
   const { t } = useTranslation("views/settings");
   const { data: config, mutate: updateConfig } =
-    useSWR<FrigateConfig>("config");
+    useSWR<Rasid360Config>("config");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const { addMessage } = useContext(StatusBarMessagesContext)!;
   const [isLoading, setIsLoading] = useState(false);

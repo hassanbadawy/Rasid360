@@ -1,18 +1,18 @@
 {
   "documentTitle": {
-    "camera": "Kamerainställningar - Frigate",
-    "default": "Inställningar - Frigate",
-    "general": "Allmänna inställningar - Frigate",
-    "authentication": "Autentiseringsinställningar - Frigate",
-    "classification": "Klassificeringsinställningar - Frigate",
-    "masksAndZones": "Maskerings- och zonverktyg - Frigate",
-    "enrichments": "Förbättringsinställningar - Frigate",
-    "frigatePlus": "Frigate+ Inställningar - Frigate",
-    "notifications": "Notifikations Inställningar - Frigate",
-    "motionTuner": "Rörelse inställning - Frigate",
-    "object": "Felsöka - Frigate",
-    "cameraManagement": "Hantera kameror - Frigate",
-    "cameraReview": "Kameragranskningsinställningar - Frigate"
+    "camera": "Kamerainställningar - Rasid360",
+    "default": "Inställningar - Rasid360",
+    "general": "Allmänna inställningar - Rasid360",
+    "authentication": "Autentiseringsinställningar - Rasid360",
+    "classification": "Klassificeringsinställningar - Rasid360",
+    "masksAndZones": "Maskerings- och zonverktyg - Rasid360",
+    "enrichments": "Förbättringsinställningar - Rasid360",
+    "frigatePlus": "Rasid360+ Inställningar - Rasid360",
+    "notifications": "Notifikations Inställningar - Rasid360",
+    "motionTuner": "Rörelse inställning - Rasid360",
+    "object": "Felsöka - Rasid360",
+    "cameraManagement": "Hantera kameror - Rasid360",
+    "cameraReview": "Kameragranskningsinställningar - Rasid360"
   },
   "general": {
     "title": "Allmänna Inställningar",
@@ -81,7 +81,7 @@
     "title": "Förbättringsinställningar",
     "semanticSearch": {
       "title": "Semantisk sökning",
-      "desc": "Semantisk sökning i Frigate låter dig hitta spårade objekt i dina granskningsobjekt med hjälp av antingen själva bilden, en användardefinierad textbeskrivning eller en automatiskt genererad.",
+      "desc": "Semantisk sökning i Rasid360 låter dig hitta spårade objekt i dina granskningsobjekt med hjälp av antingen själva bilden, en användardefinierad textbeskrivning eller en automatiskt genererad.",
       "readTheDocumentation": "Läs dokumentationen",
       "reindexNow": {
         "label": "Omindexera nu",
@@ -107,7 +107,7 @@
       }
     },
     "faceRecognition": {
-      "desc": "Ansiktsigenkänning gör att personer kan tilldelas namn och när deras ansikte känns igen kommer Frigate att tilldela personens namn som en underetikett. Denna information finns i användargränssnittet, filter och i aviseringar.",
+      "desc": "Ansiktsigenkänning gör att personer kan tilldelas namn och när deras ansikte känns igen kommer Rasid360 att tilldela personens namn som en underetikett. Denna information finns i användargränssnittet, filter och i aviseringar.",
       "readTheDocumentation": "Läs dokumentationen",
       "modelSize": {
         "label": "Modellstorlek",
@@ -125,12 +125,12 @@
     },
     "licensePlateRecognition": {
       "title": "Nummerplåt Erkännande",
-      "desc": "Frigate kan känna igen nummerplåt på fordon och automatiskt lägga till de upptäckta tecknen i fältet recognized_license_plate eller ett känt namn som en underetikett till objekt av typen bil. Ett vanligt användningsfall kan vara att läsa nummerplåtor på bilar som kör in på en uppfart eller bilar som passerar på en gata.",
+      "desc": "Rasid360 kan känna igen nummerplåt på fordon och automatiskt lägga till de upptäckta tecknen i fältet recognized_license_plate eller ett känt namn som en underetikett till objekt av typen bil. Ett vanligt användningsfall kan vara att läsa nummerplåtor på bilar som kör in på en uppfart eller bilar som passerar på en gata.",
       "readTheDocumentation": "Läs dokumentationen"
     },
     "restart_required": "Omstart krävs (berikningsinställningar har ändrats)",
     "toast": {
-      "success": "Inställningarna för berikning har sparats. Starta om Frigate för att tillämpa dina ändringar.",
+      "success": "Inställningarna för berikning har sparats. Starta om Rasid360 för att tillämpa dina ändringar.",
       "error": "Kunde inte spara konfigurationsändringarna: {{errorMessage}}"
     }
   },
@@ -140,7 +140,7 @@
     "masksAndZones": "Masker / Områden",
     "users": "Användare",
     "notifications": "Notifikationer",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "enrichments": "Förbättringar",
     "motionTuner": "Rörelsemottagare",
     "debug": "Felsök",
@@ -159,7 +159,7 @@
     "title": "Kamera inställningar",
     "streams": {
       "title": "Videoströmmar",
-      "desc": "Inaktivera tillfälligt en kamera tills Frigate startar om. Om du inaktiverar en kamera helt stoppas Frigates bearbetning av kamerans strömmar. Detektering, inspelning och felsökning kommer inte att vara tillgängliga.<br /> <em>Obs! Detta inaktiverar inte go2rtc-återströmmar.</em>"
+      "desc": "Inaktivera tillfälligt en kamera tills Rasid360 startar om. Om du inaktiverar en kamera helt stoppas Rasid360s bearbetning av kamerans strömmar. Detektering, inspelning och felsökning kommer inte att vara tillgängliga.<br /> <em>Obs! Detta inaktiverar inte go2rtc-återströmmar.</em>"
     },
     "object_descriptions": {
       "title": "Generativa AI-objektbeskrivningar",
@@ -171,13 +171,13 @@
     },
     "review": {
       "title": "Recensera",
-      "desc": "Tillfälligt Aktivera/avaktivera varningar och detekteringar för den här kameran tills Frigate startar om. När den är avaktiverad genereras inga nya granskningsobjekt. ",
+      "desc": "Tillfälligt Aktivera/avaktivera varningar och detekteringar för den här kameran tills Rasid360 startar om. När den är avaktiverad genereras inga nya granskningsobjekt. ",
       "alerts": "Aviseringar ",
       "detections": "Detektioner "
     },
     "reviewClassification": {
       "title": "Granska klassificering",
-      "desc": "Frigate kategoriserar granskningsobjekt som varningar och detekteringar. Som standard betraktas alla <em>person</em>- och <em>bil</em>-objekt som varningar. Du kan förfina kategoriseringen av dina granskningsobjekt genom att konfigurera obligatoriska zoner för dem.",
+      "desc": "Rasid360 kategoriserar granskningsobjekt som varningar och detekteringar. Som standard betraktas alla <em>person</em>- och <em>bil</em>-objekt som varningar. Du kan förfina kategoriseringen av dina granskningsobjekt genom att konfigurera obligatoriska zoner för dem.",
       "noDefinedZones": "Inga zoner är definierade för den här kameran.",
       "objectAlertsTips": "Alla {{alertsLabels}}-objekt på {{cameraName}} kommer att visas som varningar.",
       "zoneObjectAlertsTips": "Alla {{alertsLabels}} objekt som upptäcks i {{zone}} på {{cameraName}} kommer att visas som varningar.",
@@ -192,7 +192,7 @@
       "selectDetectionsZones": "Välj zoner för detektioner",
       "limitDetections": "Begränsa detektioner till specifika zoner",
       "toast": {
-        "success": "Konfigurationen för granskning av klassificering har sparats. Starta om Frigate för att tillämpa ändringarna."
+        "success": "Konfigurationen för granskning av klassificering har sparats. Starta om Rasid360 för att tillämpa ändringarna."
       }
     },
     "addCamera": "Lägg till ny kamera",
@@ -294,7 +294,7 @@
     },
     "zones": {
       "label": "Zoner",
-      "documentTitle": "Redigera zon - Frigate",
+      "documentTitle": "Redigera zon - Rasid360",
       "desc": {
         "documentation": "Dokumentation",
         "title": "Zoner låter dig definiera ett specifikt område av bilden så att du kan avgöra om ett objekt befinner sig inom ett visst område eller inte."
@@ -341,12 +341,12 @@
         }
       },
       "toast": {
-        "success": "Zon ({{zoneName}}) har sparats. Starta om Frigate för att tillämpa ändringarna."
+        "success": "Zon ({{zoneName}}) har sparats. Starta om Rasid360 för att tillämpa ändringarna."
       }
     },
     "motionMasks": {
       "label": "Rörelsemask",
-      "documentTitle": "Redigera rörelsemask - Frigate",
+      "documentTitle": "Redigera rörelsemask - Rasid360",
       "desc": {
         "title": "Rörelsemasker används för att förhindra att oönskade typer av rörelser utlöser detektering. Övermaskering gör det svårare att spåra objekt.",
         "documentation": "Dokumentation"
@@ -365,14 +365,14 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} har sparats. Starta om Frigate för att tillämpa ändringarna.",
-          "noName": "Rörelsemasken har sparats. Starta om Frigate för att tillämpa ändringarna."
+          "title": "{{polygonName}} har sparats. Starta om Rasid360 för att tillämpa ändringarna.",
+          "noName": "Rörelsemasken har sparats. Starta om Rasid360 för att tillämpa ändringarna."
         }
       }
     },
     "objectMasks": {
       "label": "Objektmasker",
-      "documentTitle": "Redigera objektmask - Frigate",
+      "documentTitle": "Redigera objektmask - Rasid360",
       "point_one": "{{count}} poäng",
       "point_other": "{{count}} poäng",
       "desc": {
@@ -390,8 +390,8 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} har sparats. Starta om Frigate för att tillämpa ändringarna.",
-          "noName": "Objektmasken har sparats. Starta om Frigate för att tillämpa ändringarna."
+          "title": "{{polygonName}} har sparats. Starta om Rasid360 för att tillämpa ändringarna.",
+          "noName": "Objektmasken har sparats. Starta om Rasid360 för att tillämpa ändringarna."
         }
       }
     }
@@ -400,7 +400,7 @@
     "title": "Rörelsedetekteringstuner",
     "unsavedChanges": "Osparade ändringar i Motion Tuner ({{camera}})",
     "desc": {
-      "title": "Frigate använder rörelsedetektering som en första kontroll för att se om det händer något i bilden som är värt att kontrollera med objektdetektering.",
+      "title": "Rasid360 använder rörelsedetektering som en första kontroll för att se om det händer något i bilden som är värt att kontrollera med objektdetektering.",
       "documentation": "Läs guiden för rörelsejustering"
     },
     "Threshold": {
@@ -482,7 +482,7 @@
     "title": "Användare",
     "management": {
       "title": "Användarhantering",
-      "desc": "Hantera användarkonton för denna Frigate-instans."
+      "desc": "Hantera användarkonton för denna Rasid360-instans."
     },
     "addUser": "Lägg till användare",
     "updatePassword": "Uppdatera lösenord",
@@ -545,7 +545,7 @@
       },
       "createUser": {
         "title": "Skapa ny användare",
-        "desc": "Lägg till ett nytt användarkonto och ange en roll för åtkomst till områden i Frigate gränssnittet.",
+        "desc": "Lägg till ett nytt användarkonto och ange en roll för åtkomst till områden i Rasid360 gränssnittet.",
         "usernameOnlyInclude": "Användarnamnet får endast innehålla bokstäver, siffror, . eller _",
         "confirmPassword": "Vänligen bekräfta ditt lösenord"
       },
@@ -580,7 +580,7 @@
     "title": "Aviseringar",
     "notificationSettings": {
       "title": "Aviseringsinställningar",
-      "desc": "Frigate kan skicka push-notiser till din enhet när den körs i webbläsare eller installerad som PWA."
+      "desc": "Rasid360 kan skicka push-notiser till din enhet när den körs i webbläsare eller installerad som PWA."
     },
     "globalSettings": {
       "title": "Övergripande inställningar",
@@ -601,7 +601,7 @@
     "active": "Notifieringar aktiva",
     "notificationUnavailable": {
       "title": "Meddelanden otillgängliga",
-      "desc": "Webb push-meddelanden kräver en säker kontext (<code>https://…</code>). Detta är en begränsning i webbläsaren. Få säker åtkomst till Frigate för att använda meddelanden."
+      "desc": "Webb push-meddelanden kräver en säker kontext (<code>https://…</code>). Detta är en begränsning i webbläsaren. Få säker åtkomst till Rasid360 för att använda meddelanden."
     },
     "deviceSpecific": "Enhetsspecifika inställningar",
     "registerDevice": "Registrera den här enheten",
@@ -621,7 +621,7 @@
     "cancelSuspension": "Avbryt pausning",
     "toast": {
       "success": {
-        "registered": "Registreringen för aviseringar har lyckats. Omstart av Frigate krävs innan några aviseringar (inklusive en testavisering) kan skickas.",
+        "registered": "Registreringen för aviseringar har lyckats. Omstart av Rasid360 krävs innan några aviseringar (inklusive en testavisering) kan skickas.",
         "settingSaved": "Aviseringsinställningarna har sparats."
       },
       "error": {
@@ -687,22 +687,22 @@
     },
     "management": {
       "title": "Hantering av tittarroller",
-      "desc": "Hantera anpassade tittarroller och deras kameraåtkomstbehörigheter för den här Frigate instansen."
+      "desc": "Hantera anpassade tittarroller och deras kameraåtkomstbehörigheter för den här Rasid360 instansen."
     }
   },
   "frigatePlus": {
-    "title": "Frigate+ Inställningar",
+    "title": "Rasid360+ Inställningar",
     "apiKey": {
-      "notValidated": "Frigate+ API-nyckeln upptäcktes inte eller validerades inte",
-      "desc": "Frigate+ API-nyckeln möjliggör integration med Frigate+-tjänsten.",
-      "plusLink": "Läs mer om Frigate+",
-      "title": "Frigate+ API-nyckel",
-      "validated": "Frigate+ API-nyckeln har upptäckts och validerats"
+      "notValidated": "Rasid360+ API-nyckeln upptäcktes inte eller validerades inte",
+      "desc": "Rasid360+ API-nyckeln möjliggör integration med Rasid360+-tjänsten.",
+      "plusLink": "Läs mer om Rasid360+",
+      "title": "Rasid360+ API-nyckel",
+      "validated": "Rasid360+ API-nyckeln har upptäckts och validerats"
     },
     "snapshotConfig": {
       "title": "Ögonblicksbild konfiguration",
-      "desc": "Att skicka till Frigate+ kräver att både snapshots och <code>clean_copy</code> snapshots är aktiverade i din konfiguration.",
-      "cleanCopyWarning": "Vissa kameror har aktiverade ögonblicksbilder men har ren kopia inaktiverad. Du måste aktivera <code>clean_copy</code> i din ögonblicksbild konfiguration för att kunna skicka bilder från dessa kameror till Frigate+.",
+      "desc": "Att skicka till Rasid360+ kräver att både snapshots och <code>clean_copy</code> snapshots är aktiverade i din konfiguration.",
+      "cleanCopyWarning": "Vissa kameror har aktiverade ögonblicksbilder men har ren kopia inaktiverad. Du måste aktivera <code>clean_copy</code> i din ögonblicksbild konfiguration för att kunna skicka bilder från dessa kameror till Rasid360+.",
       "table": {
         "camera": "Kamera",
         "snapshots": "Ögonblicksbilder",
@@ -724,12 +724,12 @@
       "error": "Misslyckades med att ladda modellinformationen",
       "availableModels": "Tillgängliga modeller",
       "loadingAvailableModels": "Laddar tillgängliga modeller…",
-      "modelSelect": "Dina tillgängliga modeller på Frigate+ kan väljas här. Observera att endast modeller som är kompatibla med din nuvarande detektorkonfiguration kan väljas."
+      "modelSelect": "Dina tillgängliga modeller på Rasid360+ kan väljas här. Observera att endast modeller som är kompatibla med din nuvarande detektorkonfiguration kan väljas."
     },
-    "unsavedChanges": "Osparade ändringar av inställningar för Frigate+",
-    "restart_required": "Omstart krävs (Frigate+ modell ändrad)",
+    "unsavedChanges": "Osparade ändringar av inställningar för Rasid360+",
+    "restart_required": "Omstart krävs (Rasid360+ modell ändrad)",
     "toast": {
-      "success": "Inställningarna för Frigate+ har sparats. Starta om Frigate för att tillämpa ändringarna.",
+      "success": "Inställningarna för Rasid360+ har sparats. Starta om Rasid360 för att tillämpa ändringarna.",
       "error": "Kunde inte spara konfigurationsändringarna: {{errorMessage}}"
     }
   },
@@ -814,7 +814,7 @@
         },
         "actions": {
           "title": "Åtgärder",
-          "desc": "Som standard utlöser Frigate ett MQTT-meddelande för alla utlösare. Underetiketter lägger till utlösarnamnet till objektetiketten. Attribut är sökbara metadata som lagras separat i de spårade objektmetadata.",
+          "desc": "Som standard utlöser Rasid360 ett MQTT-meddelande för alla utlösare. Underetiketter lägger till utlösarnamnet till objektetiketten. Attribut är sökbara metadata som lagras separat i de spårade objektmetadata.",
           "error": {
             "min": "Minst en åtgärd måste väljas."
           }
@@ -862,7 +862,7 @@
   },
   "cameraWizard": {
     "title": "Lägg till kamera",
-    "description": "Följ stegen nedan för att lägga till en ny kamera i din Frigate-installation.",
+    "description": "Följ stegen nedan för att lägga till en ny kamera i din Rasid360-installation.",
     "steps": {
       "nameAndConnection": "Namn och anslutning",
       "streamConfiguration": "Strömkonfiguration",
@@ -1006,7 +1006,7 @@
         "resolutionLow": "En upplösning på {{resolution}} kan vara för låg för tillförlitlig detektering av små objekt."
       },
       "ffmpegModule": "Använd läge för strömkompatibilitet",
-      "ffmpegModuleDescription": "Om strömmen inte läses in efter flera försök, prova att aktivera detta. När det är aktiverat kommer Frigate att använda ffmpeg-modulen med go2rtc. Detta kan ge bättre kompatibilitet med vissa kameraströmmar."
+      "ffmpegModuleDescription": "Om strömmen inte läses in efter flera försök, prova att aktivera detta. När det är aktiverat kommer Rasid360 att använda ffmpeg-modulen med go2rtc. Detta kan ge bättre kompatibilitet med vissa kameraströmmar."
     }
   },
   "cameraManagement": {
@@ -1017,7 +1017,7 @@
     "backToSettings": "Tillbaka till kamerainställningar",
     "streams": {
       "title": "Aktivera/avaktivera kameror",
-      "desc": "Inaktivera tillfälligt en kamera tills Frigate startar om. Om du inaktiverar en kamera helt stoppas Frigates bearbetning av kamerans strömmar. Detektering, inspelning och felsökning kommer inte att vara tillgängliga.<br /> <em>Obs! Detta inaktiverar inte go2rtc-återströmmar.</em>"
+      "desc": "Inaktivera tillfälligt en kamera tills Rasid360 startar om. Om du inaktiverar en kamera helt stoppas Rasid360s bearbetning av kamerans strömmar. Detektering, inspelning och felsökning kommer inte att vara tillgängliga.<br /> <em>Obs! Detta inaktiverar inte go2rtc-återströmmar.</em>"
     },
     "cameraConfig": {
       "add": "Lägg till kamera",
@@ -1061,13 +1061,13 @@
     },
     "review": {
       "title": "Granska",
-      "desc": "Tillfälligt aktivera/avaktivera varningar och detekteringar för den här kameran tills Frigate startar om. När den är avaktiverad genereras inga nya granskningsobjekt. ",
+      "desc": "Tillfälligt aktivera/avaktivera varningar och detekteringar för den här kameran tills Rasid360 startar om. När den är avaktiverad genereras inga nya granskningsobjekt. ",
       "alerts": "Aviseringar ",
       "detections": "Detektioner "
     },
     "reviewClassification": {
       "title": "Granska klassificering",
-      "desc": "Frigate kategoriserar granskningsobjekt som Varningar och Detekteringar. Som standard betraktas alla <em>person</em>- och <em>bil</em>-objekt som Varningar. Du kan förfina kategoriseringen av dina granskningsobjekt genom att konfigurera obligatoriska zoner för dem.",
+      "desc": "Rasid360 kategoriserar granskningsobjekt som Varningar och Detekteringar. Som standard betraktas alla <em>person</em>- och <em>bil</em>-objekt som Varningar. Du kan förfina kategoriseringen av dina granskningsobjekt genom att konfigurera obligatoriska zoner för dem.",
       "noDefinedZones": "Inga zoner är definierade för den här kameran.",
       "objectAlertsTips": "Alla {{alertsLabels}}-objekt på {{cameraName}} kommer att visas som Varningar.",
       "zoneObjectAlertsTips": "Alla {{alertsLabels}} objekt som upptäcks i {{zone}} på {{cameraName}} kommer att visas som Varningar.",
@@ -1082,7 +1082,7 @@
       "selectDetectionsZones": "Välj zoner för Detektioner",
       "limitDetections": "Begränsa detektioner till specifika zoner",
       "toast": {
-        "success": "Konfigurationen för granskning av klassificering har sparats. Starta om Frigate för att tillämpa ändringarna."
+        "success": "Konfigurationen för granskning av klassificering har sparats. Starta om Rasid360 för att tillämpa ändringarna."
       }
     }
   }

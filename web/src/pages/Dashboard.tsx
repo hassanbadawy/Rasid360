@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import ReactECharts from "echarts-for-react";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import {
   DashboardFilters,
   useHourlyHeatmapData,
@@ -21,7 +21,7 @@ import { useTheme } from "@/context/theme-provider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Dashboard() {
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
   const { theme } = useTheme();

@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Er du sikker på at du vil genstarte Frigate?",
+    "title": "Er du sikker på at du vil genstarte Rasid360?",
     "button": "Genstart",
     "restarting": {
-      "title": "Frigate genstarter"
+      "title": "Rasid360 genstarter"
     }
   }
 }

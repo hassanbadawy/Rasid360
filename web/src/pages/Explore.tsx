@@ -8,7 +8,7 @@ import AnimatedCircularProgressBar from "@/components/ui/circular-progress-bar";
 import { useApiFilterArgs } from "@/hooks/use-api-filter";
 import { useTimezone } from "@/hooks/use-date-utils";
 import { usePersistence } from "@/hooks/use-persistence";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { SearchFilter, SearchQuery, SearchResult } from "@/types/search";
 import { ModelState } from "@/types/ws";
 import { formatSecondsToDuration } from "@/utils/dateUtil";
@@ -41,7 +41,7 @@ export default function Explore() {
   const { t } = useTranslation(["views/explore"]);
   const { getLocaleDocUrl } = useDocDomain();
 
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
 

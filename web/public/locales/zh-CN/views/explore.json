@@ -1,5 +1,5 @@
 {
-  "documentTitle": "浏览 - Frigate",
+  "documentTitle": "浏览 - Rasid360",
   "generativeAI": "生成式 AI",
   "exploreIsUnavailable": {
     "title": "浏览功能不可用",
@@ -15,7 +15,7 @@
       }
     },
     "downloadingModels": {
-      "context": "Frigate正在下载支持语义搜索功能所需的嵌入模型。根据网络连接速度，这可能需要几分钟。",
+      "context": "Rasid360正在下载支持语义搜索功能所需的嵌入模型。根据网络连接速度，这可能需要几分钟。",
       "setup": {
         "visionModel": "视觉模型",
         "visionModelFeatureExtractor": "视觉模型特征提取器",
@@ -26,7 +26,7 @@
         "context": "模型下载完成后，您可能需要重新索引跟踪目标的嵌入。",
         "documentation": "阅读文档"
       },
-      "error": "发生错误。请检查Frigate日志。"
+      "error": "发生错误。请检查Rasid360日志。"
     }
   },
   "trackedObjectDetails": "目标追踪详情",
@@ -75,7 +75,7 @@
         "millisecondsToOffset": "检测标注的偏移毫秒数。<em>默认值：0</em>",
         "tips": "提示：假设有一个人从左向右走的事件片段。如果事件时间线上的边界框始终在人的左侧，则应该减小该值。同样，如果一个人从左向右走，而边界框始终在人的前面，则应该增加该值。",
         "toast": {
-          "success": "{{camera}} 的标注偏移量已成功保存至配置文件。请重启Frigate生效。"
+          "success": "{{camera}} 的标注偏移量已成功保存至配置文件。请重启Rasid360生效。"
         }
       }
     },
@@ -96,7 +96,7 @@
       },
       "tips": {
         "mismatch_other": "检测到 {{count}} 个不可用的目标，并已包含在此核查项中。这些目标可能未达到警报或检测标准，或者已被清理/删除。",
-        "hasMissingObjects": "如果希望 Frigate 保存以下标签的跟踪目标，请调整您的配置：<em>{{objects}}</em>"
+        "hasMissingObjects": "如果希望 Rasid360 保存以下标签的跟踪目标，请调整您的配置：<em>{{objects}}</em>"
       },
       "toast": {
         "success": {
@@ -138,7 +138,7 @@
     "description": {
       "label": "描述",
       "placeholder": "追踪目标的描述",
-      "aiTips": "在追踪目标的目标全周期结束之前，Frigate 不会向您的生成式 AI 提供商请求描述。"
+      "aiTips": "在追踪目标的目标全周期结束之前，Rasid360 不会向您的生成式 AI 提供商请求描述。"
     },
     "expandRegenerationMenu": "展开重新生成菜单",
     "regenerateFromSnapshot": "从快照重新生成",
@@ -178,8 +178,8 @@
       "aria": "查看相似的目标/物体"
     },
     "submitToPlus": {
-      "label": "提交至 Frigate+",
-      "aria": "提交至 Frigate Plus"
+      "label": "提交至 Rasid360+",
+      "aria": "提交至 Rasid360 Plus"
     },
     "viewInHistory": {
       "label": "在历史记录中查看",
@@ -271,7 +271,7 @@
         "millisecondsToOffset": "用于偏移检测标记的毫秒数。<em> 默认值：0</em>",
         "tips": "提示：假设有一段人从左向右走的事件录制，如果事件时间轴中的边框始终在人的左侧（即后方），则应该减小偏移值；反之，如果边框始终领先于人物，则应增大偏移值。",
         "toast": {
-          "success": "{{camera}} 的标记偏移量已保存。请重启 Frigate 以应用更改。"
+          "success": "{{camera}} 的标记偏移量已保存。请重启 Rasid360 以应用更改。"
         }
       }
     },

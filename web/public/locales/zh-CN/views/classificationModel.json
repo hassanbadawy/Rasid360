@@ -121,7 +121,7 @@
       "selectImagesDescription": "点击图像进行选择，完成该类别后点击“继续”。",
       "generating": {
         "title": "正在生成样本图片",
-        "description": "Frigate 正在从录像中提取代表性图片。这可能需要一些时间……"
+        "description": "Rasid360 正在从录像中提取代表性图片。这可能需要一些时间……"
       },
       "training": {
         "title": "正在训练模型",

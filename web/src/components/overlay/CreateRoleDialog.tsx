@@ -24,7 +24,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { CameraNameLabel } from "../camera/FriendlyNameLabel";
 import { isDesktop, isMobile } from "react-device-detect";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,7 @@ import {
 
 type CreateRoleOverlayProps = {
   show: boolean;
-  config: FrigateConfig;
+  config: Rasid360Config;
   onCreate: (role: string, cameras: string[]) => void;
   onCancel: () => void;
 };

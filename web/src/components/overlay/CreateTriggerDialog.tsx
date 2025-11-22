@@ -32,7 +32,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import ImagePicker from "@/components/overlay/ImagePicker";
 import { Trigger, TriggerAction, TriggerType } from "@/types/trigger";
 import { Switch } from "@/components/ui/switch";
@@ -77,7 +77,7 @@ export default function CreateTriggerDialog({
   onCancel,
 }: CreateTriggerDialogProps) {
   const { t } = useTranslation("views/settings");
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const availableActions = useMemo(() => {
     if (!config) return [];

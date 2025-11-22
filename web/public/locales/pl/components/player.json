@@ -31,8 +31,8 @@
   },
   "noPreviewFound": "Nie znaleziono podglądu",
   "noPreviewFoundFor": "Nie znaleziono podglądu dla {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Wyślij tę klatkę do Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Wyślij tę klatkę do Rasid360+?",
     "submit": "Wyślij"
   },
   "livePlayerRequiredIOSVersion": "Wymagana wersja iOS 17.1 lub nowsza dla tego typu transmisji na żywo.",
@@ -42,10 +42,10 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Pomyślnie wysłano klatkę do Frigate+"
+      "submittedRasid360Plus": "Pomyślnie wysłano klatkę do Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Nie udało się wysłać klatki do Frigate+"
+      "submitRasid360PlusFailed": "Nie udało się wysłać klatki do Rasid360+"
     }
   }
 }

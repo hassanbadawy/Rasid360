@@ -105,8 +105,8 @@
       "label": "Редагувати групу камер"
     }
   },
-  "documentTitle": "Пряма трансляція - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Пряма трансляція - Frigate",
+  "documentTitle": "Пряма трансляція - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Пряма трансляція - Rasid360",
   "lowBandwidthMode": "Економічний режим",
   "twoWayTalk": {
     "enable": "Увімкнути двосторонню розмову",
@@ -173,7 +173,7 @@
   },
   "noCameras": {
     "title": "Немає налаштованих камер",
-    "description": "Почніть з підключення камери до Frigate.",
+    "description": "Почніть з підключення камери до Rasid360.",
     "buttonText": "Додати камеру"
   },
   "snapshot": {

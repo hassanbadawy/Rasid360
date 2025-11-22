@@ -27,9 +27,9 @@ import { VolumeSlider } from "@/components/ui/slider";
 import { CameraStreamingDialog } from "../settings/CameraStreamingDialog";
 import {
   AllGroupsStreamingSettings,
-  FrigateConfig,
+  Rasid360Config,
   GroupStreamingSettings,
-} from "@/types/frigateConfig";
+} from "@/types/rasid360Config";
 import { useStreamingSettings } from "@/context/streaming-settings-provider";
 import {
   IoIosNotifications,
@@ -66,7 +66,7 @@ type LiveContextMenuProps = {
   statsState: boolean;
   toggleStats: () => void;
   resetPreferredLiveMode: () => void;
-  config?: FrigateConfig;
+  config?: Rasid360Config;
   children?: ReactNode;
 };
 export default function LiveContextMenu({

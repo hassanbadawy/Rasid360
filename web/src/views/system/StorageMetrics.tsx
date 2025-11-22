@@ -1,6 +1,6 @@
 import { CombinedStorageGraph } from "@/components/graph/CombinedStorageGraph";
 import { StorageGraph } from "@/components/graph/StorageGraph";
-import { FrigateStats } from "@/types/stats";
+import { Rasid360Stats } from "@/types/stats";
 import { useMemo } from "react";
 import {
   Popover,
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/popover";
 import useSWR from "swr";
 import { CiCircleAlert } from "react-icons/ci";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useFormattedTimestamp, useTimezone } from "@/hooks/use-date-utils";
 import { RecordingsSummary } from "@/types/review";
 import { useTranslation } from "react-i18next";
@@ -34,8 +34,8 @@ export default function StorageMetrics({
   setLastUpdated,
 }: StorageMetricsProps) {
   const { data: cameraStorage } = useSWR<CameraStorage>("recordings/storage");
-  const { data: stats } = useSWR<FrigateStats>("stats");
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: stats } = useSWR<Rasid360Stats>("stats");
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
   const { t } = useTranslation(["views/system"]);
@@ -48,9 +48,9 @@ export default function StorageMetrics({
     }
 
     const totalStorage = {
-      used: stats.service.storage["/media/frigate/recordings"]["used"],
+      used: stats.service.storage["/media/rasid360/recordings"]["used"],
       camera: 0,
-      total: stats.service.storage["/media/frigate/recordings"]["total"],
+      total: stats.service.storage["/media/rasid360/recordings"]["total"],
     };
 
     Object.values(cameraStorage).forEach(
@@ -172,7 +172,7 @@ export default function StorageMetrics({
                     <div className="mt-2 flex items-center text-primary">
                       <Link
                         to={getLocaleDocUrl(
-                          "frigate/installation#calculating-required-shm-size",
+                          "rasid360/installation#calculating-required-shm-size",
                         )}
                         target="_blank"
                         rel="noopener noreferrer"

@@ -14,8 +14,8 @@
       "context": "Explorar puede usarse después de que las incrustaciones de objetos rastreados hayan terminado de reindexarse."
     },
     "downloadingModels": {
-      "context": "Frigate está descargando los modelos de incrustaciones necesarios para soportar la función de Búsqueda Semántica. Esto puede tomar varios minutos dependiendo de la velocidad de tu conexión de red.",
-      "error": "Ha ocurrido un error. Revisa los registros de Frigate.",
+      "context": "Rasid360 está descargando los modelos de incrustaciones necesarios para soportar la función de Búsqueda Semántica. Esto puede tomar varios minutos dependiendo de la velocidad de tu conexión de red.",
+      "error": "Ha ocurrido un error. Revisa los registros de Rasid360.",
       "setup": {
         "visionModelFeatureExtractor": "Extractor de características del modelo de visión",
         "visionModel": "Modelo de visión",
@@ -55,7 +55,7 @@
         "mismatch_one": "Se detectó y se incluyó en este elemento de revisión un objeto {{count}} no disponible. Esos objetos no calificaron como alerta o detección o ya han sido limpiados/eliminados.",
         "mismatch_many": "Se detectaron y se incluyeron en este elemento de revisión {{count}} objetos no disponibles. Esos objetos no calificaron como alerta o detección o ya han sido limpiados/eliminados.",
         "mismatch_other": "Se detectaron y se incluyeron en este elemento de revisión {{count}} objetos no disponibles. Esos objetos no calificaron como alerta o detección o ya han sido limpiados/eliminados.",
-        "hasMissingObjects": "Ajusta tu configuración si quieres que Frigate guarde los objetos rastreados para las siguientes etiquetas: <em>{{objects}}</em>"
+        "hasMissingObjects": "Ajusta tu configuración si quieres que Rasid360 guarde los objetos rastreados para las siguientes etiquetas: <em>{{objects}}</em>"
       }
     },
     "topScore": {
@@ -63,7 +63,7 @@
       "info": "La puntuación máxima es la mediana más alta para el objeto rastreado, por lo que puede diferir de la puntuación mostrada en la miniatura del resultado de búsqueda."
     },
     "description": {
-      "aiTips": "Frigate no solicitará una descripción a tu proveedor de Inteligencia Artificial Generativa hasta que el ciclo de vida del objeto rastreado haya terminado.",
+      "aiTips": "Rasid360 no solicitará una descripción a tu proveedor de Inteligencia Artificial Generativa hasta que el ciclo de vida del objeto rastreado haya terminado.",
       "placeholder": "Descripción del objeto rastreado",
       "label": "Descripción"
     },
@@ -104,7 +104,7 @@
       "label": "Puntuación"
     }
   },
-  "documentTitle": "Explorar - Frigate",
+  "documentTitle": "Explorar - Rasid360",
   "trackedObjectDetails": "Detalles del objeto rastreado",
   "type": {
     "snapshot": "captura instantánea",
@@ -145,7 +145,7 @@
         "documentation": "Leer la documentación ",
         "tips": "CONSEJO: Imagina que hay un clip de evento con una persona caminando de izquierda a derecha. Si la caja delimitadora de la línea de tiempo del evento está constantemente a la izquierda de la persona, entonces se debe disminuir el valor. Del mismo modo, si una persona camina de izquierda a derecha y la caja delimitadora está constantemente por delante de la persona, entonces se debe aumentar el valor.",
         "toast": {
-          "success": "El desplazamiento de anotación para {{camera}} se ha guardado en el archivo de configuración. Reinicia Frigate para aplicar los cambios."
+          "success": "El desplazamiento de anotación para {{camera}} se ha guardado en el archivo de configuración. Reinicia Rasid360 para aplicar los cambios."
         }
       },
       "showAllZones": {
@@ -180,8 +180,8 @@
       "aria": "Buscar objetos rastreados similares"
     },
     "submitToPlus": {
-      "label": "Enviar a Frigate+",
-      "aria": "Enviar a Frigate Plus"
+      "label": "Enviar a Rasid360+",
+      "aria": "Enviar a Rasid360 Plus"
     },
     "viewInHistory": {
       "aria": "Ver en Historial",

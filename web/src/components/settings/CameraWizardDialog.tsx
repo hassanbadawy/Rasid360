@@ -167,7 +167,7 @@ export default function CameraWizardDialog({
         wizardData.cameraName,
       );
 
-      // Convert wizard data to Frigate config format
+      // Convert wizard data to Rasid360 config format
       const configData: CameraConfigData = {
         cameras: {
           [finalCameraName]: {
@@ -241,7 +241,7 @@ export default function CameraWizardDialog({
               });
 
               if (Object.keys(go2rtcStreams).length > 0) {
-                // Update frigate go2rtc config for persistence
+                // Update rasid360 go2rtc config for persistence
                 const go2rtcConfigData = {
                   go2rtc: {
                     streams: go2rtcStreams,

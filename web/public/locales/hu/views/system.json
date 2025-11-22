@@ -1,14 +1,14 @@
 {
   "documentTitle": {
-    "cameras": "Kamera statisztikák - Frigate",
-    "storage": "Tárhely statisztikák - Frigate",
-    "general": "Általános Statisztikák - Frigate",
+    "cameras": "Kamera statisztikák - Rasid360",
+    "storage": "Tárhely statisztikák - Rasid360",
+    "general": "Általános Statisztikák - Rasid360",
     "logs": {
-      "frigate": "Frigate naplók - Frigate",
-      "go2rtc": "Go2RTC naplók - Frigate",
-      "nginx": "Nginx naplók - Frigate"
+      "frigate": "Rasid360 naplók - Rasid360",
+      "go2rtc": "Go2RTC naplók - Rasid360",
+      "nginx": "Nginx naplók - Rasid360"
     },
-    "enrichments": "Kiegészítés statisztikák - Frigate"
+    "enrichments": "Kiegészítés statisztikák - Rasid360"
   },
   "cameras": {
     "label": {
@@ -132,7 +132,7 @@
   "storage": {
     "recordings": {
       "title": "Felvételek",
-      "tips": "Ez az érték mutatja a Frigate adatbázisában található felvételek teljes tárhely felhasználását. A Frigate nem követi az összes fájl által foglalt tárhelyet.",
+      "tips": "Ez az érték mutatja a Rasid360 adatbázisában található felvételek teljes tárhely felhasználását. A Rasid360 nem követi az összes fájl által foglalt tárhelyet.",
       "earliestRecording": "Legkorábbi elérhető felvétel:"
     },
     "title": "Tárhely",
@@ -146,7 +146,7 @@
       "bandwidth": "Sávszélesség",
       "unused": {
         "title": "Felhasználatlan",
-        "tips": "Ez az érték nem feltétlenül tükrözi pontosan a Frigate számára elérhető szabad helyet, ha a meghajtón egyéb fájlok is tárolva vannak a Frigate felvételein kívül. A Frigate nem követi a tárhelyhasználatot a saját felvételein kívül."
+        "tips": "Ez az érték nem feltétlenül tükrözi pontosan a Rasid360 számára elérhető szabad helyet, ha a meghajtón egyéb fájlok is tárolva vannak a Rasid360 felvételein kívül. A Rasid360 nem követi a tárhelyhasználatot a saját felvételein kívül."
       }
     },
     "shm": {

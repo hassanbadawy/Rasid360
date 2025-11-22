@@ -2,8 +2,8 @@
   "noRecordingsFoundForThisTime": "Aucun enregistrement trouvé pour cette période",
   "noPreviewFoundFor": "Aucun aperçu trouvé pour {{cameraName}}",
   "noPreviewFound": "Aucun aperçu trouvé",
-  "submitFrigatePlus": {
-    "title": "Soumettre cette image à Frigate+ ?",
+  "submitRasid360Plus": {
+    "title": "Soumettre cette image à Rasid360+ ?",
     "submit": "Soumettre"
   },
   "streamOffline": {
@@ -42,10 +42,10 @@
   },
   "toast": {
     "error": {
-      "submitFrigatePlusFailed": "Échec de la soumission de l'image à Frigate+"
+      "submitRasid360PlusFailed": "Échec de la soumission de l'image à Rasid360+"
     },
     "success": {
-      "submittedFrigatePlus": "Image soumise avec succès à Frigate+"
+      "submittedRasid360Plus": "Image soumise avec succès à Rasid360+"
     }
   }
 }

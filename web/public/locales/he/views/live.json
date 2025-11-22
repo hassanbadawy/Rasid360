@@ -19,8 +19,8 @@
     "ended": "הקלטה ידנית לפי דרישה הסתיימה.",
     "failedToEnd": "סיום ההקלטה הידנית לפי דרישה נכשל."
   },
-  "documentTitle": "שידור חי - Frigate",
-  "documentTitle.withCamera": "{{camera}} - שידור חי- Frigate",
+  "documentTitle": "שידור חי - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - שידור חי- Rasid360",
   "lowBandwidthMode": "מצב רוחב פס נמוך",
   "twoWayTalk": {
     "enable": "אפשור דיבור דו כיווני",

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "@/context/auth-context";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 
 export function useAllowedCameras() {
   const { auth } = useContext(AuthContext);
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
 

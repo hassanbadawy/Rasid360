@@ -30,16 +30,16 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "הפריים נשלח בהצלחה ל-Frigate+"
+      "submittedRasid360Plus": "הפריים נשלח בהצלחה ל-Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "שליחת הפריים ל-Frigate+ נכשלה"
+      "submitRasid360PlusFailed": "שליחת הפריים ל-Rasid360+ נכשלה"
     }
   },
   "noPreviewFound": "לא נמצאה תצוגה מקדימה",
   "noPreviewFoundFor": "לא נמצאה תצוגה מקדימה עבור {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "לשלוח את הפריים הזה ל-Frigate+?",
+  "submitRasid360Plus": {
+    "title": "לשלוח את הפריים הזה ל-Rasid360+?",
     "submit": "אישור"
   },
   "livePlayerRequiredIOSVersion": "נדרשת iOS 17.1 ומעלה עבור סוג השידור החי הזה.",

@@ -1,6 +1,6 @@
 import { useState, ReactNode } from "react";
 import { SearchResult } from "@/types/search";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { baseUrl } from "@/api/baseUrl";
 import { toast } from "sonner";
 import axios from "axios";
@@ -58,7 +58,7 @@ export default function SearchResultActions({
 }: SearchResultActionsProps) {
   const { t } = useTranslation(["views/explore"]);
 
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 

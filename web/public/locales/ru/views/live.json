@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Прямой эфир - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Прямой эфир - Frigate",
+  "documentTitle": "Прямой эфир - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Прямой эфир - Rasid360",
   "lowBandwidthMode": "Экономичный режим",
   "twoWayTalk": {
     "enable": "Включить двустороннюю связь",

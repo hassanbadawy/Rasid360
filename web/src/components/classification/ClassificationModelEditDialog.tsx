@@ -26,8 +26,8 @@ import {
 } from "@/components/ui/select";
 import {
   CustomClassificationModelConfig,
-  FrigateConfig,
-} from "@/types/frigateConfig";
+  Rasid360Config,
+} from "@/types/rasid360Config";
 import { ClassificationDatasetResponse } from "@/types/classification";
 import { getTranslatedLabel } from "@/utils/i18n";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -65,7 +65,7 @@ export default function ClassificationModelEditDialog({
   onSuccess,
 }: ClassificationModelEditDialogProps) {
   const { t } = useTranslation(["views/classificationModel"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const [isSaving, setIsSaving] = useState(false);
 
   const isStateModel = model.state_config !== undefined;

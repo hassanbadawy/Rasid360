@@ -1,6 +1,6 @@
 import { Button } from "../ui/button";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DropdownMenuSeparator } from "../ui/dropdown-menu";
 import {
@@ -73,7 +73,7 @@ export default function ReviewFilterGroup({
   onUpdateFilter,
   setMotionOnly,
 }: ReviewFilterGroupProps) {
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const allowedCameras = useAllowedCameras();
 
   const allLabels = useMemo<string[]>(() => {
@@ -462,7 +462,7 @@ export function GeneralFilterContent({
   onClose,
 }: GeneralFilterContentProps) {
   const { t } = useTranslation(["components/filter", "views/events"]);
-  const { data: config } = useSWR<FrigateConfig>("config", {
+  const { data: config } = useSWR<Rasid360Config>("config", {
     revalidateOnFocus: false,
   });
   const allAudioListenLabels = useMemo<string[]>(() => {

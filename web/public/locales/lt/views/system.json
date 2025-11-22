@@ -1,14 +1,14 @@
 {
   "documentTitle": {
-    "cameras": "Kamerų Statistika - Frigate",
-    "storage": "Saugyklos Statistika - Frigate",
+    "cameras": "Kamerų Statistika - Rasid360",
+    "storage": "Saugyklos Statistika - Rasid360",
     "logs": {
-      "frigate": "Frigate Žurnalas - Frigate",
-      "go2rtc": "Go2RTC Žurnalas - Frigate",
-      "nginx": "Nginx Žurnalas - Frigate"
+      "frigate": "Rasid360 Žurnalas - Rasid360",
+      "go2rtc": "Go2RTC Žurnalas - Rasid360",
+      "nginx": "Nginx Žurnalas - Rasid360"
     },
-    "general": "Bendroji Statistika - Frigate",
-    "enrichments": "Pagerinimų Statistika - Frigate"
+    "general": "Bendroji Statistika - Rasid360",
+    "enrichments": "Pagerinimų Statistika - Rasid360"
   },
   "title": "Sistema",
   "metrics": "Sistemos metrikos",
@@ -89,7 +89,7 @@
     "overview": "Apžvalga",
     "recordings": {
       "title": "Įrašai",
-      "tips": "Ši reikšmė nurodo kiek iš viso Frigate duombazėje esantys įrašai užima vietos saugykloje. Frigate neseka kiek vietos užima visi kiti failai esantys laikmenoje.",
+      "tips": "Ši reikšmė nurodo kiek iš viso Rasid360 duombazėje esantys įrašai užima vietos saugykloje. Rasid360 neseka kiek vietos užima visi kiti failai esantys laikmenoje.",
       "earliestRecording": "Anksčiausias esantis įrašas:"
     },
     "cameraStorage": {
@@ -101,7 +101,7 @@
       "bandwidth": "Pralaidumas",
       "unused": {
         "title": "Nepanaudota",
-        "tips": "Jei saugykloje turite daugiau failų apart Frigate įrašų, ši reikšmė neatspindės tikslios likusios laisvos vietos Frigate panaudojimui. Frigate neseka saugyklos panaudojimo už savo įrašų ribų."
+        "tips": "Jei saugykloje turite daugiau failų apart Rasid360 įrašų, ši reikšmė neatspindės tikslios likusios laisvos vietos Rasid360 panaudojimui. Rasid360 neseka saugyklos panaudojimo už savo įrašų ribų."
       }
     },
     "shm": {

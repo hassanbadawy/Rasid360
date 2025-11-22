@@ -46,9 +46,9 @@
     "label": "機能",
     "hasSnapshot": "スナップショットあり",
     "hasVideoClip": "ビデオクリップあり",
-    "submittedToFrigatePlus": {
-      "label": "Frigate+ に送信済み",
-      "tips": "まずスナップショットのある追跡オブジェクトでフィルターしてください。<br /><br />スナップショットのない追跡オブジェクトは Frigate+ に送信できません。"
+    "submittedToRasid360Plus": {
+      "label": "Rasid360+ に送信済み",
+      "tips": "まずスナップショットのある追跡オブジェクトでフィルターしてください。<br /><br />スナップショットのない追跡オブジェクトは Rasid360+ に送信できません。"
     }
   },
   "sort": {

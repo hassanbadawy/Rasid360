@@ -1,14 +1,14 @@
 {
   "documentTitle": {
-    "general": "Algemene Statistieken - Frigate",
+    "general": "Algemene Statistieken - Rasid360",
     "logs": {
-      "nginx": "Nginx Logboeken - Frigate",
-      "go2rtc": "Go2RTC Logboeken - Frigate",
-      "frigate": "Frigate Logboek - Frigate"
+      "nginx": "Nginx Logboeken - Rasid360",
+      "go2rtc": "Go2RTC Logboeken - Rasid360",
+      "frigate": "Rasid360 Logboek - Rasid360"
     },
-    "storage": "Opslag Statistieken - Frigate",
-    "cameras": "Camera Statistieken - Frigate",
-    "enrichments": "Verrijkings Statistieken - Frigate"
+    "storage": "Opslag Statistieken - Rasid360",
+    "cameras": "Camera Statistieken - Rasid360",
+    "enrichments": "Verrijkings Statistieken - Rasid360"
   },
   "title": "Systeem",
   "metrics": "Systeemstatistieken",
@@ -89,7 +89,7 @@
     "recordings": {
       "title": "Opnames",
       "earliestRecording": "Oudste beschikbare opname:",
-      "tips": "Deze waarde laat het totale opslag ruimte gebruik voor opnames zien in de database van Frigate. Frigate houdt geen opslag gebruiks gegevens bij van alle bestanden op uw schijf."
+      "tips": "Deze waarde laat het totale opslag ruimte gebruik voor opnames zien in de database van Rasid360. Rasid360 houdt geen opslag gebruiks gegevens bij van alle bestanden op uw schijf."
     },
     "cameraStorage": {
       "title": "Camera Opslag",
@@ -98,7 +98,7 @@
       "percentageOfTotalUsed": "Percentage van Totaal",
       "unused": {
         "title": "Ongebruikt",
-        "tips": "Deze waarde kan de beschikbare opslag ruimte voor Frigate niet goed weergeven indien er ook andere bestanden op de schijf staan. Frigate houdt geen opslag gegevens bij van bestanden buiten haar eigen opnames."
+        "tips": "Deze waarde kan de beschikbare opslag ruimte voor Rasid360 niet goed weergeven indien er ook andere bestanden op de schijf staan. Rasid360 houdt geen opslag gegevens bij van bestanden buiten haar eigen opnames."
       },
       "camera": "Camera",
       "bandwidth": "Bandbreedte"

@@ -2,16 +2,16 @@
   "restart": {
     "button": "Starta om",
     "restarting": {
-      "title": "Frigate startar om",
+      "title": "Rasid360 startar om",
       "content": "Sidan uppdateras om {{countdown}} sekunder.",
       "button": "Tvinga omladdning nu"
     },
-    "title": "Är du säker på att du vill starta om Frigate?"
+    "title": "Är du säker på att du vill starta om Rasid360?"
   },
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Skicka till Frigate+",
+        "label": "Skicka till Rasid360+",
         "desc": "Objekt på platser du vill undvika är inte falska positiva resultat. Att skicka in dem som falska positiva resultat kommer att förvirra modellen."
       },
       "review": {
@@ -19,7 +19,7 @@
           "ask_a": "Är detta objektet <code>{{label}}</code>?",
           "ask_an": "Är detta objektet en <code>{{label}}</code>?",
           "ask_full": "Är detta objektet <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?",
-          "label": "Bekräfta denna etikett för Frigate Plus"
+          "label": "Bekräfta denna etikett för Rasid360 Plus"
         },
         "state": {
           "submitted": "Inskickad"

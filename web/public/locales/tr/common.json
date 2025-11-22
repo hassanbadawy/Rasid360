@@ -3,7 +3,7 @@
     "lastWeek": "Geçen Hafta",
     "thisWeek": "Bu Hafta",
     "lastMonth": "Geçen Ay",
-    "untilForRestart": "Frigate yeniden başlatılana kadar.",
+    "untilForRestart": "Rasid360 yeniden başlatılana kadar.",
     "untilRestart": "Yeniden başlatmaya kadar",
     "ago": "{{timeAgo}} önce",
     "justNow": "Az önce",
@@ -187,7 +187,7 @@
       "nord": "Kuzey",
       "highcontrast": "Yüksek Karşıtlık"
     },
-    "restart": "Frigate'i yeniden başlat",
+    "restart": "Rasid360'i yeniden başlat",
     "live": {
       "title": "Canlı",
       "allCameras": "Tüm Kameralar",
@@ -202,7 +202,7 @@
     "system": "Sistem",
     "documentation": {
       "title": "Dökümantasyon",
-      "label": "Frigate dökümantasyonu"
+      "label": "Rasid360 dökümantasyonu"
     },
     "settings": "Ayarlar",
     "appearance": "Görünüm",
@@ -225,7 +225,7 @@
     "back": "Geri"
   },
   "notFound": {
-    "documentTitle": "Bulunamadı - Frigate",
+    "documentTitle": "Bulunamadı - Rasid360",
     "desc": "Sayfa bulunamadı",
     "title": "404"
   },
@@ -254,7 +254,7 @@
   "accessDenied": {
     "title": "Erişim Reddedildi",
     "desc": "Bu sayfayı görüntüleme yetkiniz yok.",
-    "documentTitle": "Erişim Reddedildi - Frigate"
+    "documentTitle": "Erişim Reddedildi - Rasid360"
   },
   "toast": {
     "copyUrlToClipboard": "URL panoya kopyalandı.",
@@ -271,7 +271,7 @@
     "title": "Rol",
     "viewer": "Görüntüleyici",
     "admin": "Yönetici",
-    "desc": "Yöneticiler Frigate arayüzündeki bütün özelliklere tam erişim sahibidir. Görüntüleyiciler ise yalnızca kameraları, eski görüntüleri ve inceleme öğelerini görüntülemekle sınırlıdır."
+    "desc": "Yöneticiler Rasid360 arayüzündeki bütün özelliklere tam erişim sahibidir. Görüntüleyiciler ise yalnızca kameraları, eski görüntüleri ve inceleme öğelerini görüntülemekle sınırlıdır."
   },
   "readTheDocumentation": "Dökümantasyonu oku"
 }

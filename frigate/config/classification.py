@@ -60,8 +60,8 @@ class AudioTranscriptionConfig(FrigateBaseModel):
     )
 
 
-class BirdClassificationConfig(FrigateBaseModel):
-    enabled: bool = Field(default=False, title="Enable bird classification.")
+class ObjectClassificationConfig(FrigateBaseModel):
+    enabled: bool = Field(default=False, title="Enable object classification.")
     threshold: float = Field(
         default=0.9,
         title="Minimum classification score required to be considered a match.",
@@ -110,8 +110,8 @@ class CustomClassificationConfig(FrigateBaseModel):
 
 
 class ClassificationConfig(FrigateBaseModel):
-    bird: BirdClassificationConfig = Field(
-        default_factory=BirdClassificationConfig, title="Bird classification config."
+    object: ObjectClassificationConfig = Field(
+        default_factory=ObjectClassificationConfig, title="Object classification config."
     )
     custom: Dict[str, CustomClassificationConfig] = Field(
         default={}, title="Custom Classification Model Configs."

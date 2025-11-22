@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import Heading from "@/components/ui/heading";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
 import EventReviewTimeline from "@/components/timeline/EventReviewTimeline";
 import {
@@ -131,7 +131,7 @@ const generateRandomEvent = (): ReviewSegment => {
 };
 
 function UIPlayground() {
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const contentRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const reviewTimelineRef = useRef<HTMLDivElement>(null);

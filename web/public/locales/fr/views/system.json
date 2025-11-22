@@ -1,13 +1,13 @@
 {
   "documentTitle": {
-    "storage": "Statistiques de stockage - Frigate",
-    "cameras": "Statistiques des caméras - Frigate",
-    "general": "Statistiques générales - Frigate",
-    "enrichments": "Statistiques d'enrichissements - Frigate",
+    "storage": "Statistiques de stockage - Rasid360",
+    "cameras": "Statistiques des caméras - Rasid360",
+    "general": "Statistiques générales - Rasid360",
+    "enrichments": "Statistiques d'enrichissements - Rasid360",
     "logs": {
-      "frigate": "Journaux de Frigate - Frigate",
-      "nginx": "Journaux Nginx - Frigate",
-      "go2rtc": "Journaux Go2RTC - Frigate"
+      "frigate": "Journaux de Rasid360 - Rasid360",
+      "nginx": "Journaux Nginx - Rasid360",
+      "go2rtc": "Journaux Go2RTC - Rasid360"
     }
   },
   "title": "Système",
@@ -89,14 +89,14 @@
     "recordings": {
       "title": "Enregistrements",
       "earliestRecording": "Enregistrement le plus ancien :",
-      "tips": "Cette valeur correspond au stockage total utilisé par les enregistrements dans la base de données Frigate. Frigate ne suit pas l'utilisation du stockage pour tous les fichiers de votre disque."
+      "tips": "Cette valeur correspond au stockage total utilisé par les enregistrements dans la base de données Rasid360. Rasid360 ne suit pas l'utilisation du stockage pour tous les fichiers de votre disque."
     },
     "cameraStorage": {
       "title": "Stockage de la caméra",
       "bandwidth": "Bande passante",
       "unused": {
         "title": "Inutilisé",
-        "tips": "Cette valeur peut ne pas représenter précisément l'espace libre disponible pour Frigate si d'autres fichiers sont stockés sur votre disque en plus des enregistrements Frigate. Frigate ne suit pas l'utilisation du stockage en dehors de ses enregistrements."
+        "tips": "Cette valeur peut ne pas représenter précisément l'espace libre disponible pour Rasid360 si d'autres fichiers sont stockés sur votre disque en plus des enregistrements Rasid360. Rasid360 ne suit pas l'utilisation du stockage en dehors de ses enregistrements."
       },
       "percentageOfTotalUsed": "Pourcentage du total",
       "storageUsed": "Stockage",

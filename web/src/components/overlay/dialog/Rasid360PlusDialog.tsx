@@ -10,18 +10,18 @@ import { isDesktop, isMobile } from "react-device-detect";
 import { ObjectSnapshotTab } from "../detail/SearchDetailDialog";
 import { cn } from "@/lib/utils";
 
-type FrigatePlusDialogProps = {
+type Rasid360PlusDialogProps = {
   upload?: Event;
   dialog?: boolean;
   onClose: () => void;
   onEventUploaded: () => void;
 };
-export function FrigatePlusDialog({
+export function Rasid360PlusDialog({
   upload,
   dialog = true,
   onClose,
   onEventUploaded,
-}: FrigatePlusDialogProps) {
+}: Rasid360PlusDialogProps) {
   if (!upload) {
     return;
   }
@@ -40,9 +40,9 @@ export function FrigatePlusDialog({
           )}
         >
           <DialogHeader>
-            <DialogTitle className="sr-only">Submit to Frigate+</DialogTitle>
+            <DialogTitle className="sr-only">Submit to Rasid360+</DialogTitle>
             <DialogDescription className="sr-only">
-              Submit this snapshot to Frigate+
+              Submit this snapshot to Rasid360+
             </DialogDescription>
           </DialogHeader>
           <ObjectSnapshotTab

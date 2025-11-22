@@ -1,6 +1,6 @@
 {
   "generativeAI": "IA Generativa",
-  "documentTitle": "Esplora - Frigate",
+  "documentTitle": "Esplora - Rasid360",
   "exploreIsUnavailable": {
     "title": "Esplora non è disponibile",
     "embeddingsReindexing": {
@@ -25,8 +25,8 @@
         "documentation": "Leggi la documentazione",
         "context": "Una volta scaricati i modelli, potrebbe essere necessario reindicizzare gli incorporamenti degli oggetti tracciati."
       },
-      "error": "Si è verificato un errore. Controlla i registri di Frigate.",
-      "context": "Frigate sta scaricando i modelli di incorporamento necessari per supportare la funzione di Ricerca Semantica. L'operazione potrebbe richiedere diversi minuti, a seconda della velocità della connessione di rete."
+      "error": "Si è verificato un errore. Controlla i registri di Rasid360.",
+      "context": "Rasid360 sta scaricando i modelli di incorporamento necessari per supportare la funzione di Ricerca Semantica. L'operazione potrebbe richiedere diversi minuti, a seconda della velocità della connessione di rete."
     }
   },
   "details": {
@@ -40,7 +40,7 @@
         "mismatch_one": "E' stato rilevato {{count}} oggetto non disponibile e incluse in questo elemento visto. Tale oggetto non è stato classificato come avviso o rilevamento oppure è già stato ripulito/eliminato.",
         "mismatch_many": "Sono stati rilevati {{count}} oggetti non disponibili e inclusi in questo elemento visto. Tali oggetti non sono stati classificati come avvisi o rilevamenti oppure sono già stati ripuliti/eliminati.",
         "mismatch_other": "Sono stati rilevati {{count}} oggetti non disponibili e inclusi in questo elemento visto. Tali oggetti non sono stati classificati come avvisi o rilevamenti oppure sono già stati ripuliti/eliminati.",
-        "hasMissingObjects": "Modifica la configurazione se vuoi che Frigate salvi gli oggetti tracciati per le seguenti etichette: <em>{{objects}}</em>"
+        "hasMissingObjects": "Modifica la configurazione se vuoi che Rasid360 salvi gli oggetti tracciati per le seguenti etichette: <em>{{objects}}</em>"
       },
       "title": "Dettagli dell'elemento visto",
       "desc": "Dettagli dell'elemento visto",
@@ -67,7 +67,7 @@
     "description": {
       "label": "Descrizione",
       "placeholder": "Descrizione dell'oggetto tracciato",
-      "aiTips": "Frigate non richiederà una descrizione al tuo fornitore di Intelligenza Artificiale Generativa finché non sarà terminato il ciclo di vita dell'oggetto tracciato."
+      "aiTips": "Rasid360 non richiederà una descrizione al tuo fornitore di Intelligenza Artificiale Generativa finché non sarà terminato il ciclo di vita dell'oggetto tracciato."
     },
     "label": "Etichetta",
     "editSubLabel": {
@@ -114,7 +114,7 @@
         "documentation": "Leggi la documentazione ",
         "millisecondsToOffset": "Millisecondi per compensare il rilevamento delle annotazioni. <em>Predefinito: 0</em>",
         "toast": {
-          "success": "La compensazione di annotazione per {{camera}} è stato salvato nel file di configurazione. Riavvia Frigate per applicare le modifiche."
+          "success": "La compensazione di annotazione per {{camera}} è stato salvato nel file di configurazione. Riavvia Rasid360 per applicare le modifiche."
         }
       },
       "showAllZones": {
@@ -186,8 +186,8 @@
       "aria": "Trova oggetti tracciati simili"
     },
     "submitToPlus": {
-      "label": "Invia a Frigate+",
-      "aria": "Invia a Frigate Plus"
+      "label": "Invia a Rasid360+",
+      "aria": "Invia a Rasid360 Plus"
     },
     "addTrigger": {
       "label": "Aggiungi innesco",
@@ -275,7 +275,7 @@
         "millisecondsToOffset": "Millisecondi per compensare il rilevamento delle annotazioni. <em>Predefinito: 0</em>",
         "tips": "SUGGERIMENTO: Immagina un video evento con una persona che cammina da sinistra a destra. Se il riquadro di delimitazione della cronologia dell'evento si trova costantemente a sinistra della persona, il valore dovrebbe essere diminuito. Allo stesso modo, se una persona cammina da sinistra a destra e il riquadro di delimitazione si trova costantemente davanti alla persona, il valore dovrebbe essere aumentato.",
         "toast": {
-          "success": "La differenza dell'annotazione per {{camera}} è stato salvato nel file di configurazione. Riavvia Frigate per applicare le modifiche."
+          "success": "La differenza dell'annotazione per {{camera}} è stato salvato nel file di configurazione. Riavvia Rasid360 per applicare le modifiche."
         }
       }
     },

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import {
   Popover,
   PopoverContent,
@@ -39,7 +39,7 @@ export default function Step2StateArea({
   onBack,
 }: Step2StateAreaProps) {
   const { t } = useTranslation(["views/classificationModel"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const apiHost = useApiHost();
 
   const [cameraAreas, setCameraAreas] = useState<CameraAreaConfig[]>(

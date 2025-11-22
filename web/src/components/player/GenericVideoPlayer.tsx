@@ -124,7 +124,7 @@ export function GenericVideoPlayer({
                 currentSource={hlsSource}
                 hotKeys
                 visible
-                frigateControls={false}
+                rasid360Controls={false}
                 fullscreen={false}
                 supportsFullscreen={false}
                 onPlaying={() => {

@@ -2,7 +2,7 @@
   "time": {
     "untilForTime": "{{time}} ideig",
     "s": "{{time}} másodperc",
-    "untilForRestart": "Amíg a Frigate újraindul.",
+    "untilForRestart": "Amíg a Rasid360 újraindul.",
     "untilRestart": "Amíg újraindul",
     "justNow": "Most",
     "ago": "Ennyi ideje: {{timeAgo}}",
@@ -95,7 +95,7 @@
     },
     "documentation": {
       "title": "Dokumentáció",
-      "label": "Frigate dokumentáció"
+      "label": "Rasid360 dokumentáció"
     },
     "help": "Segítség",
     "explore": "Felfedezés",
@@ -154,7 +154,7 @@
     },
     "uiPlayground": "UI játszótér",
     "faceLibrary": "Arc Könyvtár",
-    "restart": "Frigate Újraindítása",
+    "restart": "Rasid360 Újraindítása",
     "live": {
       "title": "Élő",
       "allCameras": "Minden Kamera",
@@ -193,14 +193,14 @@
     "label": "lapozás"
   },
   "accessDenied": {
-    "documentTitle": "Belépés Megtagadva - Frigate",
+    "documentTitle": "Belépés Megtagadva - Rasid360",
     "title": "Belépés Megtagadva",
     "desc": "Nincs jogolultsága ehhez az oldalhoz."
   },
   "notFound": {
     "title": "404",
     "desc": "Oldal nem található",
-    "documentTitle": "Nem található - Frigate"
+    "documentTitle": "Nem található - Rasid360"
   },
   "toast": {
     "copyUrlToClipboard": "URL kimásolva a vágólapra.",

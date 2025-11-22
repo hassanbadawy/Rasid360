@@ -6,8 +6,8 @@
     "title": "ストリームオフライン",
     "desc": "{{cameraName}} の <code>detect</code> ストリームでフレームが受信されていません。エラーログを確認してください"
   },
-  "submitFrigatePlus": {
-    "title": "このフレームを Frigate+ に送信しますか？",
+  "submitRasid360Plus": {
+    "title": "このフレームを Rasid360+ に送信しますか？",
     "submit": "送信"
   },
   "livePlayerRequiredIOSVersion": "このライブストリームタイプには iOS 17.1 以上が必要です。",
@@ -42,10 +42,10 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "フレームを Frigate+ に送信しました"
+      "submittedRasid360Plus": "フレームを Rasid360+ に送信しました"
     },
     "error": {
-      "submitFrigatePlusFailed": "フレームの Frigate+ への送信に失敗しました"
+      "submitRasid360PlusFailed": "フレームの Rasid360+ への送信に失敗しました"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "generativeAI": "IA générative",
-  "documentTitle": "Explorer - Frigate",
+  "documentTitle": "Explorer - Rasid360",
   "exploreIsUnavailable": {
     "title": "L'exploration est indisponible",
     "embeddingsReindexing": {
@@ -15,7 +15,7 @@
       }
     },
     "downloadingModels": {
-      "context": "Frigate télécharge les modèles d'embeddings nécessaires pour prendre en charge la fonctionnalité de recherche sémantique. Cette opération peut prendre plusieurs minutes selon la vitesse de votre connexion réseau.",
+      "context": "Rasid360 télécharge les modèles d'embeddings nécessaires pour prendre en charge la fonctionnalité de recherche sémantique. Cette opération peut prendre plusieurs minutes selon la vitesse de votre connexion réseau.",
       "setup": {
         "visionModelFeatureExtractor": "Extracteur de caractéristiques de modèle de vision",
         "textTokenizer": "Tokeniseur de texte",
@@ -26,7 +26,7 @@
         "documentation": "Lire la documentation",
         "context": "Une fois les modèles téléchargés, il est conseillé de réindexer les embeddings de vos objets suivis."
       },
-      "error": "Une erreur est survenue. Vérifiez les journaux Frigate."
+      "error": "Une erreur est survenue. Vérifiez les journaux Rasid360."
     }
   },
   "details": {
@@ -55,7 +55,7 @@
         "mismatch_one": "{{count}} objet indisponible a été détecté et intégré dans cet événement. Cet objet n'a pas été qualifié comme une alerte ou une détection, ou a déjà été nettoyé / supprimé.",
         "mismatch_many": "{{count}} objets indisponibles ont été détectés et intégrés dans cet événement. Ces objets n'ont pas été qualifiés comme une alerte ou une détection, ou ont déjà été nettoyés / supprimés.",
         "mismatch_other": "{{count}} objets indisponibles ont été détectés et intégrés dans cet événement. Ces objets n'ont pas été qualifiés comme une alerte ou une détection, ou ont déjà été nettoyés / supprimés.",
-        "hasMissingObjects": "Ajustez votre configuration si vous souhaitez que Frigate enregistre les objets suivis pour les étiquettes suivantes : <em>{{objects}}</em>"
+        "hasMissingObjects": "Ajustez votre configuration si vous souhaitez que Rasid360 enregistre les objets suivis pour les étiquettes suivantes : <em>{{objects}}</em>"
       },
       "desc": "Détails de l'événement"
     },
@@ -80,7 +80,7 @@
     "description": {
       "label": "Description",
       "placeholder": "Description de l'objet suivi",
-      "aiTips": "Frigate ne demandera pas de description à votre fournisseur d'IA générative tant que le cycle de vie de l'objet suivi ne sera pas terminé."
+      "aiTips": "Rasid360 ne demandera pas de description à votre fournisseur d'IA générative tant que le cycle de vie de l'objet suivi ne sera pas terminé."
     },
     "regenerateFromSnapshot": "Générer à nouveau à partir d'un instantané",
     "regenerateFromThumbnails": "Générer à nouveau à partir des miniatures",
@@ -150,7 +150,7 @@
         "millisecondsToOffset": "Décalage des annotations de détection en millisecondes. <em>Par défaut : 0</em>",
         "tips": "Astuce : Pour mieux comprendre, visualisez un clip où une personne se déplace de gauche à droite. Si le cadre englobant affiché sur la ligne de temps de l'événement se trouve constamment à gauche de la personne, cela signifie que vous devriez réduire la valeur. À l'inverse, si ce même cadre englobant apparaît systématiquement en avance sur la personne qui marche de gauche à droite, alors vous devrez l'augmenter.",
         "toast": {
-          "success": "Le décalage d'annotation pour {{camera}} a été enregistré dans le fichier de configuration. Redémarrez Frigate pour appliquer vos modifications."
+          "success": "Le décalage d'annotation pour {{camera}} a été enregistré dans le fichier de configuration. Redémarrez Rasid360 pour appliquer vos modifications."
         }
       }
     },
@@ -184,8 +184,8 @@
       "aria": "Télécharger la vidéo"
     },
     "submitToPlus": {
-      "label": "Soumettre à Frigate+",
-      "aria": "Soumettre à Frigate+"
+      "label": "Soumettre à Rasid360+",
+      "aria": "Soumettre à Rasid360+"
     },
     "deleteTrackedObject": {
       "label": "Supprimer cet objet suivi"
@@ -269,7 +269,7 @@
         "millisecondsToOffset": "Millisecondes de décalage pour les annotations de détection. <em>Par défaut : 0</em>",
         "tips": "ASTUCE : Imaginez une séquence d'événement avec une personne marchant de gauche à droite. Si le cadre de détection sur la chronologie de l'événement est constamment à gauche de la personne, la valeur doit être diminuée. De même, si une personne marche de gauche à droite et que le cadre de détection est constamment devant la personne, la valeur doit être augmentée.",
         "toast": {
-          "success": "Le décalage des annotations pour {{camera}} a été sauvegardé dans le fichier de configuration. Redémarrez Frigate pour appliquer vos modifications."
+          "success": "Le décalage des annotations pour {{camera}} a été sauvegardé dans le fichier de configuration. Redémarrez Rasid360 pour appliquer vos modifications."
         },
         "label": "Décalage d'annotation"
       },

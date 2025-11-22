@@ -31,7 +31,7 @@ export default function CameraImage({
     useResizeObserver(containerRef);
 
   // Add scrollbar width (when visible) to the available observer width to eliminate screen juddering.
-  // https://github.com/blakeblackshear/frigate/issues/1657
+  // https://github.com/blakeblackshear/rasid360/issues/1657
   let scrollBarWidth = 0;
   if (window.innerWidth && document.body.offsetWidth) {
     scrollBarWidth = window.innerWidth - document.body.offsetWidth;

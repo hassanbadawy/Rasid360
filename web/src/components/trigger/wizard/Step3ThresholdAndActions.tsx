@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Trigger, TriggerAction } from "@/types/trigger";
 import ActivityIndicator from "@/components/indicators/activity-indicator";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 
 export type Step3FormData = {
   threshold: number;
@@ -43,7 +43,7 @@ export default function Step3ThresholdAndActions({
   isLoading = false,
 }: Step3ThresholdAndActionsProps) {
   const { t } = useTranslation("views/settings");
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   const availableActions = useMemo(() => {
     if (!config) return [];

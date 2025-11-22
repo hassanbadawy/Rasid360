@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Live - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Live - Frigate",
+  "documentTitle": "Live - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Live - Rasid360",
   "twoWayTalk": {
     "enable": "Aktivér tovejskommunikation",
     "disable": "Deaktiver tovejskommunikation"

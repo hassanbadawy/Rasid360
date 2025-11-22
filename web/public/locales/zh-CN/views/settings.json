@@ -1,18 +1,18 @@
 {
   "documentTitle": {
-    "default": "设置 - Frigate",
-    "authentication": "身份验证设置 - Frigate",
-    "camera": "摄像头设置 - Frigate",
-    "classification": "分类设置 - Frigate",
-    "masksAndZones": "遮罩和区域编辑器 - Frigate",
-    "motionTuner": "运动调整器 - Frigate",
-    "object": "调试 - Frigate",
-    "general": "常规设置 - Frigate",
-    "frigatePlus": "Frigate+ 设置 - Frigate",
-    "notifications": "通知设置 - Frigate",
-    "enrichments": "增强功能设置 - Frigate",
-    "cameraManagement": "管理摄像头 - Frigate",
-    "cameraReview": "摄像头核查设置 - Frigate"
+    "default": "设置 - Rasid360",
+    "authentication": "身份验证设置 - Rasid360",
+    "camera": "摄像头设置 - Rasid360",
+    "classification": "分类设置 - Rasid360",
+    "masksAndZones": "遮罩和区域编辑器 - Rasid360",
+    "motionTuner": "运动调整器 - Rasid360",
+    "object": "调试 - Rasid360",
+    "general": "常规设置 - Rasid360",
+    "frigatePlus": "Rasid360+ 设置 - Rasid360",
+    "notifications": "通知设置 - Rasid360",
+    "enrichments": "增强功能设置 - Rasid360",
+    "cameraManagement": "管理摄像头 - Rasid360",
+    "cameraReview": "摄像头核查设置 - Rasid360"
   },
   "menu": {
     "ui": "界面设置",
@@ -23,7 +23,7 @@
     "debug": "调试",
     "users": "用户",
     "notifications": "通知",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "enrichments": "增强功能",
     "triggers": "触发器",
     "roles": "权限组",
@@ -98,7 +98,7 @@
     "title": "分类设置",
     "semanticSearch": {
       "title": "语义搜索",
-      "desc": "Frigate的语义搜索能够让你使用自然语言根据图像本身、自定义的文本描述或自动生成的描述来搜索视频。",
+      "desc": "Rasid360的语义搜索能够让你使用自然语言根据图像本身、自定义的文本描述或自动生成的描述来搜索视频。",
       "readTheDocumentation": "阅读文档（英文）",
       "reindexNow": {
         "label": "立即重建索引",
@@ -125,7 +125,7 @@
     },
     "faceRecognition": {
       "title": "人脸识别",
-      "desc": "人脸识别功能允许为人物分配名称，当识别到他们的面孔时，Frigate 会将人物的名字作为子标签进行分配。这些信息会显示在界面、过滤器以及通知中。",
+      "desc": "人脸识别功能允许为人物分配名称，当识别到他们的面孔时，Rasid360 会将人物的名字作为子标签进行分配。这些信息会显示在界面、过滤器以及通知中。",
       "readTheDocumentation": "阅读文档（英文）",
       "modelSize": {
         "label": "模型大小",
@@ -142,11 +142,11 @@
     },
     "licensePlateRecognition": {
       "title": "车牌识别",
-      "desc": "Frigate 可以识别车辆的车牌，并自动将检测到的字符添加到 recognized_license_plate 字段中，或将已知名称作为子标签添加到汽车类型的对象中。常见的使用场景可能是读取驶入车道的汽车车牌或经过街道的汽车车牌。",
+      "desc": "Rasid360 可以识别车辆的车牌，并自动将检测到的字符添加到 recognized_license_plate 字段中，或将已知名称作为子标签添加到汽车类型的对象中。常见的使用场景可能是读取驶入车道的汽车车牌或经过街道的汽车车牌。",
       "readTheDocumentation": "阅读文档（英文）"
     },
     "toast": {
-      "success": "分类设置已保存，请重启 Frigate 以应用更改。",
+      "success": "分类设置已保存，请重启 Rasid360 以应用更改。",
       "error": "保存配置更改失败：{{errorMessage}}"
     },
     "birdClassification": {
@@ -160,17 +160,17 @@
     "title": "摄像头设置",
     "streams": {
       "title": "视频流",
-      "desc": "暂时禁用摄像头，除非重启Frigate否则将保持禁用。禁用摄像头将完全停止 Frigate 对该摄像头视频流的处理。检测、录制和调试功能都将不可用。<br /><em>注意：该选项不会禁用 go2rtc 转播。</em>"
+      "desc": "暂时禁用摄像头，除非重启Rasid360否则将保持禁用。禁用摄像头将完全停止 Rasid360 对该摄像头视频流的处理。检测、录制和调试功能都将不可用。<br /><em>注意：该选项不会禁用 go2rtc 转播。</em>"
     },
     "review": {
       "title": "核查",
-      "desc": "启用/禁用摄像头的警报和检测。禁用后，除非重启Frigate，否则不会生成新的核查项。 ",
+      "desc": "启用/禁用摄像头的警报和检测。禁用后，除非重启Rasid360，否则不会生成新的核查项。 ",
       "alerts": "警报 ",
       "detections": "检测 "
     },
     "reviewClassification": {
       "title": "核查分级",
-      "desc": "Frigate 将核查项分为“警报”和“检测”。默认情况下，所有的 <strong>人</strong>、<strong>汽车</strong> 对象都将视为警报。你可以通过修改配置文件配置区域来细分。",
+      "desc": "Rasid360 将核查项分为“警报”和“检测”。默认情况下，所有的 <strong>人</strong>、<strong>汽车</strong> 对象都将视为警报。你可以通过修改配置文件配置区域来细分。",
       "readTheDocumentation": "阅读文档",
       "noDefinedZones": "该摄像头没有设置区域。",
       "objectAlertsTips": "所有 {{alertsLabels}} 对象在 {{cameraName}} 下都将显示为警报。",
@@ -185,7 +185,7 @@
       "selectDetectionsZones": "选择检测区域",
       "limitDetections": "限制仅在特定区域内进行检测",
       "toast": {
-        "success": "核查分级配置已保存。请重启 Frigate 以应用更改。"
+        "success": "核查分级配置已保存。请重启 Rasid360 以应用更改。"
       },
       "unsavedChanges": "{{camera}} 的核查分类设置未保存"
     },
@@ -293,7 +293,7 @@
     },
     "zones": {
       "label": "区域",
-      "documentTitle": "编辑区域 - Frigate",
+      "documentTitle": "编辑区域 - Rasid360",
       "desc": {
         "title": "该功能允许你定义特定区域，以便你可以确定特定目标或物体是否在该区域内。",
         "documentation": "文档"
@@ -340,12 +340,12 @@
         }
       },
       "toast": {
-        "success": "区域 ({{zoneName}}) 已保存。请重启 Frigate 以应用更改。"
+        "success": "区域 ({{zoneName}}) 已保存。请重启 Rasid360 以应用更改。"
       }
     },
     "motionMasks": {
       "label": "运动遮罩",
-      "documentTitle": "编辑运动遮罩 - Frigate",
+      "documentTitle": "编辑运动遮罩 - Rasid360",
       "desc": {
         "title": "画面变动遮罩用于防止触发不必要的画面变动检测。过度的设置遮罩将使目标更加难以被追踪。",
         "documentation": "文档"
@@ -365,14 +365,14 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} 已保存。请重启 Frigate 以应用更改。",
-          "noName": "运动遮罩已保存。请重启 Frigate 以应用更改。"
+          "title": "{{polygonName}} 已保存。请重启 Rasid360 以应用更改。",
+          "noName": "运动遮罩已保存。请重启 Rasid360 以应用更改。"
         }
       }
     },
     "objectMasks": {
       "label": "目标遮罩",
-      "documentTitle": "编辑目标遮罩 - Frigate",
+      "documentTitle": "编辑目标遮罩 - Rasid360",
       "desc": {
         "title": "目标过滤器用于防止特定位置出现对某个目标/物体的误报。",
         "documentation": "文档"
@@ -389,8 +389,8 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} 已保存。请重启 Frigate 以应用更改。",
-          "noName": "目标遮罩已保存。请重启 Frigate 以应用更改。"
+          "title": "{{polygonName}} 已保存。请重启 Rasid360 以应用更改。",
+          "noName": "目标遮罩已保存。请重启 Rasid360 以应用更改。"
         }
       }
     },
@@ -401,7 +401,7 @@
   "motionDetectionTuner": {
     "title": "运动检测调整器",
     "desc": {
-      "title": "Frigate 将使用画面变化检测作为首个步骤，以确认一帧画面中是否有目标或物体需要使用目标检测。",
+      "title": "Rasid360 将使用画面变化检测作为首个步骤，以确认一帧画面中是否有目标或物体需要使用目标检测。",
       "documentation": "阅读有关运动检测的文档"
     },
     "Threshold": {
@@ -423,7 +423,7 @@
   },
   "debug": {
     "title": "调试",
-    "detectorDesc": "Frigate 将使用检测器（{{detectors}}）来检测摄像头视频流中的目标或物体。",
+    "detectorDesc": "Rasid360 将使用检测器（{{detectors}}）来检测摄像头视频流中的目标或物体。",
     "desc": "调试界面将实时显示被追踪的目标以及统计信息，目标列表将显示检测到的目标和延迟显示的概览。",
     "debugging": "调试选项",
     "objectList": "目标列表",
@@ -485,7 +485,7 @@
     "title": "用户",
     "management": {
       "title": "用户管理",
-      "desc": "管理此 Frigate 实例的用户账户。"
+      "desc": "管理此 Rasid360 实例的用户账户。"
     },
     "addUser": "添加用户",
     "updatePassword": "修改密码",
@@ -548,7 +548,7 @@
       },
       "createUser": {
         "title": "创建新用户",
-        "desc": "创建一个新用户账户，并指定一个角色以控制访问 Frigate UI 的权限。",
+        "desc": "创建一个新用户账户，并指定一个角色以控制访问 Rasid360 UI 的权限。",
         "usernameOnlyInclude": "用户名只能包含字母、数字和 _",
         "confirmPassword": "请确认你的密码"
       },
@@ -583,7 +583,7 @@
     "title": "通知",
     "notificationSettings": {
       "title": "通知设置",
-      "desc": "Frigate 在浏览器中运行或作为 PWA 安装时，可以原生向您的设备发送推送通知。",
+      "desc": "Rasid360 在浏览器中运行或作为 PWA 安装时，可以原生向您的设备发送推送通知。",
       "documentation": "阅读文档"
     },
     "globalSettings": {
@@ -592,7 +592,7 @@
     },
     "notificationUnavailable": {
       "title": "通知功能不可用",
-      "desc": "网页推送通知需要安全连接（<code>https://…</code>）。这是浏览器的限制。请通过安全方式访问 Frigate 以使用通知功能。",
+      "desc": "网页推送通知需要安全连接（<code>https://…</code>）。这是浏览器的限制。请通过安全方式访问 Rasid360 以使用通知功能。",
       "documentation": "阅读文档"
     },
     "email": {
@@ -624,7 +624,7 @@
     "cancelSuspension": "取消暂停",
     "toast": {
       "success": {
-        "registered": "已成功注册通知。需要重启 Frigate 才能发送任何通知（包括测试通知）。",
+        "registered": "已成功注册通知。需要重启 Rasid360 才能发送任何通知（包括测试通知）。",
         "settingSaved": "通知设置已保存。"
       },
       "error": {
@@ -635,19 +635,19 @@
     "unsavedChanges": "未保存通知设置更改"
   },
   "frigatePlus": {
-    "title": "Frigate+ 设置",
+    "title": "Rasid360+ 设置",
     "apiKey": {
-      "title": "Frigate+ API 密钥",
-      "validated": "Frigate+ API 密钥已检测并验证通过",
-      "notValidated": "未检测到 Frigate+ API 密钥或验证未通过",
-      "desc": "Frigate+ API 密钥用于启用与 Frigate+ 服务的集成。",
-      "plusLink": "了解更多关于 Frigate+"
+      "title": "Rasid360+ API 密钥",
+      "validated": "Rasid360+ API 密钥已检测并验证通过",
+      "notValidated": "未检测到 Rasid360+ API 密钥或验证未通过",
+      "desc": "Rasid360+ API 密钥用于启用与 Rasid360+ 服务的集成。",
+      "plusLink": "了解更多关于 Rasid360+"
     },
     "snapshotConfig": {
       "title": "快照配置",
-      "desc": "提交到 Frigate+ 需要同时在配置中启用快照和 <code>clean_copy</code> 快照。",
+      "desc": "提交到 Rasid360+ 需要同时在配置中启用快照和 <code>clean_copy</code> 快照。",
       "documentation": "阅读文档",
-      "cleanCopyWarning": "部分摄像头已启用快照但未启用 clean_copy。您需要在快照配置中启用 <code>clean_copy</code>，才能将这些摄像头的图像提交到 Frigate+。",
+      "cleanCopyWarning": "部分摄像头已启用快照但未启用 clean_copy。您需要在快照配置中启用 <code>clean_copy</code>，才能将这些摄像头的图像提交到 Rasid360+。",
       "table": {
         "camera": "摄像头",
         "snapshots": "快照",
@@ -666,18 +666,18 @@
       "error": "加载模型信息失败",
       "availableModels": "可用模型",
       "loadingAvailableModels": "正在加载可用模型…",
-      "modelSelect": "您可以在Frigate+上选择可用的模型。请注意，只能选择与当前检测器配置兼容的模型。",
+      "modelSelect": "您可以在Rasid360+上选择可用的模型。请注意，只能选择与当前检测器配置兼容的模型。",
       "plusModelType": {
         "baseModel": "基础模型",
         "userModel": "定向调优"
       }
     },
     "toast": {
-      "success": "Frigate+ 设置已保存。请重启 Frigate 以应用更改。",
+      "success": "Rasid360+ 设置已保存。请重启 Rasid360 以应用更改。",
       "error": "配置更改保存失败：{{errorMessage}}"
     },
-    "restart_required": "需要重启（Frigate+模型已修改）",
-    "unsavedChanges": "未保存Frigate+变更设置"
+    "restart_required": "需要重启（Rasid360+模型已修改）",
+    "unsavedChanges": "未保存Rasid360+变更设置"
   },
   "enrichments": {
     "title": "增强功能设置",
@@ -709,16 +709,16 @@
         }
       },
       "title": "分类搜索",
-      "desc": "Frigate中的语义搜索功能允许您通过图片、用户自定义的文本描述，或自动生成的文本描述等方式在核查项目中查找目标/物体。",
+      "desc": "Rasid360中的语义搜索功能允许您通过图片、用户自定义的文本描述，或自动生成的文本描述等方式在核查项目中查找目标/物体。",
       "readTheDocumentation": "阅读文档"
     },
     "licensePlateRecognition": {
-      "desc": "Frigate 可以识别车辆的车牌，并自动将检测到的字符添加到 recognized_license_plate 字段中，或将已知车牌对应的名称作为子标签添加到该车辆目标中。一般常用于读取驶入车道的车辆车牌或经过街道的车辆车牌。",
+      "desc": "Rasid360 可以识别车辆的车牌，并自动将检测到的字符添加到 recognized_license_plate 字段中，或将已知车牌对应的名称作为子标签添加到该车辆目标中。一般常用于读取驶入车道的车辆车牌或经过街道的车辆车牌。",
       "title": "车牌识别",
       "readTheDocumentation": "阅读文档"
     },
     "faceRecognition": {
-      "desc": "人脸识别功能允许为人物分配名称，当识别到他们的面孔时，Frigate 会将人物的名字作为子标签进行分配。这些信息会显示在界面、过滤器以及通知中。",
+      "desc": "人脸识别功能允许为人物分配名称，当识别到他们的面孔时，Rasid360 会将人物的名字作为子标签进行分配。这些信息会显示在界面、过滤器以及通知中。",
       "title": "人脸识别",
       "readTheDocumentation": "阅读文档",
       "modelSize": {
@@ -735,7 +735,7 @@
       }
     },
     "toast": {
-      "success": "增强功能设置已保存。请重启 Frigate 以应用更改。",
+      "success": "增强功能设置已保存。请重启 Rasid360 以应用更改。",
       "error": "配置更改保存失败：{{errorMessage}}"
     },
     "unsavedChanges": "增强功能设置未保存",
@@ -822,7 +822,7 @@
         },
         "actions": {
           "title": "动作",
-          "desc": "默认情况下，Frigate 会为所有触发器发送 MQTT 消息。子标签会将触发器名称添加到对象标签中。属性是可搜索的元数据，独立存储在追踪对象的元数据中。",
+          "desc": "默认情况下，Rasid360 会为所有触发器发送 MQTT 消息。子标签会将触发器名称添加到对象标签中。属性是可搜索的元数据，独立存储在追踪对象的元数据中。",
           "error": {
             "min": "必须至少选择一项动作。"
           }
@@ -871,7 +871,7 @@
   "roles": {
     "management": {
       "title": "成员权限组管理",
-      "desc": "管理此 Frigate 实例的自定义权限组及其摄像头访问权限。"
+      "desc": "管理此 Rasid360 实例的自定义权限组及其摄像头访问权限。"
     },
     "addRole": "添加权限组",
     "table": {
@@ -930,7 +930,7 @@
   },
   "cameraWizard": {
     "title": "添加摄像头",
-    "description": "请按照以下步骤添加摄像头至Frigate中。",
+    "description": "请按照以下步骤添加摄像头至Rasid360中。",
     "steps": {
       "nameAndConnection": "名称与连接",
       "streamConfiguration": "视频流配置",
@@ -1074,7 +1074,7 @@
         "resolutionLow": "使用 {{resolution}} 分辨率可能过低，难以检测较小的物体。"
       },
       "ffmpegModule": "使用视频流兼容模式",
-      "ffmpegModuleDescription": "如果多次尝试后视频流仍无法加载，可以尝试启用此功能。启用后，Frigate 将使用集成 go2rtc 的 ffmpeg 模块，这可能会提高与某些摄像头视频流的兼容性。"
+      "ffmpegModuleDescription": "如果多次尝试后视频流仍无法加载，可以尝试启用此功能。启用后，Rasid360 将使用集成 go2rtc 的 ffmpeg 模块，这可能会提高与某些摄像头视频流的兼容性。"
     }
   },
   "cameraManagement": {
@@ -1085,7 +1085,7 @@
     "backToSettings": "返回摄像头设置",
     "streams": {
       "title": "开启或关闭摄像头",
-      "desc": "将临时禁用摄像头直至Frigate重启。禁用摄像头将完全停止Frigate对该摄像头视频流的处理，届时检测、录制及调试功能均不可用。<br /><em>注意：此操作不会影响go2rtc的转流服务。</em>"
+      "desc": "将临时禁用摄像头直至Rasid360重启。禁用摄像头将完全停止Rasid360对该摄像头视频流的处理，届时检测、录制及调试功能均不可用。<br /><em>注意：此操作不会影响go2rtc的转流服务。</em>"
     },
     "cameraConfig": {
       "add": "添加摄像头",
@@ -1129,13 +1129,13 @@
     },
     "review": {
       "title": "核查",
-      "desc": "临时禁用/启用此摄像头的警报与检测功能，直至Frigate重启。禁用期间，系统将不再生成新的核查项目。 ",
+      "desc": "临时禁用/启用此摄像头的警报与检测功能，直至Rasid360重启。禁用期间，系统将不再生成新的核查项目。 ",
       "alerts": "警报 ",
       "detections": "检测 "
     },
     "reviewClassification": {
       "title": "核查分类",
-      "desc": "Frigate 将核查项分为“警报”和“检测”。默认情况下，所有的<strong>人</strong>、<strong>汽车</strong> 目标都将视为警报。你可以通过修改配置文件配置区域来细分。",
+      "desc": "Rasid360 将核查项分为“警报”和“检测”。默认情况下，所有的<strong>人</strong>、<strong>汽车</strong> 目标都将视为警报。你可以通过修改配置文件配置区域来细分。",
       "noDefinedZones": "此摄像头未设置任何监控区。",
       "objectAlertsTips": "所有 {{alertsLabels}} 类目标或物体在 {{cameraName}} 下都将显示为警报。",
       "zoneObjectAlertsTips": "所有 {{alertsLabels}} 类目标或物体在 {{cameraName}} 下的 {{zone}} 区内都将显示为警报。",

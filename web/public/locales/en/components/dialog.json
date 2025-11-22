@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Are you sure you want to restart Frigate?",
+    "title": "Are you sure you want to restart Rasid360?",
     "button": "Restart",
     "restarting": {
-      "title": "Frigate is Restarting",
+      "title": "Rasid360 is Restarting",
       "content": "This page will reload in {{countdown}} seconds.",
       "button": "Force Reload Now"
     }
@@ -11,12 +11,12 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Submit To Frigate+",
+        "label": "Submit To Rasid360+",
         "desc": "Objects in locations you want to avoid are not false positives. Submitting them as false positives will confuse the model."
       },
       "review": {
         "question": {
-          "label": "Confirm this label for Frigate Plus",
+          "label": "Confirm this label for Rasid360 Plus",
           "ask_a": "Is this object a <code>{{label}}</code>?",
           "ask_an": "Is this object an <code>{{label}}</code>?",
           "ask_full": "Is this object a <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"

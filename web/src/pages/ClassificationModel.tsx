@@ -1,5 +1,5 @@
 import { useOverlayState } from "@/hooks/use-overlay-state";
-import { CustomClassificationModelConfig } from "@/types/frigateConfig";
+import { CustomClassificationModelConfig } from "@/types/rasid360Config";
 import ModelSelectionView from "@/views/classification/ModelSelectionView";
 import ModelTrainingView from "@/views/classification/ModelTrainingView";
 

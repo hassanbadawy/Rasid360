@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Gyvai - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Tiesiogiai - Frigate",
+  "documentTitle": "Gyvai - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Tiesiogiai - Rasid360",
   "lowBandwidthMode": "Mažo-pralaidumo Rėžimas",
   "cameraAudio": {
     "enable": "Įgalinti Kamerų Garsą",
@@ -171,7 +171,7 @@
   },
   "noCameras": {
     "title": "Nėra Sukonfiguruotų Kamerų",
-    "description": "Pradėti nuo kameros prijungimo pire Frigate.",
+    "description": "Pradėti nuo kameros prijungimo pire Rasid360.",
     "buttonText": "Pridėti Kamerą"
   },
   "snapshot": {

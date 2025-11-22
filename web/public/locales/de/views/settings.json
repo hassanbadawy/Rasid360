@@ -1,18 +1,18 @@
 {
   "documentTitle": {
-    "default": "Einstellungen - Frigate",
-    "authentication": "Authentifizierungseinstellungen – Frigate",
-    "camera": "Kameraeinstellungen - Frigate",
-    "masksAndZones": "Masken- und Zonen-Editor – Frigate",
-    "object": "Debug - Frigate",
-    "general": "Allgemeine Einstellungen – Frigate",
-    "frigatePlus": "Frigate+ Einstellungen – Frigate",
-    "classification": "Klassifizierungseinstellungen – Frigate",
-    "motionTuner": "Bewegungserkennungs-Optimierer – Frigate",
+    "default": "Einstellungen - Rasid360",
+    "authentication": "Authentifizierungseinstellungen – Rasid360",
+    "camera": "Kameraeinstellungen - Rasid360",
+    "masksAndZones": "Masken- und Zonen-Editor – Rasid360",
+    "object": "Debug - Rasid360",
+    "general": "Allgemeine Einstellungen – Rasid360",
+    "frigatePlus": "Rasid360+ Einstellungen – Rasid360",
+    "classification": "Klassifizierungseinstellungen – Rasid360",
+    "motionTuner": "Bewegungserkennungs-Optimierer – Rasid360",
     "notifications": "Benachrichtigungs-Einstellungen",
-    "enrichments": "Erweiterte Statistiken - Frigate",
-    "cameraManagement": "Kameras verwalten - Frigate",
-    "cameraReview": "Kamera Einstellungen prüfen - Frigate"
+    "enrichments": "Erweiterte Statistiken - Rasid360",
+    "cameraManagement": "Kameras verwalten - Rasid360",
+    "cameraReview": "Kamera Einstellungen prüfen - Rasid360"
   },
   "menu": {
     "ui": "Benutzeroberfläche",
@@ -21,7 +21,7 @@
     "masksAndZones": "Maskierungen / Zonen",
     "motionTuner": "Bewegungserkennungs-Optimierer",
     "debug": "Debug",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "users": "Benutzer",
     "notifications": "Benachrichtigungen",
     "enrichments": "Erkennungsfunktionen",
@@ -94,7 +94,7 @@
     "title": "Klassifizierungseinstellungen",
     "semanticSearch": {
       "title": "Semantische Suche",
-      "desc": "Die semantische Suche in Frigate ermöglicht es, verfolgte Objekte innerhalb der Überprüfungselemente zu finden, indem entweder das Bild selbst, eine benutzerdefinierte Textbeschreibung oder eine automatisch generierte Beschreibung verwendet wird.",
+      "desc": "Die semantische Suche in Rasid360 ermöglicht es, verfolgte Objekte innerhalb der Überprüfungselemente zu finden, indem entweder das Bild selbst, eine benutzerdefinierte Textbeschreibung oder eine automatisch generierte Beschreibung verwendet wird.",
       "readTheDocumentation": "Lesen Sie die Dokumentation",
       "reindexNow": {
         "alreadyInProgress": "Neu-Indizierung läufts bereits.",
@@ -126,7 +126,7 @@
     "licensePlateRecognition": {
       "readTheDocumentation": "Lies die Dokumentation",
       "title": "Nummernschilderkennung",
-      "desc": "Frigate kann Nummernschilder an Fahrzeugen erkennen und die erkannten Zeichen automatisch dem Feld „recognized_license_plate“ oder einem bekannten Namen als Unterbezeichnung für Objekte vom Typ „Auto“ hinzufügen. Ein häufiger Anwendungsfall ist das Lesen der Nummernschilder von Autos, die in eine Einfahrt einfahren oder auf einer Straße vorbeifahren."
+      "desc": "Rasid360 kann Nummernschilder an Fahrzeugen erkennen und die erkannten Zeichen automatisch dem Feld „recognized_license_plate“ oder einem bekannten Namen als Unterbezeichnung für Objekte vom Typ „Auto“ hinzufügen. Ein häufiger Anwendungsfall ist das Lesen der Nummernschilder von Autos, die in eine Einfahrt einfahren oder auf einer Straße vorbeifahren."
     },
     "faceRecognition": {
       "readTheDocumentation": "Lies die Dokumentation",
@@ -143,11 +143,11 @@
         "desc": "Die Größe des für die Gesichtserkennung verwendeten Modells."
       },
       "title": "Gesichtserkennung",
-      "desc": "Mithilfe der Gesichtserkennung können Personen Namen zugewiesen werden. Sobald das Gesicht erkannt wird, weist Frigate den Namen der Person als Unterbezeichnung zu. Diese Informationen werden in die Benutzeroberfläche, Filter und Benachrichtigungen integriert."
+      "desc": "Mithilfe der Gesichtserkennung können Personen Namen zugewiesen werden. Sobald das Gesicht erkannt wird, weist Rasid360 den Namen der Person als Unterbezeichnung zu. Diese Informationen werden in die Benutzeroberfläche, Filter und Benachrichtigungen integriert."
     },
     "toast": {
       "error": "Sichern der Konfigurationsänderungen fehlgeschlagen: {{errorMessage}}",
-      "success": "Die Klassifizierungseinstellungen wurden gespeichert. Starten Sie Frigate neu, um die Änderungen zu übernehmen."
+      "success": "Die Klassifizierungseinstellungen wurden gespeichert. Starten Sie Rasid360 neu, um die Änderungen zu übernehmen."
     },
     "restart_required": "Neustart erforderlich (Klassifizierungseinstellungen geändert)",
     "unsavedChanges": "Nicht gespeicherte Änderungen der Klassifizierungseinstellungen"
@@ -155,7 +155,7 @@
   "camera": {
     "reviewClassification": {
       "toast": {
-        "success": "Die Konfiguration der Klassifizierung wurde gespeichert. Starte Frigate neu, um die Änderungen zu übernehmen."
+        "success": "Die Konfiguration der Klassifizierung wurde gespeichert. Starte Rasid360 neu, um die Änderungen zu übernehmen."
       },
       "title": "Überprüfung der Klassifikation",
       "selectAlertsZones": "Zonen für Warnungen auswählen",
@@ -164,7 +164,7 @@
       "noDefinedZones": "Für diese Kamera sind keine Zonen definiert.",
       "selectDetectionsZones": "Zonen für Erkennungen auswählen",
       "objectAlertsTips": "Alle {{alertsLabels}} -Objekte auf {{cameraName}} werden als Warnungen angezeigt.",
-      "desc": "Frigate kategorisiert Überprüfungselemente als Warnungen und Erkennungen. Standardmäßig werden alle Objekte vom Typ <em> Person </em> und <em> Auto </em> als Warnungen betrachtet. Sie können die Kategorisierung Ihrer Überprüfungselemente verfeinern, indem Sie die erforderlichen Zonen dafür konfigurieren.",
+      "desc": "Rasid360 kategorisiert Überprüfungselemente als Warnungen und Erkennungen. Standardmäßig werden alle Objekte vom Typ <em> Person </em> und <em> Auto </em> als Warnungen betrachtet. Sie können die Kategorisierung Ihrer Überprüfungselemente verfeinern, indem Sie die erforderlichen Zonen dafür konfigurieren.",
       "zoneObjectAlertsTips": "Alle {{alertsLabels}} Objekte, die in {{zone}} auf {{cameraName}} erkannt werden , werden als Warnungen angezeigt.",
       "objectDetectionsTips": "Alle {{detectionsLabels}} Objekte, die auf {{cameraName}} nicht kategorisiert sind, werden unabhängig von der Zone, in der sie sich befinden, als Erkennungen angezeigt.",
       "zoneObjectDetectionsTips": {
@@ -176,13 +176,13 @@
     },
     "streams": {
       "title": "Streams",
-      "desc": "Deaktiviere eine Kamera vorübergehend, bis Frigate neu gestartet wird. Das Deaktivieren einer Kamera stoppt die Verarbeitung der Streams dieser Kamera durch Frigate vollständig. Erkennung, Aufzeichnung und Debugging sind dann nicht mehr möglich.<br /> <em>Hinweis: Go2RTC-Restreams werden dadurch nicht deaktiviert.</em>"
+      "desc": "Deaktiviere eine Kamera vorübergehend, bis Rasid360 neu gestartet wird. Das Deaktivieren einer Kamera stoppt die Verarbeitung der Streams dieser Kamera durch Rasid360 vollständig. Erkennung, Aufzeichnung und Debugging sind dann nicht mehr möglich.<br /> <em>Hinweis: Go2RTC-Restreams werden dadurch nicht deaktiviert.</em>"
     },
     "review": {
       "title": "Überprüfung",
       "alerts": "Warnungen ",
       "detections": "Erkennungen ",
-      "desc": "Aktiviere/deaktiviere Benachrichtigungen und Erkennungen für diese Kamera vorübergehend, bis Frigate neu gestartet wird. Wenn deaktiviert, werden keine neuen Überprüfungseinträge erstellt. "
+      "desc": "Aktiviere/deaktiviere Benachrichtigungen und Erkennungen für diese Kamera vorübergehend, bis Rasid360 neu gestartet wird. Wenn deaktiviert, werden keine neuen Überprüfungseinträge erstellt. "
     },
     "title": "Kameraeinstellungen",
     "object_descriptions": {
@@ -289,7 +289,7 @@
     "zones": {
       "edit": "Zone bearbeiten",
       "toast": {
-        "success": "Die Zone ({{zoneName}}) wurde gespeichert. Starten Sie Frigate neu, um die Änderungen zu übernehmen."
+        "success": "Die Zone ({{zoneName}}) wurde gespeichert. Starten Sie Rasid360 neu, um die Änderungen zu übernehmen."
       },
       "desc": {
         "documentation": "Dokumentation",
@@ -306,7 +306,7 @@
         "lineCDistance": "Spur C Distanz ({{unit}})"
       },
       "label": "Zonen",
-      "documentTitle": "Zone bearbeiten - Frigate",
+      "documentTitle": "Zone bearbeiten - Rasid360",
       "add": "Zone hinzufügen",
       "name": {
         "title": "Name",
@@ -344,7 +344,7 @@
         "documentation": "Dokumentation",
         "title": "Bewegungsmasken werden verwendet, um zu verhindern, dass unerwünschte Bewegungsarten eine Erkennung auslösen. Zu starkes Maskieren erschwert das Nachverfolgen von Objekten."
       },
-      "documentTitle": "Bewegungsmaske bearbeiten – Frigate",
+      "documentTitle": "Bewegungsmaske bearbeiten – Rasid360",
       "context": {
         "documentation": "Lies die Dokumentation",
         "title": "Bewegungsmasken werden verwendet, um unerwünschte Bewegungen (z. B. Baumäste, Kamerazeitstempel) daran zu hindern, eine Erkennung auszulösen. Bewegungsmasken sollten <em>sehr sparsam</em> eingesetzt werden – zu starkes Maskieren erschwert das Nachverfolgen von Objekten."
@@ -352,8 +352,8 @@
       "clickDrawPolygon": "Klicke, um ein Polygon auf dem Bild zu zeichnen.",
       "toast": {
         "success": {
-          "noName": "Bewegungsmaske wurde gespeichert. Starte Frigate neu, um die Änderungen zu übernehmen.",
-          "title": "{{polygonName}} wurde gespeichert. Starte Frigate neu, um die Änderungen zu übernehmen."
+          "noName": "Bewegungsmaske wurde gespeichert. Starte Rasid360 neu, um die Änderungen zu übernehmen.",
+          "title": "{{polygonName}} wurde gespeichert. Starte Rasid360 neu, um die Änderungen zu übernehmen."
         }
       },
       "add": "Neue Bewegungsmaske",
@@ -370,11 +370,11 @@
     "restart_required": "Neustart erforderlich (Maske/Zone hat sich geändert)",
     "objectMasks": {
       "label": "Objektmasken",
-      "documentTitle": "Objektmaske bearbeiten – Frigate",
+      "documentTitle": "Objektmaske bearbeiten – Rasid360",
       "toast": {
         "success": {
-          "noName": "Objektmaske wurde gespeichert. Starte Frigate neu, um die Änderungen zu übernehmen.",
-          "title": "{{polygonName}} wurde gespeichert. Starte Frigate neu, um die Änderungen zu übernehmen."
+          "noName": "Objektmaske wurde gespeichert. Starte Rasid360 neu, um die Änderungen zu übernehmen.",
+          "title": "{{polygonName}} wurde gespeichert. Starte Rasid360 neu, um die Änderungen zu übernehmen."
         }
       },
       "desc": {
@@ -431,7 +431,7 @@
       "desc": "Bewegungsmasken-Polygone anzeigen",
       "title": "Bewegungsmasken"
     },
-    "detectorDesc": "Frigate verwendet deine Detektoren ({{detectors}}), um Objekte im Videostream deiner Kamera zu erkennen.",
+    "detectorDesc": "Rasid360 verwendet deine Detektoren ({{detectors}}), um Objekte im Videostream deiner Kamera zu erkennen.",
     "debugging": "Fehlersuche",
     "objectList": "Objektliste",
     "noObjects": "Keine Objekte",
@@ -470,7 +470,7 @@
     },
     "desc": {
       "documentation": "Lies die Anleitung zur Bewegungsoptimierung",
-      "title": "Frigate verwendet die Bewegungserkennung als erste Überprüfung, um festzustellen, ob im Bildausschnitt etwas passiert, das eine Objekterkennung rechtfertigt."
+      "title": "Rasid360 verwendet die Bewegungserkennung als erste Überprüfung, um festzustellen, ob im Bildausschnitt etwas passiert, das eine Objekterkennung rechtfertigt."
     },
     "contourArea": {
       "title": "Konturfläche",
@@ -499,7 +499,7 @@
     "title": "Benutzer",
     "management": {
       "title": "Benutzerverwaltung",
-      "desc": "Verwalte die Benutzerkonten dieser Frigate-Instanz."
+      "desc": "Verwalte die Benutzerkonten dieser Rasid360-Instanz."
     },
     "table": {
       "changeRole": "Benutzerrolle ändern",
@@ -564,7 +564,7 @@
       },
       "createUser": {
         "title": "Neuen Benutzer anlegen",
-        "desc": "Füge ein neues Benutzerkonto hinzu und lege eine Rolle für den Zugriff auf Bereiche der Frigate-Benutzeroberfläche fest.",
+        "desc": "Füge ein neues Benutzerkonto hinzu und lege eine Rolle für den Zugriff auf Bereiche der Rasid360-Benutzeroberfläche fest.",
         "usernameOnlyInclude": "Der Benutzername darf nur Buchstaben, Zahlen, . oder _ enthalten",
         "confirmPassword": "Bitte bestätige dein Passwort"
       },
@@ -585,13 +585,13 @@
     },
     "notificationSettings": {
       "title": "Einstellungen für Benachrichtigungen",
-      "desc": "Frigate kann von Haus aus Push-Benachrichtigungen an ein Gerät senden, wenn es im Browser läuft oder als PWA installiert ist.",
+      "desc": "Rasid360 kann von Haus aus Push-Benachrichtigungen an ein Gerät senden, wenn es im Browser läuft oder als PWA installiert ist.",
       "documentation": "Lese die Dokumentation"
     },
     "title": "Benachrichtigungen",
     "notificationUnavailable": {
       "title": "Benachrichtigungen nicht verfügbar",
-      "desc": "Web Push Benachrichtigungen erfordern einen sicheren Kontext (<code>https://…</code>). Das ist eine Vorgabe des Browsers. Greife auf Frigate gesichert zu um Benachrichtigungen zu nutzen.",
+      "desc": "Web Push Benachrichtigungen erfordern einen sicheren Kontext (<code>https://…</code>). Das ist eine Vorgabe des Browsers. Greife auf Rasid360 gesichert zu um Benachrichtigungen zu nutzen.",
       "documentation": "Dokumentation lesen"
     },
     "cameras": {
@@ -613,7 +613,7 @@
         "registerFailed": "Speichern der Benachrichtigungsregistrierung fehlgeschlagen."
       },
       "success": {
-        "registered": "Erfolgreich für Benachrichtigungen registriert. Starte Frigate neu bevor Benachrichtigungen (inklusive Testbenachrichtigung) gesendet werden können.",
+        "registered": "Erfolgreich für Benachrichtigungen registriert. Starte Rasid360 neu bevor Benachrichtigungen (inklusive Testbenachrichtigung) gesendet werden können.",
         "settingSaved": "Benachrichtigungseinstellungen wurden gespeichert."
       }
     },
@@ -633,17 +633,17 @@
     "unsavedRegistrations": "Nicht gespeicherte Benachrichtigungsanmeldungen"
   },
   "frigatePlus": {
-    "title": "Frigate+ Einstellungen",
+    "title": "Rasid360+ Einstellungen",
     "apiKey": {
-      "title": "Frigate+ API Key",
-      "desc": "Der Frigate+ API Key aktiviert die Integration des Frigate+ Dienstes.",
-      "validated": "Frigate+ API Key erkannt und validiert",
-      "notValidated": "Frigate+ API Key nicht erkannt und validiert",
-      "plusLink": "Lese mehr zu Frigate+"
+      "title": "Rasid360+ API Key",
+      "desc": "Der Rasid360+ API Key aktiviert die Integration des Rasid360+ Dienstes.",
+      "validated": "Rasid360+ API Key erkannt und validiert",
+      "notValidated": "Rasid360+ API Key nicht erkannt und validiert",
+      "plusLink": "Lese mehr zu Rasid360+"
     },
     "snapshotConfig": {
-      "desc": "Für die Übermittlung an Frigate+ muss in der Konfiguration sowohl Snapshots als auch <code>clean_copy</code>-Snapshots aktiviert sein.",
-      "cleanCopyWarning": "Einige Kameras haben Snapshots aktiviert aber clean copy deaktiviert. Aktiviere <code>clean_copy</code> in der Snapshot Konfiguration um Bilder an Frigate+ zu senden.",
+      "desc": "Für die Übermittlung an Rasid360+ muss in der Konfiguration sowohl Snapshots als auch <code>clean_copy</code>-Snapshots aktiviert sein.",
+      "cleanCopyWarning": "Einige Kameras haben Snapshots aktiviert aber clean copy deaktiviert. Aktiviere <code>clean_copy</code> in der Snapshot Konfiguration um Bilder an Rasid360+ zu senden.",
       "documentation": "die Dokumentation lesen",
       "table": {
         "camera": "Kamera",
@@ -656,7 +656,7 @@
       "modelType": "Model Typ",
       "trainDate": "Trainings Datum",
       "supportedDetectors": "Unterstützte Detektoren",
-      "modelSelect": "Die verfügbaren Modelle auf Frigate+ können hier ausgewählt werden. Beachte, dass nur Modelle kompatibel mit deiner aktuellen Detektorkonfiguration zur Auswahl stehen.",
+      "modelSelect": "Die verfügbaren Modelle auf Rasid360+ können hier ausgewählt werden. Beachte, dass nur Modelle kompatibel mit deiner aktuellen Detektorkonfiguration zur Auswahl stehen.",
       "plusModelType": {
         "baseModel": "Basis Model",
         "userModel": "Feinabgestimmt"
@@ -671,10 +671,10 @@
     },
     "toast": {
       "error": "Speichern der Konfigurationsänderungen fehlgeschlagen: {{errorMessage}}",
-      "success": "Frigate+ Einstellungen wurden gespeichert. Starte Frigate neu um Änderungen anzuwenden."
+      "success": "Rasid360+ Einstellungen wurden gespeichert. Starte Rasid360 neu um Änderungen anzuwenden."
     },
-    "restart_required": "Neustart erforderlich (Frigate+ Model geändert)",
-    "unsavedChanges": "Nicht gespeicherte Änderungen an den Frigate+-Einstellungen"
+    "restart_required": "Neustart erforderlich (Rasid360+ Model geändert)",
+    "unsavedChanges": "Nicht gespeicherte Änderungen an den Rasid360+-Einstellungen"
   },
   "enrichments": {
     "birdClassification": {
@@ -707,12 +707,12 @@
         }
       },
       "title": "Semantische Suche",
-      "desc": "Die semantische Suche in Frigate ermöglicht es Ihnen, verfolgte Objekte innerhalb Ihrer Überprüfungselemente zu finden, indem Sie entweder das Bild selbst, eine benutzerdefinierte Textbeschreibung oder eine automatisch generierte Beschreibung verwenden.",
+      "desc": "Die semantische Suche in Rasid360 ermöglicht es Ihnen, verfolgte Objekte innerhalb Ihrer Überprüfungselemente zu finden, indem Sie entweder das Bild selbst, eine benutzerdefinierte Textbeschreibung oder eine automatisch generierte Beschreibung verwenden.",
       "readTheDocumentation": "Lies die Dokumentation"
     },
     "faceRecognition": {
       "title": "Gesichtserkennung",
-      "desc": "Die Gesichtserkennung ermöglicht es, Personen Namen zuzuweisen, und wenn ihr Gesicht erkannt wird, ordnet Frigate den Namen der Person als Untertitel zu. Diese Informationen sind in der Benutzeroberfläche, den Filtern und in den Benachrichtigungen enthalten.",
+      "desc": "Die Gesichtserkennung ermöglicht es, Personen Namen zuzuweisen, und wenn ihr Gesicht erkannt wird, ordnet Rasid360 den Namen der Person als Untertitel zu. Diese Informationen sind in der Benutzeroberfläche, den Filtern und in den Benachrichtigungen enthalten.",
       "readTheDocumentation": "Lies die Dokumentation",
       "modelSize": {
         "label": "Modell Größe",
@@ -729,12 +729,12 @@
     },
     "licensePlateRecognition": {
       "title": "Kennzeichenerkennung",
-      "desc": "Frigate kann Kennzeichen an Fahrzeugen erkennen und die erkannten Zeichen automatisch in das Feld recognized_license_plate oder einen bekannten Namen als sub_label zu Objekten vom Typ car hinzufügen. Ein häufiger Anwendungsfall ist das Lesen der Kennzeichen von Autos, die in eine Einfahrt einfahren oder auf einer Straße vorbeifahren.",
+      "desc": "Rasid360 kann Kennzeichen an Fahrzeugen erkennen und die erkannten Zeichen automatisch in das Feld recognized_license_plate oder einen bekannten Namen als sub_label zu Objekten vom Typ car hinzufügen. Ein häufiger Anwendungsfall ist das Lesen der Kennzeichen von Autos, die in eine Einfahrt einfahren oder auf einer Straße vorbeifahren.",
       "readTheDocumentation": "Lies die Dokumentation"
     },
     "restart_required": "Neustart erforderlich (Verbesserungseinstellungen geändert)",
     "toast": {
-      "success": "Die Einstellungen für die Verbesserungen wurden gespeichert. Starten Sie Frigate neu, um Ihre Änderungen zu übernehmen.",
+      "success": "Die Einstellungen für die Verbesserungen wurden gespeichert. Starten Sie Rasid360 neu, um Ihre Änderungen zu übernehmen.",
       "error": "Konfigurationsänderungen konnten nicht gespeichert werden: {{errorMessage}}"
     }
   },
@@ -813,7 +813,7 @@
         },
         "actions": {
           "title": "Aktionen",
-          "desc": "Standardmäßig sendet Frigate eine MQTT-Nachricht für alle Trigger. Wähle eine zusätzliche Aktion aus, die ausgeführt werden soll, wenn dieser Trigger ausgelöst wird.",
+          "desc": "Standardmäßig sendet Rasid360 eine MQTT-Nachricht für alle Trigger. Wähle eine zusätzliche Aktion aus, die ausgeführt werden soll, wenn dieser Trigger ausgelöst wird.",
           "error": {
             "min": "Mindesten eine Aktion muss ausgewählt sein."
           }
@@ -876,7 +876,7 @@
     },
     "management": {
       "title": "Zuschauer Rollenverwaltung",
-      "desc": "Verwalten Sie benutzerdefinierte Zuschauerrollen und ihre Kamerazugriffsberechtigungen für diese Frigate-Instanz."
+      "desc": "Verwalten Sie benutzerdefinierte Zuschauerrollen und ihre Kamerazugriffsberechtigungen für diese Rasid360-Instanz."
     },
     "addRole": "Rolle hinzufügen",
     "table": {
@@ -905,7 +905,7 @@
   },
   "cameraWizard": {
     "title": "Kamera hinzufügen",
-    "description": "Folge den Anweisungen unten, um eine neue Kamera zu deiner Frigate-Installation hinzuzufügen.",
+    "description": "Folge den Anweisungen unten, um eine neue Kamera zu deiner Rasid360-Installation hinzuzufügen.",
     "steps": {
       "nameAndConnection": "Name & Verbindung",
       "streamConfiguration": "Stream Konfiguration",
@@ -1051,7 +1051,7 @@
     "backToSettings": "Zurück zu Kamera-Einstellungen",
     "streams": {
       "title": "Kameras aktivieren / deaktivieren",
-      "desc": "Deaktiviere eine Kamera vorübergehend, bis Frigate neu gestartet wird. Deaktivierung einer Kamera stoppt die Verarbeitung der Streams dieser Kamera durch Frigate vollständig. Erkennung, Aufzeichnung und Debugging sind dann nicht mehr verfügbar. <br /> <em>Hinweis: Dies deaktiviert nicht die go2rtc restreams.</em>"
+      "desc": "Deaktiviere eine Kamera vorübergehend, bis Rasid360 neu gestartet wird. Deaktivierung einer Kamera stoppt die Verarbeitung der Streams dieser Kamera durch Rasid360 vollständig. Erkennung, Aufzeichnung und Debugging sind dann nicht mehr verfügbar. <br /> <em>Hinweis: Dies deaktiviert nicht die go2rtc restreams.</em>"
     },
     "cameraConfig": {
       "add": "Kamera hinzufügen",
@@ -1095,13 +1095,13 @@
     },
     "review": {
       "title": "Review",
-      "desc": "Aktivieren/deaktivieren Sie vorübergehend Warnmeldungen und Erkennungen für diese Kamera, bis Frigate neu gestartet wird. Wenn diese Funktion deaktiviert ist, werden keine neuen Überprüfungselemente generiert. ",
+      "desc": "Aktivieren/deaktivieren Sie vorübergehend Warnmeldungen und Erkennungen für diese Kamera, bis Rasid360 neu gestartet wird. Wenn diese Funktion deaktiviert ist, werden keine neuen Überprüfungselemente generiert. ",
       "alerts": "Warnungen ",
       "detections": "Erkennungen "
     },
     "reviewClassification": {
       "title": "Bewertungsklassifizierung",
-      "desc": "Frigate kategorisiert zu überprüfende Elemente als Warnmeldungen und Erkennungen. Standardmäßig werden alle Objekte vom Typ <em>person</em> und <em>car</em> als Warnmeldungen betrachtet. Sie können die Kategorisierung der zu überprüfenden Elemente verfeinern, indem Sie die erforderlichen Zonen für sie konfigurieren.",
+      "desc": "Rasid360 kategorisiert zu überprüfende Elemente als Warnmeldungen und Erkennungen. Standardmäßig werden alle Objekte vom Typ <em>person</em> und <em>car</em> als Warnmeldungen betrachtet. Sie können die Kategorisierung der zu überprüfenden Elemente verfeinern, indem Sie die erforderlichen Zonen für sie konfigurieren.",
       "noDefinedZones": "Für diese Kamera sind keine Zonen definiert.",
       "objectAlertsTips": "Alle {{alertsLabels}}-Objekte auf {{cameraName}} werden als Warnmeldungen angezeigt.",
       "zoneObjectAlertsTips": "Alle {{alertsLabels}}-Objekte, die in {{zone}} auf {{cameraName}} erkannt wurden, werden als Warnmeldungen angezeigt.",
@@ -1116,7 +1116,7 @@
       "selectDetectionsZones": "Zonen für Erkennungen auswählen",
       "limitDetections": "Erkennungen auf bestimmte Zonen beschränken",
       "toast": {
-        "success": "Die Konfiguration der Bewertungsklassifizierung wurde gespeichert. Starten Sie Frigate neu, um die Änderungen zu übernehmen."
+        "success": "Die Konfiguration der Bewertungsklassifizierung wurde gespeichert. Starten Sie Rasid360 neu, um die Änderungen zu übernehmen."
       }
     }
   }

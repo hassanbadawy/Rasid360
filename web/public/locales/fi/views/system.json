@@ -23,14 +23,14 @@
     }
   },
   "documentTitle": {
-    "cameras": "Kameroiden tilastot - Frigate",
+    "cameras": "Kameroiden tilastot - Rasid360",
     "storage": "Tallenteiden tilastot - Fgirage",
-    "general": "Yleiset tilastot - Frigate",
-    "enrichments": "Rikastetut tilastot - Frigate",
+    "general": "Yleiset tilastot - Rasid360",
+    "enrichments": "Rikastetut tilastot - Rasid360",
     "logs": {
-      "frigate": "Frigaten lokit - Frigate",
-      "go2rtc": "Go2RTC lokit - Frigate",
-      "nginx": "Nginx lokit - Frigate"
+      "frigate": "Rasid360n lokit - Rasid360",
+      "go2rtc": "Go2RTC lokit - Rasid360",
+      "nginx": "Nginx lokit - Rasid360"
     }
   },
   "title": "Järjestelmä",

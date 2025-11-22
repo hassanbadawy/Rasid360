@@ -1,17 +1,17 @@
 {
   "documentTitle": {
-    "enrichments": "Parmàmetres complementaris - Frigate",
-    "motionTuner": "Ajust de moviment - Frigate",
-    "object": "Depurar - Frigate",
-    "default": "Paràmetres - Frigate",
-    "authentication": "Configuració d'autenticació - Frigate",
-    "camera": "Paràmetres de càmera - Frigate",
-    "masksAndZones": "Editor de màscares i zones - Frigate",
-    "general": "Paràmetres Generals - Frigate",
-    "frigatePlus": "Paràmetres de Frigate+ - Frigate",
-    "notifications": "Paràmetres de notificació - Frigate",
-    "cameraManagement": "Gestionar càmeres - Frigate",
-    "cameraReview": "Configuració Revisió de Càmeres - Frigate"
+    "enrichments": "Parmàmetres complementaris - Rasid360",
+    "motionTuner": "Ajust de moviment - Rasid360",
+    "object": "Depurar - Rasid360",
+    "default": "Paràmetres - Rasid360",
+    "authentication": "Configuració d'autenticació - Rasid360",
+    "camera": "Paràmetres de càmera - Rasid360",
+    "masksAndZones": "Editor de màscares i zones - Rasid360",
+    "general": "Paràmetres Generals - Rasid360",
+    "frigatePlus": "Paràmetres de Rasid360+ - Rasid360",
+    "notifications": "Paràmetres de notificació - Rasid360",
+    "cameraManagement": "Gestionar càmeres - Rasid360",
+    "cameraReview": "Configuració Revisió de Càmeres - Rasid360"
   },
   "menu": {
     "ui": "Interfície d'usuari",
@@ -21,7 +21,7 @@
     "users": "Usuaris",
     "notifications": "Notificacions",
     "debug": "Depuració",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "enrichments": "Enriquiments",
     "triggers": "Disparadors",
     "cameraManagement": "Gestió",
@@ -182,7 +182,7 @@
         "desc": "Estableix el temps mínim, en segons, que l'objecte ha d'estar dins la zona perquè s'activi. <em>Per defecte: 0</em>"
       },
       "allObjects": "Tots els objectes",
-      "documentTitle": "Edita zona - Frigate",
+      "documentTitle": "Edita zona - Rasid360",
       "speedThreshold": {
         "title": "Llindar de velocitat ({{unit}})",
         "toast": {
@@ -195,7 +195,7 @@
       },
       "clickDrawPolygon": "Fes click per a dibuixar un polígon a la imatge.",
       "toast": {
-        "success": "La zona {{zoneName}} ha estat desada. Reinicia Frigate per a aplicar els canvis."
+        "success": "La zona {{zoneName}} ha estat desada. Reinicia Rasid360 per a aplicar els canvis."
       }
     },
     "filter": {
@@ -221,17 +221,17 @@
       "label": "Màscara de moviment",
       "add": "Nova màscara de moviment",
       "edit": "Edita la màscara de moviment",
-      "documentTitle": "Editar la màscara de moviment - Frigate",
+      "documentTitle": "Editar la màscara de moviment - Rasid360",
       "clickDrawPolygon": "Fes click per a dibuixar un polígon a la imatge.",
       "toast": {
         "success": {
-          "title": "{{polygonName}} s'ha desat. Reinicia Frigate per a aplicar els canvis.",
-          "noName": "La màscara de moviment ha estat desada. Reinicia Frigate per aplicar els canvis."
+          "title": "{{polygonName}} s'ha desat. Reinicia Rasid360 per a aplicar els canvis.",
+          "noName": "La màscara de moviment ha estat desada. Reinicia Rasid360 per aplicar els canvis."
         }
       }
     },
     "objectMasks": {
-      "documentTitle": "Editar la màscara d'objecte - Frigate",
+      "documentTitle": "Editar la màscara d'objecte - Rasid360",
       "label": "Màscares d'objecte",
       "edit": "Editar la màscara d'objecte",
       "point_one": "{{count}} punt",
@@ -250,8 +250,8 @@
       "clickDrawPolygon": "Fes click per a dibuixar un polígon a la imatge.",
       "toast": {
         "success": {
-          "title": "{{polygonName}} s'ha desat. Reinicia Frigate per a aplicar els canvis.",
-          "noName": "La màscara d'objectes ha estat desada. Reincia Frigate per a aplicar els canvis."
+          "title": "{{polygonName}} s'ha desat. Reinicia Rasid360 per a aplicar els canvis.",
+          "noName": "La màscara d'objectes ha estat desada. Reincia Rasid360 per a aplicar els canvis."
         }
       },
       "context": "Les màscares de filtratge d’objectes s’utilitzen per descartar falsos positius d’un tipus d’objecte concret segons la seva ubicació."
@@ -277,7 +277,7 @@
     "notificationSettings": {
       "documentation": "Llegir la documentació",
       "title": "Paràmetres de notificació",
-      "desc": "Frigate pot enviar notificacions push directament al teu dispositiu quan s’executa des del navegador o està instal·lat com a PWA (aplicació web progressiva)."
+      "desc": "Rasid360 pot enviar notificacions push directament al teu dispositiu quan s’executa des del navegador o està instal·lat com a PWA (aplicació web progressiva)."
     },
     "deviceSpecific": "Paràmetres específics del dispositiu",
     "registerDevice": "Registrar aquest dispositiu",
@@ -296,7 +296,7 @@
     "toast": {
       "success": {
         "settingSaved": "Els paràmetres de notificacions s'han desat.",
-        "registered": "Registre de notificacions realitzat amb èxit. Cal reiniciar Frigate perquè es puguin enviar notificacions (inclosa una notificació de prova)."
+        "registered": "Registre de notificacions realitzat amb èxit. Cal reiniciar Rasid360 perquè es puguin enviar notificacions (inclosa una notificació de prova)."
       },
       "error": {
         "registerFailed": "No s'ha pogut desar el registre de notificacions."
@@ -311,7 +311,7 @@
     "notificationUnavailable": {
       "title": "Notificacions no disponibles",
       "documentation": "Llegir la documentació",
-      "desc": "Les notificacions push web requereixen un context segur (<code>https://…</code>). Aquesta és una limitació del navegador. Accedeix a Frigate de manera segura per utilitzar les notificacions."
+      "desc": "Les notificacions push web requereixen un context segur (<code>https://…</code>). Aquesta és una limitació del navegador. Accedeix a Rasid360 de manera segura per utilitzar les notificacions."
     },
     "unsavedChanges": "Canvis de notificació no desats",
     "globalSettings": {
@@ -326,7 +326,7 @@
   "camera": {
     "streams": {
       "title": "Transmissions",
-      "desc": "Desactiva temporalment una càmera fins que es reiniciï Frigate. La desactivació d'una càmera atura completament el processament de les transmissions d'aquesta càmera per part de Frigate. La detecció, gravació i depuració no estaran disponibles.<br /><em>Nota: Això no desactiva les retransmissions de go2rtc.</em>"
+      "desc": "Desactiva temporalment una càmera fins que es reiniciï Rasid360. La desactivació d'una càmera atura completament el processament de les transmissions d'aquesta càmera per part de Rasid360. La detecció, gravació i depuració no estaran disponibles.<br /><em>Nota: Això no desactiva les retransmissions de go2rtc.</em>"
     },
     "title": "Paràmetres de la càmera",
     "reviewClassification": {
@@ -340,7 +340,7 @@
       "objectAlertsTips": "Tots els objectes {{alertsLabels}} a {{cameraName}} es mostraràn com a Alertes.",
       "zoneObjectAlertsTips": "Tots els objectes {{alertsLabels}} detectats a la {{zone}} de {{cameraName}} es mostraràn com a Alertes.",
       "toast": {
-        "success": "S'ha desat la configuració de la classificació de revisió. Reinicia Frigate per aplicar els canvis."
+        "success": "S'ha desat la configuració de la classificació de revisió. Reinicia Rasid360 per aplicar els canvis."
       },
       "zoneObjectDetectionsTips": {
         "text": "Tots els objectes {{detectionsLabels}} no classificats a la {{zone}} de {{cameraName}} es mostraràn com a Deteccions.",
@@ -348,13 +348,13 @@
         "regardlessOfZoneObjectDetectionsTips": "Tots els objectes {{detectionsLabels}} no categoritzats a {{cameraName}} es mostraran com a Deteccions independentment de la zona en què es trobin."
       },
       "objectDetectionsTips": "Tots els objectes {{detectionsLabels}} no categoritzats a {{cameraName}} es mostraran com a Deteccions independentment de la zona en què es trobin.",
-      "desc": "Frigate categoritza els elements de revisió com a Alertes i Deteccions. Per defecte, tots els objectes de tipus <em>persona</em> i <em>cotxe</em> es consideren Alertes. Pots afinar la categorització dels teus elements de revisió configurant zones requerides per a aquests."
+      "desc": "Rasid360 categoritza els elements de revisió com a Alertes i Deteccions. Per defecte, tots els objectes de tipus <em>persona</em> i <em>cotxe</em> es consideren Alertes. Pots afinar la categorització dels teus elements de revisió configurant zones requerides per a aquests."
     },
     "review": {
       "alerts": "Alertes ",
       "detections": "Deteccions ",
       "title": "Revisar",
-      "desc": "Habilita o deshabilita temporalment les alertes i deteccions per a aquesta càmera fins que es reiniciï Frigate. Quan estigui desactivat, no es generaran nous elements de revisió. "
+      "desc": "Habilita o deshabilita temporalment les alertes i deteccions per a aquesta càmera fins que es reiniciï Rasid360. Quan estigui desactivat, no es generaran nous elements de revisió. "
     },
     "object_descriptions": {
       "title": "Descripció d'objectes per IA generativa",
@@ -405,7 +405,7 @@
     },
     "desc": {
       "documentation": "Llegeix la guia d'ajust de detecció de moviment",
-      "title": "Frigate utilitza la detecció de moviment com a primer filtre per comprovar si hi ha alguna activitat a la imatge que valgui la pena analitzar amb la detecció d’objectes."
+      "title": "Rasid360 utilitza la detecció de moviment com a primer filtre per comprovar si hi ha alguna activitat a la imatge que valgui la pena analitzar amb la detecció d’objectes."
     },
     "improveContrast": {
       "title": "Millorar contrast",
@@ -461,7 +461,7 @@
       "desc": "Mostra requadres al voltant de les àrees on s'ha detectat moviment",
       "tips": "<p><strong>Caixes de moviment</strong></p><br><p>Es sobreposaran requadres vermells a les àrees del fotograma on actualment s’estigui detectant moviment.</p>"
     },
-    "detectorDesc": "Frigate fa servir els teus detectors ({{detectors}}) per a detectar objectes a les imatges de la teva càmera.",
+    "detectorDesc": "Rasid360 fa servir els teus detectors ({{detectors}}) per a detectar objectes a les imatges de la teva càmera.",
     "desc": "La vista de depuració mostra en temps real els objectes rastrejats i les seves estadístiques. La llista d’objectes mostra un resum amb retard temporal dels objectes detectats.",
     "openCameraWebUI": "Obrir la interficie d'usuari de {{camera}}",
     "audio": {
@@ -564,14 +564,14 @@
         "title": "Crear un nou usuari",
         "confirmPassword": "Siusplau, confirma la contrasenya",
         "usernameOnlyInclude": "El nom d'usuari només pot contenir lletres, números, . o _",
-        "desc": "Afegeix un nou compte d'usuari i especifica un rol per accedir a àrees de la interfície de Frigate."
+        "desc": "Afegeix un nou compte d'usuari i especifica un rol per accedir a àrees de la interfície de Rasid360."
       }
     },
     "title": "Usuaris",
     "addUser": "Afegir usuari",
     "management": {
       "title": "Gestió d'usuaris",
-      "desc": "Gestioneu els comptes d'usuari d'aquesta instància de Frigate."
+      "desc": "Gestioneu els comptes d'usuari d'aquesta instància de Rasid360."
     },
     "updatePassword": "Actualitzar contrasenya"
   },
@@ -584,8 +584,8 @@
       },
       "title": "Configuració d'instantànies",
       "documentation": "Llegir la documentació",
-      "desc": "Per a enviar a Frigate+ fa falta que tan la instantània com la instantània <code>clean_copy</code> estiguin habilitades a la configuració.",
-      "cleanCopyWarning": "Algunes càmeres tenen les captures d'imatge activades però la còpia neta desactivada. Cal habilitar <code>clean_copy</code> a la configuració de captures per poder enviar imatges d’aquestes càmeres a Frigate+."
+      "desc": "Per a enviar a Rasid360+ fa falta que tan la instantània com la instantània <code>clean_copy</code> estiguin habilitades a la configuració.",
+      "cleanCopyWarning": "Algunes càmeres tenen les captures d'imatge activades però la còpia neta desactivada. Cal habilitar <code>clean_copy</code> a la configuració de captures per poder enviar imatges d’aquestes càmeres a Rasid360+."
     },
     "modelInfo": {
       "baseModel": "Model base",
@@ -602,22 +602,22 @@
       "loadingAvailableModels": "Carregant models disponibles…",
       "loading": "Carregant informació del model…",
       "error": "No s'ha pogut carregar la informació del model",
-      "modelSelect": "Els models disponibles a Frigate+ es poden seleccionar aquí. Tingues en compte que només es poden triar els models compatibles amb la configuració actual del detector."
+      "modelSelect": "Els models disponibles a Rasid360+ es poden seleccionar aquí. Tingues en compte que només es poden triar els models compatibles amb la configuració actual del detector."
     },
     "apiKey": {
-      "plusLink": "Llegeix més sobre Frigate+",
-      "title": "Clau API de Frigate+",
-      "validated": "La clau API de Frigate+ ha estat detectada i validada",
-      "notValidated": "La clau API de Frigate+ no ha estat detectada o no ha estat validada",
-      "desc": "La clau API de Frigate+ habilita la integració amb el servei Frigate+."
+      "plusLink": "Llegeix més sobre Rasid360+",
+      "title": "Clau API de Rasid360+",
+      "validated": "La clau API de Rasid360+ ha estat detectada i validada",
+      "notValidated": "La clau API de Rasid360+ no ha estat detectada o no ha estat validada",
+      "desc": "La clau API de Rasid360+ habilita la integració amb el servei Rasid360+."
     },
-    "unsavedChanges": "Canvis dels paràmetres de Frigate+ sense desar",
-    "title": "Paràmetres de Frigate+",
+    "unsavedChanges": "Canvis dels paràmetres de Rasid360+ sense desar",
+    "title": "Paràmetres de Rasid360+",
     "toast": {
       "error": "No s'han pogut guardar els canvis de configuració: {{errorMessage}}",
-      "success": "Els paràmetres de Frigate+ han estat desats. Reincia Frigate per aplicar els canvis."
+      "success": "Els paràmetres de Rasid360+ han estat desats. Reincia Rasid360 per aplicar els canvis."
     },
-    "restart_required": "Es necessari un reinici (El model de Frigate+ ha cambiat)"
+    "restart_required": "Es necessari un reinici (El model de Rasid360+ ha cambiat)"
   },
   "enrichments": {
     "semanticSearch": {
@@ -645,7 +645,7 @@
       },
       "readTheDocumentation": "Llegir la documentació",
       "title": "Cerca semàntica",
-      "desc": "La cerca semàntica a Frigate permet trobar objectes rastrejats dins dels elements de revisió utilitzant la pròpia imatge, una descripció de text definida per l'usuari o una de generada automàticament."
+      "desc": "La cerca semàntica a Rasid360 permet trobar objectes rastrejats dins dels elements de revisió utilitzant la pròpia imatge, una descripció de text definida per l'usuari o una de generada automàticament."
     },
     "faceRecognition": {
       "modelSize": {
@@ -662,13 +662,13 @@
       },
       "readTheDocumentation": "Llegir la documentació",
       "title": "Reconeixement de rostres",
-      "desc": "El reconeixement facial permet a les persones assignar noms i quan es reconeix la seva cara Frigate assignarà el nom de la persona com a subetiqueta. Aquesta informació s'inclou en la interfície d'usuari, filtres, així com en les notificacions."
+      "desc": "El reconeixement facial permet a les persones assignar noms i quan es reconeix la seva cara Rasid360 assignarà el nom de la persona com a subetiqueta. Aquesta informació s'inclou en la interfície d'usuari, filtres, així com en les notificacions."
     },
     "unsavedChanges": "Canvis dels paràmetres complementaris sense desar",
     "licensePlateRecognition": {
       "readTheDocumentation": "Llegir la documentació",
       "title": "Reconeixement de matrícules",
-      "desc": "Frigate pot reconèixer les plaques de matrícula en vehicles i afegir automàticament els caràcters detectats al camp de la placa reconeguda o un nom conegut com a sub_etiqueta en objectes que són de tipus cotxe. Un cas d'ús comú pot ser llegir les plaques de matrícula dels cotxes que entren en un lloc o els cotxes que passen per un carrer."
+      "desc": "Rasid360 pot reconèixer les plaques de matrícula en vehicles i afegir automàticament els caràcters detectats al camp de la placa reconeguda o un nom conegut com a sub_etiqueta en objectes que són de tipus cotxe. Un cas d'ús comú pot ser llegir les plaques de matrícula dels cotxes que entren en un lloc o els cotxes que passen per un carrer."
     },
     "birdClassification": {
       "title": "Classificació d'ocells",
@@ -677,7 +677,7 @@
     "title": "Parmàmetres complementaris",
     "toast": {
       "error": "No s'han pogut guardar els canvis de configuració: {{errorMessage}}",
-      "success": "Els paràmetres complementaris s'han desat. Reinicia Frigate per aplicar els canvis."
+      "success": "Els paràmetres complementaris s'han desat. Reinicia Rasid360 per aplicar els canvis."
     },
     "restart_required": "És necessari reiniciar (Han cambiat paràmetres complementaris)"
   },
@@ -756,7 +756,7 @@
         },
         "actions": {
           "title": "Accions",
-          "desc": "Per defecte, Frigate dispara un missatge MQTT per a tots els activadors. Subetiquetes afegeix el nom de l'activador a l'etiqueta de l'objecte. Els atributs són metadades cercables emmagatzemades per separat a les metadades de l'objecte rastrejat.",
+          "desc": "Per defecte, Rasid360 dispara un missatge MQTT per a tots els activadors. Subetiquetes afegeix el nom de l'activador a l'etiqueta de l'objecte. Els atributs són metadades cercables emmagatzemades per separat a les metadades de l'objecte rastrejat.",
           "error": {
             "min": "S'ha de seleccionar una acció com a mínim."
           }
@@ -842,7 +842,7 @@
     },
     "management": {
       "title": "Gestió del Rols de Visors",
-      "desc": "Gestiona els rols visors personalitzats y els seus permisos d'accés per aquesta instancia de Frigate."
+      "desc": "Gestiona els rols visors personalitzats y els seus permisos d'accés per aquesta instancia de Rasid360."
     },
     "addRole": "Afegir Rol",
     "table": {
@@ -1016,7 +1016,7 @@
       "streamValidated": "El flux {{number}} s'ha validat correctament",
       "streamValidationFailed": "Ha fallat la validació del flux {{number}}",
       "ffmpegModule": "Usa el mode de compatibilitat del flux",
-      "ffmpegModuleDescription": "Si el flux no es carrega després de diversos intents, proveu d'activar-ho. Quan està activat, Frigate utilitzarà el mòdul ffmpeg amb go2rtc. Això pot proporcionar una millor compatibilitat amb alguns fluxos de càmera."
+      "ffmpegModuleDescription": "Si el flux no es carrega després de diversos intents, proveu d'activar-ho. Quan està activat, Rasid360 utilitzarà el mòdul ffmpeg amb go2rtc. Això pot proporcionar una millor compatibilitat amb alguns fluxos de càmera."
     }
   },
   "cameraManagement": {
@@ -1027,7 +1027,7 @@
     "backToSettings": "Torna a la configuració de la càmera",
     "streams": {
       "title": "Habilita / Inhabilita les càmeres",
-      "desc": "Inhabilita temporalment una càmera fins que es reiniciï la fragata. La inhabilitació d'una càmera atura completament el processament de Frigate dels fluxos d'aquesta càmera. La detecció, l'enregistrament i la depuració no estaran disponibles.<br /> <em>Nota: això no desactiva les retransmissions de go2rtc.</em>"
+      "desc": "Inhabilita temporalment una càmera fins que es reiniciï la fragata. La inhabilitació d'una càmera atura completament el processament de Rasid360 dels fluxos d'aquesta càmera. La detecció, l'enregistrament i la depuració no estaran disponibles.<br /> <em>Nota: això no desactiva les retransmissions de go2rtc.</em>"
     },
     "cameraConfig": {
       "add": "Afegeix una càmera",
@@ -1070,13 +1070,13 @@
     },
     "review": {
       "title": "Revisió",
-      "desc": "Activa/desactiva temporalment les alertes i deteccions d'aquesta càmera fins que es reiniciï Frigate. Si està desactivat, no es generaran nous elements de revisió. ",
+      "desc": "Activa/desactiva temporalment les alertes i deteccions d'aquesta càmera fins que es reiniciï Rasid360. Si està desactivat, no es generaran nous elements de revisió. ",
       "alerts": "Alertes. ",
       "detections": "Deteccions. "
     },
     "reviewClassification": {
       "title": "Revisió de la classificació",
-      "desc": "Frigate categoritza els articles de revisió com Alertes i Deteccions. Per defecte, tots els objectes <em>persona</em> i <em>cotxe</em> es consideren Alertes. Podeu refinar la categorització dels elements de revisió configurant-los les zones requerides.",
+      "desc": "Rasid360 categoritza els articles de revisió com Alertes i Deteccions. Per defecte, tots els objectes <em>persona</em> i <em>cotxe</em> es consideren Alertes. Podeu refinar la categorització dels elements de revisió configurant-los les zones requerides.",
       "noDefinedZones": "No hi ha zones definides per a aquesta càmera.",
       "selectAlertsZones": "Selecciona zones per a les alertes",
       "selectDetectionsZones": "Selecció de zones per a les deteccions",

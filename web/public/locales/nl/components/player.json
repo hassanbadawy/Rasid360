@@ -28,8 +28,8 @@
     },
     "decodedFrames": "Gedecodeerde frames:"
   },
-  "submitFrigatePlus": {
-    "title": "Dit frame indienen bij Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Dit frame indienen bij Rasid360+?",
     "submit": "Indienen"
   },
   "streamOffline": {
@@ -42,10 +42,10 @@
   "cameraDisabled": "Camera is uitgeschakeld",
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Frame succesvol ingediend bij Frigate+"
+      "submittedRasid360Plus": "Frame succesvol ingediend bij Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Het is niet gelukt om een frame naar Frigate+ te sturen"
+      "submitRasid360PlusFailed": "Het is niet gelukt om een frame naar Rasid360+ te sturen"
     }
   }
 }

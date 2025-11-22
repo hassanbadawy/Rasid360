@@ -3,16 +3,16 @@ import { useCallback, useEffect, useState } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import {
   EmbeddingsReindexProgressType,
-  FrigateCameraState,
-  FrigateEvent,
-  FrigateReview,
+  Rasid360CameraState,
+  Rasid360Event,
+  Rasid360Review,
   ModelState,
   ToggleableSetting,
   TrackedObjectUpdateReturnType,
   TriggerStatus,
-  FrigateAudioDetections,
+  Rasid360AudioDetections,
 } from "@/types/ws";
-import { FrigateStats } from "@/types/stats";
+import { Rasid360Stats } from "@/types/stats";
 import { createContainer } from "react-tracked";
 import useDeepMemo from "@/hooks/use-deep-memo";
 
@@ -42,7 +42,7 @@ function useValue(): useValueReturn {
       return;
     }
 
-    const cameraActivity: { [key: string]: FrigateCameraState } =
+    const cameraActivity: { [key: string]: Rasid360CameraState } =
       JSON.parse(activityValue);
 
     if (Object.keys(cameraActivity).length === 0) {
@@ -325,28 +325,28 @@ export function useRestart(): {
   return { payload: payload as string, send };
 }
 
-export function useFrigateEvents(): { payload: FrigateEvent } {
+export function useRasid360Events(): { payload: Rasid360Event } {
   const {
     value: { payload },
   } = useWs("events", "");
   return { payload: JSON.parse(payload as string) };
 }
 
-export function useAudioDetections(): { payload: FrigateAudioDetections } {
+export function useAudioDetections(): { payload: Rasid360AudioDetections } {
   const {
     value: { payload },
   } = useWs("audio_detections", "");
   return { payload: JSON.parse(payload as string) };
 }
 
-export function useFrigateReviews(): FrigateReview {
+export function useRasid360Reviews(): Rasid360Review {
   const {
     value: { payload },
   } = useWs("reviews", "");
   return useDeepMemo(JSON.parse(payload as string));
 }
 
-export function useFrigateStats(): FrigateStats {
+export function useRasid360Stats(): Rasid360Stats {
   const {
     value: { payload },
   } = useWs("stats", "");
@@ -357,7 +357,7 @@ export function useInitialCameraState(
   camera: string,
   revalidateOnFocus: boolean,
 ): {
-  payload: FrigateCameraState;
+  payload: Rasid360CameraState;
 } {
   const {
     value: { payload },

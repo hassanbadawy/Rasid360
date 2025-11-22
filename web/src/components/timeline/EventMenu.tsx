@@ -11,12 +11,12 @@ import { useApiHost } from "@/api";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Event } from "@/types/event";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useState } from "react";
 
 type EventMenuProps = {
   event: Event;
-  config?: FrigateConfig;
+  config?: Rasid360Config;
   onOpenUpload?: (e: Event) => void;
   onOpenSimilarity?: (e: Event) => void;
   isSelected?: boolean;

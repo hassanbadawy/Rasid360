@@ -1,17 +1,17 @@
 {
   "documentTitle": {
-    "default": "設定 - Frigate",
-    "authentication": "認證設定 - Frigate",
-    "camera": "鏡頭設定 - Frigate",
-    "enrichments": "進階設定 - Frigate",
-    "general": "一般設定 - Frigate",
-    "frigatePlus": "Frigate+ 設定 - Frigate",
-    "notifications": "通知設定 - Frigate",
-    "masksAndZones": "遮罩與區域編輯器 - Frigate",
-    "motionTuner": "移動偵測調教器 - Frigate",
-    "object": "除錯 - Frigate",
-    "cameraManagement": "管理鏡頭 - Frigate",
-    "cameraReview": "相機預覽設置 - Frigate"
+    "default": "設定 - Rasid360",
+    "authentication": "認證設定 - Rasid360",
+    "camera": "鏡頭設定 - Rasid360",
+    "enrichments": "進階設定 - Rasid360",
+    "general": "一般設定 - Rasid360",
+    "frigatePlus": "Rasid360+ 設定 - Rasid360",
+    "notifications": "通知設定 - Rasid360",
+    "masksAndZones": "遮罩與區域編輯器 - Rasid360",
+    "motionTuner": "移動偵測調教器 - Rasid360",
+    "object": "除錯 - Rasid360",
+    "cameraManagement": "管理鏡頭 - Rasid360",
+    "cameraReview": "相機預覽設置 - Rasid360"
   },
   "menu": {
     "ui": "使用者介面",
@@ -22,7 +22,7 @@
     "debug": "除錯",
     "users": "使用者",
     "notifications": "通知",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "triggers": "觸發",
     "cameraManagement": "管理",
     "cameraReview": "預覽"

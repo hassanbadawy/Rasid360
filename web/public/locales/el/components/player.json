@@ -2,8 +2,8 @@
   "noRecordingsFoundForThisTime": "Δεν βρέθηκαν εγγραφές για αυτήν την ώρα",
   "noPreviewFound": "Δεν βρέθηκε προεπισκόπηση",
   "noPreviewFoundFor": "Δεν βρέθηκε προεπισκόπηση για {{cameraName}}",
-  "submitFrigatePlus": {
-    "title": "Να υποβληθεί αυτό το καρέ στο Frigate+;",
+  "submitRasid360Plus": {
+    "title": "Να υποβληθεί αυτό το καρέ στο Rasid360+;",
     "submit": "Υποβολή"
   },
   "livePlayerRequiredIOSVersion": "iOS 17.1 ή μεγαλύτερο χρειάζεται για αυτό τον τύπο του live stream.",
@@ -42,10 +42,10 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Επιτυχής αποστολή εικόνας στο Frigate+"
+      "submittedRasid360Plus": "Επιτυχής αποστολή εικόνας στο Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Αποτυχία αποστολής εικόνας στο Frigate+"
+      "submitRasid360PlusFailed": "Αποτυχία αποστολής εικόνας στο Rasid360+"
     }
   }
 }

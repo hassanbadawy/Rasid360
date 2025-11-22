@@ -17,9 +17,9 @@
     "noFoundForTimePeriod": "Keine Ereignisse für diesen Zeitraum gefunden.",
     "aria": "Wähle Ereignisse aus"
   },
-  "documentTitle": "Überprüfung - Frigate",
+  "documentTitle": "Überprüfung - Rasid360",
   "recordings": {
-    "documentTitle": "Aufnahmen - Frigate"
+    "documentTitle": "Aufnahmen - Rasid360"
   },
   "calendarFilter": {
     "last24Hours": "Letzte 24 Stunden"

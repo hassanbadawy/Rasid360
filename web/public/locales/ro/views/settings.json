@@ -1,18 +1,18 @@
 {
   "documentTitle": {
-    "authentication": "Setări de autentificare - Frigate",
-    "camera": "Setări cameră - Frigate",
-    "default": "Setări - Frigate",
-    "classification": "Setări de clasificare - Frigate",
-    "masksAndZones": "Editor Zonă si Mască - Frigate",
-    "notifications": "Setări notificări - Frigate",
-    "motionTuner": "Ajustare mișcare - Frigate",
-    "object": "Depanare - Frigate",
-    "general": "Setări generale - Frigate",
-    "frigatePlus": "Setări Frigate+ - Frigate",
-    "enrichments": "Setări de Îmbogățiri - Frigate",
-    "cameraManagement": "Gestionează Camerele - Frigate",
-    "cameraReview": "Setări Revizuire Cameră - Frigate"
+    "authentication": "Setări de autentificare - Rasid360",
+    "camera": "Setări cameră - Rasid360",
+    "default": "Setări - Rasid360",
+    "classification": "Setări de clasificare - Rasid360",
+    "masksAndZones": "Editor Zonă si Mască - Rasid360",
+    "notifications": "Setări notificări - Rasid360",
+    "motionTuner": "Ajustare mișcare - Rasid360",
+    "object": "Depanare - Rasid360",
+    "general": "Setări generale - Rasid360",
+    "frigatePlus": "Setări Rasid360+ - Rasid360",
+    "enrichments": "Setări de Îmbogățiri - Rasid360",
+    "cameraManagement": "Gestionează Camerele - Rasid360",
+    "cameraReview": "Setări Revizuire Cameră - Rasid360"
   },
   "menu": {
     "ui": "Interfață utilizator",
@@ -23,7 +23,7 @@
     "debug": "Depanare",
     "users": "Utilizatori",
     "notifications": "Notificări",
-    "frigateplus": "Frigate+",
+    "frigateplus": "Rasid360+",
     "triggers": "Declanșatoare",
     "roles": "Roluri",
     "cameraManagement": "Administrare",
@@ -108,7 +108,7 @@
         "label": "Dimensiunea modelului"
       },
       "title": "Recunoaștere facială",
-      "desc": "Recunoașterea facială permite atribuirea de nume persoanelor, iar când fața lor este recunoscută, Frigate va atribui numele persoanei ca sub-etichetă. Această informație este inclusă în interfața utilizatorului, filtre și în notificări.",
+      "desc": "Recunoașterea facială permite atribuirea de nume persoanelor, iar când fața lor este recunoscută, Rasid360 va atribui numele persoanei ca sub-etichetă. Această informație este inclusă în interfața utilizatorului, filtre și în notificări.",
       "readTheDocumentation": "Citește documentația"
     },
     "semanticSearch": {
@@ -123,7 +123,7 @@
         "error": "Eroare la pornirea reindexării: {{errorMessage}}"
       },
       "title": "Căutare semantică",
-      "desc": "Căutarea semantică în Frigate îți permite să găsești obiecte urmărite în elementele tale de revizuire folosind fie imaginea în sine, o descriere text definită de utilizator, sau una generată automat.",
+      "desc": "Căutarea semantică în Rasid360 îți permite să găsești obiecte urmărite în elementele tale de revizuire folosind fie imaginea în sine, o descriere text definită de utilizator, sau una generată automat.",
       "readTheDocumentation": "Citește documentația",
       "modelSize": {
         "label": "Dimensiunea modelului",
@@ -139,7 +139,7 @@
       }
     },
     "licensePlateRecognition": {
-      "desc": "Frigate poate recunoaște numerele de înmatriculare ale vehiculelor și poate adăuga automat caracterele detectate în câmpul recognized_license_plate sau un nume cunoscut ca sub_etichetă pentru obiectele de tip mașină. Un caz de utilizare comun poate fi citirea numerelor de înmatriculare ale mașinilor care intră într-o curte sau ale celor care trec pe stradă.",
+      "desc": "Rasid360 poate recunoaște numerele de înmatriculare ale vehiculelor și poate adăuga automat caracterele detectate în câmpul recognized_license_plate sau un nume cunoscut ca sub_etichetă pentru obiectele de tip mașină. Un caz de utilizare comun poate fi citirea numerelor de înmatriculare ale mașinilor care intră într-o curte sau ale celor care trec pe stradă.",
       "title": "Recunoaștere numere de înmatriculare",
       "readTheDocumentation": "Citește documentația"
     },
@@ -151,7 +151,7 @@
     },
     "restart_required": "Este necesară repornirea (setările de îmbogățiri au fost modificate)",
     "toast": {
-      "success": "Setările de îmbogățiri au fost salvate. Repornește Frigate pentru a aplica modificările.",
+      "success": "Setările de îmbogățiri au fost salvate. Repornește Rasid360 pentru a aplica modificările.",
       "error": "Nu s-au putut salva modificările configurației: {{errorMessage}}"
     }
   },
@@ -159,17 +159,17 @@
     "title": "Setări cameră",
     "streams": {
       "title": "Stream-uri",
-      "desc": "Dezactivează temporar o cameră până la repornirea Frigate. Dezactivarea completă a unei camere oprește procesarea streamului acesteia de către Frigate. Detecția, înregistrarea și depanarea nu vor fi disponibile.<br /> <em>Notă: Aceasta nu dezactivează restream-urile go2rtc.</em>"
+      "desc": "Dezactivează temporar o cameră până la repornirea Rasid360. Dezactivarea completă a unei camere oprește procesarea streamului acesteia de către Rasid360. Detecția, înregistrarea și depanarea nu vor fi disponibile.<br /> <em>Notă: Aceasta nu dezactivează restream-urile go2rtc.</em>"
     },
     "review": {
       "title": "Revizuire",
-      "desc": "Activează/dezactivează temporar alertele și detecțiile pentru această cameră până la repornirea Frigate. Când este dezactivată, nu vor fi generate noi elemente pentru revizuire. ",
+      "desc": "Activează/dezactivează temporar alertele și detecțiile pentru această cameră până la repornirea Rasid360. Când este dezactivată, nu vor fi generate noi elemente pentru revizuire. ",
       "alerts": "Alerte. ",
       "detections": "Detecții. "
     },
     "reviewClassification": {
       "title": "Clasificare revizuiri",
-      "desc": "Frigate clasifică elementele de revizuire în \"alerte\" și \"detecții\". În mod implicit, toate obiectele de tip <em>persoană</em> și <em>mașină</em> sunt considerate alerte. Poți rafina clasificarea elementelor de revizuire configurând zonele necesare pentru acestea.",
+      "desc": "Rasid360 clasifică elementele de revizuire în \"alerte\" și \"detecții\". În mod implicit, toate obiectele de tip <em>persoană</em> și <em>mașină</em> sunt considerate alerte. Poți rafina clasificarea elementelor de revizuire configurând zonele necesare pentru acestea.",
       "readTheDocumentation": "Citește documentația",
       "unsavedChanges": "Setări de clasificare a revizuirilor nesalvate pentru {{camera}}",
       "limitDetections": "Limitează detecțiile la zone specifice",
@@ -182,7 +182,7 @@
       "zoneObjectAlertsTips": "Toate obiectele {{alertsLabels}} detectate în {{zone}} pe {{cameraName}} vor fi afișate ca alerte.",
       "objectDetectionsTips": "Toate obiectele {{detectionsLabels}} necategorisite pe {{cameraName}} vor fi afișate ca detecții, indiferent de zona în care se află.",
       "toast": {
-        "success": "Configurația clasificării pentru revizuire a fost salvată. Repornește Frigate pentru a aplica modificările."
+        "success": "Configurația clasificării pentru revizuire a fost salvată. Repornește Rasid360 pentru a aplica modificările."
       },
       "selectAlertsZones": "Selectează zone pentru alerte",
       "noDefinedZones": "Nu sunt definite zone pentru această cameră.",
@@ -270,10 +270,10 @@
         "title": "Prag de viteză ({{unit}})",
         "desc": "Specifică o viteză minimă pe care trebuie să o aibă obiectele pentru a fi considerate în această zonă."
       },
-      "documentTitle": "Editează zone - Frigate",
+      "documentTitle": "Editează zone - Rasid360",
       "clickDrawPolygon": "Apasă pentru a desena un poligon pe imagine.",
       "toast": {
-        "success": "Zona ({{zoneName}}) a fost salvată. Repornește Frigate pentru a aplica modificările."
+        "success": "Zona ({{zoneName}}) a fost salvată. Repornește Rasid360 pentru a aplica modificările."
       },
       "label": "Zone",
       "objects": {
@@ -288,7 +288,7 @@
       "point_other": "{{count}} de puncte",
       "clickDrawPolygon": "Fă clic pentru a desena un poligon pe imagine.",
       "label": "Măști de mișcare",
-      "documentTitle": "Editează masca de mișcare - Frigate",
+      "documentTitle": "Editează masca de mișcare - Rasid360",
       "desc": {
         "documentation": "Documentație",
         "title": "Măștile de mișcare sunt folosite pentru a preveni ca anumite tipuri de mișcare nedorită să declanșeze detecția. Mascare excesivă va îngreuna urmărirea obiectelor."
@@ -301,8 +301,8 @@
       },
       "toast": {
         "success": {
-          "title": "{{polygonName}} a fost salvat. Repornește Frigate pentru a aplica modificările.",
-          "noName": "Masca de mișcare a fost salvată.Repornește Frigate pentru a aplica modificările."
+          "title": "{{polygonName}} a fost salvat. Repornește Rasid360 pentru a aplica modificările.",
+          "noName": "Masca de mișcare a fost salvată.Repornește Rasid360 pentru a aplica modificările."
         }
       },
       "polygonAreaTooLarge": {
@@ -315,7 +315,7 @@
       "point_one": "{{count}} punct",
       "point_few": "{{count}} puncte",
       "point_other": "{{count}} de puncte",
-      "documentTitle": "Editează masca de obiecte - Frigate",
+      "documentTitle": "Editează masca de obiecte - Rasid360",
       "add": "Adaugă mască de obiecte",
       "edit": "Editează masca de obiecte",
       "desc": {
@@ -330,8 +330,8 @@
       },
       "toast": {
         "success": {
-          "noName": "Masca de obiecte a fost salvată. Repornește Frigate pentru a aplica modificările.",
-          "title": "{{polygonName}} a fost salvat. Repornește Frigate pentru a aplica modificările."
+          "noName": "Masca de obiecte a fost salvată. Repornește Rasid360 pentru a aplica modificările.",
+          "title": "{{polygonName}} a fost salvat. Repornește Rasid360 pentru a aplica modificările."
         }
       },
       "clickDrawPolygon": "Fă clic pentru a desena un poligon pe imagine.",
@@ -440,7 +440,7 @@
       "desc": "Afișează poligoanele măștilor de mișcare",
       "title": "Măști de mișcare"
     },
-    "detectorDesc": "Frigate folosește detectorii ({{detectors}}) pentru a detecta obiecte în stream-ul video al camerei tale.",
+    "detectorDesc": "Rasid360 folosește detectorii ({{detectors}}) pentru a detecta obiecte în stream-ul video al camerei tale.",
     "timestamp": {
       "title": "Marcaj temporal",
       "desc": "Suprapune un marcaj temporal pe imagine"
@@ -519,7 +519,7 @@
       "createUser": {
         "confirmPassword": "Te rog să confirmi parola",
         "title": "Crează un utilizator nou",
-        "desc": "Adaugă un cont de utilizator nou și specifică un rol pentru accesul la anumite zone ale interfeței Frigate.",
+        "desc": "Adaugă un cont de utilizator nou și specifică un rol pentru accesul la anumite zone ale interfeței Rasid360.",
         "usernameOnlyInclude": "Numele de utilizator poate conține doar litere, cifre, . sau _"
       },
       "passwordSetting": {
@@ -532,7 +532,7 @@
     },
     "addUser": "Adaugă utilizator",
     "management": {
-      "desc": "Gestionează conturile de utilizator ale acestei instanțe Frigate.",
+      "desc": "Gestionează conturile de utilizator ale acestei instanțe Rasid360.",
       "title": "Gestionare utilizatori"
     },
     "toast": {
@@ -564,7 +564,7 @@
   "notification": {
     "notificationSettings": {
       "title": "Setări pentru notificări",
-      "desc": "Frigate poate trimite nativ notificări push către dispozitivul tău atunci când rulează în browser sau este instalat ca PWA.",
+      "desc": "Rasid360 poate trimite nativ notificări push către dispozitivul tău atunci când rulează în browser sau este instalat ca PWA.",
       "documentation": "Citește documentația"
     },
     "globalSettings": {
@@ -578,7 +578,7 @@
     },
     "notificationUnavailable": {
       "documentation": "Citește documentația",
-      "desc": "Notificările push web necesită un context securizat (<code>https://…</code>). Aceasta este o limitare a browserului. Accesează Frigate în mod securizat pentru a putea folosi notificările.",
+      "desc": "Notificările push web necesită un context securizat (<code>https://…</code>). Aceasta este o limitare a browserului. Accesează Rasid360 în mod securizat pentru a putea folosi notificările.",
       "title": "Notificările nu sunt disponibile"
     },
     "cameras": {
@@ -602,7 +602,7 @@
     },
     "toast": {
       "success": {
-        "registered": "Înregistrarea pentru notificări a fost realizată cu succes. Este necesară repornirea Frigate înainte ca orice notificare (inclusiv o notificare de test) să poată fi trimisă.",
+        "registered": "Înregistrarea pentru notificări a fost realizată cu succes. Este necesară repornirea Rasid360 înainte ca orice notificare (inclusiv o notificare de test) să poată fi trimisă.",
         "settingSaved": "Setările notificărilor au fost salvate."
       },
       "error": {
@@ -618,11 +618,11 @@
   },
   "frigatePlus": {
     "apiKey": {
-      "plusLink": "Citește mai mult despre Frigate+",
-      "desc": "Cheia API Frigate+ permite integrarea cu serviciul Frigate+.",
-      "validated": "Frigate+ API key a fost detectată și validată",
-      "title": "Frigate+ API Key",
-      "notValidated": "Frigate+ API key nu a fost detectată sau nu a fost validată"
+      "plusLink": "Citește mai mult despre Rasid360+",
+      "desc": "Cheia API Rasid360+ permite integrarea cu serviciul Rasid360+.",
+      "validated": "Rasid360+ API key a fost detectată și validată",
+      "title": "Rasid360+ API Key",
+      "notValidated": "Rasid360+ API key nu a fost detectată sau nu a fost validată"
     },
     "snapshotConfig": {
       "title": "Configurație snapshot-uri",
@@ -632,8 +632,8 @@
         "camera": "Cameră"
       },
       "documentation": "Citește documentația",
-      "cleanCopyWarning": "Unele camere au snapshot-uri activate, dar copia curată (clean_copy) este dezactivată. Trebuie să activați <code>clean_copy</code> în configurația instantaneelor pentru a putea trimite imagini de la aceste camere către Frigate+.",
-      "desc": "Trimiterea către Frigate+ necesită ca atât snapshot-urile, cât și snapshot-urile <code>clean_copy</code> să fie activate în configurația ta."
+      "cleanCopyWarning": "Unele camere au snapshot-uri activate, dar copia curată (clean_copy) este dezactivată. Trebuie să activați <code>clean_copy</code> în configurația instantaneelor pentru a putea trimite imagini de la aceste camere către Rasid360+.",
+      "desc": "Trimiterea către Rasid360+ necesită ca atât snapshot-urile, cât și snapshot-urile <code>clean_copy</code> să fie activate în configurația ta."
     },
     "modelInfo": {
       "title": "Informații model",
@@ -643,7 +643,7 @@
         "userModel": "Reglat-fin"
       },
       "loadingAvailableModels": "Se încarcă modelele disponibile…",
-      "modelSelect": "Modelele disponibile pe Frigate+ pot fi selectate aici. Rețineți că pot fi selectate doar modelele compatibile cu configurația actuală a detectorului dumneavoastră.",
+      "modelSelect": "Modelele disponibile pe Rasid360+ pot fi selectate aici. Rețineți că pot fi selectate doar modelele compatibile cu configurația actuală a detectorului dumneavoastră.",
       "baseModel": "Model de bază",
       "loading": "Se încarcă informațiile modelului…",
       "error": "Încărcarea informațiilor modelului a eșuat",
@@ -654,11 +654,11 @@
     },
     "toast": {
       "error": "Nu s-au putut salva modificările configurației: {{errorMessage}}",
-      "success": "Setările Frigate+ au fost salvate. Reporniti Frigate pentru a aplica modificările."
+      "success": "Setările Rasid360+ au fost salvate. Reporniti Rasid360 pentru a aplica modificările."
     },
-    "restart_required": "Repornire necesară (model Frigate+ schimbat)",
-    "unsavedChanges": "Modificări nesalvate ale setărilor Frigate+",
-    "title": "Setări Frigate+"
+    "restart_required": "Repornire necesară (model Rasid360+ schimbat)",
+    "unsavedChanges": "Modificări nesalvate ale setărilor Rasid360+",
+    "title": "Setări Rasid360+"
   },
   "motionDetectionTuner": {
     "unsavedChanges": "Modificări nesalvate la reglajul de mișcare pentru {{camera}}",
@@ -675,7 +675,7 @@
       "desc": "Îmbunătățește contrastul pentru scene întunecate. <em>Implicit: ACTIVAT</em>"
     },
     "desc": {
-      "title": "Frigate utilizează detecția mișcării ca o primă verificare, pentru a vedea dacă există ceva semnificativ în cadru care merită verificat cu detecția de obiecte.",
+      "title": "Rasid360 utilizează detecția mișcării ca o primă verificare, pentru a vedea dacă există ceva semnificativ în cadru care merită verificat cu detecția de obiecte.",
       "documentation": "Citește ghidul pentru reglajul mișcării"
     },
     "toast": {
@@ -764,7 +764,7 @@
         },
         "actions": {
           "title": "Acțiuni",
-          "desc": "În mod implicit, Frigate trimite un mesaj MQTT pentru toate declanșatoarele. Subetichetele adaugă numele declanșatorului la eticheta obiectului. Atributele sunt metadate căutabile, stocate separat în metadatele obiectului urmărit.",
+          "desc": "În mod implicit, Rasid360 trimite un mesaj MQTT pentru toate declanșatoarele. Subetichetele adaugă numele declanșatorului la eticheta obiectului. Atributele sunt metadate căutabile, stocate separat în metadatele obiectului urmărit.",
           "error": {
             "min": "Trebuie selectată cel puțin o acțiune."
           }
@@ -813,7 +813,7 @@
   "roles": {
     "management": {
       "title": "Gestionare rol vizualizator",
-      "desc": "Gestionează rolurile personalizate de vizualizator și permisiunile lor de acces la cameră pentru această instanță Frigate."
+      "desc": "Gestionează rolurile personalizate de vizualizator și permisiunile lor de acces la cameră pentru această instanță Rasid360."
     },
     "addRole": "Adaugă rol",
     "table": {
@@ -874,7 +874,7 @@
   },
   "cameraWizard": {
     "title": "Adaugă cameră",
-    "description": "Urmează pașii de mai jos pentru a adăuga o cameră nouă la sistemul tău Frigate.",
+    "description": "Urmează pașii de mai jos pentru a adăuga o cameră nouă la sistemul tău Rasid360.",
     "steps": {
       "nameAndConnection": "Nume și Conexiune",
       "streamConfiguration": "Configurare streaming",
@@ -1018,7 +1018,7 @@
         "resolutionLow": "O rezoluție de {{resolution}} poate fi prea mică pentru detectarea fiabilă a obiectelor mici."
       },
       "ffmpegModule": "Folosește modul de compatibilitate pentru stream-uri",
-      "ffmpegModuleDescription": "Dacă fluxul nu se încarcă după mai multe încercări, activați această opțiune. Când este activată, Frigate va folosi modulul ffmpeg împreună cu go2rtc. Aceasta poate oferi o compatibilitate mai bună cu unele fluxuri de camere."
+      "ffmpegModuleDescription": "Dacă fluxul nu se încarcă după mai multe încercări, activați această opțiune. Când este activată, Rasid360 va folosi modulul ffmpeg împreună cu go2rtc. Aceasta poate oferi o compatibilitate mai bună cu unele fluxuri de camere."
     }
   },
   "cameraManagement": {
@@ -1029,7 +1029,7 @@
     "backToSettings": "Înapoi la setările camerei",
     "streams": {
       "title": "Activează / dezactivează camere",
-      "desc": "Dezactivează temporar o cameră până la repornirea Frigate. Dezactivarea unei camere oprește complet procesarea streamingului acestei camere de către Frigate. Detecția, înregistrarea și depanarea vor fi indisponibile.<br /> <em>Notă: Aceasta nu dezactivează restreamingul go2rtc.</em>"
+      "desc": "Dezactivează temporar o cameră până la repornirea Rasid360. Dezactivarea unei camere oprește complet procesarea streamingului acestei camere de către Rasid360. Detecția, înregistrarea și depanarea vor fi indisponibile.<br /> <em>Notă: Aceasta nu dezactivează restreamingul go2rtc.</em>"
     },
     "cameraConfig": {
       "add": "Adaugă cameră",
@@ -1073,13 +1073,13 @@
     },
     "review": {
       "title": "Revizuire",
-      "desc": "Activează/dezactivează temporar alertele și detecțiile pentru această cameră până la repornirea Frigate. Când este dezactivat, nu vor fi generate elemente de revizuire noi. ",
+      "desc": "Activează/dezactivează temporar alertele și detecțiile pentru această cameră până la repornirea Rasid360. Când este dezactivat, nu vor fi generate elemente de revizuire noi. ",
       "alerts": "Alerte ",
       "detections": "Detecții "
     },
     "reviewClassification": {
       "title": "Clasificare revizuire",
-      "desc": "Frigate clasifică elementele de revizuire ca Alerte și Detecții. În mod implicit, toate obiectele de tip <em>persoană</em> și <em>mașină</em> sunt considerate Alerte. Poți rafina clasificarea elementelor tale de revizuire prin configurarea zonelor necesare pentru acestea.",
+      "desc": "Rasid360 clasifică elementele de revizuire ca Alerte și Detecții. În mod implicit, toate obiectele de tip <em>persoană</em> și <em>mașină</em> sunt considerate Alerte. Poți rafina clasificarea elementelor tale de revizuire prin configurarea zonelor necesare pentru acestea.",
       "noDefinedZones": "Nu sunt definite zone pentru această cameră.",
       "objectAlertsTips": "Toate obiectele {{alertsLabels}} de pe {{cameraName}} vor fi afișate ca Alerte.",
       "zoneObjectAlertsTips": "Toate obiectele {{alertsLabels}} detectate în {{zone}} pe {{cameraName}} vor fi afișate ca Alerte.",
@@ -1094,7 +1094,7 @@
       "selectDetectionsZones": "Selectați zonele pentru Detecții",
       "limitDetections": "Limitați detecțiile la zone specifice",
       "toast": {
-        "success": "Configurația Clasificare Revizuire a fost salvată. Reporniți Frigate pentru a aplica modificările."
+        "success": "Configurația Clasificare Revizuire a fost salvată. Reporniți Rasid360 pentru a aplica modificările."
       }
     }
   }

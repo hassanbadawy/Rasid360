@@ -2,8 +2,8 @@
   "noRecordingsFoundForThisTime": "Posnetki niso bili najdeni",
   "noPreviewFound": "Predogled ni bil najden",
   "noPreviewFoundFor": "Predogled za {{cameraName}} ni na voljo",
-  "submitFrigatePlus": {
-    "title": "Želite poslati ta okvir na Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Želite poslati ta okvir na Rasid360+?",
     "submit": "Pošlji"
   },
   "stats": {
@@ -42,10 +42,10 @@
   "cameraDisabled": "Kamera je onemogočena",
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Sličica je bila uspešno poslana v Frigate+"
+      "submittedRasid360Plus": "Sličica je bila uspešno poslana v Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Pošiljanje sličice v Frigate+ ni uspelo"
+      "submitRasid360PlusFailed": "Pošiljanje sličice v Rasid360+ ni uspelo"
     }
   }
 }

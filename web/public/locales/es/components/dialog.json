@@ -1,22 +1,22 @@
 {
   "restart": {
     "restarting": {
-      "title": "Frigate se está reiniciando",
+      "title": "Rasid360 se está reiniciando",
       "button": "Forzar recarga ahora",
       "content": "Esta página se recargará en {{countdown}} segundos."
     },
-    "title": "¿Estás seguro de que quieres reiniciar Frigate?",
+    "title": "¿Estás seguro de que quieres reiniciar Rasid360?",
     "button": "Reiniciar"
   },
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Enviar a Frigate+",
+        "label": "Enviar a Rasid360+",
         "desc": "Los objetos en ubicaciones que deseas evitar no son falsos positivos. Enviarlos como falsos positivos confundirá al modelo."
       },
       "review": {
         "false": {
-          "label": "No confirmar esta etiqueta para Frigate Plus",
+          "label": "No confirmar esta etiqueta para Rasid360 Plus",
           "false_one": "Esto no es un {{label}}",
           "false_many": "Esto no es un {{label}}",
           "false_other": "Esto no es un {{label}}"
@@ -25,13 +25,13 @@
           "true_one": "Esto es un {{label}}",
           "true_many": "Esto es un {{label}}",
           "true_other": "Esto es un {{label}}",
-          "label": "Confirmar esta etiqueta para Frigate+"
+          "label": "Confirmar esta etiqueta para Rasid360+"
         },
         "state": {
           "submitted": "Enviado"
         },
         "question": {
-          "label": "Confirmar esta etiqueta para Frigate Plus",
+          "label": "Confirmar esta etiqueta para Rasid360 Plus",
           "ask_a": "¿Es este objeto un <code>{{label}}</code>?",
           "ask_an": "¿Es este objeto un <code>{{label}}</code>?",
           "ask_full": "¿Es este objeto un <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"

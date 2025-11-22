@@ -42,8 +42,8 @@
       }
     }
   },
-  "documentTitle": "Directe - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Directe - Frigate",
+  "documentTitle": "Directe - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Directe - Rasid360",
   "lowBandwidthMode": "Mode de baix ample de banda",
   "twoWayTalk": {
     "enable": "Activa la comunicació bidireccional",
@@ -179,7 +179,7 @@
   },
   "noCameras": {
     "title": "No s'ha configurat cap càmera",
-    "description": "Comenceu connectant una càmera a Frigate.",
+    "description": "Comenceu connectant una càmera a Rasid360.",
     "buttonText": "Afegeix una càmera"
   }
 }

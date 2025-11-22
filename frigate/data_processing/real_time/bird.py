@@ -134,7 +134,7 @@ class BirdRealTimeProcessor(RealTimeProcessorApi):
             try:
                 input = cv2.resize(input, (224, 224))
             except Exception:
-                logger.warning("Failed to resize image for bird classification")
+                logger.warning("Failed to resize image for object classification")
                 return
 
         input = np.expand_dims(input, axis=0)
@@ -147,7 +147,7 @@ class BirdRealTimeProcessor(RealTimeProcessorApi):
         best_id = np.argmax(probs)
 
         if best_id == 964:
-            logger.debug("No bird classification was detected.")
+            logger.debug("No object classification was detected.")
             return
 
         score = round(probs[best_id], 2)

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { Separator } from "../../components/ui/separator";
 import { Button } from "../../components/ui/button";
 import useSWR from "swr";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { del as delData } from "idb-keyval";
 import { usePersistence } from "@/hooks/use-persistence";
 import { isSafari } from "react-device-detect";
@@ -24,7 +24,7 @@ const PLAYBACK_RATE_DEFAULT = isSafari ? [0.5, 1, 2] : [0.5, 1, 2, 4, 8, 16];
 const WEEK_STARTS_ON = ["Sunday", "Monday"];
 
 export default function UiSettingsView() {
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const { t } = useTranslation("views/settings");
   const clearStoredLayouts = useCallback(() => {
     if (!config) {

@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Live - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Live - Frigate",
+  "documentTitle": "Live - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Live - Rasid360",
   "lowBandwidthMode": "Low-bandwidth Mode",
   "twoWayTalk": {
     "enable": "Enable Two Way Talk",
@@ -176,7 +176,7 @@
   },
   "noCameras": {
     "title": "No Cameras Configured",
-    "description": "Get started by connecting a camera to Frigate.",
+    "description": "Get started by connecting a camera to Rasid360.",
     "buttonText": "Add Camera"
   }
 }

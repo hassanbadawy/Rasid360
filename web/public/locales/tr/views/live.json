@@ -1,6 +1,6 @@
 {
-  "documentTitle": "Canlı - Frigate",
-  "documentTitle.withCamera": "{{camera}} - Canlı - Frigate",
+  "documentTitle": "Canlı - Rasid360",
+  "documentTitle.withCamera": "{{camera}} - Canlı - Rasid360",
   "muteCameras": {
     "disable": "Tüm Kameraların Sesini Aç",
     "enable": "Tüm Kameraları Sustur"

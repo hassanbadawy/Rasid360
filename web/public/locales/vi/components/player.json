@@ -32,14 +32,14 @@
   },
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Đã gửi thành công khung hình tới Frigate+"
+      "submittedRasid360Plus": "Đã gửi thành công khung hình tới Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Không gửi được khung hình tới Frigate+"
+      "submitRasid360PlusFailed": "Không gửi được khung hình tới Rasid360+"
     }
   },
-  "submitFrigatePlus": {
-    "title": "Gửi khung hình này tới Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Gửi khung hình này tới Rasid360+?",
     "submit": "Gửi"
   },
   "livePlayerRequiredIOSVersion": "Yêu cầu iOS 17.1 trở lên cho loại luồng trực tiếp này.",

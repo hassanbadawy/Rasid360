@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useResizeObserver } from "@/hooks/resize-observer";
 import { cn } from "@/lib/utils";
-import { FrigateConfig } from "@/types/frigateConfig";
+import { Rasid360Config } from "@/types/rasid360Config";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   isDesktop,
@@ -36,7 +36,7 @@ export default function LiveBirdseyeView({
   toggleFullscreen,
 }: LiveBirdseyeViewProps) {
   const { t } = useTranslation(["views/live"]);
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
   const navigate = useNavigate();
   const { isPortrait } = useMobileOrientation();
   const mainRef = useRef<HTMLDivElement | null>(null);

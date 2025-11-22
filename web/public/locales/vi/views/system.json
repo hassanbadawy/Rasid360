@@ -1,14 +1,14 @@
 {
   "documentTitle": {
-    "storage": "Thống kê lưu trữ - Frigate",
-    "general": "Thống kê Chung - Frigate",
-    "enrichments": "Thống kê Làm giàu Dữ liệu - Frigate",
+    "storage": "Thống kê lưu trữ - Rasid360",
+    "general": "Thống kê Chung - Rasid360",
+    "enrichments": "Thống kê Làm giàu Dữ liệu - Rasid360",
     "logs": {
-      "frigate": "Nhật ký Frigate - Frigate",
-      "go2rtc": "Nhật ký Go2RTC - Frigate",
-      "nginx": "Nhật ký Nginx - Frigate"
+      "frigate": "Nhật ký Rasid360 - Rasid360",
+      "go2rtc": "Nhật ký Go2RTC - Rasid360",
+      "nginx": "Nhật ký Nginx - Rasid360"
     },
-    "cameras": "Thống kê Camera - Frigate"
+    "cameras": "Thống kê Camera - Rasid360"
   },
   "general": {
     "hardwareInfo": {
@@ -70,13 +70,13 @@
       "bandwidth": "Băng thông",
       "unused": {
         "title": "Chưa sử dụng",
-        "tips": "Giá trị này có thể không phản ánh chính xác dung lượng trống có sẵn cho Frigate nếu bạn có các tệp khác được lưu trữ trên ổ đĩa ngoài các bản ghi của Frigate. Frigate không theo dõi việc sử dụng dung lượng lưu trữ bên ngoài các bản ghi của nó."
+        "tips": "Giá trị này có thể không phản ánh chính xác dung lượng trống có sẵn cho Rasid360 nếu bạn có các tệp khác được lưu trữ trên ổ đĩa ngoài các bản ghi của Rasid360. Rasid360 không theo dõi việc sử dụng dung lượng lưu trữ bên ngoài các bản ghi của nó."
       }
     },
     "title": "Lưu trữ",
     "recordings": {
       "title": "Bản ghi",
-      "tips": "Giá trị này thể hiện tổng dung lượng lưu trữ được sử dụng bởi các bản ghi trong cơ sở dữ liệu của Frigate. Frigate không theo dõi việc sử dụng dung lượng lưu trữ cho tất cả các tệp trên đĩa của bạn.",
+      "tips": "Giá trị này thể hiện tổng dung lượng lưu trữ được sử dụng bởi các bản ghi trong cơ sở dữ liệu của Rasid360. Rasid360 không theo dõi việc sử dụng dung lượng lưu trữ cho tất cả các tệp trên đĩa của bạn.",
       "earliestRecording": "Bản ghi sớm nhất hiện có:"
     },
     "shm": {

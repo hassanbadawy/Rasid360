@@ -119,7 +119,7 @@
       "selectImagesDescription": "Klikk på bilder for å velge dem. Klikk Fortsett når du er ferdig med denne kategorien.",
       "generating": {
         "title": "Genererer eksempelbilder",
-        "description": "Frigate henter representative bilder fra opptakene dine. Dette kan ta litt tid..."
+        "description": "Rasid360 henter representative bilder fra opptakene dine. Dette kan ta litt tid..."
       },
       "training": {
         "title": "Trener modell",

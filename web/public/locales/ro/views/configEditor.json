@@ -1,5 +1,5 @@
 {
-  "documentTitle": "Editor de configurație - Frigate",
+  "documentTitle": "Editor de configurație - Rasid360",
   "configEditor": "Editor de configurație",
   "copyConfig": "Copiază setările",
   "saveAndRestart": "Salvează și repornește",
@@ -14,5 +14,5 @@
   },
   "confirm": "Ieși fără să salvezi?",
   "safeConfigEditor": "Editor de configurație (mod de siguranță)",
-  "safeModeDescription": "Frigate este în modul de siguranță din cauza unei erori de validare a configurației."
+  "safeModeDescription": "Rasid360 este în modul de siguranță din cauza unei erori de validare a configurației."
 }

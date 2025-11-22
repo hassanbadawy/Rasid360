@@ -1,9 +1,9 @@
 {
   "restart": {
-    "title": "Вы уверены, что хотите перезапустить Frigate?",
+    "title": "Вы уверены, что хотите перезапустить Rasid360?",
     "button": "Перезапуск",
     "restarting": {
-      "title": "Frigate перезапускается",
+      "title": "Rasid360 перезапускается",
       "content": "Эта страница перезагрузится через {{countdown}} сек.",
       "button": "Принудительная перезагрузка"
     }
@@ -11,18 +11,18 @@
   "explore": {
     "plus": {
       "submitToPlus": {
-        "label": "Отправить в Frigate+",
+        "label": "Отправить в Rasid360+",
         "desc": "Объекты в местах, которых вы хотите избежать, не являются ложными срабатываниями. Отправка их как ложных срабатываний запутает модель."
       },
       "review": {
         "true": {
-          "label": "Подтвердите метку для Frigate Plus",
+          "label": "Подтвердите метку для Rasid360 Plus",
           "true_one": "Это {{label}}",
           "true_few": "Это {{label}}",
           "true_many": "Это {{label}}"
         },
         "false": {
-          "label": "Не подтверждать эту метку для Frigate Plus",
+          "label": "Не подтверждать эту метку для Rasid360 Plus",
           "false_one": "Это не {{label}}",
           "false_few": "Это не {{label}}",
           "false_many": "Это не {{label}}"
@@ -32,7 +32,7 @@
         },
         "question": {
           "ask_an": "Это объект — <code>{{label}}</code> ?",
-          "label": "Подтвердить эту метку для Frigate Plus",
+          "label": "Подтвердить эту метку для Rasid360 Plus",
           "ask_a": "Это объект — <code>{{label}}</code>?",
           "ask_full": "Это объект — <code>{{untranslatedLabel}}</code> ({{translatedLabel}})?"
         }

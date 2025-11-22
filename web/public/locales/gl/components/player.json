@@ -1,9 +1,9 @@
 {
   "noRecordingsFoundForThisTime": "Non se atoparon grabacións para ese período",
   "noPreviewFound": "Non se atopou previsualización",
-  "submitFrigatePlus": {
+  "submitRasid360Plus": {
     "submit": "Enviar",
-    "title": "Enviar este frame a Frigate+?"
+    "title": "Enviar este frame a Rasid360+?"
   },
   "stats": {
     "streamType": {

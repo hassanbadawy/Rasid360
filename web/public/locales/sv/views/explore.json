@@ -1,6 +1,6 @@
 {
   "generativeAI": "Generativ AI",
-  "documentTitle": "Utforska - Frigate",
+  "documentTitle": "Utforska - Rasid360",
   "exploreIsUnavailable": {
     "embeddingsReindexing": {
       "startingUp": "Startar upp…",
@@ -25,8 +25,8 @@
         "documentation": "Läs dokumentationen",
         "context": "Du kanske vill omindexera inbäddningarna av dina spårade objekt när modellerna har laddats ner."
       },
-      "error": "Ett fel har inträffat. Kontrollera Frigate loggarna.",
-      "context": "Frigate laddar ner de nödvändiga inbäddningsmodellerna för att stödja den semantiska sökfunktionen. Detta kan ta flera minuter beroende på hastigheten på din nätverksanslutning."
+      "error": "Ett fel har inträffat. Kontrollera Rasid360 loggarna.",
+      "context": "Rasid360 laddar ner de nödvändiga inbäddningsmodellerna för att stödja den semantiska sökfunktionen. Detta kan ta flera minuter beroende på hastigheten på din nätverksanslutning."
     }
   },
   "details": {
@@ -41,7 +41,7 @@
       "tips": {
         "mismatch_one": "{{count}} otillgängligt objekt upptäcktes och inkluderades i detta granskningsobjekt. Dessa objekt kvalificerade sig antingen inte som en varning eller detektering, eller så har de redan rensats/raderats.",
         "mismatch_other": "{{count}} otillgängliga objekt upptäcktes och inkluderades i detta granskningsobjekt. Dessa objekt kvalificerade sig antingen inte som en varning eller upptäckt, eller så har de redan rensats/raderats.",
-        "hasMissingObjects": "Justera din konfiguration om du vill att Frigate ska spara spårade objekt för följande etiketter: <em>{{objects}}</em>"
+        "hasMissingObjects": "Justera din konfiguration om du vill att Rasid360 ska spara spårade objekt för följande etiketter: <em>{{objects}}</em>"
       },
       "toast": {
         "success": {
@@ -94,7 +94,7 @@
     "description": {
       "label": "Beskrivning",
       "placeholder": "Beskrivning av det spårade objektet",
-      "aiTips": "Frigate kommer inte att begära en beskrivning från din generativa AI-leverantör förrän det spårade objektets livscykel har avslutats."
+      "aiTips": "Rasid360 kommer inte att begära en beskrivning från din generativa AI-leverantör förrän det spårade objektets livscykel har avslutats."
     },
     "expandRegenerationMenu": "Expandera regenereringsmenyn",
     "regenerateFromSnapshot": "Återskapa från ögonblicksbild",
@@ -152,7 +152,7 @@
         "millisecondsToOffset": "Millisekunder för att förskjuta detektera annoteringar med. <em>Standard: 0</em>",
         "tips": "TIPS: Föreställ dig ett händelseklipp med en person som går från vänster till höger. Om tidslinjens avgränsningsram konsekvent är till vänster om personen bör värdet minskas. På samma sätt, om en person går från vänster till höger och avgränsningsramen konsekvent är framför personen bör värdet ökas.",
         "toast": {
-          "success": "Annoterings förskjutningen för {{camera}} har sparats i konfigurationsfilen. Starta om Frigate för att tillämpa dina ändringar."
+          "success": "Annoterings förskjutningen för {{camera}} har sparats i konfigurationsfilen. Starta om Rasid360 för att tillämpa dina ändringar."
         }
       }
     },
@@ -188,8 +188,8 @@
       "aria": "Begär ljudtranskribering"
     },
     "submitToPlus": {
-      "label": "Skicka till Frigate+",
-      "aria": "Skicka till Frigate Plus"
+      "label": "Skicka till Rasid360+",
+      "aria": "Skicka till Rasid360 Plus"
     },
     "viewInHistory": {
       "label": "Visa i historik",
@@ -273,7 +273,7 @@
         "millisecondsToOffset": "Millisekunder för att förskjuta detektera annoteringar med. <em>Standard: 0</em>",
         "tips": "TIPS: Föreställ dig ett händelseklipp med en person som går från vänster till höger. Om tidslinjens avgränsningsram konsekvent är till vänster om personen bör värdet minskas. På samma sätt, om en person går från vänster till höger och avgränsningsramen konsekvent är framför personen bör värdet ökas.",
         "toast": {
-          "success": "Annoteringsförskjutningen för {{camera}} har sparats i konfigurationsfilen. Starta om Frigate för att tillämpa dina ändringar."
+          "success": "Annoteringsförskjutningen för {{camera}} har sparats i konfigurationsfilen. Starta om Rasid360 för att tillämpa dina ändringar."
         }
       }
     },

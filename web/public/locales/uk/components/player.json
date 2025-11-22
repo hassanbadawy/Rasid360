@@ -31,8 +31,8 @@
     "decodedFrames": "Декодовані кадри:"
   },
   "noPreviewFound": "Попередній перегляд не знайдені",
-  "submitFrigatePlus": {
-    "title": "Відправити це зображення Frigate+?",
+  "submitRasid360Plus": {
+    "title": "Відправити це зображення Rasid360+?",
     "submit": "Посилати"
   },
   "streamOffline": {
@@ -42,10 +42,10 @@
   "cameraDisabled": "Камера вимкнена",
   "toast": {
     "success": {
-      "submittedFrigatePlus": "Зображення успішно завантажено до Frigate+"
+      "submittedRasid360Plus": "Зображення успішно завантажено до Rasid360+"
     },
     "error": {
-      "submitFrigatePlusFailed": "Не вдалося надіслати фрейм Frigate+"
+      "submitRasid360PlusFailed": "Не вдалося надіслати фрейм Rasid360+"
     }
   }
 }

@@ -38,7 +38,7 @@ import { useTranslation } from "react-i18next";
 
 function Logs() {
   const { t } = useTranslation(["views/system"]);
-  const [logService, setLogService] = useState<LogType>("frigate");
+  const [logService, setLogService] = useState<LogType>("rasid360");
   const tabsRef = useRef<HTMLDivElement | null>(null);
   const lazyLogWrapperRef = useRef<HTMLDivElement>(null);
   const [logs, setLogs] = useState<string[]>([]);
@@ -546,7 +546,7 @@ function Logs() {
           <div
             className={cn(
               "flex items-center",
-              logService == "frigate" ? "col-span-2" : "col-span-1",
+              logService == "rasid360" ? "col-span-2" : "col-span-1",
             )}
           >
             {t("logs.type.tag")}
@@ -554,7 +554,7 @@ function Logs() {
           <div
             className={cn(
               "col-span-5 flex items-center",
-              logService == "frigate"
+              logService == "rasid360"
                 ? "md:col-span-7 lg:col-span-8"
                 : "md:col-span-8 lg:col-span-9",
             )}
@@ -649,7 +649,7 @@ function LogLineData({
       <div
         className={cn(
           "log-section flex size-full items-center pr-2",
-          logService == "frigate" ? "col-span-2" : "col-span-1",
+          logService == "rasid360" ? "col-span-2" : "col-span-1",
         )}
       >
         <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
@@ -659,7 +659,7 @@ function LogLineData({
       <div
         className={cn(
           "log-content col-span-5 flex size-full items-center justify-between px-2 md:px-0 md:pr-2",
-          logService == "frigate"
+          logService == "rasid360"
             ? "md:col-span-7 lg:col-span-8"
             : "md:col-span-8 lg:col-span-9",
         )}

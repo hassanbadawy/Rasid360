@@ -116,9 +116,9 @@ function useHelpfulLinks(content: string | undefined) {
     if (/Could not clear [\d.]* currently [\d.]*/.exec(content)) {
       links.push({
         link: getLocaleDocUrl(
-          "configuration/record#will-frigate-delete-old-recordings-if-my-storage-runs-out",
+          "configuration/record#will-rasid360-delete-old-recordings-if-my-storage-runs-out",
         ),
-        text: "Frigate Automatic Storage Cleanup",
+        text: "Rasid360 Automatic Storage Cleanup",
       });
     }
 
@@ -157,7 +157,7 @@ function useHelpfulLinks(content: string | undefined) {
     if (content.includes("The current SHM size of")) {
       links.push({
         link: getLocaleDocUrl(
-          "frigate/installation/#calculating-required-shm-size",
+          "rasid360/installation/#calculating-required-shm-size",
         ),
         text: "Calculate Correct SHM Size",
       });

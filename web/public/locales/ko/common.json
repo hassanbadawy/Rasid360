@@ -2,7 +2,7 @@
   "readTheDocumentation": "문서 읽기",
   "time": {
     "untilForTime": "{{time}}까지",
-    "untilForRestart": "Frigate가 재시작될 때 까지.",
+    "untilForRestart": "Rasid360가 재시작될 때 까지.",
     "10minutes": "10분",
     "12hours": "12시간",
     "1hour": "1시간",
@@ -71,12 +71,12 @@
   },
   "notFound": {
     "title": "404",
-    "documentTitle": "찾을 수 없음 - Frigate",
+    "documentTitle": "찾을 수 없음 - Rasid360",
     "desc": "페이지 찾을 수 없음"
   },
   "accessDenied": {
     "title": "접근 거부",
-    "documentTitle": "접근 거부 - Frigate",
+    "documentTitle": "접근 거부 - Rasid360",
     "desc": "이 페이지 접근 권한이 없습니다."
   },
   "menu": {
@@ -161,9 +161,9 @@
     "help": "도움말",
     "documentation": {
       "title": "문서",
-      "label": "Frigate 문서"
+      "label": "Rasid360 문서"
     },
-    "restart": "Frigate 재시작",
+    "restart": "Rasid360 재시작",
     "live": {
       "title": "실시간",
       "allCameras": "모든 카메라",
@@ -250,7 +250,7 @@
     "title": "역할",
     "admin": "관리자",
     "viewer": "감시자",
-    "desc": "관리자는 Frigate UI에 모든 접근 권한이 있습니다. 감시자는 카메라 감시, 돌아보기, 과거 영상 조회만 가능합니다."
+    "desc": "관리자는 Rasid360 UI에 모든 접근 권한이 있습니다. 감시자는 카메라 감시, 돌아보기, 과거 영상 조회만 가능합니다."
   },
   "pagination": {
     "label": "나눠보기",

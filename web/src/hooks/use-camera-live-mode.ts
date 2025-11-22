@@ -1,4 +1,4 @@
-import { CameraConfig, FrigateConfig } from "@/types/frigateConfig";
+import { CameraConfig, Rasid360Config } from "@/types/rasid360Config";
 import { useCallback, useEffect, useState, useMemo } from "react";
 import useSWR from "swr";
 import { LivePlayerMode, LiveStreamMetadata } from "@/types/live";
@@ -8,7 +8,7 @@ export default function useCameraLiveMode(
   windowVisible: boolean,
   activeStreams?: { [cameraName: string]: string },
 ) {
-  const { data: config } = useSWR<FrigateConfig>("config");
+  const { data: config } = useSWR<Rasid360Config>("config");
 
   // Get comma-separated list of restreamed stream names for SWR key
   const restreamedStreamsKey = useMemo(() => {
