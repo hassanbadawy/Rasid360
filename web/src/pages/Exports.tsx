@@ -180,7 +180,7 @@ function Exports() {
             }
           >
             <source
-              src={`${baseUrl}${selected?.video_path?.replace("/media/rasid360/", "")}`}
+              src={`${baseUrl}${selected?.video_path?.replace("/media/frigate/", "")}`}
               type="video/mp4"
             />
           </video>

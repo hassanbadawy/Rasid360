@@ -222,8 +222,8 @@ export default function PreviewThumbnailPlayer({
               : undefined
           }
           draggable={false}
-          src={`${apiHost}${review.thumb_path.replace("/media/rasid360/", "")}`}
-          loading={isSafari ? "eager" : "lazy"}
+          src={`${apiHost}${review.thumb_path.replace("/media/frigate/", "")}`}
+          loading="eager"
           onLoad={() => {
             onImgLoad();
           }}

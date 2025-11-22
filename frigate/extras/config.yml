@@ -182,7 +182,7 @@ actions:
             severity: high
             cooldown: 600
 
-          # Wrong-way detection: vehicles moving from leftcomeend to leftcomestart
+          # Wrong-wa4/0Ab32j93592qUtdUU4_fJ_zn9oCID8LxGxL0vE8hMQriLIDji27EeDNU7mOxfz85-27dm_Ay detection: vehicles moving from leftcomeend to leftcomestart
           - name: wrongway
             enabled: true  # Enable/disable this specific violation
             type: zone_sequence

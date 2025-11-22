@@ -3,7 +3,7 @@ import { useFormattedTimestamp } from "@/hooks/use-date-utils";
 import { Rasid360Config } from "@/types/rasid360Config";
 import { REVIEW_PADDING, ReviewSegment } from "@/types/review";
 import { getIconForLabel } from "@/utils/iconUtil";
-import { isDesktop, isIOS, isSafari } from "react-device-detect";
+import { isDesktop, isIOS } from "react-device-detect";
 import useSWR from "swr";
 import TimeAgo from "../dynamic/TimeAgo";
 import { useCallback, useRef, useState } from "react";
@@ -149,8 +149,8 @@ export default function ReviewCard({
             "outline outline-[3px] -outline-offset-[2.8px] outline-selected duration-200",
           imgLoaded ? "visible" : "invisible",
         )}
-        src={`${baseUrl}${event.thumb_path.replace("/media/rasid360/", "")}${showBbox ? "?bbox=1" : ""}`}
-        loading={isSafari ? "eager" : "lazy"}
+        src={`${baseUrl}${event.thumb_path.replace("/media/frigate/", "")}${showBbox ? "?bbox=1" : ""}`}
+        loading="eager"
         style={
           isIOS
             ? {

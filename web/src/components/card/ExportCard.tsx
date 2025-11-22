@@ -148,7 +148,7 @@ export default function ExportCard({
             {exportedRecording.thumb_path.length > 0 ? (
               <img
                 className="absolute inset-0 aspect-video size-full rounded-lg object-cover md:rounded-2xl"
-                src={`${baseUrl}${exportedRecording.thumb_path.replace("/media/rasid360/", "")}`}
+                src={`${baseUrl}${exportedRecording.thumb_path.replace("/media/frigate/", "")}`}
                 onLoad={() => setLoading(false)}
               />
             ) : (
@@ -181,7 +181,7 @@ export default function ExportCard({
                 {!exportedRecording.in_progress && (
                   <a
                     download
-                    href={`${baseUrl}${exportedRecording.video_path.replace("/media/rasid360/", "")}`}
+                    href={`${baseUrl}${exportedRecording.video_path.replace("/media/frigate/", "")}`}
                   >
                     <Tooltip>
                       <TooltipTrigger asChild>

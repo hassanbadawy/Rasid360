@@ -177,7 +177,7 @@ export function AnimatedEventCard({
                     "h-full w-auto min-w-10 select-none object-contain",
                     isSafari && !isLoaded ? "hidden" : "visible",
                   )}
-                  src={`${apiHost}${event.thumb_path.replace("/media/rasid360/", "")}`}
+                  src={`${apiHost}${event.thumb_path.replace("/media/frigate/", "")}`}
                   loading={isSafari ? "eager" : "lazy"}
                   onLoad={() => setIsLoaded(true)}
                 />
