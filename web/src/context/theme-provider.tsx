@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 type Theme = "dark" | "light" | "system";
 type ColorScheme =
+  | "theme-rasid360"
   | "theme-blue"
   | "theme-green"
   | "theme-nord"
@@ -11,6 +12,7 @@ type ColorScheme =
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const colorSchemes: ColorScheme[] = [
+  "theme-rasid360",
   "theme-blue",
   "theme-green",
   "theme-nord",
@@ -53,8 +55,8 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
-  defaultColorScheme = "theme-default",
+  defaultTheme = "dark",
+  defaultColorScheme = "theme-rasid360",
   storageKey = "rasid360-ui-theme",
   ...props
 }: ThemeProviderProps) {

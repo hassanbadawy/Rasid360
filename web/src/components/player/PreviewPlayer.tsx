@@ -247,6 +247,10 @@ function PreviewVideoPlayer({
         }
 
         previewRef.current?.load();
+        // Explicitly attempt to play to handle browser autoplay policies
+        previewRef.current?.play().catch(() => {
+          // Autoplay was prevented, but video is loaded and ready
+        });
       }, 1000);
       setChangeoverTimeout(timeout);
 
@@ -331,6 +335,11 @@ function PreviewVideoPlayer({
                 previewRef.current.currentTime =
                   startTime - currentPreview.start;
               }
+
+              // Explicitly attempt to play to handle browser autoplay policies
+              previewRef.current.play().catch(() => {
+                // Autoplay was prevented, but video is loaded and ready
+              });
             }
           }}
         >

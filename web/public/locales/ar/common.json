@@ -1,20 +1,298 @@
 {
   "time": {
     "untilForTime": "حتى {{time}}",
-    "untilForRestart": "حتى يعاد تشغيل فرايجيت.",
+    "untilForRestart": "حتى يعاد تشغيل Rasid360.",
     "untilRestart": "حتى إعادة التشغيل",
     "ago": "منذ {{timeAgo}}",
-    "justNow": "في التو",
+    "justNow": "الآن",
     "today": "اليوم",
+    "yesterday": "أمس",
+    "last7": "آخر 7 أيام",
     "last14": "آخر 14 يومًا",
     "last30": "آخر 30 يومًا",
     "thisWeek": "هذا الأسبوع",
     "lastWeek": "الأسبوع الماضي",
     "thisMonth": "هذا الشهر",
-    "yesterday": "بالأمس",
-    "last7": "آخر 7 أيام",
-    "lastMonth": "الشهر المنصرم",
+    "lastMonth": "الشهر الماضي",
     "5minutes": "5 دقائق",
-    "10minutes": "10 دقائق"
+    "10minutes": "10 دقائق",
+    "30minutes": "30 دقيقة",
+    "1hour": "ساعة واحدة",
+    "12hours": "12 ساعة",
+    "24hours": "24 ساعة",
+    "pm": "م",
+    "am": "ص",
+    "yr": "{{time}} سنة",
+    "year_one": "{{time}} سنة",
+    "year_other": "{{time}} سنوات",
+    "mo": "{{time}} شهر",
+    "month_one": "{{time}} شهر",
+    "month_other": "{{time}} أشهر",
+    "d": "{{time}} يوم",
+    "day_one": "{{time}} يوم",
+    "day_other": "{{time}} أيام",
+    "h": "{{time}} ساعة",
+    "hour_one": "{{time}} ساعة",
+    "hour_other": "{{time}} ساعات",
+    "m": "{{time}} دقيقة",
+    "minute_one": "{{time}} دقيقة",
+    "minute_other": "{{time}} دقائق",
+    "s": "{{time}} ثانية",
+    "second_one": "{{time}} ثانية",
+    "second_other": "{{time}} ثواني",
+    "formattedTimestamp": {
+      "12hour": "MMM d, h:mm:ss aaa",
+      "24hour": "MMM d, HH:mm:ss"
+    },
+    "formattedTimestamp2": {
+      "12hour": "MM/dd h:mm:ssa",
+      "24hour": "d MMM HH:mm:ss"
+    },
+    "formattedTimestampHourMinute": {
+      "12hour": "h:mm aaa",
+      "24hour": "HH:mm"
+    },
+    "formattedTimestampHourMinuteSecond": {
+      "12hour": "h:mm:ss aaa",
+      "24hour": "HH:mm:ss"
+    },
+    "formattedTimestampMonthDayHourMinute": {
+      "12hour": "MMM d, h:mm aaa",
+      "24hour": "MMM d, HH:mm"
+    },
+    "formattedTimestampMonthDayYear": {
+      "12hour": "MMM d, yyyy",
+      "24hour": "MMM d, yyyy"
+    },
+    "formattedTimestampMonthDayYearHourMinute": {
+      "12hour": "MMM d yyyy, h:mm aaa",
+      "24hour": "MMM d yyyy, HH:mm"
+    },
+    "formattedTimestampMonthDay": "MMM d",
+    "formattedTimestampFilename": {
+      "12hour": "MM-dd-yy-h-mm-ss-a",
+      "24hour": "MM-dd-yy-HH-mm-ss"
+    },
+    "inProgress": "قيد التنفيذ",
+    "invalidStartTime": "وقت البداية غير صحيح",
+    "invalidEndTime": "وقت النهاية غير صحيح"
+  },
+  "unit": {
+    "speed": {
+      "mph": "ميل/ساعة",
+      "kph": "كم/ساعة"
+    },
+    "length": {
+      "feet": "قدم",
+      "meters": "متر"
+    },
+    "data": {
+      "kbps": "كيلوبايت/ثانية",
+      "mbps": "ميجابايت/ثانية",
+      "gbps": "جيجابايت/ثانية",
+      "kbph": "كيلوبايت/ساعة",
+      "mbph": "ميجابايت/ساعة",
+      "gbph": "جيجابايت/ساعة"
+    }
+  },
+  "label": {
+    "back": "رجوع",
+    "hide": "إخفاء {{item}}",
+    "show": "عرض {{item}}",
+    "ID": "المعرف",
+    "none": "لا شيء",
+    "all": "الكل"
+  },
+  "list": {
+    "two": "{{0}} و {{1}}",
+    "many": "{{items}}، و {{last}}",
+    "separatorWithSpace": "، "
+  },
+  "field": {
+    "optional": "اختياري",
+    "internalID": "المعرف الداخلي الذي يستخدمه Rasid360 في الإعدادات وقاعدة البيانات"
+  },
+  "button": {
+    "apply": "تطبيق",
+    "reset": "إعادة تعيين",
+    "done": "تم",
+    "enabled": "مُفعّل",
+    "enable": "تفعيل",
+    "disabled": "مُعطّل",
+    "disable": "تعطيل",
+    "save": "حفظ",
+    "saving": "جاري الحفظ…",
+    "cancel": "إلغاء",
+    "close": "إغلاق",
+    "copy": "نسخ",
+    "back": "رجوع",
+    "history": "السجل",
+    "fullscreen": "ملء الشاشة",
+    "exitFullscreen": "الخروج من ملء الشاشة",
+    "pictureInPicture": "صورة داخل صورة",
+    "twoWayTalk": "محادثة ثنائية",
+    "cameraAudio": "صوت الكاميرا",
+    "on": "تشغيل",
+    "off": "إيقاف",
+    "edit": "تحرير",
+    "copyCoordinates": "نسخ الإحداثيات",
+    "delete": "حذف",
+    "yes": "نعم",
+    "no": "لا",
+    "download": "تنزيل",
+    "info": "معلومات",
+    "suspended": "معلق",
+    "unsuspended": "إلغاء التعليق",
+    "play": "تشغيل",
+    "unselect": "إلغاء التحديد",
+    "export": "تصدير",
+    "deleteNow": "حذف الآن",
+    "next": "التالي",
+    "continue": "متابعة"
+  },
+  "menu": {
+    "system": "النظام",
+    "systemMetrics": "مقاييس النظام",
+    "configuration": "الإعدادات",
+    "systemLogs": "سجلات النظام",
+    "settings": "الإعدادات",
+    "configurationEditor": "محرر الإعدادات",
+    "languages": "اللغات",
+    "language": {
+      "en": "English (الإنجليزية)",
+      "es": "Español (الإسبانية)",
+      "zhCN": "简体中文 (الصينية المبسطة)",
+      "hi": "हिन्दी (الهندية)",
+      "fr": "Français (الفرنسية)",
+      "ar": "العربية (Arabic)",
+      "pt": "Português (البرتغالية)",
+      "ptBR": "Português brasileiro (البرتغالية البرازيلية)",
+      "ru": "Русский (الروسية)",
+      "de": "Deutsch (الألمانية)",
+      "ja": "日本語 (اليابانية)",
+      "tr": "Türkçe (التركية)",
+      "it": "Italiano (الإيطالية)",
+      "nl": "Nederlands (الهولندية)",
+      "sv": "Svenska (السويدية)",
+      "cs": "Čeština (التشيكية)",
+      "nb": "Norsk Bokmål (النرويجية)",
+      "ko": "한국어 (الكورية)",
+      "vi": "Tiếng Việt (الفيتنامية)",
+      "fa": "فارسی (الفارسية)",
+      "pl": "Polski (البولندية)",
+      "uk": "Українська (الأوكرانية)",
+      "he": "עברית (العبرية)",
+      "el": "Ελληνικά (اليونانية)",
+      "ro": "Română (الرومانية)",
+      "hu": "Magyar (المجرية)",
+      "fi": "Suomi (الفنلندية)",
+      "da": "Dansk (الدنماركية)",
+      "sk": "Slovenčina (السلوفاكية)",
+      "yue": "粵語 (الكانتونية)",
+      "th": "ไทย (التايلاندية)",
+      "ca": "Català (الكتالانية)",
+      "sr": "Српски (الصربية)",
+      "sl": "Slovenščina (السلوفينية)",
+      "lt": "Lietuvių (الليتوانية)",
+      "bg": "Български (البلغارية)",
+      "gl": "Galego (الجاليكية)",
+      "id": "Bahasa Indonesia (الإندونيسية)",
+      "ur": "اردو (الأردية)",
+      "withSystem": {
+        "label": "استخدام إعدادات النظام للغة"
+      }
+    },
+    "appearance": "المظهر",
+    "darkMode": {
+      "label": "الوضع الداكن",
+      "light": "فاتح",
+      "dark": "داكن",
+      "withSystem": {
+        "label": "استخدام إعدادات النظام للوضع الفاتح أو الداكن"
+      }
+    },
+    "withSystem": "النظام",
+    "theme": {
+      "label": "السمة",
+      "rasid360": "Rasid360",
+      "blue": "أزرق",
+      "green": "أخضر",
+      "nord": "نورد",
+      "red": "أحمر",
+      "highcontrast": "تباين عالي",
+      "default": "افتراضي"
+    },
+    "help": "المساعدة",
+    "documentation": {
+      "title": "التوثيق",
+      "label": "توثيق Rasid360"
+    },
+    "restart": "إعادة تشغيل Rasid360",
+    "live": {
+      "title": "مباشر",
+      "allCameras": "جميع الكاميرات",
+      "cameras": {
+        "title": "الكاميرات",
+        "count_one": "كاميرا واحدة",
+        "count_other": "{{count}} كاميرا"
+      }
+    },
+    "review": "المراجعة",
+    "explore": "استكشاف",
+    "export": "تصدير",
+    "uiPlayground": "ساحة الواجهة",
+    "faceLibrary": "مكتبة الوجوه",
+    "classification": "التصنيف",
+    "user": {
+      "title": "المستخدم",
+      "account": "الحساب",
+      "current": "المستخدم الحالي: {{user}}",
+      "anonymous": "مجهول",
+      "logout": "تسجيل الخروج",
+      "setPassword": "تعيين كلمة المرور"
+    }
+  },
+  "toast": {
+    "copyUrlToClipboard": "تم نسخ الرابط إلى الحافظة.",
+    "save": {
+      "title": "حفظ",
+      "error": {
+        "title": "فشل حفظ تغييرات الإعدادات: {{errorMessage}}",
+        "noMessage": "فشل حفظ تغييرات الإعدادات"
+      }
+    }
+  },
+  "role": {
+    "title": "الدور",
+    "admin": "مدير",
+    "viewer": "مشاهد",
+    "desc": "المدراء لديهم وصول كامل لجميع الميزات في واجهة Rasid360. المشاهدون محدودون بمشاهدة الكاميرات وعناصر المراجعة والفيديوهات التاريخية في الواجهة."
+  },
+  "pagination": {
+    "label": "ترقيم الصفحات",
+    "previous": {
+      "title": "السابق",
+      "label": "الانتقال إلى الصفحة السابقة"
+    },
+    "next": {
+      "title": "التالي",
+      "label": "الانتقال إلى الصفحة التالية"
+    },
+    "more": "المزيد من الصفحات"
+  },
+  "accessDenied": {
+    "documentTitle": "الوصول محظور - Rasid360",
+    "title": "الوصول محظور",
+    "desc": "ليس لديك صلاحية لعرض هذه الصفحة."
+  },
+  "notFound": {
+    "documentTitle": "غير موجود - Rasid360",
+    "title": "404",
+    "desc": "الصفحة غير موجودة"
+  },
+  "selectItem": "اختر {{item}}",
+  "readTheDocumentation": "اقرأ التوثيق",
+  "information": {
+    "pixels": "{{area}} بكسل"
   }
 }

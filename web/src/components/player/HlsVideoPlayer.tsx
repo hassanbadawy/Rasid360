@@ -135,6 +135,11 @@ export default function HlsVideoPlayer({
     if (!useHlsCompat) {
       videoRef.current.src = currentSource.playlist;
       videoRef.current.load();
+      // Explicitly attempt to play to handle browser autoplay policies
+      videoRef.current.play().catch(() => {
+        // Autoplay was prevented, but video is loaded and ready
+        // User interaction will trigger playback
+      });
       return;
     }
 
@@ -146,6 +151,13 @@ export default function HlsVideoPlayer({
     hlsRef.current.attachMedia(videoRef.current);
     hlsRef.current.loadSource(currentSource.playlist);
     videoRef.current.playbackRate = currentPlaybackRate;
+
+    // Explicitly attempt to play for HLS sources as well
+    hlsRef.current.on(Hls.Events.MANIFEST_PARSED, () => {
+      videoRef.current?.play().catch(() => {
+        // Autoplay was prevented, but video is loaded and ready
+      });
+    });
 
     return () => {
       // we must destroy the hlsRef every time the source changes
