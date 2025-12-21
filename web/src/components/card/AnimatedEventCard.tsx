@@ -95,8 +95,8 @@ export function AnimatedEventCard({
   const onOpenReview = useCallback(() => {
     const url =
       selectedGroup && selectedGroup != "default"
-        ? `review?group=${selectedGroup}`
-        : "review";
+        ? `/playback?group=${selectedGroup}`
+        : "/playback";
     navigate(url, {
       state: {
         severity: event.severity,
@@ -166,7 +166,7 @@ export function AnimatedEventCard({
               onAuxClick={(e) => {
                 if (e.button === 1) {
                   window
-                    .open(`${baseUrl}review?id=${event.id}`, "_blank")
+                    .open(`${baseUrl}playback?id=${event.id}`, "_blank")
                     ?.focus();
                 }
               }}

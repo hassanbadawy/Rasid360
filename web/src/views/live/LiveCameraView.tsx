@@ -491,7 +491,7 @@ export default function LiveCameraView({
                 aria-label={t("history.label")}
                 size="sm"
                 onClick={() => {
-                  navigate("review", {
+                  navigate("/playback", {
                     state: {
                       severity: "alert",
                       recording: {

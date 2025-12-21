@@ -1,4 +1,3 @@
-import { ENV } from "@/env";
 import { Rasid360Config } from "@/types/rasid360Config";
 import { NavData } from "@/types/navigation";
 import { useMemo } from "react";
@@ -60,21 +59,6 @@ export default function useNavigation(
           url: "/playback",
         },
         {
-          id: ID_EXPORT,
-          variant,
-          icon: FaCompactDisc,
-          title: "menu.export",
-          url: "/export",
-        },
-        {
-          id: ID_PLAYGROUND,
-          variant,
-          icon: LuConstruction,
-          title: "menu.uiPlayground",
-          url: "/playground",
-          enabled: ENV !== "production",
-        },
-        {
           id: ID_FACE_LIBRARY,
           variant,
           icon: TbFaceId,
@@ -89,6 +73,21 @@ export default function useNavigation(
           title: "menu.classification",
           url: "/classification",
           enabled: isDesktop && isAdmin,
+        },
+        {
+          id: ID_EXPORT,
+          variant,
+          icon: FaCompactDisc,
+          title: "menu.export",
+          url: "/export",
+        },
+        {
+          id: ID_PLAYGROUND,
+          variant,
+          icon: LuConstruction,
+          title: "menu.uiPlayground",
+          url: "/playground",
+          enabled: false,
         },
       ] as NavData[],
     [config?.face_recognition?.enabled, variant, isAdmin],
