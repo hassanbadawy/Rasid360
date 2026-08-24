@@ -12,6 +12,12 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Detect the container runtime (podman or docker). Sets CONTAINER_CMD,
+# COMPOSE_CMD and CONTAINER_LABEL; override with CONTAINER_RUNTIME=podman|docker.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=container-runtime.sh
+source "${SCRIPT_DIR}/container-runtime.sh"
+
 print_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
@@ -32,11 +38,7 @@ print_error() {
 stop_docker_services() {
     print_info "Stopping Docker Compose services..."
     
-    if docker-compose version &> /dev/null; then
-        docker-compose down
-    else
-        docker compose down
-    fi
+    $COMPOSE_CMD down
     
     print_success "Docker Compose services stopped"
 }
@@ -67,10 +69,10 @@ cleanup_docker() {
     print_info "Cleaning up Docker resources..."
     
     # Remove stopped containers
-    docker container prune -f
+    $CONTAINER_CMD container prune -f
     
     # Remove unused images (optional, comment out if you want to keep them)
-    # docker image prune -f
+    # $CONTAINER_CMD image prune -f
     
     print_success "Docker cleanup completed"
 }
@@ -85,7 +87,7 @@ show_help() {
     echo "  -h, --help          Show this help message"
     echo "  -c, --cleanup       Clean up Docker resources after stopping"
     echo "  -f, --frontend-only Stop only frontend development server"
-    echo "  -d, --docker-only   Stop only Docker services"
+    echo "  -d, --docker-only   Stop only container services"
     echo "  --force             Force stop without confirmation"
     echo
     echo "This script stops all Frigate development services cleanly."
@@ -160,13 +162,8 @@ fi
 
 # Show status
 echo
-if docker-compose version &> /dev/null; then
-    print_info "Remaining Docker services:"
-    docker-compose ps
-else
-    print_info "Remaining Docker services:"
-    docker compose ps
-fi
+print_info "Remaining ${CONTAINER_LABEL} services:"
+$COMPOSE_CMD ps
 
 echo
 print_success "Shutdown completed!"

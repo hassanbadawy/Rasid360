@@ -12,6 +12,7 @@ from typing import Optional
 
 import psutil
 import uvicorn
+from peewee import OperationalError
 from peewee_migrate import Router
 from playhouse.sqlite_ext import SqliteExtDatabase
 
@@ -190,9 +191,16 @@ class FrigateApp:
                 logger.error("Unable to write to /config to save DB state")
 
         def cleanup_timeline_db(db: SqliteExtDatabase) -> None:
-            db.execute_sql(
-                "DELETE FROM timeline WHERE source_id NOT IN (SELECT id FROM event);"
-            )
+            try:
+                db.execute_sql(
+                    "DELETE FROM timeline WHERE source_id NOT IN (SELECT id FROM event);"
+                )
+            except OperationalError as e:
+                # Migration 013 creates this table and runs before we get here, so
+                # a missing table means the database is in an unexpected state.
+                # Skip the cleanup rather than refusing to start.
+                logger.warning(f"Skipping timeline cleanup: {e}")
+                return
 
             try:
                 with open(f"{CONFIG_DIR}/.timeline", "w") as f:
@@ -218,9 +226,8 @@ class FrigateApp:
 
         # this is a temporary check to clean up user DB from beta
         # will be removed before final release
-        # TEMPORARILY DISABLED FOR DEVELOPMENT - timeline table not created by migrations
-        # if not os.path.exists(f"{CONFIG_DIR}/.timeline"):
-        #     cleanup_timeline_db(migrate_db)
+        if not os.path.exists(f"{CONFIG_DIR}/.timeline"):
+            cleanup_timeline_db(migrate_db)
 
         # check if vacuum needs to be run
         if os.path.exists(f"{CONFIG_DIR}/.vacuum"):

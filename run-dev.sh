@@ -12,6 +12,12 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Detect the container runtime (podman or docker). Sets CONTAINER_CMD,
+# COMPOSE_CMD and CONTAINER_LABEL; override with CONTAINER_RUNTIME=podman|docker.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=container-runtime.sh
+source "${SCRIPT_DIR}/container-runtime.sh"
+
 # Function to print colored output
 print_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
@@ -33,21 +39,9 @@ print_error() {
 check_requirements() {
     print_info "Checking requirements..."
     
-    if ! command -v docker &> /dev/null; then
-        print_error "Docker is not installed or not in PATH"
-        exit 1
-    fi
-    
-    if ! command -v docker-compose &> /dev/null && ! docker compose version &> /dev/null; then
-        print_error "Docker Compose is not installed or not in PATH"
-        exit 1
-    fi
-    
-    if ! command -v node &> /dev/null; then
-        print_warning "Node.js is not installed. Frontend development features will be limited."
-    fi
-    
-    print_success "Requirements check passed"
+    # The container runtime and compose provider were already validated when
+    # container-runtime.sh was sourced, so nothing to re-check here.
+    print_info "Using ${CONTAINER_LABEL} (${CONTAINER_CMD}) with '${COMPOSE_CMD}'"
 }
 
 # Function to create necessary directories
@@ -67,27 +61,16 @@ create_directories() {
 
 # Function to check Docker daemon
 check_docker_daemon() {
-    print_info "Checking Docker daemon..."
-    
-    if ! docker info &> /dev/null; then
-        print_error "Docker daemon is not running"
-        print_info "Please start Docker and try again"
-        exit 1
-    fi
-    
-    print_success "Docker daemon is running"
+    # container-runtime.sh already probed the engine with `info`, so if we got
+    # here it is responding.
+    print_success "${CONTAINER_LABEL} is running"
 }
 
 # Function to build the development container
 build_dev_container() {
     print_info "Building development container..."
     
-    # Use docker-compose build or docker compose build
-    if docker-compose version &> /dev/null; then
-        docker-compose build devcontainer
-    else
-        docker compose build devcontainer
-    fi
+    $COMPOSE_CMD build devcontainer
     
     print_success "Development container built"
 }
@@ -98,8 +81,8 @@ install_frontend_deps() {
         print_info "Installing frontend dependencies inside container..."
 
         # Check if container is running
-        if docker compose ps devcontainer | grep -q "Up"; then
-            docker compose exec devcontainer bash -c "cd /workspace/frigate/web && npm install"
+        if compose_service_running devcontainer; then
+            $COMPOSE_CMD exec devcontainer bash -c "cd /workspace/frigate/web && npm install"
             print_success "Frontend dependencies installed in container"
         else
             print_warning "Container not running. Dependencies will be installed when container starts."
@@ -114,7 +97,7 @@ start_services() {
     print_info "Starting Docker Compose services..."
     
     # Start services in detached mode
-    docker compose up -d
+    $COMPOSE_CMD up -d
     
     print_success "Docker Compose services started"
 }
@@ -127,7 +110,7 @@ wait_for_services() {
     print_info "Waiting for MQTT service..."
     timeout=30
     while [ $timeout -gt 0 ]; do
-        if docker compose exec -T mqtt mosquitto_pub -h localhost -p 1883 -t test/topic -m "test" 2>/dev/null; then
+        if $COMPOSE_CMD exec -T mqtt mosquitto_pub -h localhost -p 1883 -t test/topic -m "test" 2>/dev/null; then
             break
         fi
         sleep 1
@@ -146,21 +129,21 @@ start_frigate_backend() {
     print_info "Starting Frigate backend service..."
 
     # Check if container is running
-    if docker compose ps devcontainer | grep -q "Up"; then
+    if compose_service_running devcontainer; then
         # Check if Frigate main process is already running
-        if docker compose exec devcontainer pgrep -f "python3.*-m frigate$" > /dev/null 2>&1; then
+        if $COMPOSE_CMD exec devcontainer pgrep -f "python3.*-m frigate$" > /dev/null 2>&1; then
             print_info "Frigate main process already running (likely started by s6-supervise)"
         else
             # Start Frigate in the background
-            docker compose exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate"
+            $COMPOSE_CMD exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate"
         fi
 
         # Check if frigate-extras is already running
-        if docker compose exec devcontainer pgrep -f "frigate.extras.main" > /dev/null 2>&1; then
+        if $COMPOSE_CMD exec devcontainer pgrep -f "frigate.extras.main" > /dev/null 2>&1; then
             print_info "Frigate-extras already running (likely started by s6-supervise)"
         else
             # Start frigate-extras in the background
-            docker compose exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
+            $COMPOSE_CMD exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
         fi
 
         # Wait for Frigate to start
@@ -168,12 +151,12 @@ start_frigate_backend() {
         sleep 10
 
         # Check if Frigate is running
-        if docker compose exec devcontainer pgrep -f "python3.*frigate" > /dev/null 2>&1; then
+        if $COMPOSE_CMD exec devcontainer pgrep -f "python3.*frigate" > /dev/null 2>&1; then
             print_success "Frigate backend service started"
             print_info "API available at http://localhost:5001/api"
         else
             print_warning "Frigate may not have started correctly"
-            print_info "Check logs with: docker compose exec devcontainer cat /dev/shm/logs/frigate/current"
+            print_info "Check logs with: $COMPOSE_CMD exec devcontainer cat /dev/shm/logs/frigate/current"
         fi
     else
         print_error "Container is not running"
@@ -185,14 +168,14 @@ start_frigate_backend() {
 start_frontend_dev() {
     if [ -d "web" ]; then
         # Check if container is running
-        if docker compose ps devcontainer | grep -q "Up"; then
+        if compose_service_running devcontainer; then
             print_info "Starting frontend development server inside container..."
             print_info "Frontend will be available at http://localhost:5173"
             print_info "Use Ctrl+C to stop the frontend server"
 
-            docker compose exec devcontainer bash -c "cd /workspace/frigate/web && npm run dev"
+            $COMPOSE_CMD exec devcontainer bash -c "cd /workspace/frigate/web && npm run dev"
         else
-            print_error "Container is not running. Please start it with: docker compose up -d"
+            print_error "Container is not running. Please start it with: $COMPOSE_CMD up -d"
             exit 1
         fi
     else
@@ -215,7 +198,7 @@ show_access_info() {
     echo "• MQTT Broker:           localhost:1883"
     echo
     echo "Docker Services:"
-    docker compose ps
+    $COMPOSE_CMD ps
     echo
     echo "Configuration:"
     echo "• Main config: ./config/config.yml"
@@ -227,7 +210,7 @@ show_access_info() {
     echo "  cd web && npm run dev"
     echo
     echo "To stop the environment:"
-    echo "  docker compose down"
+    echo "  $COMPOSE_CMD down"
     echo "=============================================="
 }
 
@@ -241,7 +224,7 @@ show_help() {
     echo "  -h, --help          Show this help message"
     echo "  -b, --build         Force build the development container"
     echo "  -f, --frontend-only Start only frontend development server"
-    echo "  -d, --docker-only   Start only Docker services (no frontend)"
+    echo "  -d, --docker-only   Start only container services (no frontend)"
     echo "  --no-deps           Skip frontend dependency installation"
     echo
     echo "This script sets up the Frigate development environment with:"
@@ -314,7 +297,7 @@ if [ "$FRONTEND_ONLY" = true ]; then
     start_frontend_dev
 else
     # Build container if requested or if it doesn't exist
-    if [ "$BUILD_ONLY" = true ] || ! docker images | grep -q devcontainer; then
+    if [ "$BUILD_ONLY" = true ] || ! $CONTAINER_CMD images | grep -q devcontainer; then
         build_dev_container
     fi
     
@@ -340,13 +323,13 @@ else
 
         # Start frontend development server inside the Docker container
         print_info "Starting frontend development server inside container..."
-        docker compose exec -d devcontainer bash -c "cd /workspace/frigate/web && npm run dev" > /dev/null 2>&1
+        $COMPOSE_CMD exec -d devcontainer bash -c "cd /workspace/frigate/web && npm run dev" > /dev/null 2>&1
 
         # Wait a moment for the frontend to start
         sleep 5
 
         # Check if frontend is running
-        if docker compose exec devcontainer pgrep -f "vite.*--host" > /dev/null 2>&1; then
+        if $COMPOSE_CMD exec devcontainer pgrep -f "vite.*--host" > /dev/null 2>&1; then
             print_success "Frontend development server started inside container"
             print_info "Frontend available at http://localhost:5173"
             print_info "Backend API available at http://localhost:5001/api"
@@ -357,26 +340,38 @@ else
             echo
 
             # Wait for user interrupt
-            trap 'print_info "Stopping services..."; docker compose exec devcontainer pkill -f "vite.*--host" 2>/dev/null; docker compose exec devcontainer pkill -f "python3.*frigate" 2>/dev/null; docker compose down 2>/dev/null; print_success "All services stopped"; exit 0' INT
+            trap 'print_info "Stopping services..."; $COMPOSE_CMD exec devcontainer pkill -f "vite.*--host" 2>/dev/null; $COMPOSE_CMD exec devcontainer pkill -f "python3.*frigate" 2>/dev/null; $COMPOSE_CMD down 2>/dev/null; print_success "All services stopped"; exit 0' INT
 
             # Show logs or keep running
-            if docker-compose version &> /dev/null; then
-                docker-compose logs -f
-            else
-                docker compose logs -f
-            fi
+            $COMPOSE_CMD logs -f
         else
             print_warning "Frontend development server may not have started correctly"
-            print_info "You can start it manually with: docker compose exec devcontainer bash -c 'cd /workspace/frigate/web && npm run dev'"
+            print_info "You can start it manually with: $COMPOSE_CMD exec devcontainer bash -c 'cd /workspace/frigate/web && npm run dev'"
             show_access_info
 
             # Keep running to show logs
-            docker compose logs -f
+            $COMPOSE_CMD logs -f
         fi
     else
-        # Docker-only mode
-        print_success "Docker services started in background"
-        print_info "Use 'docker compose logs -f' to view logs"
-        print_info "Use 'docker compose down' to stop services"
+        # Containers-only mode: bring up the services and the backend, but skip
+        # the frontend dev server and the blocking log tail.
+        start_services
+        wait_for_services
+
+        if [ ! -f "frigate/version.py" ]; then
+            print_info "Generating version.py..."
+            make version 2>/dev/null || {
+                COMMIT_HASH=$(git log -1 --pretty=format:"%h" 2>/dev/null || echo "dev")
+                echo "VERSION = \"0.17.0-${COMMIT_HASH}\"" > frigate/version.py
+                print_success "version.py created"
+            }
+        fi
+
+        start_frigate_backend
+        show_access_info
+
+        print_success "Container services started in background"
+        print_info "Use './logs-dev.sh -f' to view logs"
+        print_info "Use './stop-dev.sh' to stop services"
     fi
 fi

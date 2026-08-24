@@ -31,8 +31,11 @@ services:
       - .:/workspace/frigate:cached
       - ./web/dist:/opt/frigate/web:cached
       - /etc/localtime:/etc/localtime:ro
-      - ./config:/config
       - ./debug/media:/media/streams:ro
+      # /config comes from data/frigate-config. There used to be a second
+      # ./config:/config mount above this one; docker silently let the last
+      # definition win, but podman rejects duplicate mount destinations with
+      # "Error: /config: duplicate mount destination".
       - ./data/frigate-config:/config
       - ./data/frigate-storage:/media/frigate
      # - /dev/bus/usb:/dev/bus/usb # Uncomment for Google Coral USB

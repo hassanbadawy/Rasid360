@@ -18,7 +18,20 @@ from playhouse.sqlite_ext import JSONField
 
 logger = logging.getLogger(__name__)
 
-# Analytics database - separate from main frigate.db
+# Analytics database - separate from main frigate.db.
+#
+# This file has multiple concurrent writers: the extras worker inserting
+# observations, the analytics scheduler rewriting aggregate tables, and API
+# request handlers updating tickets. WAL lets readers proceed during a write --
+# without it the scheduler's delete-all/insert-all pass blocks dashboard reads
+# for its full duration. busy_timeout makes contending writers wait rather than
+# fail immediately with "database is locked".
+ANALYTICS_DB_PRAGMAS = {
+    "journal_mode": "wal",
+    "busy_timeout": 5000,
+    "synchronous": "normal",
+}
+
 analytics_db = SqliteDatabase(None)
 
 
@@ -210,7 +223,7 @@ def init_analytics_db(db_path: str):
         db_path: Path to the analytics SQLite database file
     """
     logger.info(f"Initializing analytics database at {db_path}")
-    analytics_db.init(db_path)
+    analytics_db.init(db_path, pragmas=ANALYTICS_DB_PRAGMAS)
     analytics_db.connect()
 
     # Create tables if they don't exist

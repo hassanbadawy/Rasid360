@@ -152,7 +152,7 @@ class BirdRealTimeProcessor(RealTimeProcessorApi):
 
         score = round(probs[best_id], 2)
 
-        if score < self.config.classification.bird.threshold:
+        if score < self.config.classification.object.threshold:
             logger.debug(f"Score {score} is not above required threshold")
             return
 

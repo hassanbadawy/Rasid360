@@ -286,6 +286,9 @@ FROM deps AS devcontainer
 # But start a fake service for simulating the logs
 COPY docker/main/fake_frigate_run /etc/s6-overlay/s6-rc.d/frigate/run
 
+# Likewise for the extras worker -- run-dev.sh starts it on the devcontainer
+COPY docker/main/fake_frigate_extras_run /etc/s6-overlay/s6-rc.d/frigate-extras/run
+
 # Create symbolic link to the frigate source code, as go2rtc's create_config.sh uses it
 RUN mkdir -p /opt/frigate \
     && ln -svf /workspace/frigate/frigate /opt/frigate/frigate

@@ -12,6 +12,12 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Detect the container runtime (podman or docker). Sets CONTAINER_CMD,
+# COMPOSE_CMD and CONTAINER_LABEL; override with CONTAINER_RUNTIME=podman|docker.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=container-runtime.sh
+source "${SCRIPT_DIR}/container-runtime.sh"
+
 print_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
@@ -90,10 +96,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check if Docker Compose is available
-COMPOSE_CMD="docker-compose"
-if ! docker-compose version &> /dev/null; then
-    COMPOSE_CMD="docker compose"
-fi
+# COMPOSE_CMD comes from container-runtime.sh
 
 # Function to show service status
 show_status() {
@@ -144,15 +147,15 @@ show_container_logs() {
     
     if [ "$FOLLOW" = true ]; then
         if [ -n "$SINCE" ]; then
-            docker logs $SINCE -f $container
+            $CONTAINER_CMD logs $SINCE -f $container
         else
-            docker logs -f $container
+            $CONTAINER_CMD logs -f $container
         fi
     else
         if [ -n "$SINCE" ]; then
-            docker logs --tail=$LINES $SINCE $container
+            $CONTAINER_CMD logs --tail=$LINES $SINCE $container
         else
-            docker logs --tail=$LINES $container
+            $CONTAINER_CMD logs --tail=$LINES $container
         fi
     fi
 }

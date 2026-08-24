@@ -9,7 +9,7 @@ import random
 import string
 from functools import reduce
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 from urllib.parse import unquote
 
 import cv2
@@ -23,6 +23,7 @@ from playhouse.shortcuts import model_to_dict
 
 from frigate.api.auth import (
     get_allowed_cameras_for_filter,
+    get_current_user,
     require_camera_access,
     require_role,
 )
@@ -58,6 +59,7 @@ from frigate.comms.event_metadata_updater import EventMetadataTypeEnum
 from frigate.const import CLIPS_DIR, TRIGGER_DIR
 from frigate.embeddings import EmbeddingsContext
 from frigate.models import Event, ReviewSegment, Timeline, Trigger
+from frigate.violations import violation_events_clause
 from frigate.track.object_processing import TrackedObject
 from frigate.util.file import get_event_thumbnail_bytes
 from frigate.util.time import get_dst_transitions, get_tz_modifiers
@@ -353,10 +355,10 @@ def events_explore(
     limit: int = 10,
     allowed_cameras: List[str] = Depends(get_allowed_cameras_for_filter),
 ):
-    # get distinct sub_labels for violation events (events with sub_label set)
+    # get distinct sub_labels for Rasid360 violation events
     distinct_sub_labels = (
         Event.select(Event.sub_label)
-        .where((Event.camera << allowed_cameras) & (Event.sub_label.is_null(False)))
+        .where((Event.camera << allowed_cameras) & violation_events_clause())
         .distinct()
         .order_by(Event.sub_label)
     )
@@ -914,6 +916,29 @@ def events_summary(
                 }
 
     return JSONResponse(content=sorted(grouped.values(), key=lambda x: x["day"]))
+
+
+@router.get(
+    "/events/violation_types",
+    summary="Get available violation types",
+    description=(
+        "Returns the distinct sub_labels of Rasid360 violation events the caller "
+        "can see. Used to populate violation filters without shipping events to "
+        "the client."
+    ),
+)
+def get_violation_types(
+    allowed_cameras: List[str] = Depends(get_allowed_cameras_for_filter),
+):
+    rows = (
+        Event.select(Event.sub_label)
+        .where((Event.camera << allowed_cameras) & violation_events_clause())
+        .distinct()
+        .order_by(Event.sub_label)
+        .tuples()
+    )
+
+    return JSONResponse(content=[r[0] for r in rows if r[0]])
 
 
 @router.get(
@@ -2106,6 +2131,64 @@ def get_triggers_status(
         )
 
 
+def _sync_observation_ticket(
+    event_id: str, status: str, notes: Optional[str] = None
+) -> None:
+    """Mirror ticket state onto the observation row, best effort.
+
+    An observation shares its id with the event it came from
+    (see DSLViolationDetector._handle_violation), so the two are the same ticket
+    viewed through different APIs. Event.data is the system of record; this keeps
+    the observation from drifting. Failures are logged, never raised -- a
+    successful ticket update must not be reported as a failure because the
+    analytics database was unavailable.
+    """
+    from frigate.analytics_db import AnalyticsObservation
+
+    try:
+        rows = (
+            AnalyticsObservation.update(
+                status=status,
+                notes=notes,
+                updated_at=datetime.datetime.now(),
+            )
+            .where(AnalyticsObservation.id == event_id)
+            .execute()
+        )
+        if not rows:
+            logger.debug(f"No observation row for event {event_id}; nothing to sync")
+    except Exception as e:
+        logger.warning(f"Could not sync observation ticket for {event_id}: {e}")
+
+
+def _sync_event_ticket(
+    event_id: str, status: Optional[str], notes: Optional[str], username: str
+) -> None:
+    """Mirror observation ticket state back onto Event.data, best effort.
+
+    Event.data is what AnalyticsScheduler.aggregate_ticket_status counts, so an
+    observation update that does not reach it would never show up on a chart.
+    """
+    try:
+        event: Event = Event.get(Event.id == event_id)
+    except DoesNotExist:
+        logger.debug(f"No event {event_id} to sync observation ticket onto")
+        return
+
+    try:
+        data = event.data or {}
+        if status is not None:
+            data["ticket_status"] = status
+        if notes is not None:
+            data["ticket_comments"] = notes
+        data["ticket_updated_at"] = datetime.datetime.now().timestamp()
+        data["ticket_updated_by"] = username
+        event.data = data
+        event.save()
+    except Exception as e:
+        logger.warning(f"Could not sync event ticket for {event_id}: {e}")
+
+
 @router.post(
     "/events/{event_id}/ticket",
     response_model=GenericResponse,
@@ -2119,7 +2202,11 @@ async def update_ticket(
     request: Request,
     event_id: str,
     body: EventsTicketBody,
+    current_user: dict = Depends(get_current_user),
 ):
+    if isinstance(current_user, JSONResponse):
+        return current_user
+
     try:
         event: Event = Event.get(Event.id == event_id)
         await require_camera_access(event.camera, request=request)
@@ -2137,10 +2224,16 @@ async def update_ticket(
     current_data["ticket_assigned_to"] = body.assigned_to
     current_data["ticket_comments"] = body.comments
     current_data["ticket_updated_at"] = datetime.datetime.now().timestamp()
-    current_data["ticket_updated_by"] = "admin"  # TODO: Get from auth context
+    current_data["ticket_updated_by"] = current_user["username"]
 
     event.data = current_data
     event.save()
+
+    # Keep the observation row in step. Event.data is the system of record --
+    # it is what AnalyticsScheduler.aggregate_ticket_status counts -- but the
+    # observation carries the same ticket for the /observations API, and a
+    # divergence there is invisible to the dashboard.
+    _sync_observation_ticket(event_id, body.status, body.comments)
 
     return JSONResponse(
         content={
@@ -2300,11 +2393,14 @@ def update_observation(
     observation_id: str,
     body: dict,
     allowed_cameras: List[str] = Depends(get_allowed_cameras_for_filter),
+    current_user: dict = Depends(get_current_user),
 ):
     """Update an observation in analytics database"""
     from frigate.analytics_db import AnalyticsObservation
-    import datetime
-    
+
+    if isinstance(current_user, JSONResponse):
+        return current_user
+
     try:
         observation = AnalyticsObservation.get(AnalyticsObservation.id == observation_id)
         
@@ -2325,7 +2421,17 @@ def update_observation(
         
         observation.updated_at = datetime.datetime.now()
         observation.save()
-        
+
+        # Write through to Event.data -- that is what the dashboard aggregates,
+        # so an observation-only update would otherwise never reach a chart.
+        if "status" in body or "notes" in body:
+            _sync_event_ticket(
+                observation_id,
+                body.get("status"),
+                body.get("notes"),
+                current_user["username"],
+            )
+
         return JSONResponse(
             content={
                 "success": True,

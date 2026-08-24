@@ -4,9 +4,9 @@ Serves pre-aggregated data from analytics.db for fast dashboard performance
 """
 
 import logging
-from typing import Any, List, Optional
+from typing import List, Optional
 
-from fastapi import APIRouter, Depends, Query, Request
+from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
 
 from frigate.analytics_db import (
@@ -21,13 +21,31 @@ from frigate.analytics_db import (
     AnalyticsViolationsByYear,
     AnalyticsViolationsHourly,
 )
-from frigate.api.auth import get_allowed_cameras_for_filter, require_camera_access
+from frigate.api.auth import get_allowed_cameras_for_filter
 from frigate.models import Event
+from frigate.violations import violation_events_clause
 from peewee import fn
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["dashboard"])
+
+
+async def resolve_camera_filter(
+    request: Request, cameras: Optional[str] = None
+) -> List[str]:
+    """Resolve a requested camera filter against the caller's permissions.
+
+    Always returns an explicit list so callers apply it unconditionally. An empty
+    list means the caller has access to nothing, which correctly yields no rows.
+    """
+    allowed = await get_allowed_cameras_for_filter(request)
+
+    if not cameras:
+        return list(allowed)
+
+    requested = [c for c in cameras.split(",") if c]
+    return [c for c in requested if c in allowed]
 
 
 @router.get("/dashboard/tickets/status")
@@ -52,21 +70,13 @@ async def get_ticket_status_counts(
         # Otherwise, use pre-aggregated data from analytics.db
         if cameras or sub_labels or after or before:
             # Parse filters
-            camera_list = cameras.split(",") if cameras else None
+            camera_list = await resolve_camera_filter(request, cameras)
             sub_label_list = sub_labels.split(",") if sub_labels else None
 
-            # Apply camera access control
-            allowed_cameras = await get_allowed_cameras_for_filter(request)
-            if camera_list:
-                camera_list = [c for c in camera_list if c in allowed_cameras]
-            else:
-                camera_list = list(allowed_cameras)
-
             # Build query
-            query = Event.select().where(Event.sub_label.is_null(False))
+            query = Event.select().where(violation_events_clause())
 
-            if camera_list:
-                query = query.where(Event.camera.in_(camera_list))
+            query = query.where(Event.camera.in_(camera_list))
 
             if sub_label_list:
                 query = query.where(Event.sub_label.in_(sub_label_list))
@@ -135,10 +145,15 @@ async def get_violations_by_camera(
         if sub_labels or after or before:
             sub_label_list = sub_labels.split(",") if sub_labels else None
 
+            # Apply camera access control in SQL rather than post-filtering
+            allowed_cameras = await resolve_camera_filter(request)
+
             # Build query
-            query = Event.select(
-                Event.camera, fn.COUNT(Event.id).alias("count")
-            ).where(Event.sub_label.is_null(False))
+            query = (
+                Event.select(Event.camera, fn.COUNT(Event.id).alias("count"))
+                .where(violation_events_clause())
+                .where(Event.camera.in_(allowed_cameras))
+            )
 
             if sub_label_list:
                 query = query.where(Event.sub_label.in_(sub_label_list))
@@ -149,14 +164,7 @@ async def get_violations_by_camera(
             if before:
                 query = query.where(Event.start_time <= before)
 
-            camera_counts = query.group_by(Event.camera)
-
-            # Apply camera access control and calculate percentages
-            allowed_cameras = await get_allowed_cameras_for_filter(request)
-
-            filtered_counts = [
-                row for row in camera_counts if row.camera in allowed_cameras
-            ]
+            filtered_counts = list(query.group_by(Event.camera))
 
             total = sum(row.count for row in filtered_counts)
 
@@ -171,7 +179,7 @@ async def get_violations_by_camera(
 
         else:
             # Use pre-aggregated data with camera access control
-            allowed_cameras = await get_allowed_cameras_for_filter(request)
+            allowed_cameras = await resolve_camera_filter(request)
 
             rows = (
                 AnalyticsViolationsByCamera.select()
@@ -198,7 +206,7 @@ async def get_violations_by_camera(
 
 
 @router.get("/dashboard/violations/by-type")
-def get_violations_by_type(
+async def get_violations_by_type(
     request: Request,
     cameras: Optional[str] = Query(None, description="Comma-separated camera names"),
     after: Optional[float] = Query(None, description="Timestamp after"),
@@ -214,18 +222,14 @@ def get_violations_by_type(
     try:
         # If filters provided, query frigate.db
         if cameras or after or before:
-            camera_list = cameras.split(",") if cameras else None
-
-            if camera_list:
-                camera_list = get_allowed_cameras_for_filter(request, camera_list)
+            camera_list = await resolve_camera_filter(request, cameras)
 
             # Build query
             query = Event.select(
                 Event.sub_label, fn.COUNT(Event.id).alias("count")
-            ).where(Event.sub_label.is_null(False))
+            ).where(violation_events_clause())
 
-            if camera_list:
-                query = query.where(Event.camera.in_(camera_list))
+            query = query.where(Event.camera.in_(camera_list))
 
             if after:
                 query = query.where(Event.start_time >= after)
@@ -266,7 +270,7 @@ def get_violations_by_type(
 
 
 @router.get("/dashboard/violations/hourly-heatmap")
-def get_violations_hourly_heatmap(
+async def get_violations_hourly_heatmap(
     request: Request,
     cameras: Optional[str] = Query(None, description="Comma-separated camera names"),
     sub_labels: Optional[str] = Query(
@@ -282,11 +286,8 @@ def get_violations_hourly_heatmap(
     try:
         # If filters provided, query frigate.db
         if cameras or sub_labels:
-            camera_list = cameras.split(",") if cameras else None
+            camera_list = await resolve_camera_filter(request, cameras)
             sub_label_list = sub_labels.split(",") if sub_labels else None
-
-            if camera_list:
-                camera_list = get_allowed_cameras_for_filter(request, camera_list)
 
             # Build query
             hourly_query = Event.select(
@@ -294,10 +295,9 @@ def get_violations_hourly_heatmap(
                 .cast("INTEGER")
                 .alias("hour"),
                 fn.COUNT(Event.id).alias("count"),
-            ).where(Event.sub_label.is_null(False))
+            ).where(violation_events_clause())
 
-            if camera_list:
-                hourly_query = hourly_query.where(Event.camera.in_(camera_list))
+            hourly_query = hourly_query.where(Event.camera.in_(camera_list))
 
             if sub_label_list:
                 hourly_query = hourly_query.where(Event.sub_label.in_(sub_label_list))
@@ -345,7 +345,7 @@ def get_violations_hourly_heatmap(
 
 
 @router.get("/dashboard/violations/by-weekday")
-def get_violations_by_weekday(
+async def get_violations_by_weekday(
     request: Request,
     cameras: Optional[str] = Query(None, description="Comma-separated camera names"),
     sub_labels: Optional[str] = Query(
@@ -359,11 +359,8 @@ def get_violations_by_weekday(
     try:
         # If filters provided, query frigate.db
         if cameras or sub_labels:
-            camera_list = cameras.split(",") if cameras else None
+            camera_list = await resolve_camera_filter(request, cameras)
             sub_label_list = sub_labels.split(",") if sub_labels else None
-
-            if camera_list:
-                camera_list = get_allowed_cameras_for_filter(request, camera_list)
 
             # Build query
             weekday_query = Event.select(
@@ -371,10 +368,9 @@ def get_violations_by_weekday(
                 .cast("INTEGER")
                 .alias("dow"),
                 fn.COUNT(Event.id).alias("count"),
-            ).where(Event.sub_label.is_null(False))
+            ).where(violation_events_clause())
 
-            if camera_list:
-                weekday_query = weekday_query.where(Event.camera.in_(camera_list))
+            weekday_query = weekday_query.where(Event.camera.in_(camera_list))
 
             if sub_label_list:
                 weekday_query = weekday_query.where(Event.sub_label.in_(sub_label_list))
@@ -434,7 +430,7 @@ def get_violations_by_weekday(
 
 
 @router.get("/dashboard/violations/by-month")
-def get_violations_by_month(
+async def get_violations_by_month(
     request: Request,
     cameras: Optional[str] = Query(None, description="Comma-separated camera names"),
     sub_labels: Optional[str] = Query(
@@ -448,11 +444,8 @@ def get_violations_by_month(
     try:
         # If filters provided, query frigate.db
         if cameras or sub_labels:
-            camera_list = cameras.split(",") if cameras else None
+            camera_list = await resolve_camera_filter(request, cameras)
             sub_label_list = sub_labels.split(",") if sub_labels else None
-
-            if camera_list:
-                camera_list = get_allowed_cameras_for_filter(request, camera_list)
 
             # Build query
             month_query = Event.select(
@@ -460,10 +453,9 @@ def get_violations_by_month(
                 .cast("INTEGER")
                 .alias("month"),
                 fn.COUNT(Event.id).alias("count"),
-            ).where(Event.sub_label.is_null(False))
+            ).where(violation_events_clause())
 
-            if camera_list:
-                month_query = month_query.where(Event.camera.in_(camera_list))
+            month_query = month_query.where(Event.camera.in_(camera_list))
 
             if sub_label_list:
                 month_query = month_query.where(Event.sub_label.in_(sub_label_list))
@@ -520,7 +512,7 @@ def get_violations_by_month(
 
 
 @router.get("/dashboard/violations/by-quarter")
-def get_violations_by_quarter(
+async def get_violations_by_quarter(
     request: Request,
     cameras: Optional[str] = Query(None, description="Comma-separated camera names"),
     sub_labels: Optional[str] = Query(
@@ -534,11 +526,8 @@ def get_violations_by_quarter(
     try:
         # If filters provided, query frigate.db
         if cameras or sub_labels:
-            camera_list = cameras.split(",") if cameras else None
+            camera_list = await resolve_camera_filter(request, cameras)
             sub_label_list = sub_labels.split(",") if sub_labels else None
-
-            if camera_list:
-                camera_list = get_allowed_cameras_for_filter(request, camera_list)
 
             # Build query (get by month first, then aggregate)
             month_query = Event.select(
@@ -546,10 +535,9 @@ def get_violations_by_quarter(
                 .cast("INTEGER")
                 .alias("month"),
                 fn.COUNT(Event.id).alias("count"),
-            ).where(Event.sub_label.is_null(False))
+            ).where(violation_events_clause())
 
-            if camera_list:
-                month_query = month_query.where(Event.camera.in_(camera_list))
+            month_query = month_query.where(Event.camera.in_(camera_list))
 
             if sub_label_list:
                 month_query = month_query.where(Event.sub_label.in_(sub_label_list))
@@ -598,7 +586,7 @@ def get_violations_by_quarter(
 
 
 @router.get("/dashboard/violations/by-year")
-def get_violations_by_year(
+async def get_violations_by_year(
     request: Request,
     cameras: Optional[str] = Query(None, description="Comma-separated camera names"),
     sub_labels: Optional[str] = Query(
@@ -612,11 +600,8 @@ def get_violations_by_year(
     try:
         # If filters provided, query frigate.db
         if cameras or sub_labels:
-            camera_list = cameras.split(",") if cameras else None
+            camera_list = await resolve_camera_filter(request, cameras)
             sub_label_list = sub_labels.split(",") if sub_labels else None
-
-            if camera_list:
-                camera_list = get_allowed_cameras_for_filter(request, camera_list)
 
             # Build query
             year_query = Event.select(
@@ -624,10 +609,9 @@ def get_violations_by_year(
                 .cast("INTEGER")
                 .alias("year"),
                 fn.COUNT(Event.id).alias("count"),
-            ).where(Event.sub_label.is_null(False))
+            ).where(violation_events_clause())
 
-            if camera_list:
-                year_query = year_query.where(Event.camera.in_(camera_list))
+            year_query = year_query.where(Event.camera.in_(camera_list))
 
             if sub_label_list:
                 year_query = year_query.where(Event.sub_label.in_(sub_label_list))
@@ -656,14 +640,14 @@ def get_violations_by_year(
 
 
 @router.get("/dashboard/camera/fps")
-def get_camera_fps(request: Request):
+async def get_camera_fps(request: Request):
     """
     Get FPS metrics for all cameras
     Returns: fps, detection_fps, process_fps, skipped_fps per camera
     """
     try:
         # Apply camera access control
-        allowed_cameras = get_allowed_cameras_for_filter(request, None)
+        allowed_cameras = await resolve_camera_filter(request)
 
         rows = (
             AnalyticsCameraFPS.select()
@@ -692,14 +676,14 @@ def get_camera_fps(request: Request):
 
 
 @router.get("/dashboard/camera/offline")
-def get_offline_cameras(request: Request):
+async def get_offline_cameras(request: Request):
     """
     Get list of offline cameras (that are enabled)
     Returns camera names that are enabled but offline
     """
     try:
         # Apply camera access control
-        allowed_cameras = get_allowed_cameras_for_filter(request, None)
+        allowed_cameras = await resolve_camera_filter(request)
 
         rows = (
             AnalyticsCameraStatus.select()

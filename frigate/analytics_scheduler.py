@@ -24,6 +24,7 @@ from frigate.analytics_db import (
     analytics_db,
 )
 from frigate.models import Event
+from frigate.violations import violation_events_clause
 
 logger = logging.getLogger(__name__)
 
@@ -115,9 +116,17 @@ class AnalyticsScheduler:
             if self.frigate_db and not Event._meta.database.is_closed():
                 Event._meta.set_database(self.frigate_db)
 
-            # Get all events with sub_label (violations)
-            # Count by ticket_status from JSON data field
-            violations = Event.select().where(Event.sub_label.is_null(False))
+            # Count by ticket_status in SQL rather than materializing every
+            # violation event -- this runs over the full history each pass.
+            status_field = Event.data["ticket_status"].cast("text")
+            rows = list(
+                Event.select(
+                    status_field.alias("ticket_status"),
+                    fn.COUNT(Event.id).alias("count"),
+                )
+                .where(violation_events_clause())
+                .group_by(status_field)
+            )
 
             status_counts = {
                 "new": 0,
@@ -127,15 +136,10 @@ class AnalyticsScheduler:
                 "fake": 0,
             }
 
-            for event in violations:
-                ticket_status = (
-                    event.data.get("ticket_status", "new") if event.data else "new"
-                )
-                if ticket_status in status_counts:
-                    status_counts[ticket_status] += 1
-                else:
-                    # Default to 'new' if status is unrecognized
-                    status_counts["new"] += 1
+            for row in rows:
+                # Events with no ticket yet, and any unrecognized status, count as new.
+                status = row.ticket_status if row.ticket_status in status_counts else "new"
+                status_counts[status] += row.count
 
             # Update analytics table
             for status, count in status_counts.items():
@@ -158,9 +162,9 @@ class AnalyticsScheduler:
                 Event._meta.set_database(self.frigate_db)
 
             # Get violation counts per camera
-            camera_counts = (
+            camera_counts = list(
                 Event.select(Event.camera, fn.COUNT(Event.id).alias("count"))
-                .where(Event.sub_label.is_null(False))
+                .where(violation_events_clause())
                 .group_by(Event.camera)
             )
 
@@ -182,7 +186,7 @@ class AnalyticsScheduler:
                     )
 
             logger.debug(
-                f"Updated violations by camera ({len(list(camera_counts))} cameras)"
+                f"Updated violations by camera ({len(camera_counts)} cameras)"
             )
 
         except Exception as e:
@@ -198,9 +202,9 @@ class AnalyticsScheduler:
                 Event._meta.set_database(self.frigate_db)
 
             # Get violation counts per type
-            type_counts = (
+            type_counts = list(
                 Event.select(Event.sub_label, fn.COUNT(Event.id).alias("count"))
-                .where(Event.sub_label.is_null(False))
+                .where(violation_events_clause())
                 .group_by(Event.sub_label)
                 .order_by(fn.COUNT(Event.id).desc())
             )
@@ -215,7 +219,7 @@ class AnalyticsScheduler:
                 )
 
             logger.debug(
-                f"Updated violations by type ({len(list(type_counts))} types)"
+                f"Updated violations by type ({len(type_counts)} types)"
             )
 
         except Exception as e:
@@ -232,12 +236,12 @@ class AnalyticsScheduler:
 
             # Get violations grouped by hour
             # Extract hour from start_time (stored as datetime/timestamp)
-            hourly_counts = (
+            hourly_counts = list(
                 Event.select(
                     fn.strftime("%H", Event.start_time, "unixepoch").cast("INTEGER").alias("hour"),
                     fn.COUNT(Event.id).alias("count"),
                 )
-                .where(Event.sub_label.is_null(False))
+                .where(violation_events_clause())
                 .group_by(fn.strftime("%H", Event.start_time, "unixepoch"))
             )
 
@@ -275,12 +279,12 @@ class AnalyticsScheduler:
             # Get violations grouped by weekday
             # SQLite strftime '%w' returns 0=Sunday, 6=Saturday
             # Convert to 0=Monday, 6=Sunday by adjusting
-            weekday_counts = (
+            weekday_counts = list(
                 Event.select(
                     fn.strftime("%w", Event.start_time, "unixepoch").cast("INTEGER").alias("dow"),
                     fn.COUNT(Event.id).alias("count"),
                 )
-                .where(Event.sub_label.is_null(False))
+                .where(violation_events_clause())
                 .group_by(fn.strftime("%w", Event.start_time, "unixepoch"))
             )
 
@@ -314,12 +318,12 @@ class AnalyticsScheduler:
                 Event._meta.set_database(self.frigate_db)
 
             # Get violations grouped by month
-            month_counts = (
+            month_counts = list(
                 Event.select(
                     fn.strftime("%m", Event.start_time, "unixepoch").cast("INTEGER").alias("month"),
                     fn.COUNT(Event.id).alias("count"),
                 )
-                .where(Event.sub_label.is_null(False))
+                .where(violation_events_clause())
                 .group_by(fn.strftime("%m", Event.start_time, "unixepoch"))
             )
 
@@ -348,12 +352,12 @@ class AnalyticsScheduler:
                 Event._meta.set_database(self.frigate_db)
 
             # Get violations grouped by month, then aggregate to quarters
-            month_counts = (
+            month_counts = list(
                 Event.select(
                     fn.strftime("%m", Event.start_time, "unixepoch").cast("INTEGER").alias("month"),
                     fn.COUNT(Event.id).alias("count"),
                 )
-                .where(Event.sub_label.is_null(False))
+                .where(violation_events_clause())
                 .group_by(fn.strftime("%m", Event.start_time, "unixepoch"))
             )
 
@@ -388,12 +392,12 @@ class AnalyticsScheduler:
                 Event._meta.set_database(self.frigate_db)
 
             # Get violations grouped by year
-            year_counts = (
+            year_counts = list(
                 Event.select(
                     fn.strftime("%Y", Event.start_time, "unixepoch").cast("INTEGER").alias("year"),
                     fn.COUNT(Event.id).alias("count"),
                 )
-                .where(Event.sub_label.is_null(False))
+                .where(violation_events_clause())
                 .group_by(fn.strftime("%Y", Event.start_time, "unixepoch"))
             )
 
@@ -406,7 +410,7 @@ class AnalyticsScheduler:
                     year=row.year, count=row.count, last_updated=now
                 )
 
-            logger.debug(f"Updated yearly violations ({len(list(year_counts))} years)")
+            logger.debug(f"Updated yearly violations ({len(year_counts)} years)")
 
         except Exception as e:
             logger.error(f"Error aggregating yearly violations: {e}", exc_info=True)

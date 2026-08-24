@@ -110,19 +110,19 @@ class EventDispatcher:
         self.logger = logging.getLogger("EventDispatcher")
 
     def _init_analytics_database(self) -> None:
-        """Initialize analytics database connection"""
-        from frigate.analytics_db import analytics_db, ANALYTICS_MODELS
+        """Initialize analytics database connection.
 
-        # Database path - use same location as Frigate
+        Uses the same initializer as the Frigate process so both writers agree on
+        pragmas (WAL, busy_timeout) and seeded rows. The path must resolve to the
+        same file Frigate uses -- Frigate derives it from config.database.path,
+        so override ANALYTICS_DB_PATH if that has been customized.
+        """
+        from frigate.analytics_db import init_analytics_db
+
         db_path = os.environ.get("ANALYTICS_DB_PATH", "/config/analytics.db")
 
         try:
-            # Initialize database
-            analytics_db.init(db_path)
-
-            # Create tables if they don't exist
-            analytics_db.create_tables(ANALYTICS_MODELS, safe=True)
-
+            init_analytics_db(db_path)
             logging.info(f"✓ Analytics database initialized: {db_path}")
         except Exception as e:
             logging.error(f"✗ Failed to initialize analytics database: {e}")

@@ -469,6 +469,8 @@ cameras:
       width: 640
       height: 480
       fps: 5
+      # Plates are often on stopped or slow vehicles that never trigger motion.
+      always_full_frame: true
     motion:
       threshold: 15  # Lower threshold for better sensitivity (was 25)
       contour_area: 5  # Lower minimum area (was 10)

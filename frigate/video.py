@@ -904,12 +904,14 @@ def process_frames(
                     regions.append(region)
                 startup_scan = False
 
-            # DEVELOPMENT HACK: Force detection on every frame for LPR_Camera when no regions found
-            # This bypasses motion detection requirement for testing
-            if len(regions) == 0 and camera_config.name == "LPR_Camera":
-                # Add full frame as a region
+            # Cameras with detect.always_full_frame run detection even when motion
+            # found nothing, for targets that are stationary or move too little to
+            # trigger motion (license plates in particular).
+            if len(regions) == 0 and camera_config.detect.always_full_frame:
                 regions.append([0, 0, frame_shape[1], frame_shape[0]])
-                logger.debug(f"LPR_Camera: No motion detected, forcing full-frame detection")
+                logger.debug(
+                    f"{camera_config.name}: No motion detected, forcing full-frame detection"
+                )
 
             # resize regions and detect
             # seed with stationary objects

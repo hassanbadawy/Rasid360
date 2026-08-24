@@ -61,3 +61,13 @@ class DetectConfig(FrigateBaseModel):
     annotation_offset: int = Field(
         default=0, title="Milliseconds to offset detect annotations by."
     )
+    always_full_frame: bool = Field(
+        default=False,
+        title="Run detection on the full frame when motion detection finds no regions.",
+        description=(
+            "Bypasses motion gating for this camera. Useful where targets are "
+            "stationary or move too little to trigger motion -- license plate "
+            "cameras in particular. Costs a detection pass on every frame, so "
+            "enable it per camera rather than globally."
+        ),
+    )

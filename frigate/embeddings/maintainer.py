@@ -166,7 +166,7 @@ class EmbeddingMaintainer(threading.Thread):
             )
             logger.debug("FaceRealTimeProcessor initialized successfully")
 
-        if self.config.classification.bird.enabled:
+        if self.config.classification.object.enabled:
             self.realtime_processors.append(
                 BirdRealTimeProcessor(
                     self.config, self.event_metadata_publisher, metrics
