@@ -2,18 +2,18 @@
 type: operations
 status: current
 sources: [data/frigate-config/config.yml, frigate/extras/config.yml, frigate/extras/config.py, docker-compose.yml, .gitignore]
-updated: 2026-08-24
+updated: 2026-08-25
 ---
 
 # Configuration
 
-There are **two independent config files**, owned by two different processes. Confusing them is
-the most common source of "my rule does nothing".
+There are **two config files**, but since 2026-08-25 violation rules live in the Frigate config
+rather than the worker's:
 
 | File | Read by | Purpose | In git? |
 |---|---|---|---|
-| `data/frigate-config/config.yml` | Frigate | cameras, zones, detectors, recording, LPR | **yes** (tracked) |
-| `frigate/extras/config.yml` | Extras worker | MQTT, API URL, violation rules | **yes** |
+| `data/frigate-config/config.yml` | Frigate **and** the worker | cameras, zones, detectors, recording, LPR, **violation rules** | **yes** (tracked) |
+| `frigate/extras/config.yml` | Extras worker | MQTT, API URL, logging; violation rules only as a fallback | **yes** |
 
 ## Frigate config
 

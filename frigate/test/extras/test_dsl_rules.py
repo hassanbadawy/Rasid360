@@ -5,6 +5,7 @@ evaluation path -- so rules can be exercised directly by feeding it MQTT-shaped
 event payloads.
 """
 
+import time
 import unittest
 
 from frigate.extras.dsl.evaluator import RuleEvaluator
@@ -228,6 +229,65 @@ class TestZoneSequenceRule(unittest.TestCase):
             1001.0,
             "violation should carry the first wrong-zone frame, not the last",
         )
+
+
+class TestSpeedThreshold(unittest.TestCase):
+    """speed_threshold narrows a sustained condition to over-limit objects.
+
+    Frigate reports average_estimated_speed as 0 unless the zone sets
+    `distances`, so an unconfigured zone can never trip a speed rule.
+
+    Note sustained conditions are timed on the wall clock
+    (StateTracker.start_condition uses datetime.now()), not on the event's
+    frame_time -- so these tests use a short real duration rather than advancing
+    frame_time, which has no effect on the timer.
+    """
+
+    SUSTAIN = 0.05
+
+    def rule(self, **overrides):
+        config = {
+            "type": "sustained_condition",
+            "condition": "in_zone(speed_zone) AND detected(car)",
+            "monitor_duration": self.SUSTAIN,
+            "speed_threshold": 80,
+            "cooldown": 0,
+        }
+        config.update(overrides)
+        return create_rule("speeding", config)
+
+    def sustain(self, evaluator, rule, **event_kwargs):
+        """Feed the rule until the sustain window has really elapsed."""
+        found = evaluator.evaluate_event(
+            event(current_zones=["speed_zone"], **event_kwargs), [rule]
+        )
+        time.sleep(self.SUSTAIN * 2)
+        return evaluator.evaluate_event(
+            event(current_zones=["speed_zone"], **event_kwargs), [rule]
+        )
+
+    def test_over_threshold_fires(self):
+        found = self.sustain(
+            RuleEvaluator(), self.rule(), average_estimated_speed=95
+        )
+        self.assertEqual(len(found), 1)
+
+    def test_under_threshold_never_fires(self):
+        found = self.sustain(
+            RuleEvaluator(), self.rule(), average_estimated_speed=40
+        )
+        self.assertEqual(found, [])
+
+    def test_missing_speed_treated_as_zero(self):
+        """A zone without `distances` reports no speed -- must not fire."""
+        found = self.sustain(RuleEvaluator(), self.rule())
+        self.assertEqual(found, [])
+
+    def test_without_threshold_speed_is_ignored(self):
+        rule = self.rule(speed_threshold=None)
+        rule.speed_threshold = None
+        found = self.sustain(RuleEvaluator(), rule)
+        self.assertEqual(len(found), 1)
 
 
 class TestCooldown(unittest.TestCase):

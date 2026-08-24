@@ -14,4 +14,5 @@ from .review import *  # noqa: F403
 from .snapshots import *  # noqa: F403
 from .timestamp import *  # noqa: F403
 from .ui import *  # noqa: F403
+from .violation import *  # noqa: F403
 from .zone import *  # noqa: F403

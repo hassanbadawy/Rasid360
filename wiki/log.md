@@ -197,3 +197,61 @@ success.
 
 **Not yet done:** Frigate needs a restart for the `bird` → `object` fix to take effect — the
 running process still has the crashed embeddings child.
+
+---
+
+## [2026-08-25] ingest | Violation rules move into the Frigate config, with a UI
+
+**Scope:** new config schema, cross-validation, worker rule source, a Settings page, migration of
+all 11 rules. Verified end-to-end in a browser.
+
+Hand-writing the rule YAML was error-prone, and the errors were silent -- a misspelled zone name
+produced a rule that loaded fine and never fired. A UI that only generated YAML would have fixed
+the typing but not the failure mode, so both were addressed together.
+
+**The decision.** Rules moved from `frigate/extras/config.yml` into
+`cameras.<name>.violations` in the Frigate config. That one change solved four problems at once:
+the UI reuses the existing `config/set` write path; `config_set` already validates and rolls back
+on failure; a rule and its zones are finally in the same object so they can be cross-checked; and
+the worker already had `FrigateAPI.get_config()`.
+
+**Built:**
+
+- `frigate/config/camera/violation.py` -- `ViolationRuleConfig`, required-field checks per rule
+  type, plus `referenced_zones()` / `referenced_labels()`
+- `verify_violation_rules` in `frigate/config/config.py`, alongside the existing
+  `verify_*` helpers so it runs after the global-to-camera merge
+- `GET /api/config/violations` -- reads rules from the config *file*
+- `DSLViolationDetector._resolve_camera_rules` -- prefers the Frigate config, falls back to the
+  extras YAML with a warning
+- `RulesView` + `RuleEditDialog` -- see [Rules Editor](components/web-rules-editor.md)
+- 13 config tests, 4 speed tests, 11 browser checks
+
+**Why a form is enough.** All 11 shipped rules are either `zone_sequence`, `fall_down`, or
+`in_zone(X) AND (detected(a) OR detected(b))`. The editor asks for a zone and a set of objects
+and builds the condition itself; free-text DSL stays behind an Advanced toggle.
+
+**Bugs found by doing the migration:**
+
+- **`speed_threshold` was accepted and silently ignored.** Rather than codify that in the schema,
+  it is now implemented in `SustainedConditionRule` -- Frigate already puts
+  `average_estimated_speed` on the event.
+- **`Road05` had two rules both named `wrongway`.** Cooldowns key on `camera:rule_name`, so at
+  `cooldown: 600` the right-lane rule suppressed the left-lane rule for ten minutes. Caught by
+  the new duplicate-name check; renamed to `wrongway_right` / `wrongway_left`.
+- **The editor would have silently dropped rules.** `/api/config` serves the *in-memory* config,
+  which does not reflect `config/set` writes until restart. Saving a camera's whole list from
+  that stale copy would discard anything saved since the last restart -- hence the file-truth
+  endpoint.
+
+**Corrections to earlier notes:** sustained conditions are timed on the **wall clock**
+(`datetime.now()`), not the event's `frame_time`; tests that advance `frame_time` do not advance
+the timer.
+
+**Verified live:** config parses with all 11 rules cross-validated; a deliberately bad rule is
+rejected and the file left byte-identical; the worker loads all 11 from the Frigate config; and
+`red_zone_intrusion` fired on EmbassyGate from a rule the UI can now edit.
+
+**Left alone:** `test_post_reviews_delete_many` fails when run after another http_api suite.
+Confirmed pre-existing and unrelated -- `test_http_media` reproduces it with none of this fork's
+code. See [Known Issues](health/known-issues.md) 8d.

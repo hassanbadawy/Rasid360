@@ -45,6 +45,64 @@ class DSLViolationDetector(BaseAction):
             f"{len(self.cameras_config)} cameras"
         )
 
+    @staticmethod
+    def _strip_unset(rule: Dict[str, Any]) -> Dict[str, Any]:
+        """Drop null values from a rule coming off the Frigate API.
+
+        The config is serialized from pydantic, so fields that do not apply to a
+        rule type come back as null. The DSL rule classes read their config with
+        ``config.get(key, default)``, which returns the null rather than the
+        default -- ``monitor_duration: None`` would then fail the ``<= 0`` check
+        with a TypeError instead of falling back to 0.
+        """
+        return {k: v for k, v in rule.items() if v is not None}
+
+    def _resolve_camera_rules(
+        self, frigate_cameras: Dict[str, Any]
+    ) -> Dict[str, list]:
+        """Collect violation rules per camera.
+
+        Rules live on the camera in the Frigate config -- that is what the
+        Settings UI edits and what config validation cross-checks against zones
+        and tracked objects. frigate/extras/config.yml is still read for cameras
+        that have no rules there, so deployments that have not migrated keep
+        working.
+        """
+        resolved: Dict[str, list] = {}
+
+        for camera, camera_config in (frigate_cameras or {}).items():
+            rules = camera_config.get("violations") or []
+            enabled = [self._strip_unset(r) for r in rules if r.get("enabled", True)]
+            if enabled:
+                resolved[camera] = enabled
+
+        if resolved:
+            self.log_info(
+                f"Loaded rules from the Frigate config for {len(resolved)} camera(s)"
+            )
+
+        legacy = 0
+        for camera, camera_config in self.cameras_config.items():
+            if camera in resolved:
+                continue
+            rules = [
+                r
+                for r in camera_config.get("violations", [])
+                if r.get("enabled", True)
+            ]
+            if rules:
+                resolved[camera] = rules
+                legacy += 1
+
+        if legacy:
+            self.log_warning(
+                f"{legacy} camera(s) still take rules from frigate/extras/config.yml. "
+                f"Move them under cameras.<name>.violations in the Frigate config so "
+                f"they are validated and editable in Settings -> Rules."
+            )
+
+        return resolved
+
     def _load_rules(self):
         """Load and parse all violation rules"""
         # Load templates
@@ -60,10 +118,10 @@ class DSLViolationDetector(BaseAction):
 
         frigate_cameras = frigate_config.get("cameras", {}) if frigate_config else {}
 
-        # Parse rules for each camera
-        for camera, camera_config in self.cameras_config.items():
-            violations_config = camera_config.get("violations", [])
+        cameras_config = self._resolve_camera_rules(frigate_cameras)
 
+        # Parse rules for each camera
+        for camera, violations_config in cameras_config.items():
             if not violations_config:
                 continue
 

@@ -2,7 +2,7 @@
 type: component
 status: current
 sources: [frigate/extras/main.py, frigate/extras/config.py, frigate/extras/utils/mqtt_client.py, frigate/extras/utils/frigate_api.py, frigate/extras/actions/base_action.py, run-dev.sh]
-updated: 2026-08-24
+updated: 2026-08-25
 ---
 
 # Extras Service
@@ -46,6 +46,18 @@ Two handlers ship:
   rule type. Retained but redundant.
 
 Handlers are independent: each event is offered to every enabled handler in turn.
+
+### Where rules come from
+
+`DSLViolationDetector._resolve_camera_rules` prefers `cameras.<name>.violations` from the Frigate
+config, fetched via `FrigateAPI.get_config()`. That is what the
+[Rules Editor](web-rules-editor.md) writes and what config validation cross-checks.
+
+`frigate/extras/config.yml` is the fallback for cameras with no rules in the Frigate config; the
+worker logs a warning naming them. Rules fetched from the API are stripped of null values first
+(`_strip_unset`) — pydantic serializes unset optionals as `null`, and the DSL rule classes read
+config with `config.get(key, default)`, which returns the null rather than the default.
+`monitor_duration: None` would then fail the `<= 0` check with a TypeError.
 
 ## MQTT layer
 

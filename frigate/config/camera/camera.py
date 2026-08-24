@@ -39,6 +39,7 @@ from .review import ReviewConfig
 from .snapshots import SnapshotsConfig
 from .timestamp import TimestampStyleConfig
 from .ui import CameraUiConfig
+from .violation import ViolationRuleConfig
 from .zone import ZoneConfig
 
 __all__ = ["CameraConfig"]
@@ -131,6 +132,10 @@ class CameraConfig(FrigateBaseModel):
     webui_url: Optional[str] = Field(
         None,
         title="URL to visit the camera directly from system page",
+    )
+    violations: list[ViolationRuleConfig] = Field(
+        default_factory=list,
+        title="Violation rules evaluated for this camera.",
     )
     zones: dict[str, ZoneConfig] = Field(
         default_factory=dict, title="Zone configuration."

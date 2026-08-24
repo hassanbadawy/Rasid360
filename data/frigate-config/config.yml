@@ -169,6 +169,25 @@ cameras:
         friendly_name: WrongZone
         inertia: 3
 
+    violations:
+      - name: wrongway
+        enabled: true
+        type: zone_sequence
+        description: Vehicles moving from zone01/zone02 to wrongzone
+        duration: 30
+        severity: high
+        cooldown: 600
+        retention_days: 30
+        vehicle_types:
+          - car
+          - bus
+          - truck
+          - motorcycle
+        from_zones:
+          - zone01
+          - zone02
+        to_zone: wrongzone
+        min_detections: 1
   Road02:
     enabled: true
     lpr:
@@ -199,6 +218,17 @@ cameras:
           min_score: 0.01
           threshold: 0.01
 
+    violations:
+      - name: person_fall_down
+        enabled: true
+        type: fall_down
+        description: Person fall detected
+        object_type: person
+        width_height_ratio: 1.2
+        min_duration: 3
+        duration: 30
+        severity: critical
+        cooldown: 600
   Road03:
     enabled: true
     lpr:
@@ -247,6 +277,38 @@ cameras:
         loitering_time: 0
         friendly_name: Speed_Estimation
 
+    violations:
+      - name: no_parking_violation
+        enabled: true
+        type: sustained_condition
+        description: Vehicle stopped in No_Parking zone for more than 5 seconds
+        condition: in_zone(no_parking) AND (detected(car) OR detected(bus) OR 
+          detected(truck) OR detected(motorcycle))
+        monitor_duration: 5
+        duration: 30
+        severity: high
+        cooldown: 600
+      - name: no_stop_violation
+        enabled: true
+        type: sustained_condition
+        description: Vehicle stopped in No_Stop zone for more than 3 seconds
+        condition: in_zone(no_stop) AND (detected(car) OR detected(bus) OR 
+          detected(truck) OR detected(motorcycle))
+        monitor_duration: 3
+        duration: 30
+        severity: high
+        cooldown: 600
+      - name: speed_limit_violation
+        enabled: true
+        type: sustained_condition
+        description: Vehicle exceeding 80 km/h speed limit
+        condition: in_zone(speed_estimation) AND (detected(car) OR detected(bus)
+          OR detected(truck) OR detected(motorcycle))
+        speed_threshold: 80
+        monitor_duration: 2
+        duration: 30
+        severity: high
+        cooldown: 600
   Road04:
     enabled: true
     lpr:
@@ -288,6 +350,22 @@ cameras:
           - motorcycle
         friendly_name: RightComeEnd
 
+    violations:
+      - name: wrongway
+        enabled: true
+        type: zone_sequence
+        description: Vehicles moving in wrong direction
+        vehicle_types:
+          - car
+          - bus
+          - truck
+          - motorcycle
+        from_zones:
+          - rightcomeend
+        to_zone: rightcomestart
+        duration: 3
+        severity: high
+        cooldown: 600
   Road05:
     enabled: true
     lpr:
@@ -349,6 +427,39 @@ cameras:
         friendly_name: RightComeEnd
         inertia: 3
 
+    violations:
+      - name: wrongway_right
+        enabled: true
+        type: zone_sequence
+        description: Vehicles moving in wrong direction (right lane)
+        vehicle_types:
+          - car
+          - bus
+          - truck
+          - motorcycle
+        from_zones:
+          - rightcomeend
+        to_zone: rightcomestart
+        min_detections: 2
+        duration: 3
+        severity: high
+        cooldown: 600
+      - name: wrongway_left
+        enabled: true
+        type: zone_sequence
+        description: Vehicles moving in wrong direction (left lane)
+        vehicle_types:
+          - car
+          - bus
+          - truck
+          - motorcycle
+        from_zones:
+          - leftcomeend
+        to_zone: leftcomestart
+        min_detections: 2
+        duration: 3
+        severity: high
+        cooldown: 600
   Road06:
     enabled: true
     lpr:
@@ -398,6 +509,34 @@ cameras:
         friendly_name: No_Stop_Zone
         inertia: 3
 
+    violations:
+      - name: aggressive_turn
+        enabled: true
+        type: zone_sequence
+        description: Vehicle making aggressive turn from No_Exit_Zone to 
+          Exit_Zone
+        vehicle_types:
+          - car
+          - bus
+          - truck
+          - motorcycle
+        from_zones:
+          - no_exit_zone
+        to_zone: exit_zone
+        min_detections: 2
+        duration: 30
+        severity: high
+        cooldown: 600
+      - name: no_stop_zone_violation
+        enabled: true
+        type: sustained_condition
+        description: Vehicle stopped in No_Stop_Zone for more than 3 seconds
+        condition: in_zone(no_stop_zone) AND (detected(car) OR detected(bus) OR 
+          detected(truck) OR detected(motorcycle))
+        monitor_duration: 3
+        duration: 30
+        severity: high
+        cooldown: 600
   EmbassyGate:
     enabled: true
     lpr:
@@ -452,6 +591,16 @@ cameras:
           - person
         friendly_name: EmbRedZone
 
+    violations:
+      - name: red_zone_intrusion
+        enabled: true
+        type: zone_object
+        description: Person or handbag detected in EmbRedZone for 2 seconds
+        condition: in_zone(embredzone) AND (detected(person) OR 
+          detected(handbag))
+        duration: 2
+        severity: high
+        cooldown: 600
   LPR_Camera:
     enabled: false
     lpr:

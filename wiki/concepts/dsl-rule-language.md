@@ -2,7 +2,7 @@
 type: concept
 status: current
 sources: [frigate/extras/config.yml, frigate/extras/dsl/rule_types.py, frigate/extras/dsl/operators.py, frigate/extras/dsl/temporal.py, frigate/extras/dsl/aspect_ratio_rules.py, frigate/extras/dsl/validator.py, frigate/extras/DSL_GUIDE.md]
-updated: 2026-08-24
+updated: 2026-08-25
 ---
 
 # DSL Rule Language
@@ -13,37 +13,51 @@ The declarative language for expressing violations. This is the design centrepie
 Reference implementation: `frigate/extras/config.yml`.
 Author's guide: `frigate/extras/DSL_GUIDE.md` (590 lines).
 
-## Structure: templates + instances
+## Where rules live
 
-Rules are defined twice over. A **template** under `violation_templates` describes the shape of
-a violation with `{placeholder}` parameters. A per-camera **instance** under `cameras.<name>.violations`
-fills them in.
+**Rules live in the Frigate config, under `cameras.<name>.violations`** (moved there
+2026-08-25). They are edited from Settings → Cameras → Violation Rules
+([Rules Editor](../components/web-rules-editor.md)) and modelled by `ViolationRuleConfig` in
+`frigate/config/camera/violation.py`.
+
+That placement is what makes validation possible: a rule and the zones it references are parsed
+as one object, so `verify_violation_rules` (`frigate/config/config.py`) can reject a rule naming
+a zone or label that does not exist on that camera. Previously rules sat in
+`frigate/extras/config.yml`, read by a separate process with no view of the camera config, and a
+bad zone name was a silent no-op.
+
+`frigate/extras/config.yml` is still read as a **fallback** for cameras with no rules in the
+Frigate config, so an unmigrated deployment keeps working. The worker logs a warning naming any
+camera still using it.
 
 ```yaml
-actions:
-  dsl_violations:
-    enabled: true
-    violation_templates:
-      wrong_way:
+cameras:
+  Road01:
+    zones:
+      zone01: { coordinates: ... }
+      wrongzone: { coordinates: ... }
+    objects:
+      track: [car, bus, truck, motorcycle]
+    violations:
+      - name: wrongway
+        enabled: true
         type: zone_sequence
         vehicle_types: [car, bus, truck, motorcycle]
-        from_zones: "{from}"
-        to_zone: "{to}"
+        from_zones: [zone01, zone02]
+        to_zone: wrongzone
         duration: 30
         severity: high
         cooldown: 600
-    cameras:
-      Road01:
-        violations:
-          - name: wrongway
-            enabled: true
-            type: zone_sequence
-            from_zones: [zone01, zone02]
-            to_zone: wrongzone
 ```
 
-Every instance carries its own `enabled` flag, so a noisy rule can be switched off per camera
-without deleting its configuration.
+Every rule carries its own `enabled` flag, so a noisy rule can be switched off without deleting
+its configuration.
+
+## Legacy: templates
+
+The old `frigate/extras/config.yml` also defined `violation_templates` with `{placeholder}`
+parameters. No shipped camera rule actually referenced a template by name — each spelled its
+fields out in full — and the config model does not implement templating.
 
 ## Rule types
 
@@ -115,8 +129,13 @@ deploying this for real needs to revisit every cooldown.
   speed estimation
 
 `speed_limit` has a hard prerequisite: **the zone must be configured with a `distances` field**
-in Frigate's own config, or speed estimation produces nothing. The template comment says so;
-nothing enforces it at load time.
+in the camera config, or Frigate's speed estimation reports 0 and the rule can never fire.
+`Road03.speed_estimation` has it set.
+
+`speed_threshold` was accepted but **ignored** by the engine until 2026-08-25 — a speed rule
+silently degraded to "vehicle present in zone for `monitor_duration`", firing at any speed. It is
+now implemented in `SustainedConditionRule`: the condition only accumulates while
+`average_estimated_speed` exceeds the threshold.
 
 ## Validation
 
@@ -126,9 +145,12 @@ as a log error rather than a runtime crash mid-stream.
 
 ## Limits worth knowing
 
-- **Zones and labels are not checked against the live Frigate config.** A rule referencing a
-  zone that does not exist parses fine and simply never fires. Silent no-ops are the dominant
-  failure mode when authoring rules.
+- **Zones and labels are now validated.** A rule referencing a zone or object that does not
+  exist on its camera is a config error naming the available zones, not a silent no-op. This was
+  the dominant authoring failure mode.
+- **Sustained conditions are timed on the wall clock**, not on the event's `frame_time`
+  (`StateTracker.start_condition` uses `datetime.now()`), so `monitor_duration` measures real
+  seconds between MQTT updates.
 - **Rules are now unit tested** — `frigate/test/extras/test_dsl_rules.py` covers the parser,
   the rule factory, evaluation, and cooldown. See [DSL Engine](../components/dsl-engine.md).
 - **Rule state is in-memory.** Restarting the extras process clears all zone sequences and

@@ -31,6 +31,11 @@ class SustainedConditionRule(Rule):
         parser = ConditionParser()
         self.condition = parser.parse(condition_str)
 
+        # Optional speed gate. Frigate estimates speed for objects in a zone
+        # configured with `distances`; without that it reports 0 and this rule
+        # can never fire.
+        self.speed_threshold = config.get("speed_threshold")
+
         # Monitor duration (how long condition must be true)
         self.monitor_duration = config.get("monitor_duration", 0)
         if self.monitor_duration <= 0:
@@ -56,6 +61,13 @@ class SustainedConditionRule(Rule):
         """
         # Check if condition is currently true
         is_true = self.condition.evaluate(event_data, context)
+
+        # A speed threshold narrows the condition: the object must also be over
+        # the limit for the sustained window to keep accumulating.
+        if is_true and self.speed_threshold is not None:
+            speed = event_data.get("after", {}).get("average_estimated_speed") or 0
+            if speed <= self.speed_threshold:
+                is_true = False
 
         object_id = event_data.get("after", {}).get("id", "")
         condition_key = f"{object_id}:{self.name}"

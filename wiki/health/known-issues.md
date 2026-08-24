@@ -131,9 +131,41 @@ LPR has not been running since that commit. This interacts with item 2: part of 
 enrichment `sub_label` values may not have been visibly inflating violation counts is that the
 process writing them was dead.
 
+### 8c. Violation rules were unvalidated and YAML-only ✅
+
+Rules lived in `frigate/extras/config.yml`, read by a separate process with no view of the camera
+config, so a rule naming a nonexistent zone loaded cleanly and silently never fired.
+
+**Fixed 2026-08-25.** Rules moved to `cameras.<name>.violations` in the Frigate config, modelled
+by `ViolationRuleConfig` and cross-validated by `verify_violation_rules` against that camera's
+zones and tracked objects. Editable from Settings → Cameras → Violation Rules
+([Rules Editor](../components/web-rules-editor.md)). The extras config remains a fallback.
+
+Two latent bugs surfaced during the migration:
+
+- **`speed_threshold` was accepted and ignored** — `Road03`'s speed rule was firing on any
+  vehicle in the zone at any speed. Now implemented in `SustainedConditionRule`.
+- **`Road05` had two rules both named `wrongway`** (left and right lane). Cooldown keys on
+  `camera:rule_name`, so with `cooldown: 600` a right-lane violation suppressed left-lane
+  detection for ten minutes. Renamed to `wrongway_right` / `wrongway_left`.
+
 ---
 
 ## Open
+
+### 8d. `test_post_reviews_delete_many` fails when run after another suite
+
+**Severity: low — pre-existing, not caused by this work**
+
+`frigate/test/http_api/test_http_review.py` passes in isolation but fails when any other http_api
+suite runs first. Verified with `test_http_media` → `test_http_review`, which involves none of
+this fork's code. Adding `frigate/test/test_violation_config.py` changed discovery order enough
+to expose it.
+
+It is an upstream test-isolation problem — recordings state leaking between suites — and fixing
+it means changing an upstream test, which adds merge surface. Left alone deliberately.
+
+Workaround: `./run-tests.sh frigate.test.http_api.test_http_review` passes.
 
 ### 9. Aggregation cost grows without bound
 

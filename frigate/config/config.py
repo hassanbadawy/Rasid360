@@ -244,6 +244,41 @@ def verify_required_zones_exist(camera_config: CameraConfig) -> None:
             )
 
 
+def verify_violation_rules(camera_config: CameraConfig) -> None:
+    """Verify violation rules reference zones and labels that actually exist.
+
+    Rules used to live in frigate/extras/config.yml, read by a separate process
+    with no view of the camera config. A rule naming a zone that did not exist
+    parsed fine and then silently never fired, which is the single most common
+    authoring mistake. Now that rules sit on the camera, both sides can be
+    checked together.
+    """
+    seen: set[str] = set()
+
+    for rule in camera_config.violations:
+        if rule.name in seen:
+            raise ValueError(
+                f"Camera {camera_config.name} has more than one violation rule named '{rule.name}'."
+            )
+        seen.add(rule.name)
+
+        for zone in rule.referenced_zones():
+            if zone not in camera_config.zones:
+                available = ", ".join(sorted(camera_config.zones)) or "none"
+                raise ValueError(
+                    f"Violation rule '{rule.name}' on camera {camera_config.name} references "
+                    f"zone '{zone}' which is not defined. Available zones: {available}."
+                )
+
+        for label in rule.referenced_labels():
+            if label not in camera_config.objects.track:
+                tracked = ", ".join(sorted(camera_config.objects.track)) or "none"
+                raise ValueError(
+                    f"Violation rule '{rule.name}' on camera {camera_config.name} references "
+                    f"object '{label}' which is not tracked. Tracked objects: {tracked}."
+                )
+
+
 def verify_autotrack_zones(camera_config: CameraConfig) -> ValueError | None:
     """Verify that required_zones are specified when autotracking is enabled."""
     if (
@@ -675,6 +710,7 @@ class FrigateConfig(FrigateBaseModel):
             verify_recording_segments_setup_with_reasonable_time(camera_config)
             verify_zone_objects_are_tracked(camera_config)
             verify_required_zones_exist(camera_config)
+            verify_violation_rules(camera_config)
             verify_autotrack_zones(camera_config)
             verify_motion_and_detect(camera_config)
             verify_objects_track(camera_config, labelmap_objects)

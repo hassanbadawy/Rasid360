@@ -2,7 +2,7 @@
 type: overview
 status: current
 sources: [wiki]
-updated: 2026-08-24
+updated: 2026-08-25
 ---
 
 # Wiki Index
@@ -54,6 +54,7 @@ One page per subsystem, mapped to real paths.
 | Page | Code |
 |---|---|
 | [Web Dashboard](components/web-dashboard.md) | `web/src/pages/Dashboard.tsx`, `hooks/use-dashboard-data.ts`, detail dialog tabs |
+| [Rules Editor](components/web-rules-editor.md) | `views/settings/RulesView.tsx`, `components/settings/RuleEditDialog.tsx` |
 | [Navigation & Branding](components/web-navigation-branding.md) | `use-navigation.ts`, `rasid360Config.ts`, theme, locales |
 
 ### Upstream modifications
@@ -80,7 +81,7 @@ One page per subsystem, mapped to real paths.
 | Question | Go to |
 |---|---|
 | How does a violation get detected? | [Violation Lifecycle](concepts/violation-lifecycle.md) |
-| How do I add a new violation type? | [DSL Rule Language](concepts/dsl-rule-language.md) |
+| How do I add a new violation type? | [Rules Editor](components/web-rules-editor.md), [DSL Rule Language](concepts/dsl-rule-language.md) |
 | Why is my new rule not firing? | [DSL Engine](components/dsl-engine.md) § Validation, [Configuration](operations/configuration.md) |
 | Why is a chart empty? | [Known Issues](health/known-issues.md) #1, #11 |
 | Why are the violation counts too high? | [Known Issues](health/known-issues.md) #2 |
@@ -99,4 +100,4 @@ One page per subsystem, mapped to real paths.
 
 ## Page count
 
-20 files: 1 index, 1 log, 1 schema, 1 overview, 4 concepts, 9 components, 2 operations, 1 health.
+21 files: 1 index, 1 log, 1 schema, 1 overview, 4 concepts, 10 components, 2 operations, 1 health.

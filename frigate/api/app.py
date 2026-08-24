@@ -179,6 +179,40 @@ def config(request: Request):
     return JSONResponse(content=config)
 
 
+@router.get("/config/violations")
+def config_violations():
+    """Violation rules as they exist in the config *file*, keyed by camera.
+
+    GET /config serves the running in-memory config, which does not pick up
+    config/set writes until Frigate restarts. The rules editor saves a camera's
+    whole violations list at once, so if it read the in-memory copy it would
+    write back a stale list and silently drop any rule saved since the last
+    restart. Reading the file avoids that.
+    """
+    from ruamel.yaml import YAML
+
+    config_file = find_config_file()
+
+    try:
+        yaml = YAML(typ="safe")
+        with open(config_file, "r") as f:
+            raw = yaml.load(f) or {}
+    except Exception as e:
+        logger.error(f"Unable to read violation rules from config: {e}")
+        return JSONResponse(
+            content={"success": False, "message": "Unable to read config"},
+            status_code=500,
+        )
+
+    cameras = raw.get("cameras") or {}
+    return JSONResponse(
+        content={
+            name: ((camera or {}).get("violations") or [])
+            for name, camera in cameras.items()
+        }
+    )
+
+
 @router.get("/config/raw")
 def config_raw():
     config_file = find_config_file()

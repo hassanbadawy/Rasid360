@@ -30,6 +30,7 @@ import CameraSettingsView from "@/views/settings/CameraSettingsView";
 import CameraManagementView from "@/views/settings/CameraManagementView";
 import MotionTunerView from "@/views/settings/MotionTunerView";
 import MasksAndZonesView from "@/views/settings/MasksAndZonesView";
+import RulesView from "@/views/settings/RulesView";
 import UsersView from "@/views/settings/UsersView";
 import RolesView from "@/views/settings/RolesView";
 import NotificationView from "@/views/settings/NotificationsSettingsView";
@@ -74,6 +75,7 @@ const allSettingsViews = [
   "cameraManagement",
   "cameraReview",
   "masksAndZones",
+  "rules",
   "motionTuner",
   "triggers",
   "debug",
@@ -95,6 +97,7 @@ const settingsGroups = [
       { key: "cameraManagement", component: CameraManagementView },
       { key: "cameraReview", component: CameraSettingsView },
       { key: "masksAndZones", component: MasksAndZonesView },
+      { key: "rules", component: RulesView },
       { key: "motionTuner", component: MotionTunerView },
     ],
   },
@@ -126,6 +129,7 @@ const CAMERA_SELECT_BUTTON_PAGES = [
   "debug",
   "cameraReview",
   "masksAndZones",
+  "rules",
   "motionTuner",
   "triggers",
 ];

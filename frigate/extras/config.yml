@@ -68,7 +68,8 @@ actions:
       stationary_vehicle:
         type: sustained_condition
         description: "Vehicle stopped in no-parking or no-stop zone"
-        condition: "in_zone({zone}) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+        condition: "in_zone({zone}) AND (detected(car) OR detected(bus) OR detected(truck)
+          OR detected(motorcycle))"
         monitor_duration: "{duration}"  # Template parameter: how long vehicle must be stationary
         duration: 30
         severity: high
@@ -79,7 +80,8 @@ actions:
       speed_limit:
         type: sustained_condition
         description: "Vehicle exceeding speed limit in calibrated zone"
-        condition: "in_zone({zone}) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+        condition: "in_zone({zone}) AND (detected(car) OR detected(bus) OR detected(truck)
+          OR detected(motorcycle))"
         speed_threshold: "{limit}"  # Template parameter: speed limit in km/h
         monitor_duration: 2  # Check speed for at least 2 seconds
         duration: 30
@@ -123,7 +125,8 @@ actions:
             enabled: true
             type: sustained_condition
             description: "Vehicle stopped in No_Parking zone for more than 5 seconds"
-            condition: "in_zone(no_parking) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+            condition: "in_zone(no_parking) AND (detected(car) OR detected(bus) OR
+              detected(truck) OR detected(motorcycle))"
             monitor_duration: 5  # Vehicle must be stationary for 5 seconds
             duration: 30
             severity: high
@@ -134,7 +137,8 @@ actions:
             enabled: true
             type: sustained_condition
             description: "Vehicle stopped in No_Stop zone for more than 3 seconds"
-            condition: "in_zone(no_stop) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+            condition: "in_zone(no_stop) AND (detected(car) OR detected(bus) OR detected(truck)
+              OR detected(motorcycle))"
             monitor_duration: 3  # Vehicle must be stationary for 3 seconds
             duration: 30
             severity: high
@@ -146,7 +150,8 @@ actions:
             enabled: true
             type: sustained_condition
             description: "Vehicle exceeding 80 km/h speed limit"
-            condition: "in_zone(speed_estimation) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+            condition: "in_zone(speed_estimation) AND (detected(car) OR detected(bus)
+              OR detected(truck) OR detected(motorcycle))"
             speed_threshold: 80  # Configurable: speed limit in km/h
             monitor_duration: 2  # Vehicle must exceed speed for 2 seconds
             duration: 30
@@ -170,7 +175,7 @@ actions:
       Road05:
         violations:
           # Wrong-way detection: vehicles moving from rightcomeend to rightcomestart
-          - name: wrongway
+          - name: wrongway_right
             enabled: true  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving in wrong direction (right lane)"
@@ -183,7 +188,7 @@ actions:
             cooldown: 600
 
           # Wrong-wa4/0Ab32j93592qUtdUU4_fJ_zn9oCID8LxGxL0vE8hMQriLIDji27EeDNU7mOxfz85-27dm_Ay detection: vehicles moving from leftcomeend to leftcomestart
-          - name: wrongway
+          - name: wrongway_left
             enabled: true  # Enable/disable this specific violation
             type: zone_sequence
             description: "Vehicles moving in wrong direction (left lane)"
@@ -227,7 +232,8 @@ actions:
             enabled: true
             type: sustained_condition
             description: "Vehicle stopped in No_Stop_Zone for more than 3 seconds"
-            condition: "in_zone(no_stop_zone) AND (detected(car) OR detected(bus) OR detected(truck) OR detected(motorcycle))"
+            condition: "in_zone(no_stop_zone) AND (detected(car) OR detected(bus)
+              OR detected(truck) OR detected(motorcycle))"
             monitor_duration: 3  # Vehicle must be stationary for 3 seconds
             duration: 30
             severity: high

@@ -24,7 +24,8 @@
     "users": "Users",
     "roles": "Roles",
     "notifications": "Notifications",
-    "frigateplus": "Rasid360+"
+    "frigateplus": "Rasid360+",
+    "rules": "Violation Rules"
   },
   "dialog": {
     "unsavedChanges": {
@@ -400,7 +401,6 @@
     "reviewClassification": {
       "title": "Review Classification",
       "desc": "Rasid360 categorizes review items as Alerts and Detections. By default, all <em>person</em> and <em>car</em> objects are considered Alerts. You can refine categorization of your review items by configuring required zones for them.",
-
       "noDefinedZones": "No zones are defined for this camera.",
       "objectAlertsTips": "All {{alertsLabels}} objects on {{cameraName}} will be shown as Alerts.",
       "zoneObjectAlertsTips": "All {{alertsLabels}} objects detected in {{zone}} on {{cameraName}} will be shown as Alerts.",
@@ -1046,5 +1046,60 @@
         "deleteTriggerFailed": "Failed to delete trigger: {{errorMessage}}"
       }
     }
+  },
+  "rules": {
+    "documentTitle": "Violation Rules - Rasid360",
+    "title": "Violation Rules",
+    "desc": "Rules decide which detections count as violations on this camera. They are checked against the camera's zones and tracked objects when saved, so a rule can only reference something that exists.",
+    "add": "Add Rule",
+    "empty": "No violation rules for {{camera}} yet.",
+    "disabled": "disabled",
+    "noZonesWarning": "This camera has no zones. Most rule types need a zone -- add one under Masks / Zones first.",
+    "noZones": "No zones defined on this camera.",
+    "noObjects": "No tracked objects configured for this camera.",
+    "toggle": "Enable or disable {{name}}",
+    "editRule": "Edit {{name}}",
+    "deleteRule": "Delete {{name}}",
+    "dialog": {
+      "add": "Add Violation Rule",
+      "edit": "Edit Violation Rule",
+      "desc": "Rules apply to {{camera}}. Zones and objects come from that camera's configuration."
+    },
+    "field": {
+      "name": "Name",
+      "nameHint": "Used as the event sub-label and to group violations on the dashboard.",
+      "type": "What to detect",
+      "where": "Where and what",
+      "advanced": "Advanced",
+      "selectZone": "Select a zone",
+      "objects": "Objects",
+      "fromZones": "Coming from",
+      "toZone": "Moving into",
+      "minDetections": "Consecutive detections",
+      "minDetectionsHint": "How many frames in a row before the violation fires. Raise it to cut false positives.",
+      "ratio": "Width / height ratio",
+      "minDuration": "Sustained for (seconds)",
+      "monitorDuration": "Monitor duration (seconds)",
+      "speed": "Speed limit (km/h)",
+      "speedPlaceholder": "optional",
+      "speedHint": "Requires the zone to have distances configured.",
+      "cooldown": "Cooldown (seconds)",
+      "duration": "Event length (seconds)",
+      "severity": "Severity",
+      "description": "Description",
+      "enabled": "Enabled"
+    },
+    "delete": {
+      "title": "Delete rule?",
+      "desc": "This removes {{name}} from the camera configuration. Violations already recorded are kept."
+    },
+    "toast": {
+      "saved": "Rule saved.",
+      "deleted": "Rule deleted.",
+      "enabled": "Rule enabled.",
+      "disabled": "Rule disabled.",
+      "error": "Could not save the rule."
+    },
+    "restartRequired": "Restart required to apply violation rule changes."
   }
 }

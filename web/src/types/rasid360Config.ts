@@ -1,5 +1,6 @@
 import { IconName } from "@/components/icons/IconPicker";
 import { TriggerAction, TriggerType } from "./trigger";
+import { ViolationRule } from "./violation";
 
 export interface UiConfig {
   timezone?: string;
@@ -270,6 +271,7 @@ export interface CameraConfig {
   type: string;
   ui: UiConfig;
   webui_url: string | null;
+  violations: ViolationRule[];
   zones: {
     [zoneName: string]: {
       coordinates: string;
