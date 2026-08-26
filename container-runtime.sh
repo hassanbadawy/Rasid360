@@ -97,4 +97,24 @@ compose_service_running() {
         --format '{{.Names}}' 2>/dev/null)" ]]
 }
 
+# Run a command detached inside a compose service's container.
+#
+# `podman-compose exec -d` parses the flag but never forwards --detach to
+# `podman exec` (compose_exec_args in podman_compose.py ignores args.detach),
+# so the exec runs attached and blocks the caller forever. Resolve the
+# container name and use the runtime's own detach instead, which both podman
+# and docker honour.
+compose_exec_detached() {
+    local service="$1"
+    shift
+    local container
+    container="$($CONTAINER_CMD ps --filter "name=${service}" --filter "status=running" \
+        --format '{{.Names}}' 2>/dev/null | head -1)"
+    if [[ -z "${container}" ]]; then
+        echo "[ERROR] no running container for service '${service}'" >&2
+        return 1
+    fi
+    $CONTAINER_CMD exec -d "${container}" "$@"
+}
+
 detect_container_runtime || exit 1

@@ -82,7 +82,7 @@ install_frontend_deps() {
 
         # Check if container is running
         if compose_service_running devcontainer; then
-            $COMPOSE_CMD exec devcontainer bash -c "cd /workspace/frigate/web && npm install"
+            $COMPOSE_CMD exec -T devcontainer bash -c "cd /workspace/frigate/web && npm install"
             print_success "Frontend dependencies installed in container"
         else
             print_warning "Container not running. Dependencies will be installed when container starts."
@@ -131,19 +131,19 @@ start_frigate_backend() {
     # Check if container is running
     if compose_service_running devcontainer; then
         # Check if Frigate main process is already running
-        if $COMPOSE_CMD exec devcontainer pgrep -f "python3.*-m frigate$" > /dev/null 2>&1; then
+        if $COMPOSE_CMD exec -T devcontainer pgrep -f "python3.*-m frigate$" > /dev/null 2>&1; then
             print_info "Frigate main process already running (likely started by s6-supervise)"
         else
             # Start Frigate in the background
-            $COMPOSE_CMD exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate"
+            compose_exec_detached devcontainer bash -c "cd /workspace/frigate && python3 -m frigate"
         fi
 
         # Check if frigate-extras is already running
-        if $COMPOSE_CMD exec devcontainer pgrep -f "frigate.extras.main" > /dev/null 2>&1; then
+        if $COMPOSE_CMD exec -T devcontainer pgrep -f "frigate.extras.main" > /dev/null 2>&1; then
             print_info "Frigate-extras already running (likely started by s6-supervise)"
         else
             # Start frigate-extras in the background
-            $COMPOSE_CMD exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
+            compose_exec_detached devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
         fi
 
         # Wait for Frigate to start
@@ -151,7 +151,7 @@ start_frigate_backend() {
         sleep 10
 
         # Check if Frigate is running
-        if $COMPOSE_CMD exec devcontainer pgrep -f "python3.*frigate" > /dev/null 2>&1; then
+        if $COMPOSE_CMD exec -T devcontainer pgrep -f "python3.*frigate" > /dev/null 2>&1; then
             print_success "Frigate backend service started"
             print_info "API available at http://localhost:5001/api"
         else
@@ -193,8 +193,14 @@ show_access_info() {
     echo
     echo "Access URLs:"
     echo "• Frontend (Development): http://localhost:5173"
-    echo "• Frontend (Production):  http://localhost:5000"
+    # docker-compose.yml publishes the container's port 5000 on host 5001, so
+    # the built UI and the API are both served from 5001. Nothing binds host
+    # port 5000 -- on macOS it is taken by Control Center's AirPlay Receiver,
+    # which answers 403 and used to look like a broken frontend.
+    echo "• Frontend (Production):  http://localhost:5001"
     echo "• Backend API:           http://localhost:5001/api"
+    echo "• Frontend (Authenticated): https://localhost:8971  (self-signed TLS)"
+    echo "• Home Assistant:        http://localhost:8123"
     echo "• MQTT Broker:           localhost:1883"
     echo
     echo "Docker Services:"
@@ -323,13 +329,13 @@ else
 
         # Start frontend development server inside the Docker container
         print_info "Starting frontend development server inside container..."
-        $COMPOSE_CMD exec -d devcontainer bash -c "cd /workspace/frigate/web && npm run dev" > /dev/null 2>&1
+        compose_exec_detached devcontainer bash -c "cd /workspace/frigate/web && npm run dev" > /dev/null 2>&1
 
         # Wait a moment for the frontend to start
         sleep 5
 
         # Check if frontend is running
-        if $COMPOSE_CMD exec devcontainer pgrep -f "vite.*--host" > /dev/null 2>&1; then
+        if $COMPOSE_CMD exec -T devcontainer pgrep -f "vite.*--host" > /dev/null 2>&1; then
             print_success "Frontend development server started inside container"
             print_info "Frontend available at http://localhost:5173"
             print_info "Backend API available at http://localhost:5001/api"
@@ -340,7 +346,7 @@ else
             echo
 
             # Wait for user interrupt
-            trap 'print_info "Stopping services..."; $COMPOSE_CMD exec devcontainer pkill -f "vite.*--host" 2>/dev/null; $COMPOSE_CMD exec devcontainer pkill -f "python3.*frigate" 2>/dev/null; $COMPOSE_CMD down 2>/dev/null; print_success "All services stopped"; exit 0' INT
+            trap 'print_info "Stopping services..."; $COMPOSE_CMD exec -T devcontainer pkill -f "vite.*--host" 2>/dev/null; $COMPOSE_CMD exec -T devcontainer pkill -f "python3.*frigate" 2>/dev/null; $COMPOSE_CMD down 2>/dev/null; print_success "All services stopped"; exit 0' INT
 
             # Show logs or keep running
             $COMPOSE_CMD logs -f

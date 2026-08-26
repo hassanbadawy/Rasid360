@@ -45,22 +45,24 @@ stop_docker_services() {
 
 # Function to kill frontend development server
 kill_frontend_server() {
-    # Find and kill any npm/vite processes running on port 5173
     print_info "Checking for frontend development server..."
-    
-    # Try to kill processes on port 5173
-    if lsof -ti:5173 2>/dev/null | xargs kill -9 2>/dev/null; then
-        print_info "Killed frontend server on port 5173"
-    fi
-    
-    # Kill any vite processes
-    if pkill -f "vite" 2>/dev/null; then
-        print_info "Killed Vite development server"
-    fi
-    
-    # Kill any npm processes running vite
-    if pkill -f "npm.*dev" 2>/dev/null; then
-        print_info "Killed npm development processes"
+
+    # The dev server runs INSIDE the devcontainer, so kill it there.
+    #
+    # Do not kill by host port or by a bare `pkill -f vite` on the host. Host
+    # port 5173 is held by the runtime's port-forwarder, not by vite -- under
+    # `podman machine` on macOS that is gvproxy, and killing it takes down all
+    # podman connectivity, so the `down` below then fails with a traceback. A
+    # host-wide `pkill -f "vite"` / `pkill -f "npm.*dev"` is just as wrong: it
+    # matches unrelated projects the user happens to have running.
+    if compose_service_running devcontainer; then
+        if $COMPOSE_CMD exec -T devcontainer pkill -f "vite" > /dev/null 2>&1; then
+            print_info "Killed Vite development server in container"
+        else
+            print_info "No frontend development server running in container"
+        fi
+    else
+        print_info "devcontainer not running; nothing to stop"
     fi
 }
 
