@@ -1,8 +1,8 @@
 ---
 type: operations
 status: current
-sources: [run-dev.sh, stop-dev.sh, logs-dev.sh, docker-compose.yml, .devcontainer]
-updated: 2026-08-25
+sources: [run-dev.sh, stop-dev.sh, logs-dev.sh, container-runtime.sh, docker-compose.yml, .devcontainer]
+updated: 2026-08-26
 ---
 
 # Dev Environment
@@ -44,9 +44,15 @@ $CONTAINER_CMD ps --filter "name=${service}" --filter "status=running" --format 
 `--filter name=` does substring matching, so it matches either provider's container naming
 (`project_service_1` vs `project-service-1`).
 
-**`exec` flags are compatible.** `podman-compose exec` supports `-d`, `-T`, `-u`, `-w` — all the
-flags the dev scripts use, including the `exec -d` that backgrounds the Frigate and extras
-processes.
+**`exec -d` is silently ignored by podman-compose.** `podman-compose exec` *parses* `-d`, `-T`,
+`-u` and `-w`, but `compose_exec_args()` never forwards `--detach` to `podman exec` (verified
+against podman-compose 1.5.0). The exec therefore runs **attached** and blocks the caller
+forever: `podman-compose exec -d -T devcontainer sleep 5` takes 5s, not 0s.
+
+`container-runtime.sh` works around this with `compose_exec_detached <service> <cmd...>`, which
+resolves the container name and calls the runtime's own `exec -d` — the same class of workaround
+as `compose_service_running` above. Use it instead of `$COMPOSE_CMD exec -d`. The other flags
+(`-T`, `-u`, `-w`) do work.
 
 **Duplicate mount destinations are rejected.** `docker-compose.yml` mounted `/config` twice
 (`./config` and `./data/frigate-config`). Docker silently lets the last definition win; podman
@@ -60,7 +66,8 @@ because the default path ends in a blocking `logs -f`. Port 5173 is published ei
 without Vite the browser gets `ERR_EMPTY_RESPONSE` — the port is bound, nothing is listening.
 
 ```bash
-podman-compose exec -d devcontainer bash -c "cd /workspace/frigate/web && npm run dev"
+source ./container-runtime.sh
+compose_exec_detached devcontainer bash -c "cd /workspace/frigate/web && npm run dev"
 ```
 
 Or run `./run-dev.sh` with no flags once the image is built; it starts Vite and tails the logs.
@@ -93,16 +100,17 @@ podman machine start
    - `python3 -m frigate.extras.main`
 9. frontend dev server on 5173
 
-Both backend processes are launched with `docker compose exec -d`, so they are children of the
+Both backend processes are launched with `compose_exec_detached`, so they are children of the
 container's shell rather than supervised services — see
-[Extras Service](../components/extras-service.md).
+[Extras Service](../components/extras-service.md). They must **not** use `$COMPOSE_CMD exec -d`,
+which hangs under podman-compose (see above).
 
 ## Ports
 
 | Port | Service | Notes |
 |---|---|---|
 | 5173 | Vite frontend dev server | |
-| 5001 → 5000 | Frigate API | **Unauthenticated.** Host 5001 maps to container 5000 |
+| 5001 → 5000 | Frigate UI **and** API | **Unauthenticated.** Host 5001 maps to container 5000 |
 | 8971 | Frigate authenticated UI | |
 | 8554 | RTSP (go2rtc) | |
 | 1883 | Mosquitto MQTT | no-auth mode |
@@ -110,6 +118,11 @@ container's shell rather than supervised services — see
 
 The 5000/5001 split matters: `frigate/extras/config.yml` points the extras worker at
 `http://localhost:5000/api` because it runs **inside** the container. Host-side tools use 5001.
+
+**Nothing binds host port 5000.** `run-dev.sh` used to advertise the production frontend at
+`http://localhost:5000`; that URL never worked. On macOS the port belongs to Control Center's
+AirPlay Receiver (`Server: AirTunes/…`), which answers `403 Forbidden` — so a wrong URL looked
+like a broken frontend rather than a missing mapping. The built UI is served from **5001**.
 
 WebRTC ports (8555 tcp/udp) and RTMP (1935) are present but commented out in
 `docker-compose.yml`.
@@ -152,8 +165,12 @@ Direct paths when the script is not enough:
 | Extras worker | `/tmp/frigate_extras.log` (configurable in `frigate/extras/config.yml`) |
 | Container | `docker compose logs devcontainer` |
 
-The extras worker logs to both stdout and that file. Because it is started with `exec -d`, its
-stdout is **not** captured by `docker compose logs` — the file is the reliable source.
+The extras worker logs to both stdout and that file. Because it is started detached, its stdout
+is discarded and **not** captured by `docker compose logs` — the file is the reliable source.
+The same applies to `python3 -m frigate`: `/dev/shm/logs/frigate/current` belongs to the s6
+service, which in the devcontainer is a placeholder that only prints
+`The fake Frigate service is running...`, so it does **not** contain the manually-started
+process's output.
 
 ## Tear down
 

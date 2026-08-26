@@ -118,12 +118,12 @@ mirroring the existing `fake_frigate_run` treatment, so `run-dev.sh` keeps contr
 during development:
 
 ```bash
-docker compose exec -d devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
+compose_exec_detached devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
 ```
 
 ### The failure mode this closed
 
-Before this, the worker was started only by `run-dev.sh` with `docker compose exec -d`. If it
+Before this, the worker was started only by `run-dev.sh` with a detached `exec`. If it
 died, Frigate kept running perfectly — recording, detecting, serving the UI — while violation
 detection stopped with no error anywhere. The symptom, no new violations, is indistinguishable
 from a quiet period.

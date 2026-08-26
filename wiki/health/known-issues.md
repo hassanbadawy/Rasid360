@@ -42,7 +42,7 @@ Detail: [Violation Lifecycle](../concepts/violation-lifecycle.md).
 
 ### 3. Extras worker unsupervised ✅
 
-Started only by `run-dev.sh` via `docker compose exec -d`. If it died, Frigate kept running and
+Started only by `run-dev.sh` via a detached `exec`. If it died, Frigate kept running and
 violation detection stopped silently.
 
 **Fixed:** completed the `frigate-extras` and `frigate-extras-log` s6 services (empty

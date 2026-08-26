@@ -255,3 +255,38 @@ rejected and the file left byte-identical; the worker loads all 11 from the Frig
 **Left alone:** `test_post_reviews_delete_many` fails when run after another http_api suite.
 Confirmed pre-existing and unrelated -- `test_http_media` reproduces it with none of this fork's
 code. See [Known Issues](health/known-issues.md) 8d.
+
+## [2026-08-26] fix | Dev scripts: podman-compose `exec -d` is a no-op, and `stop-dev.sh` killed gvproxy
+
+`./run-dev.sh` and `./stop-dev.sh` both failed on macOS + podman. Three independent causes, all
+now fixed in `run-dev.sh`, `stop-dev.sh` and `container-runtime.sh`.
+
+- **`podman-compose exec -d` is silently ignored.** The flag is parsed, but
+  `compose_exec_args()` never forwards `--detach` to `podman exec` (podman-compose 1.5.0).
+  Measured: `podman-compose exec -d -T devcontainer sleep 5` takes 5s, not 0s. `run-dev.sh`
+  therefore blocked forever streaming Frigate's output, and **`frigate.extras.main` and the Vite
+  dev server were never reached** — the backend was only ever half-up. New
+  `compose_exec_detached()` in `container-runtime.sh` resolves the container name and uses the
+  runtime's own `exec -d`. This **corrects an explicit claim** in
+  [Dev Environment](operations/dev-environment.md), which stated the `exec` flags were compatible.
+- **`stop-dev.sh` killed podman's port-forwarder.** It ran `lsof -ti:5173 | xargs kill -9`, but
+  Vite runs *inside* the container — host 5173 is held by **gvproxy**, which also serves the
+  podman API connection (`-ssh-port 64563`). Killing it took down all podman connectivity, so the
+  `down` on the next line died with a Python traceback. The follow-on host-wide `pkill -f "vite"`
+  / `pkill -f "npm.*dev"` would also have killed unrelated projects. Now kills Vite in the
+  devcontainer.
+- **`localhost:5000` never worked.** `docker-compose.yml` publishes container 5000 on **host
+  5001** and nothing binds host 5000; on macOS that port is Control Center's AirPlay Receiver,
+  which answers `403 Forbidden`. A wrong URL in `show_access_info` looked like a broken frontend.
+  The Ports table was already correct — the script was not.
+
+**Verified live:** full up/down cycle exits 0 both ways; both backend processes now show `Ssl`
+with tty `?` (detached) where they previously showed `S+` on `pts/0`; `frigate.extras.main` runs
+for the first time; podman stays reachable across `stop-dev.sh`; and 5001/5173/8123 return 200,
+8971 returns 200 over TLS, with 9 cameras reporting frames.
+
+**Left alone:** detached execs discard stdout, so neither `logs-dev.sh` nor
+`docker compose logs` captures the manually-started Frigate process —
+`/dev/shm/logs/frigate/current` is the s6 placeholder that only prints
+`The fake Frigate service is running...`. Noted in
+[Dev Environment](operations/dev-environment.md); no log redirection added yet.
