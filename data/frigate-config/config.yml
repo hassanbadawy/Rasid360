@@ -177,16 +177,15 @@ cameras:
         duration: 30
         severity: high
         cooldown: 600
-        retention_days: 30
+        from_zones:
+          - zone01
+          - zone02
+        to_zone: wrongzone
         vehicle_types:
           - car
           - bus
           - truck
           - motorcycle
-        from_zones:
-          - zone01
-          - zone02
-        to_zone: wrongzone
         min_detections: 1
   Road02:
     enabled: true
