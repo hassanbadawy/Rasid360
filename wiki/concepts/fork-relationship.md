@@ -2,7 +2,7 @@
 type: concept
 status: current
 sources: [.git, README.md, web/src/types/rasid360Config.ts, web/src/hooks/use-navigation.ts]
-updated: 2026-08-24
+updated: 2026-08-28
 ---
 
 # Fork Relationship
@@ -32,8 +32,9 @@ is actively developed and the gap widens daily.
 The overlap is worse than the raw count suggests:
 
 - **511 files** changed by both upstream and this fork since the fork point
-- **all five** core-patched files are in that set: `video.py`, `camera/state.py`,
-  `track/object_processing.py`, `app.py`, `api/fastapi_app.py`
+- **all** core-patched files are in that set: `video.py`, `camera/state.py`,
+  `track/object_processing.py`, `app.py`, `api/fastapi_app.py`, and — since 2026-08-28 —
+  `review/maintainer.py`, `util/builtin.py` and `api/media.py`
 
 Re-measure with:
 
@@ -51,9 +52,16 @@ new modules (`analytics_db.py`, `analytics_scheduler.py`, `api/dashboard.py`), n
 (`web/src/pages/Dashboard.tsx`). None of it conflicts with upstream because upstream has no
 files there.
 
-Core Frigate files carry only ~30 modified lines across five files —
+Core Frigate files carry a small number of modified lines across a handful of files —
 [Core Pipeline Patches](../components/core-pipeline-patches.md). That restraint was a good
 decision and is the main asset when merging.
+
+It is no longer quite as small as it was. The recording-retention work on 2026-08-28 patched
+`review/maintainer.py` and `util/builtin.py`, two upstream files the fork had never touched,
+taking the count from five to seven. Both patches are defensive and additive — `update_yaml`
+only changes behaviour when the target key is absent, and the review maintainer's changes are
+guarded by an `is_violation` flag that is False for everything upstream produces — but they are
+two more files to reconcile.
 
 ## What makes merging painful
 
@@ -91,7 +99,7 @@ developed; the gap includes security fixes the fork does not have.
 3. Expect conflicts to cluster in `web/src` and to be overwhelmingly rename-vs-upstream-edit.
    Most resolve mechanically: take upstream's version, re-apply the type rename.
 4. `frigate/extras/`, `analytics_*.py`, and `api/dashboard.py` should merge clean.
-5. The five core-patched files need manual review; all five have upstream changes. The
+5. The core-patched files need manual review; all of them have upstream changes. The
    `always_full_frame` branch in `video.py` and its `DetectConfig` field are fork-specific and
    must be re-applied; `app.py`'s timeline cleanup is upstream's own code, so take upstream's
    version there.

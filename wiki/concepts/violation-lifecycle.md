@@ -1,8 +1,8 @@
 ---
 type: concept
 status: current
-sources: [frigate/extras/main.py, frigate/extras/actions/dsl_violation_detector.py, frigate/extras/dsl/evaluator.py, frigate/extras/utils/frigate_api.py, frigate/track/object_processing.py, frigate/camera/state.py, frigate/analytics_db.py, frigate/api/media.py]
-updated: 2026-08-24
+sources: [frigate/extras/main.py, frigate/extras/actions/dsl_violation_detector.py, frigate/extras/dsl/evaluator.py, frigate/extras/utils/frigate_api.py, frigate/track/object_processing.py, frigate/camera/state.py, frigate/analytics_db.py, frigate/api/media.py, frigate/review/maintainer.py, frigate/record/maintainer.py]
+updated: 2026-08-28
 ---
 
 # Violation Lifecycle
@@ -132,6 +132,19 @@ This polling handshake is the most fragile link in the chain: if the snapshot ta
 5 seconds, the evidence image is silently never created and the UI shows "Evidence image not
 available".
 
+## 6b. Review item and footage retention
+
+The same manual event also enters the **review** pipeline, and that is what keeps the video.
+`TrackedObjectProcessor.create_manual_event` publishes it onward when the source type is
+`"api"` or one of `VIOLATION_SOURCE_TYPES`, the review maintainer turns it into an
+alert-severity review segment, and `RecordingMaintainer` keeps the overlapping recording
+segments under `record.alerts.retain`.
+
+This step did not exist until 2026-08-28: the publish was gated on `source_type == "api"`
+alone, so a violation never became a review item, its segments were dropped, and
+`GET /api/events/{id}/clip.mp4` returned an empty body while the event row said
+`has_clip = true`. Full mechanism in [Recording Retention](../components/recording-retention.md).
+
 ## 7. Observation row
 
 `AnalyticsObservation.create` writes into `analytics.db` with `status="new"`, media URLs
@@ -153,6 +166,8 @@ delete-all, insert-all, over the full history of `frigate.db`.
   [Web Dashboard](../components/web-dashboard.md)
 - Ticket state is edited through `POST /api/events/{id}/ticket` and the `/api/observations`
   CRUD → [Events & Observations API](../components/api-events-observations.md)
+- Footage is served by `GET /api/events/{id}/clip.mp4`, which 404s when no recording covers
+  the event → [Recording Retention](../components/recording-retention.md)
 - Statuses: `new → in_progress → solved | closed | fake`
 
 `fake` is the false-positive escape hatch, which matters given the rules are heuristic.

@@ -2,7 +2,7 @@
 type: component
 status: current
 sources: [web/src/views/settings/RulesView.tsx, web/src/components/settings/RuleEditDialog.tsx, web/src/types/violation.ts, web/src/pages/Settings.tsx, frigate/api/app.py]
-updated: 2026-08-25
+updated: 2026-08-28
 ---
 
 # Rules Editor
@@ -39,6 +39,13 @@ list at once, reading the in-memory copy would write back a stale list and **sil
 rule saved since the last restart**. The endpoint (`frigate/api/app.py`) reads the config file
 directly and returns `{camera: [rules]}`.
 
+**This is now the special case of a general endpoint.** `GET /api/config/file` returns the
+whole parsed config file and exists for exactly the same reason — the Recording settings page
+needs file state to tell a per-camera override from an inherited value, which the merged
+runtime view cannot express. `/config/violations` is kept because it is what this editor
+already calls; new settings pages should use `/config/file`.
+See [Recording Retention](recording-retention.md) § The settings page.
+
 ## Saving
 
 `PUT /api/config/set` with a body rather than a query string:
@@ -50,6 +57,12 @@ directly and returns `{camera: [rules]}`.
 
 `flatten_config_data` treats a list as a terminal value, so the whole array lands at
 `cameras.Road01.violations` in one write.
+
+`requires_restart: 1` means rules take effect only after a restart, and the editor raises a
+status-bar message saying so. That is a genuine limitation rather than caution: nothing
+subscribes to a violation-rules config topic the way `RecordingMaintainer` subscribes to
+`record`. `PUT /config/set` also accepts `update_topics` (plural) now, for a change that has to
+reach every camera at once — the Recording page uses it to apply a global change live.
 
 The safety property this buys: **`config_set` validates the resulting file with
 `FrigateConfig.parse()` and restores the previous contents on failure.** A rule referencing a

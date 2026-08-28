@@ -14,30 +14,51 @@ logger:
   logs:
     frigate.experimental: debug
 
-# Recording configuration - Only save violation events
+# Recording configuration - only violation footage is kept.
+#
+# `enabled: true` runs the capture pipeline; it does NOT mean footage is stored.
+# ffmpeg always writes segments to cache, and the retention windows below decide
+# what survives. Setting `enabled: false` deletes segments immediately and makes
+# violation clips impossible, so leave it on and control storage with the days
+# values.
 record:
   enabled: true
 
-  # Disable continuous recording
+  # Run the expiry pass every 10 minutes rather than the default 60. With
+  # near-continuous detections and `detections.retain.days: 0`, every detection
+  # still causes its segments to be moved to permanent storage first and deleted
+  # at the next expiry -- so the expiry interval, not the retention window, sets
+  # how much churn sits on disk. At the measured rate 60 minutes was ~10 GB.
+  expire_interval: 10
+
+  # No continuous recording.
   continuous:
     days: 0
 
-  # Enable minimal motion recording as buffer (12 hours)
-  # This provides footage for manual events to reference
+  # No motion buffer. This used to be 0.5 days purely so violation clips had
+  # something to point at, because violations never created review items. They
+  # do now (see frigate/track/object_processing.py), so violation footage is
+  # retained by the alerts window below and this buffer is no longer load-bearing.
   motion:
-    days: 0.5
+    days: 0
 
-  # Retain alert recordings (violations) for 30 days
+  # Violations land here: they are created as alert-severity review items.
+  # mode must be `all`, not `motion` -- a no_parking_violation is a stationary
+  # car, so motion mode discards exactly the footage the rule exists to capture.
   alerts:
     retain:
-      days: 30
-      mode: motion
+      days: 2
+      mode: all
+    pre_capture: 5
+    post_capture: 5
 
-  # Don't retain normal detection recordings
+  # Don't retain normal detection recordings.
   detections:
     retain:
       days: 0
       mode: motion
+    pre_capture: 5
+    post_capture: 5
 
 # Snapshot configuration - Disable automatic snapshots
 # Manual violation events will still capture snapshots via include_recording
@@ -675,3 +696,22 @@ classification:
   object:
     enabled: false
 version: 0.17-0
+# Ordinary person/car review items are OFF. This is not cosmetic -- it is the
+# storage control.
+#
+# A review item pins every recording segment it overlaps. On these cameras
+# (continuously busy road footage) an ordinary review segment never *closes*:
+# its end_time stays NULL while activity continues, and expire_review_segments
+# filters on `end_time < cutoff`, which NULL never satisfies. Such a segment is
+# therefore immortal and its footage is retained forever. Measured: 21 open
+# detection segments were holding ~220 GB/day of footage.
+#
+# Violations are exempt from both switches (PendingReviewSegment.is_violation),
+# so turning these off leaves violation review items -- and violation footage --
+# intact. That is the whole point of the exemption. Verified: 8/8 violations
+# still had footage afterwards, and disk growth went flat.
+review:
+  alerts:
+    enabled: false
+  detections:
+    enabled: false

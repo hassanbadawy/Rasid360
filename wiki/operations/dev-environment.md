@@ -2,7 +2,7 @@
 type: operations
 status: current
 sources: [run-dev.sh, stop-dev.sh, logs-dev.sh, container-runtime.sh, docker-compose.yml, .devcontainer]
-updated: 2026-08-26
+updated: 2026-08-28
 ---
 
 # Dev Environment
@@ -79,6 +79,25 @@ brew install podman podman-compose
 podman machine init          # first time only
 podman machine start
 ```
+
+### Vite does not see host edits
+
+File-change events do not cross the podman-machine boundary on macOS, so Vite's watcher never
+fires and **HMR does not work**. Worse, a full page reload is not enough either: the dev server
+keeps serving its cached transform, so an edited file looks like it never changed. Measured —
+after editing `web/src/pages/Settings.tsx`, the container saw the new content while
+`curl http://localhost:5173/src/pages/Settings.tsx` still returned the old module.
+
+Restart Vite after editing frontend files:
+
+```bash
+podman exec <devcontainer> pkill -f vite
+source ./container-runtime.sh
+compose_exec_detached devcontainer bash -c "cd /workspace/frigate/web && npm run dev"
+```
+
+Backend edits need the Frigate processes restarted the same way; there is no reload there
+either.
 
 ## Bring it up
 
@@ -202,7 +221,7 @@ AttributeError: 'Migrator' object has no attribute 'change_columns'
 That is an environment mismatch, not a test failure — it hits the pre-existing suite identically.
 `run-tests.sh` installs the pin before running.
 
-Current state: **211 tests passing** (2026-08-24).
+Current state: **247 tests passing** (2026-08-28).
 
 The DSL tests alone need no container — they are pure logic over dicts:
 

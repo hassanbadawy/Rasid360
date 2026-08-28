@@ -2,7 +2,7 @@
 type: component
 status: current
 sources: [frigate/api/event.py, frigate/api/defs/request/events_body.py, frigate/api/media.py, frigate/analytics_db.py]
-updated: 2026-08-24
+updated: 2026-08-28
 ---
 
 # Events & Observations API
@@ -67,6 +67,30 @@ it does mean a `listdir` of `CLIPS_DIR` on every miss.
 Note the filename convention `{camera}-{event_id}-viol.jpg` is **duplicated** between the writer
 (`frigate/extras/actions/dsl_violation_detector.py`) and the reader (`frigate/api/media.py`) as
 independent f-strings. A shared constant would prevent the two drifting.
+
+## Violation video — `GET /api/events/{id}/clip.mp4`
+
+Upstream's endpoint, but worth documenting here because it is the one a ticket links to.
+`event_clip` 404s if the event has no `has_clip`, then delegates to `recording_clip`, which
+assembles an ffmpeg concat playlist from the `recordings` rows overlapping the event window.
+
+**It now 404s when no recording covers the range.** Previously it wrote an *empty* playlist,
+ran ffmpeg on it, and streamed the empty result as `200 OK`, `Content-Type: video/mp4`,
+`Transfer-Encoding: chunked`, **zero bytes**. Players render a blank frame and nothing logs a
+failure, so a violation with no footage was indistinguishable from one with footage — the
+snapshot, thumbnail and evidence image all returned normally. That masked 1,484 violations whose
+segments had been dropped; see [Known Issues](../health/known-issues.md) #8e and #8f.
+
+A recent violation legitimately 404s for a short while: its segments are still in the cache and
+have not yet been moved to permanent storage.
+
+**Known defect, upstream.** The playlist's `outpoint` is computed as
+`int(end_ts - clip.start_time)`, truncating toward zero — a 1.9-second outpoint becomes `1`.
+Roughly 1 in 12 sampled violation clips came back near-empty (~2.5 KB) with all overlapping
+segments present on disk. Not caused by this fork and not yet fixed.
+
+Retention — which segments exist to be assembled at all — is
+[Recording Retention](recording-retention.md).
 
 ## Two records per violation — and only one of them counts
 

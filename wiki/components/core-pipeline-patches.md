@@ -1,8 +1,8 @@
 ---
 type: component
 status: current
-sources: [frigate/video.py, frigate/camera/state.py, frigate/track/object_processing.py, frigate/app.py]
-updated: 2026-08-24
+sources: [frigate/video.py, frigate/camera/state.py, frigate/track/object_processing.py, frigate/app.py, frigate/review/maintainer.py, frigate/util/builtin.py]
+updated: 2026-08-28
 ---
 
 # Core Pipeline Patches
@@ -111,6 +111,56 @@ Some debug logging was also added to `FrigateApp.__init__`, including a defensiv
 
 See [Analytics Scheduler](analytics-scheduler.md).
 
+## 5. Violations reach the review pipeline
+
+**`frigate/track/object_processing.py`** — `create_manual_event` published its event onward
+only for `source_type == "api"`. Rasid360's detectors pass their own source_type so the event
+stays identifiable as a violation, so they fell through:
+
+```python
+if source_type == "api" or source_type in VIOLATION_SOURCE_TYPES:
+```
+
+The published payload also gained `source_type`, so the review maintainer can tell a violation
+from a generic manual event without a database round trip.
+
+**`frigate/review/maintainer.py`** — a file the fork had not previously touched.
+`PendingReviewSegment` gains an `is_violation` flag, and the three places that gate on
+`review.alerts.enabled` now read `is_violation or ...enabled`. A violation must not be
+silenceable from the Review settings page, because that switch would otherwise stop the
+retention that keeps violation footage on disk.
+
+One upstream bug fixed in passing, in the same dispatch block:
+
+```python
+# before -- `or DetectionTypeEnum.lpr.value` is a non-empty string, always truthy
+elif topic == DetectionTypeEnum.api.value or DetectionTypeEnum.lpr.value:
+# after
+elif topic in (DetectionTypeEnum.api.value, DetectionTypeEnum.lpr.value):
+    ...
+else:
+    continue
+```
+
+It was harmless only because no other topic reaches that loop.
+
+**Why it exists.** Without it a violation never became a review item, the recording maintainer
+had no reason to keep the overlapping segments, and `clip.mp4` returned an empty body while the
+event row claimed `has_clip = True`.
+Full mechanism: [Recording Retention](recording-retention.md).
+
+## 6. Config writes can clear a key that was never set
+
+**`frigate/util/builtin.py`** — also previously untouched. `update_yaml` treats an empty-string
+value as "delete this key", but the delete shared the *creating* walk, so clearing a key the
+config had never set built the parent maps on the way down and then raised `KeyError`. The
+delete path now walks without creating, is a no-op for a missing key, and prunes maps it
+empties.
+
+**Why it exists.** Any per-camera override editor removes a key the moment the user picks "use
+the global value" — including on a field the camera never set. Before this, that failed the
+whole save. Covered by `frigate/test/test_config_yaml_update.py`.
+
 ## Merge checklist
 
 When merging upstream, these four files need manual review. Everything else in the fork is
@@ -123,5 +173,13 @@ additive.
 | `video.py` | Keep — re-apply the `always_full_frame` branch |
 | `config/camera/detect.py` | Keep — re-apply the `always_full_frame` field |
 | `app.py` | Keep the analytics wiring; the timeline cleanup is upstream's own code and upstream intends to remove it — take upstream's version |
+| `review/maintainer.py` | Keep — re-apply `is_violation` and the three `is_violation or ...enabled` gates. Re-check the topic dispatch fix; upstream may have corrected it independently |
+| `util/builtin.py` | Keep — re-apply the `update_yaml` delete path. Purely additive to upstream behaviour: it only changes what happens when the key is absent |
+| `api/media.py` | Keep — re-apply the empty-recordings 404 in `recording_clip` |
 
-All five files have upstream changes since the fork point, so expect conflicts in each.
+Expect conflicts in each; all have upstream changes since the fork point.
+
+**This work widened the merge surface.** `review/maintainer.py` and `util/builtin.py` were
+untouched upstream files before 2026-08-28 and are now patched, taking the count of modified
+upstream files from five to seven. Both patches are small and defensive, but they are two more
+files to reconcile on an upstream merge — see [Fork Relationship](../concepts/fork-relationship.md).

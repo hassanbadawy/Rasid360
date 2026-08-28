@@ -1,16 +1,16 @@
 ---
 type: health
 status: current
-sources: [frigate/api/dashboard.py, frigate/analytics_scheduler.py, frigate/violations.py, frigate/video.py, frigate/app.py, web/src/hooks/use-violations.ts, frigate/api/event.py, frigate/extras/main.py, docker/main/rootfs/etc/s6-overlay/s6-rc.d]
-updated: 2026-08-25
+sources: [frigate/api/dashboard.py, frigate/analytics_scheduler.py, frigate/violations.py, frigate/video.py, frigate/app.py, web/src/hooks/use-violations.ts, frigate/api/event.py, frigate/extras/main.py, docker/main/rootfs/etc/s6-overlay/s6-rc.d, frigate/track/object_processing.py, frigate/review/maintainer.py, frigate/record/maintainer.py, frigate/api/media.py, frigate/util/builtin.py]
+updated: 2026-08-28
 ---
 
 # Known Issues
 
 Severity-ordered, with the evidence for each so it can be re-checked rather than re-litigated.
 
-**Status as of 2026-08-25:** items 1-8 and 8b fixed; 9-11 and 13-15 open. Verified by 211
-passing tests **and** a live run of the stack. See [log](../log.md) for the passes.
+**Status as of 2026-08-28:** items 1-8, 8b, 8c and 8e-8h fixed; 9-11, 13-15 and 16-18 open. Verified by
+**247 passing tests** and a live run of the stack. See [log](../log.md) for the passes.
 
 ---
 
@@ -149,6 +149,111 @@ Two latent bugs surfaced during the migration:
   `camera:rule_name`, so with `cooldown: 600` a right-lane violation suppressed left-lane
   detection for ten minutes. Renamed to `wrongway_right` / `wrongway_left`.
 
+### 8e. Violations never created review items — 87.8% of clips unrecoverable ✅
+
+**Severity was: critical — the evidence video for a violation usually did not exist**
+
+`TrackedObjectProcessor.create_manual_event` published a manual event onward to the review
+pipeline only when `source_type == "api"`. The violation detectors pass their own source_type
+(`dsl_violation_detector`, `wrong_way_detector`) so the event stays identifiable as a violation
+— see `frigate/violations.py` — and therefore fell straight through that gate.
+
+No publish meant no review segment, which meant `RecordingMaintainer` had no reason to keep the
+overlapping recording segments, which meant they were dropped. Meanwhile the event row was
+written with `has_clip = record.enabled and include_recording` → `True`, and the analytics row
+stored a `clip.mp4` URL. Both asserted a video that did not exist.
+
+**Measured before the fix**, on the dev deployment:
+
+| | |
+|---|---|
+| Review segments referencing a violation event | **0** of 1,324 |
+| Violations with any overlapping recording | 206 of 1,690 (**12.2%**) |
+| Inside the 12h motion buffer | 63 of 71 (89%) |
+| Outside it | 143 of 1,619 (9%) |
+
+Clips only worked at all because `record.motion.days` was `0.5` — a 12-hour buffer whose
+purpose the config file stated out loud: *"This provides footage for manual events to
+reference."* Past 12 hours the clip died while the metadata stayed intact. `alerts.retain.days:
+30` was inert, because violations were not alerts.
+
+**Fixed 2026-08-28.** The gate admits `VIOLATION_SOURCE_TYPES`, the payload carries
+`source_type`, and a violation-created `PendingReviewSegment` is exempt from
+`review.alerts.enabled` so the Review settings page cannot silently switch off evidence
+retention. `motion.days` is now `0` and `alerts.retain.mode` is `all` (motion mode discarded
+stationary violations — parking and stopping rules).
+
+**Verified live** with `continuous.days: 0` and `motion.days: 0`: 4/4 new violations had
+overlapping recordings and all four clips downloaded real video (2.0–39.7 MB). Covered by
+`frigate/test/test_violation_review_items.py`.
+Detail: [Recording Retention](../components/recording-retention.md).
+
+### 8f. `clip.mp4` returned 200 with a zero-byte body ✅
+
+**Severity was: medium — turned every missing clip into a silent failure**
+
+`recording_clip` built an ffmpeg concat playlist from the recordings overlapping the requested
+range. With no matching recordings it wrote an **empty** playlist, ran ffmpeg on it, and
+streamed the empty result as `200 OK`, `Content-Type: video/mp4`, `Transfer-Encoding: chunked`,
+0 bytes. Players render a blank frame; nothing logs an error. This is why 8e went unnoticed —
+snapshots, thumbnails and evidence images all returned normally, so the card looked healthy.
+
+**Fixed 2026-08-28**: 404 with a message when no recordings cover the range
+(`frigate/api/media.py`).
+
+### 8g. `update_yaml` raised KeyError when clearing an unset key ✅
+
+**Severity was: medium — blocked any "reset to inherited value" control**
+
+`PUT /config/set` treats an empty-string value as "delete this key". The delete shared the
+creating walk, so clearing a key the config had never set created the parent maps on the way
+down and then raised `KeyError` — failing the entire save and leaving
+`record: {alerts: {retain: {}}}` husks behind. Any per-camera override editor hits this on its
+first "use the global value" click.
+
+**Fixed 2026-08-28**: the delete path walks without creating, is a no-op for a missing key, and
+prunes maps it empties. 13 tests in `frigate/test/test_config_yaml_update.py`.
+
+### 8h. Open review segments retained 220 GB/day, 93% of it worthless ✅
+
+**Severity was: critical — the host disk was ~3 hours from full**
+
+Surfaced immediately after 8e. Making violations retain their footage worked, but the retention
+class they landed in was pinning nearly everything.
+
+Two mechanics combine:
+
+1. A recording segment is moved to permanent storage the moment it overlaps **any** review item.
+   The retention window only decides when it is later expired — so **write volume is set by
+   review activity, not by the days value**.
+2. A review segment does not close while activity continues: `end_time` stays NULL, and
+   `expire_review_segments` filters on `end_time < cutoff`, which NULL never satisfies. **An
+   open segment is immortal and pins every recording it overlaps, indefinitely.**
+
+These cameras run looping road footage with traffic in frame at all times, so ordinary
+person/car review segments never closed. Measured: 21 open detection segments, **220 GB/day**
+growth, and of 66 GB retained only **4.7 GB (7%)** overlapped a violation. Free space was 29 GB
+of 461 GB.
+
+Two fixes that did **not** work, recorded so they are not retried:
+
+| Attempt | Result |
+|---|---|
+| `alerts.retain.days: 30 → 2` | shortens expiry only; write volume unchanged |
+| `review.alerts.enabled: false` alone | objects fall through to the *detections* bucket and keep creating review items — 246 GB/day |
+
+**Fixed 2026-08-28** by disabling ordinary review items in both classes. Violations are exempt
+via `PendingReviewSegment.is_violation`, so violation review items and footage are untouched.
+`record.expire_interval` also dropped 60 → 10, because segments are written first and deleted
+at the next expiry pass, so the interval bounds how much churn sits on disk.
+
+Result: open segments 21 → 0, growth 220 GB/day → **flat**, 8/8 violations still had footage.
+A one-off purge of segments overlapping no violation reclaimed **50.5 GB**.
+
+**The trade:** the Review pane now shows violations only. Defensible for a violation-ticketing
+product, reversible by re-enabling either switch at the storage cost above.
+Detail: [Recording Retention](../components/recording-retention.md).
+
 ---
 
 ## Open
@@ -205,9 +310,9 @@ covers `frigate.db` only.
 
 **Severity: low-medium**
 
-The suite now runs green in a container — **211 tests passing** as of 2026-08-24, via
-`./run-tests.sh`. That includes the 17 DSL tests and the 6 dashboard tests, which were previously
-written but unexecuted.
+The suite now runs green in a container — **247 tests passing** as of 2026-08-28, via
+`./run-tests.sh`. That includes the 17 DSL tests, the 6 dashboard tests, and 19 added with the
+recording-retention work (`test_config_yaml_update.py`, `test_violation_review_items.py`).
 
 Still not covered: the analytics scheduler's aggregation methods (the highest-value remaining
 target — they define every dashboard number), the observations CRUD and its write-through, and
@@ -249,11 +354,50 @@ measurable, but nothing has been merged.
 This compounds daily and is the largest long-term risk to the project.
 [Fork Relationship](../concepts/fork-relationship.md).
 
+### 16. `clip.mp4` truncates roughly 1 in 12 violation clips
+
+**Severity: medium — silently loses ~8% of evidence video**
+
+`recording_clip` computes the concat playlist's outpoint as `int(end_ts - clip.start_time)`,
+truncating toward zero: a 1.9-second outpoint becomes `1`. Sampling 12 recent violations, two
+returned a ~2.5 KB near-empty MP4 with **all five overlapping segments present on disk** — so
+this is clip assembly, not retention.
+
+Upstream code, untouched by this fork's work. Verified reproducible for a given event rather
+than transient. The fix is presumably to round rather than truncate, and to skip a
+sub-second outpoint entirely, but that has not been tested.
+
+### 17. Violation retention is a single shared window
+
+**Severity: medium — cannot prioritise evidence**
+
+`ViolationRuleConfig.retention_days` exists and is **unused**. All violations are retained for
+`record.alerts.retain.days`, currently 2, so a `critical` fall-down and a routine wrong-way are
+treated identically. Wiring it through the review segment and `expire_review_segments` is what
+would allow a long window for the rules that warrant one without paying for it on all of them.
+[Recording Retention](../components/recording-retention.md).
+
+### 18. The Recording settings page omits the setting that controls storage
+
+**Severity: low-medium — the page can be used correctly and still fill the disk**
+
+Every field on `Settings → Cameras → Recording` lives under `record:`. The dominant lever is
+`review.alerts.enabled` / `review.detections.enabled` (#8h), which is not on the page and has no
+UI anywhere except the Review page's *runtime* toggles — which are not the same thing, since
+those revert on restart. Setting every retention window to zero on the Recording page does not
+stop the disk filling.
+
+The *Violations only* preset compounds it: it writes `alerts.retain.days: 30`, affordable only
+once ordinary review items are off.
+
 ---
 
 ## Suggested order of work
 
-1. **#15** — attempt a trial merge on a scratch branch to size the real cost
-2. **#9** — incremental aggregation, before history makes it painful
-3. **#12** — cover the scheduler's aggregations; they define every dashboard number
-4. **#10** — narrow the exception handling so the next bug of this class surfaces
+1. **#17** — per-rule retention. Violation evidence currently lives 2 days for everything,
+   because a longer shared window is unaffordable. This is the one actively costing evidence.
+2. **#16** — clip truncation, losing ~8% of the video that *is* retained. Small fix.
+3. **#15** — attempt a trial merge on a scratch branch to size the real cost
+4. **#9** — incremental aggregation, before history makes it painful
+5. **#12** — cover the scheduler's aggregations; they define every dashboard number
+6. **#10** — narrow the exception handling so the next bug of this class surfaces

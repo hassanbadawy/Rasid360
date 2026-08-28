@@ -2,7 +2,7 @@
 type: overview
 status: current
 sources: [wiki]
-updated: 2026-08-25
+updated: 2026-08-28
 ---
 
 # Wiki Index
@@ -48,6 +48,7 @@ One page per subsystem, mapped to real paths.
 | [Analytics Scheduler](components/analytics-scheduler.md) | `frigate/analytics_scheduler.py` |
 | [Dashboard API](components/api-dashboard.md) | `frigate/api/dashboard.py` |
 | [Events & Observations API](components/api-events-observations.md) | `frigate/api/event.py`, `frigate/api/media.py` |
+| [Recording Retention](components/recording-retention.md) | `frigate/record/`, `frigate/config/camera/record.py`, `views/settings/RecordingSettingsView.tsx` |
 
 ### Frontend
 
@@ -55,6 +56,7 @@ One page per subsystem, mapped to real paths.
 |---|---|
 | [Web Dashboard](components/web-dashboard.md) | `web/src/pages/Dashboard.tsx`, `hooks/use-dashboard-data.ts`, detail dialog tabs |
 | [Rules Editor](components/web-rules-editor.md) | `views/settings/RulesView.tsx`, `components/settings/RuleEditDialog.tsx` |
+| [Recording Retention](components/recording-retention.md) § The settings page | `views/settings/RecordingSettingsView.tsx` |
 | [Navigation & Branding](components/web-navigation-branding.md) | `use-navigation.ts`, `rasid360Config.ts`, theme, locales |
 
 ### Upstream modifications
@@ -87,6 +89,11 @@ One page per subsystem, mapped to real paths.
 | Why are the violation counts too high? | [Known Issues](health/known-issues.md) #2 |
 | Why is the dashboard 5 minutes behind? | [Analytics Scheduler](components/analytics-scheduler.md) |
 | Why is there no evidence image? | [Violation Lifecycle](concepts/violation-lifecycle.md) § 6 |
+| Why does a violation have no video? | [Recording Retention](components/recording-retention.md), [Known Issues](health/known-issues.md) #8e, #16 |
+| Why is the disk filling up? | [Recording Retention](components/recording-retention.md) § What actually drives storage, [Known Issues](health/known-issues.md) #8h |
+| Why does the Review pane only show violations? | [Configuration](operations/configuration.md) § Review items are the storage control |
+| How do I control what gets stored? | [Recording Retention](components/recording-retention.md) § The settings page |
+| Why don't violations show in the Review pane? | [Recording Retention](components/recording-retention.md) § Violations are review items |
 | Can we merge upstream Frigate? | [Fork Relationship](concepts/fork-relationship.md) |
 | How do I run this locally? | [Dev Environment](operations/dev-environment.md) |
 | Where does ticket state actually live? | [Events & Observations API](components/api-events-observations.md) |

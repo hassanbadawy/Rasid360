@@ -1,8 +1,8 @@
 ---
 type: operations
 status: current
-sources: [data/frigate-config/config.yml, frigate/extras/config.yml, frigate/extras/config.py, docker-compose.yml, .gitignore]
-updated: 2026-08-25
+sources: [data/frigate-config/config.yml, frigate/extras/config.yml, frigate/extras/config.py, docker-compose.yml, .gitignore, frigate/api/app.py, frigate/util/builtin.py]
+updated: 2026-08-28
 ---
 
 # Configuration
@@ -29,6 +29,60 @@ cross-reference; a mismatch produces a rule that never fires and never errors
 
 For `speed_limit` rules, the zone additionally needs a `distances` field, or Frigate's speed
 estimation yields nothing.
+
+### Recording
+
+The `record:` block is edited from `Settings → Cameras → Recording` as well as by hand. Its
+semantics are counter-intuitive enough to be worth stating here: `enabled` runs the capture
+pipeline, it does **not** mean footage is stored — the retention windows decide that, and
+`enabled: false` makes violation clips impossible for that camera. Full mechanism in
+[Recording Retention](../components/recording-retention.md).
+
+Global values are merged into every camera; anything set under `cameras.<name>.record`
+overrides the global for that camera only.
+
+### Review items are the storage control
+
+This deployment runs with **ordinary review items off**:
+
+```yaml
+review:
+  alerts:     { enabled: false }
+  detections: { enabled: false }
+```
+
+That is not a display preference. A review item pins every recording segment it overlaps, and
+on continuously busy cameras an ordinary review segment never closes — so leaving these on
+retained ~220 GB/day, 93% of it footage no violation ever referenced. Violations are exempt
+from both switches, so this leaves violation evidence intact. Turning either back on is
+supported; understand the cost first —
+[Recording Retention](../components/recording-retention.md).
+
+`record.expire_interval` is `10` (default 60) for the same reason: segments are written to
+permanent storage first and deleted at the next expiry pass, so the interval bounds the churn
+held on disk.
+
+### Editing config from the UI
+
+Three endpoints, with different notions of what "the config" is:
+
+| Endpoint | Serves | Notes |
+|---|---|---|
+| `GET /config` | the **running, merged** config | does not reflect `config/set` writes until restart |
+| `GET /config/file` | the **file**, parsed | what settings forms should read-modify-write |
+| `GET /config/raw` | the file, as text | backs the raw YAML editor |
+
+`PUT /config/set` writes the file with ruamel round-trip (comments survive), re-parses to
+validate, and rolls back on failure. Two sharp edges worth knowing:
+
+- An **empty-string value means "delete this key"**, which is how a per-camera override is
+  removed. No config field can therefore be set to an empty string through this API.
+- Lists are replaced wholesale, never patched — which is why read-modify-write against the
+  stale `/config` view loses data, and why `/config/file` exists.
+
+`requires_restart: 0` swaps the API process's config; `update_topic` / `update_topics` publish
+the change to the worker processes that subscribe to it, which is what makes a save apply
+without a restart.
 
 ### Rasid360-specific camera option
 

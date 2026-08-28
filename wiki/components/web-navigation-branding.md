@@ -1,8 +1,8 @@
 ---
 type: component
 status: current
-sources: [web/src/hooks/use-navigation.ts, web/src/types/rasid360Config.ts, web/themes/theme-rasid360.css, web/src/context/theme-provider.tsx, web/public/locales]
-updated: 2026-08-24
+sources: [web/src/hooks/use-navigation.ts, web/src/types/rasid360Config.ts, web/themes/theme-rasid360.css, web/src/context/theme-provider.tsx, web/public/locales, web/src/pages/Settings.tsx]
+updated: 2026-08-28
 ---
 
 # Navigation & Branding
@@ -73,6 +73,19 @@ Note that new UI strings added by this fork are largely **hardcoded English** ra
 through i18n — for example the violation filter label `"Violations (All)"` in
 `ReviewFilterGroup.tsx` and the evidence-tab error copy in `SearchDetailDialog.tsx`. For a
 product with substantial Arabic localisation, this is an inconsistency worth resolving.
+
+The Recording settings page (2026-08-28) does route everything through i18n: a `recording` block
+of ~50 keys was added to `web/public/locales/en/views/settings.json`, plus `menu.recording`.
+**English only** — the other locales do not carry the block yet, so those users see the English
+fallback. That is the same gap as above, now with the keys already in place to close it.
+
+## Settings navigation
+
+`web/src/pages/Settings.tsx` holds the settings nav as three parallel lists that must stay in
+sync: `allSettingsViews`, the `settingsGroups` entry that maps a key to a component, and
+`CAMERA_SELECT_BUTTON_PAGES` if the page is camera-scoped. A key missing from any one of them
+fails silently — the item simply does not render. `recording` was added to all three under the
+`cameras` group, between Review and Masks / Zones.
 
 ## Related
 
