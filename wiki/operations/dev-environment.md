@@ -124,6 +124,28 @@ container's shell rather than supervised services — see
 [Extras Service](../components/extras-service.md). They must **not** use `$COMPOSE_CMD exec -d`,
 which hangs under podman-compose (see above).
 
+### Do not run the test suite while the stack is up
+
+`./run-tests.sh` starts a second container with the full dependency stack while nine camera
+decoders are already running. On a default `podman machine` (5 CPUs, 7.45 GiB) that is enough to
+take the VM down. Observed twice on 2026-08-28: the first time the machine died mid-run, the
+second time `python3 -m frigate` was OOM-killed and nginx served `500` with only the extras
+worker left alive.
+
+The failure is confusing because the VM lies about it. `podman machine list` reports
+**Currently running** while the API socket refuses connections, and `podman machine stop` prints
+*stopped successfully* while leaving a live `krunkit` process behind. Recovery:
+
+```bash
+podman machine stop
+pkill -f krunkit          # the stop above does not always kill it
+podman machine start
+./run-dev.sh --docker-only
+```
+
+Stop the stack before running the suite, or accept the risk. Commit first either way — nothing
+in the working tree survives a VM you have to hard-kill.
+
 ## Ports
 
 | Port | Service | Notes |

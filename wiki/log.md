@@ -465,3 +465,17 @@ suite runs 228 tests and produces the *same* single failure. The module passes i
 
 [Known Issues](health/known-issues.md) #8d and [Dev Environment](operations/dev-environment.md)
 now say 246 passing with #8d flaking, and warn against reading one green run as proof.
+
+## [2026-08-28] fix | Running the test suite alongside the stack takes the podman VM down
+
+Observed twice while verifying the recording work. `./run-tests.sh` starts a second full-stack
+container while nine camera decoders are running; on the default machine (5 CPUs, 7.45 GiB) that
+is enough to kill it. Once the machine died mid-run; once `python3 -m frigate` was OOM-killed and
+nginx served `500` with only the extras worker alive.
+
+The VM misreports its own state — `podman machine list` says *Currently running* while the API
+socket refuses connections, and `podman machine stop` says *stopped successfully* while leaving a
+live `krunkit` process. Recovery needs an explicit `pkill -f krunkit` between stop and start.
+
+Recorded in [Dev Environment](operations/dev-environment.md). No code change; this is an
+environment constraint, not a bug in the fork.
