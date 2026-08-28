@@ -233,6 +233,66 @@ def update_yaml_file_bulk(file_path: str, updates: Dict[str, Any]):
 
 
 def update_yaml(data, key_path, new_value):
+    # An empty new_value means "remove this key". Deleting has to walk the tree
+    # without creating anything: the old code shared the creating walk below, so
+    # clearing a key the config never set raised KeyError *after* leaving empty
+    # parent maps behind. That made "reset this field to the inherited value" --
+    # the normal case for any per-camera override editor -- fail the whole save.
+    if new_value == "":
+        temp = data
+        # (parent, key) for each level walked, so empty maps left behind by the
+        # delete can be pruned on the way back up
+        trail: list[tuple[Any, Any]] = []
+
+        for key in key_path[:-1]:
+            if isinstance(key, tuple):
+                container = temp.get(key[0]) if hasattr(temp, "get") else None
+
+                if not isinstance(container, list) or len(container) <= key[1]:
+                    return data
+
+                trail.append((temp, key))
+                temp = container[key[1]]
+            else:
+                if not hasattr(temp, "get"):
+                    return data
+
+                nxt = temp.get(key)
+
+                if nxt is None:
+                    return data
+
+                trail.append((temp, key))
+                temp = nxt
+
+        last_key = key_path[-1]
+
+        if isinstance(last_key, tuple):
+            container = temp.get(last_key[0]) if hasattr(temp, "get") else None
+
+            if isinstance(container, list) and len(container) > last_key[1]:
+                del container[last_key[1]]
+        elif hasattr(temp, "__contains__") and last_key in temp:
+            del temp[last_key]
+        else:
+            return data
+
+        # Drop maps the delete just emptied. `cameras.x.record.alerts.retain.days`
+        # going away should leave no `record: {}` husk behind -- it reads like a
+        # deliberate setting and shows up as noise in every later diff.
+        for parent, key in reversed(trail):
+            child = parent[key[0]][key[1]] if isinstance(key, tuple) else parent[key]
+
+            if not isinstance(child, dict) or len(child) > 0:
+                break
+
+            if isinstance(key, tuple):
+                del parent[key[0]][key[1]]
+            else:
+                del parent[key]
+
+        return data
+
     temp = data
     for key in key_path[:-1]:
         if isinstance(key, tuple):
@@ -247,27 +307,21 @@ def update_yaml(data, key_path, new_value):
             temp = temp[key]
 
     last_key = key_path[-1]
-    if new_value == "":
-        if isinstance(last_key, tuple):
-            del temp[last_key[0]][last_key[1]]
-        else:
-            del temp[last_key]
+
+    if isinstance(last_key, tuple):
+        if last_key[0] not in temp:
+            temp[last_key[0]] = [{}] * max(1, last_key[1] + 1)
+        elif len(temp[last_key[0]]) <= last_key[1]:
+            temp[last_key[0]] += [{}] * (last_key[1] - len(temp[last_key[0]]) + 1)
+        temp[last_key[0]][last_key[1]] = new_value
+    elif (
+        last_key in temp
+        and isinstance(temp[last_key], dict)
+        and isinstance(new_value, dict)
+    ):
+        temp[last_key].update(new_value)
     else:
-        if isinstance(last_key, tuple):
-            if last_key[0] not in temp:
-                temp[last_key[0]] = [{}] * max(1, last_key[1] + 1)
-            elif len(temp[last_key[0]]) <= last_key[1]:
-                temp[last_key[0]] += [{}] * (last_key[1] - len(temp[last_key[0]]) + 1)
-            temp[last_key[0]][last_key[1]] = new_value
-        else:
-            if (
-                last_key in temp
-                and isinstance(temp[last_key], dict)
-                and isinstance(new_value, dict)
-            ):
-                temp[last_key].update(new_value)
-            else:
-                temp[last_key] = new_value
+        temp[last_key] = new_value
 
     return data
 

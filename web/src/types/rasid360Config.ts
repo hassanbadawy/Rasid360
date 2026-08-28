@@ -188,6 +188,12 @@ export interface CameraConfig {
         mode: string;
       };
     };
+    continuous: {
+      days: number;
+    };
+    motion: {
+      days: number;
+    };
     expire_interval: number;
     export: {
       timelapse_args: string;
@@ -532,6 +538,12 @@ export interface Rasid360Config {
         mode: string;
         objects: Record<string, unknown>;
       };
+    };
+    continuous: {
+      days: number;
+    };
+    motion: {
+      days: number;
     };
     expire_interval: number;
     export: {

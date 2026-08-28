@@ -25,7 +25,8 @@
     "roles": "Roles",
     "notifications": "Notifications",
     "frigateplus": "Rasid360+",
-    "rules": "Violation Rules"
+    "rules": "Violation Rules",
+    "recording": "Recording"
   },
   "dialog": {
     "unsavedChanges": {
@@ -1101,5 +1102,76 @@
       "error": "Could not save the rule."
     },
     "restartRequired": "Restart required to apply violation rule changes."
+  },
+  "recording": {
+    "documentTitle": "Recording - Rasid360",
+    "title": "Recording",
+    "desc": "Recording is always captured to a short-lived cache; these settings decide what is moved to permanent storage and for how long. Nothing is kept unless a retention window below covers it.",
+    "unsavedChanges": "Unsaved recording changes",
+    "on": "on",
+    "off": "off",
+    "override": "Override",
+    "useGlobal": "Use global",
+    "overridden": "Set on this camera.",
+    "inheriting": "Inheriting the global value ({{value}}).",
+    "capture": {
+      "label": "Capture",
+      "desc": "Runs the recording pipeline. This is not the same as storing footage -- with capture on and every retention window at 0, nothing accumulates on disk.",
+      "warning": "With capture off, segments are deleted the moment they are written. Violation clips become impossible for this camera, and no review item can recover them."
+    },
+    "presets": {
+      "label": "Start from:",
+      "violationsOnly": "Violations only",
+      "motionBuffer": "Motion buffer",
+      "everything": "Everything"
+    },
+    "global": {
+      "title": "Global defaults",
+      "desc": "Applied to every camera that does not override the value below."
+    },
+    "camera": {
+      "title": "Overrides for {{camera}}",
+      "desc": "Each field inherits the global value until you override it. Removing an override deletes the key from this camera's config."
+    },
+    "group": {
+      "storage": "Bulk retention",
+      "alerts": "Alerts and violations",
+      "alertsDesc": "Violation rules create alert-severity review items, so violation footage is retained by this window.",
+      "detections": "Detections"
+    },
+    "mode": {
+      "all": "All footage",
+      "motion": "Only with motion",
+      "active_objects": "Only with active objects"
+    },
+    "field": {
+      "continuous.days": "Continuous retention (days)",
+      "motion.days": "Motion retention (days)",
+      "alerts.retain.days": "Alert retention (days)",
+      "alerts.retain.mode": "Alert retention mode",
+      "alerts.pre_capture": "Alert pre-capture (seconds)",
+      "alerts.post_capture": "Alert post-capture (seconds)",
+      "detections.retain.days": "Detection retention (days)",
+      "detections.retain.mode": "Detection retention mode",
+      "detections.pre_capture": "Detection pre-capture (seconds)",
+      "detections.post_capture": "Detection post-capture (seconds)"
+    },
+    "fieldDesc": {
+      "continuous.days": "Keep every segment for this many days, whether or not anything happened. 0 disables continuous recording.",
+      "motion.days": "Keep segments containing motion for this many days. 0 disables the motion buffer.",
+      "alerts.retain.days": "How long footage overlapping an alert or a violation is kept.",
+      "alerts.retain.mode": "Use 'All footage' for violations -- a stationary vehicle produces no motion, so 'Only with motion' discards exactly the evidence a parking or stopping rule exists to capture.",
+      "alerts.pre_capture": "Seconds of footage kept before the alert starts.",
+      "alerts.post_capture": "Seconds of footage kept after the alert ends.",
+      "detections.retain.days": "How long footage overlapping an ordinary detection is kept. 0 keeps none.",
+      "detections.retain.mode": "Which parts of a detection's footage to keep.",
+      "detections.pre_capture": "Seconds of footage kept before the detection starts.",
+      "detections.post_capture": "Seconds of footage kept after the detection ends."
+    },
+    "toast": {
+      "success": "Recording settings saved.",
+      "error": "Could not save recording settings.",
+      "noChanges": "No changes to save."
+    }
   }
 }

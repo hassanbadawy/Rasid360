@@ -213,6 +213,36 @@ def config_violations():
     )
 
 
+@router.get("/config/file")
+def config_file():
+    """The config *file* as parsed YAML.
+
+    GET /config serves the running in-memory config with every global default
+    already merged down into each camera, so it cannot answer "did the user set
+    this on the camera, or is it inherited?" -- and it does not reflect
+    config/set writes until Frigate restarts. Settings forms that read-modify-
+    write a section need the file, not the merged runtime view.
+
+    /config/violations is the older, single-purpose version of this endpoint.
+    """
+    from ruamel.yaml import YAML
+
+    config_file = find_config_file()
+
+    try:
+        yaml = YAML(typ="safe")
+        with open(config_file, "r") as f:
+            raw = yaml.load(f) or {}
+    except Exception as e:
+        logger.error(f"Unable to read config file: {e}")
+        return JSONResponse(
+            content={"success": False, "message": "Unable to read config"},
+            status_code=500,
+        )
+
+    return JSONResponse(content=raw)
+
+
 @router.get("/config/raw")
 def config_raw():
     config_file = find_config_file()
@@ -417,20 +447,25 @@ def config_set(request: Request, body: AppConfigSetBody):
             status_code=500,
         )
 
-    if body.requires_restart == 0 or body.update_topic:
+    update_topics = list(body.update_topics or [])
+
+    if body.update_topic and body.update_topic not in update_topics:
+        update_topics.insert(0, body.update_topic)
+
+    if body.requires_restart == 0 or update_topics:
         old_config: FrigateConfig = request.app.frigate_config
         request.app.frigate_config = config
 
-        if body.update_topic:
-            if body.update_topic.startswith("config/cameras/"):
-                _, _, camera, field = body.update_topic.split("/")
+        for update_topic in update_topics:
+            if update_topic.startswith("config/cameras/"):
+                _, _, camera, field = update_topic.split("/")
 
                 if field == "add":
                     settings = config.cameras[camera]
                 elif field == "remove":
                     settings = old_config.cameras[camera]
                 else:
-                    settings = config.get_nested_object(body.update_topic)
+                    settings = config.get_nested_object(update_topic)
 
                 request.app.config_publisher.publish_update(
                     CameraConfigUpdateTopic(CameraConfigUpdateEnum[field], camera),
@@ -438,12 +473,10 @@ def config_set(request: Request, body: AppConfigSetBody):
                 )
             else:
                 # Generic handling for global config updates
-                settings = config.get_nested_object(body.update_topic)
+                settings = config.get_nested_object(update_topic)
 
                 # Publish None for removal, actual config for add/update
-                request.app.config_publisher.publisher.publish(
-                    body.update_topic, settings
-                )
+                request.app.config_publisher.publisher.publish(update_topic, settings)
 
     return JSONResponse(
         content=(
