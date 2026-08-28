@@ -452,3 +452,16 @@ and `days: 30` references were checked and are historical narration, not stale c
 **Deliberately not resolved:** #18 describes a gap in a page shipped the same day. It is
 recorded rather than fixed because moving `review.*` onto the Recording page is a design
 decision about what that page is for, not a correction.
+
+## [2026-08-28] lint | Correct the test-suite claim: #8d is intermittent, not fixed
+
+The two entries above both cite "247 tests passing". That was true when measured but is not a
+safe claim: a later full-suite run on the same work reported 247 run, **1 failed** —
+`test_post_reviews_delete_many`, the pre-existing isolation flake already filed as #8d.
+
+Confirmed not caused by the recording-retention work: with the two new test files removed the
+suite runs 228 tests and produces the *same* single failure. The module passes in isolation
+(31 tests, green).
+
+[Known Issues](health/known-issues.md) #8d and [Dev Environment](operations/dev-environment.md)
+now say 246 passing with #8d flaking, and warn against reading one green run as proof.

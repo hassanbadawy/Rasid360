@@ -221,7 +221,9 @@ AttributeError: 'Migrator' object has no attribute 'change_columns'
 That is an environment mismatch, not a test failure — it hits the pre-existing suite identically.
 `run-tests.sh` installs the pin before running.
 
-Current state: **247 tests passing** (2026-08-28).
+Current state: **247 tests** (2026-08-28) — 246 pass; `test_post_reviews_delete_many` is a
+known intermittent isolation failure, see [Known Issues](../health/known-issues.md) #8d. It
+passes when that module is run on its own.
 
 The DSL tests alone need no container — they are pure logic over dicts:
 

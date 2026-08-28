@@ -270,7 +270,13 @@ to expose it.
 It is an upstream test-isolation problem — recordings state leaking between suites — and fixing
 it means changing an upstream test, which adds merge surface. Left alone deliberately.
 
-Workaround: `./run-tests.sh frigate.test.http_api.test_http_review` passes.
+Workaround: `./run-tests.sh frigate.test.http_api.test_http_review` passes (31 tests, green).
+
+**It is intermittent, so do not read a single green run as proof.** On 2026-08-28 the full suite
+ran **247 passing, OK** in the morning and **247 run, 1 failed** in the evening, on trees that
+differ only in the recording-retention work — which does not touch review. Confirmed not to be
+that work: removing the two new test files and re-running gives 228 tests with the *same* single
+failure. Treat this test as a known flake and check it in isolation before blaming a change.
 
 ### 9. Aggregation cost grows without bound
 
@@ -310,8 +316,8 @@ covers `frigate.db` only.
 
 **Severity: low-medium**
 
-The suite now runs green in a container — **247 tests passing** as of 2026-08-28, via
-`./run-tests.sh`. That includes the 17 DSL tests, the 6 dashboard tests, and 19 added with the
+The suite runs 247 tests in a container via `./run-tests.sh` as of 2026-08-28 — **246 passing,
+with #8d flaking** depending on discovery order. That includes the 17 DSL tests, the 6 dashboard tests, and 19 added with the
 recording-retention work (`test_config_yaml_update.py`, `test_violation_review_items.py`).
 
 Still not covered: the analytics scheduler's aggregation methods (the highest-value remaining
