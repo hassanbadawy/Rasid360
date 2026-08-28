@@ -9,7 +9,7 @@ updated: 2026-08-28
 
 Severity-ordered, with the evidence for each so it can be re-checked rather than re-litigated.
 
-**Status as of 2026-08-28:** items 1-8, 8b, 8c and 8e-8h fixed; 9-11, 13-15 and 16-18 open. Verified by
+**Status as of 2026-08-29:** items 1-8, 8b, 8c, 8e-8h and 18 fixed; 9-11, 13-15 and 16-17 open. Verified by
 **247 passing tests** and a live run of the stack. See [log](../log.md) for the passes.
 
 ---
@@ -254,6 +254,19 @@ A one-off purge of segments overlapping no violation reclaimed **50.5 GB**.
 product, reversible by re-enabling either switch at the storage cost above.
 Detail: [Recording Retention](../components/recording-retention.md).
 
+### 18. ~~The Recording settings page omits the setting that controls storage~~ ✅
+
+**Fixed 2026-08-29.** `review.alerts.enabled` and `review.detections.enabled` are now the first
+group on the Recording settings page — *What creates a review item* — above the retention
+windows that depend on them, with global and per-camera inherit/override and a warning when
+they are on alongside an alert window longer than a week. Saving publishes both
+`config/cameras/<name>/record` and `.../review`, so it applies without a restart.
+
+Both default to **on**, matching upstream, and the shipped config no longer sets them
+explicitly. That is a deliberate product decision: ship the upstream default and give operators
+the control, rather than shipping a deployment-specific workaround. The cost is documented on
+the page, in the config, and in [Recording Retention](../components/recording-retention.md).
+
 ---
 
 ## Open
@@ -382,19 +395,6 @@ sub-second outpoint entirely, but that has not been tested.
 treated identically. Wiring it through the review segment and `expire_review_segments` is what
 would allow a long window for the rules that warrant one without paying for it on all of them.
 [Recording Retention](../components/recording-retention.md).
-
-### 18. The Recording settings page omits the setting that controls storage
-
-**Severity: low-medium — the page can be used correctly and still fill the disk**
-
-Every field on `Settings → Cameras → Recording` lives under `record:`. The dominant lever is
-`review.alerts.enabled` / `review.detections.enabled` (#8h), which is not on the page and has no
-UI anywhere except the Review page's *runtime* toggles — which are not the same thing, since
-those revert on restart. Setting every retention window to zero on the Recording page does not
-stop the disk filling.
-
-The *Violations only* preset compounds it: it writes `alerts.retain.days: 30`, affordable only
-once ordinary review items are off.
 
 ---
 

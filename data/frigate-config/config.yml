@@ -696,22 +696,18 @@ classification:
   object:
     enabled: false
 version: 0.17-0
-# Ordinary person/car review items are OFF. This is not cosmetic -- it is the
-# storage control.
+# Review items decide what footage is kept: a segment is retained because it
+# overlaps a review item, and the `record:` windows above only decide for how
+# long. Violations always create one, so these switches govern ordinary person
+# and car activity, not violation evidence.
 #
-# A review item pins every recording segment it overlaps. On these cameras
-# (continuously busy road footage) an ordinary review segment never *closes*:
-# its end_time stays NULL while activity continues, and expire_review_segments
-# filters on `end_time < cutoff`, which NULL never satisfies. Such a segment is
-# therefore immortal and its footage is retained forever. Measured: 21 open
-# detection segments were holding ~220 GB/day of footage.
+# Both default to ON (upstream default), and are editable at
+# Settings -> Cameras -> Recording.
 #
-# Violations are exempt from both switches (PendingReviewSegment.is_violation),
-# so turning these off leaves violation review items -- and violation footage --
-# intact. That is the whole point of the exemption. Verified: 8/8 violations
-# still had footage afterwards, and disk growth went flat.
-review:
-  alerts:
-    enabled: false
-  detections:
-    enabled: false
+# Know the cost before leaving them on for a busy camera: on continuously busy
+# footage an ordinary review segment never *closes* -- its end_time stays NULL,
+# and expire_review_segments filters on `end_time < cutoff`, which NULL never
+# satisfies -- so it is immortal and pins every recording it overlaps. Measured
+# on this deployment's looping road fixtures: 220 GB/day, of which 93% overlapped
+# no violation at all. Turn them off per camera if that is the shape of your
+# traffic.

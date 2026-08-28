@@ -479,3 +479,36 @@ live `krunkit` process. Recovery needs an explicit `pkill -f krunkit` between st
 
 Recorded in [Dev Environment](operations/dev-environment.md). No code change; this is an
 environment constraint, not a bug in the fork.
+
+## [2026-08-29] fix | Review switches move onto the Recording page; both default to on
+
+Closes #18. `review.alerts.enabled` and `review.detections.enabled` were the dominant control
+over storage but lived nowhere in the UI, so a user could zero every field on the Recording page
+and still fill the disk.
+
+They are now the **first** group on that page — *What creates a review item* — deliberately
+above the retention windows, because the windows only matter for footage a review item has
+already caused to be kept. Global plus per-camera inherit/override, same as every other field,
+with a warning shown when ordinary review items are on alongside an alert window longer than a
+week.
+
+Both **default to on**, matching upstream, and the shipped config no longer sets them
+explicitly — a fresh install and this deployment now get the same behaviour. This reverses the
+2026-08-28 decision to ship them off: that was a deployment-specific workaround baked into the
+product default, and the right shape is the upstream default plus a visible control.
+
+**This deployment will therefore resume retaining ordinary person/car footage.** On its looping
+road fixtures that measured 220 GB/day. The control is one toggle away, per camera, applied
+without a restart.
+
+Implementation notes: `FIELDS` gained a `section` (`record` | `review`) so paths resolve against
+the right config block, and every field is now keyed `section.path` because `alerts.enabled` and
+`alerts.retain.days` would otherwise collide. Saving publishes both
+`config/cameras/<name>/record` and `.../review`, since `RecordingMaintainer` and
+`ReviewSegmentMaintainer` subscribe separately. Presets set the switches explicitly rather than
+leaving them implicit.
+
+**Verified live:** an override written from the UI landed as
+`cameras.Road01.review.detections.enabled: false` and took effect with no restart (Road01
+detections off, Road02 still on); removing it pruned the key and returned the camera to the
+default.

@@ -91,13 +91,14 @@ to all affected cameras — otherwise a global change would need a restart.
 comments; ruamel re-flows comments around keys it inserts, so writing every field on every save
 visibly mangles the file. The save diffs against `/config/file` first.
 
-**Gap: the page does not expose the setting that matters most.** Every field on it lives under
-`record:`, but the dominant control over storage is `review.alerts.enabled` /
-`review.detections.enabled` — see the next section. A user can set every retention window to
-zero on this page and still fill the disk, because review items, not retention windows, decide
-what gets written. Either those two switches belong here, or the page needs to say where they
-are. The *Violations only* preset has the same problem: it sets `alerts.retain.days: 30`, which
-is only affordable once ordinary review items are off.
+**The `review:` switches live on this page too.** They are the dominant control over storage —
+review items, not retention windows, decide what gets written — so putting them on a separate
+screen meant a user could zero every field here and still fill the disk. *What creates a review
+item* is the first group on the page, above the retention windows that depend on it, with a
+warning when ordinary review items are on alongside an alert window longer than a week.
+
+Both default to **on**, matching upstream. The presets set them explicitly: *Violations only*
+turns both off, *Motion buffer* keeps alerts, *Everything* keeps both.
 
 ## What actually drives storage: open review segments
 
@@ -115,7 +116,8 @@ review segments simply never close.
 Measured on this deployment (2026-08-28): 21 open detection segments, disk growing at
 **220 GB/day**, of which **93% of retained footage overlapped no violation at all**.
 
-The fix is to stop creating ordinary review items, not to shorten retention:
+The fix is to stop creating ordinary review items, not to shorten retention — per camera, from
+Settings → Cameras → Recording, or in the config directly:
 
 ```yaml
 review:
@@ -124,6 +126,9 @@ review:
   detections:
     enabled: false
 ```
+
+Both default to **on**. This deployment leaves them on and accepts the cost; turn them off on
+the cameras whose traffic is continuous.
 
 Violations are exempt from both switches (`PendingReviewSegment.is_violation`), so this leaves
 violation review items and violation footage untouched. After the change: no open segments,
@@ -154,11 +159,9 @@ record:
       days: 0
       mode: motion
 
-review:               # ordinary review items off -- this is the storage control
-  alerts:
-    enabled: false
-  detections:
-    enabled: false
+# review.alerts.enabled / review.detections.enabled both default to true and
+# are editable per camera on the Recording settings page. They are the storage
+# control -- see the section above before leaving them on for a busy camera.
 ```
 
 `alerts.retain.days` is 2, not 30, because it is still a shared class: every violation gets the

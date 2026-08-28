@@ -32,63 +32,142 @@ type RecordingSettingsViewProps = {
 const RETAIN_MODES = ["all", "motion", "active_objects"] as const;
 
 /**
- * Every field this page can write, as a dot-path under a `record:` block.
+ * Every field this page can write.
+ *
+ * `section` is the top-level config block the path hangs off. Most fields live
+ * under `record:`, but the two `review:` switches belong here too: they decide
+ * whether a review item is created at all, and a review item is what causes a
+ * recording segment to be kept. Retention windows only decide how long. A user
+ * can zero every `record:` field on this page and still fill the disk if the
+ * `review:` switches are on, which is why they are not on a separate screen.
  *
  * `kind` drives both the control and the coercion applied before the value is
  * sent -- config/set stores whatever JSON it is given, so a number field that
  * submits a string would write `days: "30"` into the YAML and fail validation.
  */
 const FIELDS = [
-  { path: "continuous.days", kind: "days", group: "storage" },
-  { path: "motion.days", kind: "days", group: "storage" },
-  { path: "alerts.retain.days", kind: "days", group: "alerts" },
-  { path: "alerts.retain.mode", kind: "mode", group: "alerts" },
-  { path: "alerts.pre_capture", kind: "seconds", group: "alerts" },
-  { path: "alerts.post_capture", kind: "seconds", group: "alerts" },
-  { path: "detections.retain.days", kind: "days", group: "detections" },
-  { path: "detections.retain.mode", kind: "mode", group: "detections" },
-  { path: "detections.pre_capture", kind: "seconds", group: "detections" },
-  { path: "detections.post_capture", kind: "seconds", group: "detections" },
+  { path: "alerts.enabled", section: "review", kind: "bool", group: "review" },
+  {
+    path: "detections.enabled",
+    section: "review",
+    kind: "bool",
+    group: "review",
+  },
+  {
+    path: "continuous.days",
+    section: "record",
+    kind: "days",
+    group: "storage",
+  },
+  { path: "motion.days", section: "record", kind: "days", group: "storage" },
+  {
+    path: "alerts.retain.days",
+    section: "record",
+    kind: "days",
+    group: "alerts",
+  },
+  {
+    path: "alerts.retain.mode",
+    section: "record",
+    kind: "mode",
+    group: "alerts",
+  },
+  {
+    path: "alerts.pre_capture",
+    section: "record",
+    kind: "seconds",
+    group: "alerts",
+  },
+  {
+    path: "alerts.post_capture",
+    section: "record",
+    kind: "seconds",
+    group: "alerts",
+  },
+  {
+    path: "detections.retain.days",
+    section: "record",
+    kind: "days",
+    group: "detections",
+  },
+  {
+    path: "detections.retain.mode",
+    section: "record",
+    kind: "mode",
+    group: "detections",
+  },
+  {
+    path: "detections.pre_capture",
+    section: "record",
+    kind: "seconds",
+    group: "detections",
+  },
+  {
+    path: "detections.post_capture",
+    section: "record",
+    kind: "seconds",
+    group: "detections",
+  },
 ] as const;
 
-type FieldPath = (typeof FIELDS)[number]["path"];
+type Field = (typeof FIELDS)[number];
 
-// Schema defaults from frigate/config/camera/record.py, used when neither the
-// file nor a preset has set a value.
-const SCHEMA_DEFAULTS: Record<FieldPath, string> = {
-  "continuous.days": "0",
-  "motion.days": "0",
-  "alerts.retain.days": "10",
-  "alerts.retain.mode": "motion",
-  "alerts.pre_capture": "5",
-  "alerts.post_capture": "5",
-  "detections.retain.days": "10",
-  "detections.retain.mode": "motion",
-  "detections.pre_capture": "5",
-  "detections.post_capture": "5",
+/** Unique key for a field, since `alerts.enabled` and `alerts.retain.days`
+ * would otherwise collide across sections. */
+const keyOf = (f: { section: string; path: string }) =>
+  `${f.section}.${f.path}`;
+
+const FIELD_BY_KEY = Object.fromEntries(
+  FIELDS.map((f) => [keyOf(f), f]),
+) as Record<string, Field>;
+
+// Schema defaults from frigate/config/camera/record.py and review.py, used when
+// neither the file nor a preset has set a value. Both review switches default
+// ON upstream, which is what a fresh install gets.
+const SCHEMA_DEFAULTS: Record<string, string> = {
+  "review.alerts.enabled": "true",
+  "review.detections.enabled": "true",
+  "record.continuous.days": "0",
+  "record.motion.days": "0",
+  "record.alerts.retain.days": "10",
+  "record.alerts.retain.mode": "motion",
+  "record.alerts.pre_capture": "5",
+  "record.alerts.post_capture": "5",
+  "record.detections.retain.days": "10",
+  "record.detections.retain.mode": "motion",
+  "record.detections.pre_capture": "5",
+  "record.detections.post_capture": "5",
 };
 
-const PRESETS: Record<string, Partial<Record<FieldPath, string>>> = {
+const PRESETS: Record<string, Record<string, string>> = {
+  // Only violations are kept. Ordinary review items are off, which is the part
+  // that actually bounds storage -- see the note on FIELDS above.
   violationsOnly: {
-    "continuous.days": "0",
-    "motion.days": "0",
-    "alerts.retain.days": "30",
-    "alerts.retain.mode": "all",
-    "detections.retain.days": "0",
+    "review.alerts.enabled": "false",
+    "review.detections.enabled": "false",
+    "record.continuous.days": "0",
+    "record.motion.days": "0",
+    "record.alerts.retain.days": "30",
+    "record.alerts.retain.mode": "all",
+    "record.detections.retain.days": "0",
   },
   motionBuffer: {
-    "continuous.days": "0",
-    "motion.days": "2",
-    "alerts.retain.days": "30",
-    "alerts.retain.mode": "all",
-    "detections.retain.days": "10",
+    "review.alerts.enabled": "true",
+    "review.detections.enabled": "false",
+    "record.continuous.days": "0",
+    "record.motion.days": "2",
+    "record.alerts.retain.days": "14",
+    "record.alerts.retain.mode": "all",
+    "record.detections.retain.days": "2",
   },
   everything: {
-    "continuous.days": "7",
-    "motion.days": "14",
-    "alerts.retain.days": "30",
-    "alerts.retain.mode": "all",
-    "detections.retain.days": "30",
+    "review.alerts.enabled": "true",
+    "review.detections.enabled": "true",
+    "record.continuous.days": "7",
+    "record.motion.days": "14",
+    "record.alerts.retain.days": "30",
+    "record.alerts.retain.mode": "all",
+    "record.detections.retain.days": "30",
   },
 };
 
@@ -113,7 +192,15 @@ const DELETE_SENTINEL = "";
  */
 type ConfigFile = {
   record?: Record<string, unknown>;
-  cameras?: Record<string, { record?: Record<string, unknown> } | undefined>;
+  review?: Record<string, unknown>;
+  cameras?: Record<
+    string,
+    | {
+        record?: Record<string, unknown>;
+        review?: Record<string, unknown>;
+      }
+    | undefined
+  >;
 };
 
 export default function RecordingSettingsView({
@@ -143,12 +230,20 @@ export default function RecordingSettingsView({
 
   // ---- global state ----------------------------------------------------
 
-  const globalFile = useMemo(() => fileConfig?.record ?? {}, [fileConfig]);
+  const globalFile = useMemo(
+    () => ({
+      record: fileConfig?.record ?? {},
+      review: fileConfig?.review ?? {},
+    }),
+    [fileConfig],
+  );
 
   const globalFromFile = useCallback(
-    (path: FieldPath): string => {
-      const v = readPath(globalFile, path);
-      return v === undefined || v === null ? SCHEMA_DEFAULTS[path] : String(v);
+    (f: Field): string => {
+      const v = readPath(globalFile[f.section], f.path);
+      return v === undefined || v === null
+        ? SCHEMA_DEFAULTS[keyOf(f)]
+        : String(v);
     },
     [globalFile],
   );
@@ -159,7 +254,10 @@ export default function RecordingSettingsView({
   // ---- per-camera override state ---------------------------------------
 
   const cameraFile = useMemo(
-    () => fileConfig?.cameras?.[selectedCamera]?.record ?? {},
+    () => ({
+      record: fileConfig?.cameras?.[selectedCamera]?.record ?? {},
+      review: fileConfig?.cameras?.[selectedCamera]?.review ?? {},
+    }),
     [fileConfig, selectedCamera],
   );
 
@@ -174,23 +272,25 @@ export default function RecordingSettingsView({
   const resetFromFile = useCallback(() => {
     if (!fileConfig) return;
 
-    setGlobalEnabled(Boolean(globalFile?.enabled ?? false));
+    setGlobalEnabled(Boolean(globalFile.record?.enabled ?? false));
     setGlobalValues(
-      Object.fromEntries(FIELDS.map((f) => [f.path, globalFromFile(f.path)])),
+      Object.fromEntries(FIELDS.map((f) => [keyOf(f), globalFromFile(f)])),
     );
     setOverrides(
       Object.fromEntries(
         FIELDS.map((f) => {
-          const v = readPath(cameraFile, f.path);
+          const v = readPath(cameraFile[f.section], f.path);
           return [
-            f.path,
+            keyOf(f),
             v === undefined || v === null ? undefined : String(v),
           ];
         }),
       ),
     );
     setEnabledOverride(
-      cameraFile?.enabled === undefined ? undefined : !!cameraFile.enabled,
+      cameraFile.record?.enabled === undefined
+        ? undefined
+        : !!cameraFile.record.enabled,
     );
     setUnsavedChanges(false);
     removeMessage("recording_settings", "recording_settings");
@@ -227,7 +327,7 @@ export default function RecordingSettingsView({
   // What this camera will actually use once saved: its override if it has one,
   // otherwise the global value.
   const effective = useCallback(
-    (path: FieldPath) => overrides[path] ?? globalValues[path] ?? "",
+    (key: string) => overrides[key] ?? globalValues[key] ?? "",
     [overrides, globalValues],
   );
 
@@ -235,9 +335,10 @@ export default function RecordingSettingsView({
 
   // ---- saving -----------------------------------------------------------
 
-  const coerce = useCallback((path: FieldPath, raw: string) => {
-    const field = FIELDS.find((f) => f.path === path)!;
+  const coerce = useCallback((key: string, raw: string) => {
+    const field = FIELD_BY_KEY[key];
     if (field.kind === "mode") return raw;
+    if (field.kind === "bool") return raw === "true";
     const n = Number(raw);
     return Number.isFinite(n) ? n : 0;
   }, []);
@@ -250,45 +351,49 @@ export default function RecordingSettingsView({
     // the config file is still hand-edited here, so churn is a real cost.
     const updates: Record<string, unknown> = {};
 
-    if (Boolean(globalFile?.enabled ?? false) !== globalEnabled) {
+    if (Boolean(globalFile.record?.enabled ?? false) !== globalEnabled) {
       updates["record.enabled"] = globalEnabled;
     }
 
     for (const f of FIELDS) {
-      const inFile = readPath(globalFile, f.path);
-      const next = coerce(f.path, globalValues[f.path]);
+      const key = keyOf(f);
+      const inFile = readPath(globalFile[f.section], f.path);
+      const next = coerce(key, globalValues[key]);
 
       if (inFile === undefined || inFile === null) {
         // absent from the file: only write it if it differs from the schema
         // default, otherwise writing it changes nothing but the file
-        if (String(next) !== SCHEMA_DEFAULTS[f.path]) {
-          updates[`record.${f.path}`] = next;
+        if (String(next) !== SCHEMA_DEFAULTS[key]) {
+          updates[key] = next;
         }
       } else if (String(inFile) !== String(next)) {
-        updates[`record.${f.path}`] = next;
+        updates[key] = next;
       }
     }
 
-    const camPrefix = `cameras.${selectedCamera}.record`;
+    const camPrefix = `cameras.${selectedCamera}`;
     const enabledInFile =
-      cameraFile?.enabled === undefined ? undefined : !!cameraFile.enabled;
+      cameraFile.record?.enabled === undefined
+        ? undefined
+        : !!cameraFile.record.enabled;
 
     if (enabledOverride !== enabledInFile) {
-      updates[`${camPrefix}.enabled`] =
+      updates[`${camPrefix}.record.enabled`] =
         enabledOverride === undefined ? DELETE_SENTINEL : enabledOverride;
     }
 
     for (const f of FIELDS) {
-      const raw = readPath(cameraFile, f.path);
+      const key = keyOf(f);
+      const raw = readPath(cameraFile[f.section], f.path);
       const inFile =
         raw === undefined || raw === null ? undefined : String(raw);
-      const next = overrides[f.path];
+      const next = overrides[key];
 
       if (next === undefined && inFile !== undefined) {
         // override removed -> delete the key so the camera inherits again
-        updates[`${camPrefix}.${f.path}`] = DELETE_SENTINEL;
+        updates[`${camPrefix}.${key}`] = DELETE_SENTINEL;
       } else if (next !== undefined && next !== inFile) {
-        updates[`${camPrefix}.${f.path}`] = coerce(f.path, next);
+        updates[`${camPrefix}.${key}`] = coerce(key, next);
       }
     }
 
@@ -300,10 +405,14 @@ export default function RecordingSettingsView({
       return;
     }
 
-    // A global change is merged down into every camera, and the recording
-    // maintainer subscribes per camera -- so publish to all of them, otherwise
-    // the change would not apply until a restart.
-    const updateTopics = cameraNames.map((c) => `config/cameras/${c}/record`);
+    // A global change is merged down into every camera, and the maintainers
+    // subscribe per camera -- so publish to all of them, otherwise the change
+    // would not apply until a restart. Both topics: RecordingMaintainer listens
+    // on `record`, ReviewSegmentMaintainer on `review`.
+    const updateTopics = cameraNames.flatMap((c) => [
+      `config/cameras/${c}/record`,
+      `config/cameras/${c}/review`,
+    ]);
 
     try {
       const response = await axios.put("config/set", {
@@ -364,12 +473,24 @@ export default function RecordingSettingsView({
   // ---- field renderers ---------------------------------------------------
 
   const renderControl = (
-    path: FieldPath,
+    key: string,
     value: string,
     onChange: (v: string) => void,
     disabled: boolean,
   ) => {
-    const field = FIELDS.find((f) => f.path === path)!;
+    const field = FIELD_BY_KEY[key];
+
+    if (field.kind === "bool") {
+      return (
+        <div className="flex w-40 items-center">
+          <Switch
+            checked={value === "true"}
+            disabled={disabled}
+            onCheckedChange={(v) => onChange(v ? "true" : "false")}
+          />
+        </div>
+      );
+    }
 
     if (field.kind === "mode") {
       return (
@@ -405,19 +526,21 @@ export default function RecordingSettingsView({
     );
   };
 
-  const GlobalField = ({ path }: { path: FieldPath }) => (
+  const GlobalField = ({ fieldKey }: { fieldKey: string }) => (
     <div className="flex flex-col gap-1.5 py-2 md:flex-row md:items-center md:justify-between">
       <div className="max-w-xl">
-        <Label className="text-primary">{t(`recording.field.${path}`)}</Label>
+        <Label className="text-primary">
+          {t(`recording.field.${fieldKey}`)}
+        </Label>
         <p className="mt-0.5 text-sm text-muted-foreground">
-          {t(`recording.fieldDesc.${path}`)}
+          {t(`recording.fieldDesc.${fieldKey}`)}
         </p>
       </div>
       {renderControl(
-        path,
-        globalValues[path] ?? "",
+        fieldKey,
+        globalValues[fieldKey] ?? "",
         (v) => {
-          setGlobalValues((prev) => ({ ...prev, [path]: v }));
+          setGlobalValues((prev) => ({ ...prev, [fieldKey]: v }));
           markDirty();
         },
         false,
@@ -425,27 +548,29 @@ export default function RecordingSettingsView({
     </div>
   );
 
-  const CameraField = ({ path }: { path: FieldPath }) => {
-    const isOverridden = overrides[path] !== undefined;
+  const CameraField = ({ fieldKey }: { fieldKey: string }) => {
+    const isOverridden = overrides[fieldKey] !== undefined;
 
     return (
       <div className="flex flex-col gap-1.5 py-2 md:flex-row md:items-center md:justify-between">
         <div className="max-w-xl">
-          <Label className="text-primary">{t(`recording.field.${path}`)}</Label>
+          <Label className="text-primary">
+            {t(`recording.field.${fieldKey}`)}
+          </Label>
           <p className="mt-0.5 text-sm text-muted-foreground">
             {isOverridden
               ? t("recording.overridden")
               : t("recording.inheriting", {
-                  value: globalValues[path],
+                  value: globalValues[fieldKey],
                 })}
           </p>
         </div>
         <div className="flex items-center gap-2">
           {renderControl(
-            path,
-            effective(path),
+            fieldKey,
+            effective(fieldKey),
             (v) => {
-              setOverrides((prev) => ({ ...prev, [path]: v }));
+              setOverrides((prev) => ({ ...prev, [fieldKey]: v }));
               markDirty();
             },
             !isOverridden,
@@ -457,7 +582,7 @@ export default function RecordingSettingsView({
             onClick={() => {
               setOverrides((prev) => ({
                 ...prev,
-                [path]: isOverridden ? undefined : globalValues[path],
+                [fieldKey]: isOverridden ? undefined : globalValues[fieldKey],
               }));
               markDirty();
             }}
@@ -470,7 +595,15 @@ export default function RecordingSettingsView({
   };
 
   const groupFields = (group: string) =>
-    FIELDS.filter((f) => f.group === group).map((f) => f.path);
+    FIELDS.filter((f) => f.group === group).map((f) => keyOf(f));
+
+  // Ordinary review items on + a long alert window is the combination that
+  // silently fills a disk: every person/car pins the footage it overlaps, and
+  // on a busy camera those review segments never close.
+  const heavyRetention =
+    (globalValues["review.alerts.enabled"] === "true" ||
+      globalValues["review.detections.enabled"] === "true") &&
+    Number(globalValues["record.alerts.retain.days"] ?? 0) > 7;
 
   return (
     <div className="flex size-full flex-col md:flex-row">
@@ -547,11 +680,32 @@ export default function RecordingSettingsView({
         <div className="max-w-4xl divide-y divide-secondary">
           <div className="py-2">
             <p className="text-sm font-medium text-primary">
+              {t("recording.group.review")}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {t("recording.group.reviewDesc")}
+            </p>
+          </div>
+          {groupFields("review").map((k) => (
+            <GlobalField key={k} fieldKey={k} />
+          ))}
+
+          {heavyRetention && (
+            <div className="py-3">
+              <p className="flex items-start gap-2 text-sm text-danger">
+                <LuInfo className="mt-0.5 size-4 shrink-0" />
+                {t("recording.group.reviewWarning")}
+              </p>
+            </div>
+          )}
+
+          <div className="py-2 pt-4">
+            <p className="text-sm font-medium text-primary">
               {t("recording.group.storage")}
             </p>
           </div>
-          {groupFields("storage").map((p) => (
-            <GlobalField key={p} path={p} />
+          {groupFields("storage").map((k) => (
+            <GlobalField key={k} fieldKey={k} />
           ))}
 
           <div className="py-2 pt-4">
@@ -562,8 +716,8 @@ export default function RecordingSettingsView({
               {t("recording.group.alertsDesc")}
             </p>
           </div>
-          {groupFields("alerts").map((p) => (
-            <GlobalField key={p} path={p} />
+          {groupFields("alerts").map((k) => (
+            <GlobalField key={k} fieldKey={k} />
           ))}
 
           <div className="py-2 pt-4">
@@ -571,8 +725,8 @@ export default function RecordingSettingsView({
               {t("recording.group.detections")}
             </p>
           </div>
-          {groupFields("detections").map((p) => (
-            <GlobalField key={p} path={p} />
+          {groupFields("detections").map((k) => (
+            <GlobalField key={k} fieldKey={k} />
           ))}
         </div>
 
@@ -630,7 +784,7 @@ export default function RecordingSettingsView({
           </div>
 
           {FIELDS.map((f) => (
-            <CameraField key={f.path} path={f.path} />
+            <CameraField key={keyOf(f)} fieldKey={keyOf(f)} />
           ))}
         </div>
 

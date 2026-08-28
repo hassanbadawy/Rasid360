@@ -1137,7 +1137,10 @@
       "storage": "Bulk retention",
       "alerts": "Alerts and violations",
       "alertsDesc": "Violation rules create alert-severity review items, so violation footage is retained by this window.",
-      "detections": "Detections"
+      "detections": "Detections",
+      "review": "What creates a review item",
+      "reviewDesc": "A review item is what causes footage to be kept -- the retention windows below only decide for how long. Violations always create one, so these switches control ordinary person and car activity, not violation evidence.",
+      "reviewWarning": "Ordinary review items are on with an alert window longer than a week. On a busy camera these segments rarely close, so this keeps most of what the camera sees. Check your free space before saving."
     },
     "mode": {
       "all": "All footage",
@@ -1145,28 +1148,32 @@
       "active_objects": "Only with active objects"
     },
     "field": {
-      "continuous.days": "Continuous retention (days)",
-      "motion.days": "Motion retention (days)",
-      "alerts.retain.days": "Alert retention (days)",
-      "alerts.retain.mode": "Alert retention mode",
-      "alerts.pre_capture": "Alert pre-capture (seconds)",
-      "alerts.post_capture": "Alert post-capture (seconds)",
-      "detections.retain.days": "Detection retention (days)",
-      "detections.retain.mode": "Detection retention mode",
-      "detections.pre_capture": "Detection pre-capture (seconds)",
-      "detections.post_capture": "Detection post-capture (seconds)"
+      "review.alerts.enabled": "Create review items for alerts",
+      "review.detections.enabled": "Create review items for detections",
+      "record.continuous.days": "Continuous retention (days)",
+      "record.motion.days": "Motion retention (days)",
+      "record.alerts.retain.days": "Alert retention (days)",
+      "record.alerts.retain.mode": "Alert retention mode",
+      "record.alerts.pre_capture": "Alert pre-capture (seconds)",
+      "record.alerts.post_capture": "Alert post-capture (seconds)",
+      "record.detections.retain.days": "Detection retention (days)",
+      "record.detections.retain.mode": "Detection retention mode",
+      "record.detections.pre_capture": "Detection pre-capture (seconds)",
+      "record.detections.post_capture": "Detection post-capture (seconds)"
     },
     "fieldDesc": {
-      "continuous.days": "Keep every segment for this many days, whether or not anything happened. 0 disables continuous recording.",
-      "motion.days": "Keep segments containing motion for this many days. 0 disables the motion buffer.",
-      "alerts.retain.days": "How long footage overlapping an alert or a violation is kept.",
-      "alerts.retain.mode": "Use 'All footage' for violations -- a stationary vehicle produces no motion, so 'Only with motion' discards exactly the evidence a parking or stopping rule exists to capture.",
-      "alerts.pre_capture": "Seconds of footage kept before the alert starts.",
-      "alerts.post_capture": "Seconds of footage kept after the alert ends.",
-      "detections.retain.days": "How long footage overlapping an ordinary detection is kept. 0 keeps none.",
-      "detections.retain.mode": "Which parts of a detection's footage to keep.",
-      "detections.pre_capture": "Seconds of footage kept before the detection starts.",
-      "detections.post_capture": "Seconds of footage kept after the detection ends."
+      "review.alerts.enabled": "On: every person or car creates a review item and its footage is kept for the alert window. Off: only violations do. Violation evidence is unaffected either way.",
+      "review.detections.enabled": "Everything not classed as an alert. With alerts off, ordinary objects fall through to here -- so leaving this on keeps the footage anyway.",
+      "record.continuous.days": "Keep every segment for this many days, whether or not anything happened. 0 disables continuous recording.",
+      "record.motion.days": "Keep segments containing motion for this many days. 0 disables the motion buffer.",
+      "record.alerts.retain.days": "How long footage overlapping an alert or a violation is kept.",
+      "record.alerts.retain.mode": "Use 'All footage' for violations -- a stationary vehicle produces no motion, so 'Only with motion' discards exactly the evidence a parking or stopping rule exists to capture.",
+      "record.alerts.pre_capture": "Seconds of footage kept before the alert starts.",
+      "record.alerts.post_capture": "Seconds of footage kept after the alert ends.",
+      "record.detections.retain.days": "How long footage overlapping an ordinary detection is kept. 0 keeps none.",
+      "record.detections.retain.mode": "Which parts of a detection's footage to keep.",
+      "record.detections.pre_capture": "Seconds of footage kept before the detection starts.",
+      "record.detections.post_capture": "Seconds of footage kept after the detection ends."
     },
     "toast": {
       "success": "Recording settings saved.",
