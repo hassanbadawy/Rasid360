@@ -53,6 +53,30 @@ cameras:
 Every rule carries its own `enabled` flag, so a noisy rule can be switched off without deleting
 its configuration.
 
+## Conditions cannot express co-presence
+
+A rule is evaluated against **one MQTT event, which describes one object**, and
+`detected(label)` tests only that event's own label. Two conditions that read as co-presence are
+therefore rejected at config-parse time, because both are worse than an error:
+
+| Condition | What it actually does |
+|---|---|
+| `detected(a) AND detected(b)` | **always false** — an event carries one label |
+| `detected(a) AND NOT detected(b)` | **always true** — `detected(b)` is always false, so `NOT` of it is always true. Reads as "a without b", fires on every a |
+
+The second is the dangerous one and was authorable until 2026-08-29. `unsatisfiable_condition()`
+in `frigate/config/camera/violation.py` now rejects both, with the same check mirrored in the
+rules editor (`web/src/lib/violationRules.ts`) so it fails before the round trip.
+
+What stays legal: `OR` between labels, the same label twice, a zone-scoped
+`detected(label, zone)`, and `NOT in_zone(...)` — negating a zone is meaningful because
+`in_zone` is about the current object.
+
+Genuine co-presence ("heavy equipment without a flagman") needs a rule type that keeps state
+across events. `ProximityRule` is the existing primitive — it asks whether two labels were seen
+on a camera within N seconds — but it is camera-wide rather than zone-scoped, has no negated
+form, and is not exposed in the editor.
+
 ## `any` — the zone wildcard
 
 `any` is accepted wherever a zone name is, in both `from_zones` and `to_zone`, and means "any

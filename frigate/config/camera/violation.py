@@ -47,6 +47,123 @@ class ViolationSeverityEnum(str, Enum):
     critical = "critical"
 
 
+def _split_top_level(expr: str, op: str) -> list[str]:
+    """Split on a boolean operator, ignoring occurrences inside parentheses.
+
+    Mirrors ConditionParser._split_on_operator in frigate/extras/dsl/operators.py.
+    Duplicated rather than imported because the DSL imports this module, and the
+    grammar is three lines of splitting.
+    """
+    parts: list[str] = []
+    depth = 0
+    current = ""
+    token = f" {op} "
+    i = 0
+
+    while i < len(expr):
+        char = expr[i]
+
+        if char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+
+        if depth == 0 and expr[i : i + len(token)].upper() == token:
+            parts.append(current)
+            current = ""
+            i += len(token)
+            continue
+
+        current += char
+        i += 1
+
+    parts.append(current)
+    return [p.strip() for p in parts if p.strip()]
+
+
+def unsatisfiable_condition(condition: str) -> Optional[str]:
+    """Explain why a condition can never do what its author meant, or None.
+
+    A rule is evaluated against ONE MQTT event, which describes ONE object. So
+    `detected(label)` tests only that event's own label
+    (DetectedOperator.evaluate). Two consequences that are invisible in the
+    written form:
+
+      detected(a) AND detected(b)      -> always False, an event has one label
+      detected(a) AND NOT detected(b)  -> always True, `detected(b)` is always
+                                          False so NOT of it is always True --
+                                          the rule silently degenerates to
+                                          `detected(a)`
+
+    The second is the dangerous one: it reads as "a without b" and fires on
+    every a. Co-presence across objects needs a rule type that keeps state
+    between events, not a condition. Rejecting these at parse time is the point
+    of moving rules into the config -- a condition that cannot work should be a
+    hard error, not a rule that never fires or always fires.
+    """
+    import re
+
+    if not condition:
+        return None
+
+    expr = " ".join(condition.split())
+
+    def labels_anded(part: str) -> Optional[str]:
+        # OR is satisfiable however its branches disagree, so recurse per branch
+        or_parts = _split_top_level(part, "OR")
+
+        if len(or_parts) > 1:
+            for branch in or_parts:
+                found = labels_anded(branch)
+                if found:
+                    return found
+            return None
+
+        and_parts = _split_top_level(part, "AND")
+        labels: set[str] = set()
+
+        for atom in and_parts:
+            atom = atom.strip()
+
+            if atom.upper().startswith("NOT "):
+                inner = atom[4:].strip()
+                if re.match(r"^detected\s*\(", inner, re.I):
+                    return (
+                        f"`{atom}` can never be false: a rule sees one object per "
+                        "event, so detected() of a different label is always "
+                        "false and NOT of it is always true. This rule would "
+                        "fire every time, regardless of whether that object is "
+                        "present."
+                    )
+                continue
+
+            if atom.startswith("("):
+                found = labels_anded(atom[1:-1] if atom.endswith(")") else atom)
+                if found:
+                    return found
+                continue
+
+            # both detected(label) and detected(label, zone) -- the zone
+            # narrows where, it does not add a second object
+            m = re.match(
+                r"^detected\s*\(\s*([^,)]+?)\s*(?:,[^)]*)?\)$", atom, re.I
+            )
+            if m:
+                labels.add(m.group(1).strip())
+
+        if len(labels) > 1:
+            names = ", ".join(sorted(labels))
+            return (
+                f"requires {names} to be detected at the same time, but a rule "
+                "sees one object per event, so this can never be true. Use a "
+                "rule type that tracks objects across events instead."
+            )
+
+        return None
+
+    return labels_anded(expr)
+
+
 class ViolationRuleConfig(FrigateBaseModel):
     name: str = Field(title="Rule name. Becomes the event sub_label.")
     enabled: bool = Field(default=True, title="Enable this rule.")
@@ -99,6 +216,16 @@ class ViolationRuleConfig(FrigateBaseModel):
     first_object: Optional[str] = Field(default=None)
     second_object: Optional[str] = Field(default=None)
     within: Optional[int] = Field(default=None, gt=0)
+
+    @model_validator(mode="after")
+    def check_condition_can_work(self):
+        """Reject a condition that cannot mean what it looks like it means."""
+        problem = unsatisfiable_condition(self.condition)
+
+        if problem:
+            raise ValueError(f"Violation rule '{self.name}' {problem}")
+
+        return self
 
     @model_validator(mode="after")
     def check_required_fields_for_type(self):

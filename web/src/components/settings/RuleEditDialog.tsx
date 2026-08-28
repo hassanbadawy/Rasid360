@@ -29,11 +29,7 @@ import {
 import { LuCheck, LuChevronDown } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { ViolationRule, ViolationRuleType } from "@/types/violation";
-
-/** Wildcard accepted wherever a zone is expected. Mirrors ANY_ZONE in
- * frigate/config/camera/violation.py -- referenced_zones() skips it, so it
- * passes validation, and ZoneSequenceRule treats it as "any zone". */
-export const ANY_ZONE = "any";
+import { ANY_ZONE, unsatisfiableCondition } from "@/lib/violationRules";
 
 export type RuleCamera = {
   name: string;
@@ -241,6 +237,10 @@ export default function RuleEditDialog({
     if (nameError) return nameError;
     if (usesCondition && !condition)
       return "Choose a zone and at least one object.";
+    if (usesCondition) {
+      const problem = unsatisfiableCondition(condition);
+      if (problem) return problem;
+    }
     if (type === "zone_sequence") {
       if (fromZones.length === 0) return "Choose at least one origin zone.";
       if (!toZone) return "Choose a destination zone.";

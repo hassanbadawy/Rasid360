@@ -577,3 +577,27 @@ rules cannot acquire the problem.
 **Verified:** 259 tests, all passing except the known #8d flake. Dialog driven in a browser —
 91 objects listed and grouped, `any` offered in both zone controls, and the six
 accept/reject cases confirmed directly against `FrigateConfig.parse_yaml`.
+
+## [2026-08-29] fix | Reject conditions that cannot mean what they look like
+
+A rule sees one MQTT event describing one object, so `detected(label)` tests only that event's
+own label. Two conditions were authorable and silently wrong:
+
+- `detected(a) AND detected(b)` — always false
+- `detected(a) AND NOT detected(b)` — **always true**, because `detected(b)` is always false and
+  `NOT` of it is always true. It reads as "a without b" and fires on every a.
+
+Verified by evaluating both against a real fire event: identical results whether or not an
+extinguisher was present. The second is the one that matters — a fire-without-extinguisher rule
+would have looked correct and alerted on every fire.
+
+`unsatisfiable_condition()` in `frigate/config/camera/violation.py` now rejects both at parse
+time, mirrored in `web/src/lib/violationRules.ts` so the editor disables Save and explains why
+rather than failing on the round trip. Ten tests cover what stays legal: OR between labels, the
+same label twice, `detected(label, zone)`, and `NOT in_zone(...)` — negating a zone is
+meaningful because `in_zone` is about the current object.
+
+The 11 shipped rules all still validate. 269 tests, all passing except the known #8d flake.
+
+Co-presence remains unsupported and is the next thing to build — see
+[DSL Rule Language](concepts/dsl-rule-language.md).

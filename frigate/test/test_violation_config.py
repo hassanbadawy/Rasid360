@@ -240,3 +240,61 @@ class TestAnyZoneWildcard(unittest.TestCase):
         with self.assertRaises(ValueError) as ctx:
             config_with([rule])
         self.assertIn("bicycle", str(ctx.exception))
+
+
+class TestUnsatisfiableConditions(unittest.TestCase):
+    """A rule sees one MQTT event, which describes one object, so
+    `detected(label)` tests that event's own label. Conditions that read as
+    co-presence are therefore either always false or always true, and both are
+    worse than an error because nothing complains at runtime."""
+
+    def rule(self, condition):
+        return {
+            "name": "probe",
+            "type": "zone_object",
+            "condition": condition,
+        }
+
+    def assert_rejected(self, condition, *expected_fragments):
+        with self.assertRaises(ValueError) as ctx:
+            config_with([self.rule(condition)])
+        for fragment in expected_fragments:
+            self.assertIn(fragment, str(ctx.exception))
+
+    def test_two_labels_anded_is_rejected(self):
+        """Always false -- an event carries one label."""
+        self.assert_rejected("detected(car) AND detected(person)", "car, person")
+
+    def test_two_labels_anded_with_zones_is_rejected(self):
+        """The zone argument narrows where, it does not add a second object."""
+        self.assert_rejected(
+            "detected(car, zone01) AND detected(person, zone01)", "car, person"
+        )
+
+    def test_negated_detected_is_rejected(self):
+        """Always true -- this is the one that silently fires on everything."""
+        self.assert_rejected(
+            "detected(car) AND NOT detected(person)", "would fire every time"
+        )
+
+    def test_rejected_inside_a_deeper_and(self):
+        self.assert_rejected("in_zone(z) AND detected(a) AND detected(b)", "a, b")
+
+    def test_rejected_in_one_branch_of_an_or(self):
+        self.assert_rejected("(detected(a) AND detected(b)) OR detected(c)", "a, b")
+
+    def test_or_of_two_labels_is_fine(self):
+        config_with([self.rule("detected(car) OR detected(person)")])
+
+    def test_or_inside_parentheses_is_fine(self):
+        config_with([self.rule("in_zone(zone01) AND (detected(car) OR detected(person))")])
+
+    def test_the_normal_shape_is_fine(self):
+        config_with([self.rule("in_zone(zone01) AND detected(car)")])
+
+    def test_same_label_twice_is_fine(self):
+        config_with([self.rule("detected(car, zone01) AND detected(car, wrongzone)")])
+
+    def test_not_on_in_zone_is_fine(self):
+        """in_zone() is about the current object, so negating it is meaningful."""
+        config_with([self.rule("detected(car) AND NOT in_zone(zone01)")])
