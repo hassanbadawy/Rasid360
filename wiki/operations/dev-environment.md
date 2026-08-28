@@ -146,6 +146,35 @@ podman machine start
 Stop the stack before running the suite, or accept the risk. Commit first either way — nothing
 in the working tree survives a VM you have to hard-kill.
 
+### /dev/shm sizing
+
+`docker-compose.yml` sets `shm_size: "512mb"`. Frigate carves a shared-memory frame ring out of
+`/dev/shm`, and undersizing it does not fail — it silently shortens the buffer.
+
+At the shipped `256mb` this camera set (7 enabled, one of them 1080p) held **12 frames** against
+the 50 Frigate wants — 2.4 seconds at 5 fps — and Frigate warned *"/dev/shm allocation (256 MB)
+should be increased to at least 370 MB"*. 512mb gives 28 frames (~5.6 s), with room for another
+camera or two.
+
+| `shm_size` | frames buffered | ≈ seconds at 5 fps |
+|---|---:|---:|
+| 256mb | 12 | 2.4 |
+| 370mb *(the warning's minimum)* | 20 | 4.0 |
+| **512mb** *(shipped)* | **28** | **5.6** |
+| 896mb | 50 *(capped)* | 10.0 |
+
+Full 50 frames needs ~896mb, and tmpfs occupies what it holds — ~800 MB resident on a 7.45 GiB
+machine that has already OOM-killed Frigate once. Not worth it here.
+
+Recompute after changing cameras or resolutions:
+
+```python
+from frigate.util.services import calculate_shm_requirements   # returns min_shm, shm_frame_count
+```
+
+**`shm_size` only applies on container *recreation*.** A restart keeps the old tmpfs — use
+`$COMPOSE_CMD down` then `./run-dev.sh --docker-only`.
+
 ## Ports
 
 | Port | Service | Notes |

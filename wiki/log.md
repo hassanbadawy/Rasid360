@@ -512,3 +512,26 @@ leaving them implicit.
 `cameras.Road01.review.detections.enabled: false` and took effect with no restart (Road01
 detections off, Road02 still on); removing it pruned the key and returned the camera to the
 default.
+
+## [2026-08-29] fix | /dev/shm was holding 12 frames against the 50 Frigate wants
+
+Frigate warned *"/dev/shm allocation (256 MB) should be increased to at least 370 MB"*. The
+warning understates it: `shm_size` sizes a shared-memory frame ring, and undersizing shortens
+the buffer silently rather than failing.
+
+Measured with `calculate_shm_requirements()` on the current camera set (7 enabled, one 1080p,
+16.0 MB of frame budget): 256mb held **12 frames**, 2.4 s at 5 fps, against a target of 50.
+
+Raised to **512mb** — 28 frames, ~5.6 s, with headroom for another camera. Not 896mb, which is
+what 50 frames would need: tmpfs occupies what it holds, so that is ~800 MB resident on a
+7.45 GiB machine that has already OOM-killed Frigate once today.
+
+Verified after recreating the container: `/dev/shm` 512M, `shm_frame_count` 28, warning gone,
+all cameras back at ~5 fps. Note `shm_size` applies only on container **recreation** — a restart
+keeps the old tmpfs.
+
+**Not claimed:** this plausibly interacts with the fork's snapshot frame-time lookup
+(`save_manual_event_image` falls back to the current frame when the timestamp has been evicted —
+[Core Pipeline Patches](components/core-pipeline-patches.md) §1, and known issue #13). A deeper
+ring makes eviction less likely. But the fallback logs to a stdout that detached processes
+discard, so there is no evidence either way here and none is asserted.

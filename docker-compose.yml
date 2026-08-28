@@ -7,7 +7,17 @@ services:
       - "110" # render
       - "44"  # video
       - "46"  # plugdev
-    shm_size: "256mb"
+    # Frigate sizes a shared-memory frame ring from this. 256mb held only 12
+    # frames for this camera set (7 enabled, one 1080p) against the 50 it wants
+    # -- 2.4s of buffer at 5fps -- and it warned "should be increased to at
+    # least 370 MB". 370 buys 20 frames; 512 buys 28 (~5.6s) with room for a
+    # camera or two.
+    #
+    # Full 50 frames would need ~896mb, and tmpfs actually occupies what it
+    # holds: ~800 MB resident on a 7.45 GiB machine that has already OOM-killed
+    # Frigate once. Not worth it here. Recompute after changing cameras:
+    #   calculate_shm_requirements() in frigate/util/services.py
+    shm_size: "512mb"
     build:
       context: .
       dockerfile: docker/main/Dockerfile
