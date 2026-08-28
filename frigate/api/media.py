@@ -762,6 +762,22 @@ async def recording_clip(
         .order_by(Recordings.start_time.asc())
     )
 
+    # No recordings overlap the requested range -- the segments were dropped by
+    # the retention rules, or never kept in the first place. Without this check
+    # the playlist below is written empty, ffmpeg concat produces no output, and
+    # the caller gets 200 with a zero-byte video/mp4 body: a player shows a blank
+    # frame and nothing reports a failure.
+    recordings = list(recordings)
+
+    if not recordings:
+        return JSONResponse(
+            content={
+                "success": False,
+                "message": "No recordings exist for this time range",
+            },
+            status_code=404,
+        )
+
     file_name = sanitize_filename(f"playlist_{camera_name}_{start_ts}-{end_ts}.txt")
     file_path = os.path.join(CACHE_DIR, file_name)
     with open(file_path, "w") as file:
@@ -988,10 +1004,12 @@ async def event_snapshot(
                 content={"success": False, "message": "Snapshot not available"},
                 status_code=404,
             )
-        
+
         # Check if bbox version is requested and already cached
         if params.bbox:
-            bbox_snapshot_path = os.path.join(CLIPS_DIR, f"{event.camera}-{event.id}_bbox.jpg")
+            bbox_snapshot_path = os.path.join(
+                CLIPS_DIR, f"{event.camera}-{event.id}_bbox.jpg"
+            )
             if os.path.exists(bbox_snapshot_path):
                 # Serve the cached bbox version directly
                 with open(bbox_snapshot_path, "rb") as bbox_image_file:
@@ -999,16 +1017,20 @@ async def event_snapshot(
                 # Return early with cached version
                 headers = {
                     "Content-Type": "image/jpeg",
-                    "Cache-Control": "private, max-age=31536000" if event_complete else "no-store",
+                    "Cache-Control": "private, max-age=31536000"
+                    if event_complete
+                    else "no-store",
                 }
                 if params.download:
-                    headers["Content-Disposition"] = f"attachment; filename=snapshot-{event_id}.jpg"
+                    headers["Content-Disposition"] = (
+                        f"attachment; filename=snapshot-{event_id}.jpg"
+                    )
                 return Response(
                     jpg_bytes,
                     media_type="image/jpeg",
                     headers=headers,
                 )
-        
+
         # Read original snapshot from disk
         with open(
             os.path.join(CLIPS_DIR, f"{event.camera}-{event.id}.jpg"), "rb"
@@ -1050,16 +1072,22 @@ async def event_snapshot(
                 )
 
                 # Re-encode image
-                _, img_encoded = cv2.imencode(".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), params.quality or 70])
+                _, img_encoded = cv2.imencode(
+                    ".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), params.quality or 70]
+                )
                 jpg_bytes = img_encoded.tobytes()
 
                 # Save the bbox version for future requests
-                bbox_snapshot_path = os.path.join(CLIPS_DIR, f"{event.camera}-{event.id}_bbox.jpg")
+                bbox_snapshot_path = os.path.join(
+                    CLIPS_DIR, f"{event.camera}-{event.id}_bbox.jpg"
+                )
                 try:
                     with open(bbox_snapshot_path, "wb") as bbox_file:
                         bbox_file.write(jpg_bytes)
                 except Exception as e:
-                    logger.warning(f"Failed to save bbox snapshot for event {event.id}: {e}")
+                    logger.warning(
+                        f"Failed to save bbox snapshot for event {event.id}: {e}"
+                    )
 
     except DoesNotExist:
         # see if the object is currently being tracked
@@ -1381,13 +1409,17 @@ async def event_evidence(
     try:
         event = Event.get(Event.id == event_id)
         await require_camera_access(event.camera, request=request)
-        
+
         # Look for the violation evidence image created by DSL violation detector
-        violation_evidence_path = os.path.join(CLIPS_DIR, f"{event.camera}-{event_id}-viol.jpg")
-        
+        violation_evidence_path = os.path.join(
+            CLIPS_DIR, f"{event.camera}-{event_id}-viol.jpg"
+        )
+
         logger.debug(f"Looking for evidence image at: {violation_evidence_path}")
-        logger.debug(f"Event ID: {event_id}, Camera: {event.camera}, Sub-label: {event.sub_label}")
-        
+        logger.debug(
+            f"Event ID: {event_id}, Camera: {event.camera}, Sub-label: {event.sub_label}"
+        )
+
         if not os.path.exists(violation_evidence_path):
             logger.warning(f"Evidence image not found at: {violation_evidence_path}")
             # List files in CLIPS_DIR to help debug
@@ -1397,32 +1429,34 @@ async def event_evidence(
                 logger.debug(f"Files matching event_id in CLIPS_DIR: {matching_files}")
             except Exception as e:
                 logger.debug(f"Could not list CLIPS_DIR: {e}")
-            
+
             return JSONResponse(
                 content={"success": False, "message": "Evidence image not available"},
                 status_code=404,
             )
-        
+
         # Read the violation evidence image
         with open(violation_evidence_path, "rb") as image_file:
             jpg_bytes = image_file.read()
-        
+
         logger.debug(f"Successfully loaded evidence image: {violation_evidence_path}")
-        
+
         headers = {
             "Content-Type": "image/jpeg",
             "Cache-Control": "private, max-age=31536000",
         }
-        
+
         if download:
-            headers["Content-Disposition"] = f"attachment; filename=evidence-{event_id}.jpg"
-        
+            headers["Content-Disposition"] = (
+                f"attachment; filename=evidence-{event_id}.jpg"
+            )
+
         return Response(
             jpg_bytes,
             media_type="image/jpeg",
             headers=headers,
         )
-    
+
     except DoesNotExist:
         logger.warning(f"Event not found: {event_id}")
         return JSONResponse(
@@ -1432,6 +1466,7 @@ async def event_evidence(
     except Exception as e:
         logger.error(f"Error retrieving evidence image for event {event_id}: {e}")
         import traceback
+
         logger.error(f"Traceback: {traceback.format_exc()}")
         return JSONResponse(
             content={"success": False, "message": "Error retrieving evidence image"},

@@ -43,6 +43,7 @@ from frigate.models import Event, ReviewSegment, Timeline
 from frigate.ptz.autotrack import PtzAutoTrackerThread
 from frigate.track.tracked_object import TrackedObject
 from frigate.util.image import SharedMemoryFrameManager
+from frigate.violations import VIOLATION_SOURCE_TYPES
 
 logger = logging.getLogger(__name__)
 
@@ -547,7 +548,14 @@ class TrackedObjectProcessor(threading.Thread):
             )
         )
 
-        if source_type == "api":
+        # Rasid360's violation detectors create their events through the same
+        # manual-event path, but pass their own source_type so the event stays
+        # identifiable as a violation (see frigate/violations.py). Publishing
+        # only for source_type == "api" therefore dropped every violation before
+        # it reached the review maintainer, so no review segment was created and
+        # the recording maintainer had no reason to keep the segments -- has_clip
+        # was written True and clip.mp4 came back empty.
+        if source_type == "api" or source_type in VIOLATION_SOURCE_TYPES:
             self.ongoing_manual_events[event_id] = camera_name
             self.detection_publisher.publish(
                 (
@@ -562,6 +570,9 @@ class TrackedObjectProcessor(threading.Thread):
                         "label": f"{label}: {sub_label}" if sub_label else label,
                         "event_id": event_id,
                         "end_time": end_time,
+                        # lets the review maintainer tell a violation apart from a
+                        # generic manual event without re-reading the database
+                        "source_type": source_type,
                     },
                 ),
                 DetectionTypeEnum.api.value,

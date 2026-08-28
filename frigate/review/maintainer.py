@@ -33,6 +33,7 @@ from frigate.models import ReviewSegment
 from frigate.review.types import SeverityEnum
 from frigate.track.object_processing import ManualEventState, TrackedObject
 from frigate.util.image import SharedMemoryFrameManager, calculate_16_9_crop
+from frigate.violations import VIOLATION_SOURCE_TYPES
 
 logger = logging.getLogger(__name__)
 
@@ -51,11 +52,15 @@ class PendingReviewSegment:
         sub_labels: dict[str, str],
         zones: list[str],
         audio: set[str],
+        is_violation: bool = False,
     ):
         rand_id = "".join(random.choices(string.ascii_lowercase + string.digits, k=6))
         self.id = f"{frame_time}-{rand_id}"
         self.camera = camera
         self.start_time = frame_time
+        # set for segments created by a Rasid360 violation rule; exempts the
+        # segment from the review.alerts.enabled kill switch
+        self.is_violation = is_violation
         self.severity = severity
         self.detections = detections
         self.sub_labels = sub_labels
@@ -634,7 +639,7 @@ class ReviewSegmentMaintainer(threading.Thread):
                     _,
                     audio_detections,
                 ) = data
-            elif topic == DetectionTypeEnum.api.value or DetectionTypeEnum.lpr.value:
+            elif topic in (DetectionTypeEnum.api.value, DetectionTypeEnum.lpr.value):
                 (
                     camera,
                     frame_time,
@@ -643,6 +648,17 @@ class ReviewSegmentMaintainer(threading.Thread):
 
                 if camera not in self.indefinite_events:
                     self.indefinite_events[camera] = {}
+
+                # A Rasid360 violation arrives on the api topic but must not be
+                # silenceable from the Review settings page: switching Alerts off
+                # for a camera would otherwise stop violation review items, and
+                # with them the retention that keeps violation footage on disk.
+                is_violation = (
+                    topic == DetectionTypeEnum.api.value
+                    and manual_info.get("source_type") in VIOLATION_SOURCE_TYPES
+                )
+            else:
+                continue
 
             if (
                 not self.config.cameras[camera].enabled
@@ -653,7 +669,7 @@ class ReviewSegmentMaintainer(threading.Thread):
             current_segment = self.active_review_segments.get(camera)
 
             # Check if the current segment should be processed based on enabled settings
-            if current_segment:
+            if current_segment and not current_segment.is_violation:
                 if (
                     current_segment.severity == SeverityEnum.alert
                     and not self.config.cameras[camera].review.alerts.enabled
@@ -695,9 +711,9 @@ class ReviewSegmentMaintainer(threading.Thread):
                         current_segment.detections[manual_info["event_id"]] = (
                             manual_info["label"]
                         )
-                        if (
-                            topic == DetectionTypeEnum.api
-                            and self.config.cameras[camera].review.alerts.enabled
+                        if topic == DetectionTypeEnum.api and (
+                            is_violation
+                            or self.config.cameras[camera].review.alerts.enabled
                         ):
                             current_segment.severity = SeverityEnum.alert
                         elif (
@@ -713,9 +729,9 @@ class ReviewSegmentMaintainer(threading.Thread):
                         current_segment.detections[manual_info["event_id"]] = (
                             manual_info["label"]
                         )
-                        if (
-                            topic == DetectionTypeEnum.api
-                            and self.config.cameras[camera].review.alerts.enabled
+                        if topic == DetectionTypeEnum.api and (
+                            is_violation
+                            or self.config.cameras[camera].review.alerts.enabled
                         ):
                             current_segment.severity = SeverityEnum.alert
                         elif (
@@ -789,7 +805,10 @@ class ReviewSegmentMaintainer(threading.Thread):
                             detections,
                         )
                 elif topic == DetectionTypeEnum.api:
-                    if self.config.cameras[camera].review.alerts.enabled:
+                    if (
+                        is_violation
+                        or self.config.cameras[camera].review.alerts.enabled
+                    ):
                         self.active_review_segments[camera] = PendingReviewSegment(
                             camera,
                             frame_time,
@@ -798,6 +817,7 @@ class ReviewSegmentMaintainer(threading.Thread):
                             {},
                             [],
                             set(),
+                            is_violation=is_violation,
                         )
 
                         if manual_info["state"] == ManualEventState.start:
