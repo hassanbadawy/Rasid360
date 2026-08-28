@@ -2,7 +2,7 @@
 type: operations
 status: current
 sources: [run-dev.sh, stop-dev.sh, logs-dev.sh, container-runtime.sh, docker-compose.yml, .devcontainer]
-updated: 2026-08-28
+updated: 2026-08-29
 ---
 
 # Dev Environment
@@ -145,6 +145,32 @@ podman machine start
 
 Stop the stack before running the suite, or accept the risk. Commit first either way — nothing
 in the working tree survives a VM you have to hard-kill.
+
+### The UI Restart button
+
+It works, and it takes the whole container down on the way — by design.
+
+`restart_frigate()` (`frigate/util/services.py`) checks pid 1: if it is `s6-svscan` it sends it
+SIGTERM, and s6 shuts every service down and exits. The devcontainer's entrypoint is `/init`,
+so pid 1 *is* `s6-svscan` here just as in production, and production relies on the container's
+restart policy to bring it straight back.
+
+Two things used to make that a one-way door in dev, both now fixed:
+
+- **No restart policy.** `docker-compose.yml` had none on any service, so a Restart stopped the
+  stack permanently — container `Exited (143)`, which is SIGTERM, with a clean s6 shutdown in
+  the logs. `devcontainer` now carries `restart: unless-stopped`.
+- **Fake s6 services.** The devcontainer image replaced `frigate/run` and `frigate-extras/run`
+  with heartbeat loops, on the assumption that the processes are started by hand. So even a
+  restarted container came back with no Frigate in it. It now ships
+  `docker/main/devcontainer_frigate_run` and `devcontainer_frigate_extras_run`, which run the
+  real processes from the bind-mounted `/workspace/frigate`.
+
+`run-dev.sh` is unchanged and still correct: its `pgrep` guard sees the supervised process and
+skips its manual start, reporting *"already running (likely started by s6-supervise)"*.
+
+Changing either file needs an image rebuild — `$COMPOSE_CMD build devcontainer` — not just a
+recreate.
 
 ### /dev/shm sizing
 

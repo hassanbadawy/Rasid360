@@ -2,7 +2,7 @@
 type: concept
 status: current
 sources: [frigate/extras/config.yml, frigate/extras/dsl/rule_types.py, frigate/extras/dsl/operators.py, frigate/extras/dsl/temporal.py, frigate/extras/dsl/aspect_ratio_rules.py, frigate/extras/dsl/validator.py, frigate/extras/DSL_GUIDE.md]
-updated: 2026-08-25
+updated: 2026-08-29
 ---
 
 # DSL Rule Language
@@ -52,6 +52,35 @@ cameras:
 
 Every rule carries its own `enabled` flag, so a noisy rule can be switched off without deleting
 its configuration.
+
+## `any` — the zone wildcard
+
+`any` is accepted wherever a zone name is, in both `from_zones` and `to_zone`, and means "any
+zone on this camera". It exists so a rule does not have to enumerate every zone, and does not
+silently stop covering a zone added to the camera later.
+
+```yaml
+from_zones: [any]     # came from anywhere it has since left
+to_zone: any          # entered any zone
+```
+
+The semantics are movement-based, not presence-based, because `StateTracker` appends an
+object's *current* zones to its history before rules evaluate — so "has it been in a zone" is
+always true and would make the wildcard fire on any detection:
+
+| Rule | Fires when |
+|---|---|
+| `from_zones: [any]` | history holds a zone the object is **no longer** in |
+| `to_zone: any` | the object is in **some** zone now |
+| both `any` | both of the above — i.e. it actually moved between zones |
+
+A named zone is unaffected: `from_zones: [zone01]` still requires `zone01` specifically.
+
+`referenced_zones()` skips the wildcard, so `verify_violation_rules` does not treat `any` as a
+missing zone — but a real zone name alongside it is still checked, and a typo is still a hard
+config error.
+
+`ANY_ZONE` is defined once in `frigate/config/camera/violation.py` and imported by the engine.
 
 ## Legacy: templates
 

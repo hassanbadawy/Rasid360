@@ -2,7 +2,7 @@
 type: component
 status: current
 sources: [frigate/extras/main.py, frigate/extras/config.py, frigate/extras/utils/mqtt_client.py, frigate/extras/utils/frigate_api.py, frigate/extras/actions/base_action.py, run-dev.sh]
-updated: 2026-08-25
+updated: 2026-08-29
 ---
 
 # Extras Service
@@ -113,11 +113,18 @@ single clear message rather than restart-looping.
 
 **Its `finish` does not halt the container.** The worker dying should not take Frigate down.
 
-On the **devcontainer** the run script is replaced by `docker/main/fake_frigate_extras_run`,
-mirroring the existing `fake_frigate_run` treatment, so `run-dev.sh` keeps control of the worker
-during development:
+On the **devcontainer** the run script is `docker/main/devcontainer_frigate_extras_run`, which
+differs from production only in reading the bind-mounted source at `/workspace/frigate` instead
+of the baked `/opt/frigate`. It is supervised the same way.
+
+It used to be `fake_frigate_extras_run`, a heartbeat loop, so that `run-dev.sh` kept control of
+the worker. That was changed on 2026-08-29: with nothing supervising it, a container restart —
+which is exactly what the UI's Restart button causes — came back with Frigate running and
+violation detection silently dead, reintroducing the failure mode below. `run-dev.sh` still
+works: its `pgrep` guard sees the supervised process and skips its manual start.
 
 ```bash
+# still available for restarting the worker alone while iterating on rules
 compose_exec_detached devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
 ```
 

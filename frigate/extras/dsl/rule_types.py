@@ -11,6 +11,14 @@ from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional, List
 from .operators import Operator, ConditionParser
 
+# Wildcard zone name shared with the config model. Imported defensively: the DSL
+# package is also loaded by the standalone extras worker, which historically ran
+# without the rest of frigate importable.
+try:
+    from frigate.config.camera.violation import ANY_ZONE
+except Exception:  # pragma: no cover - fallback for standalone use
+    ANY_ZONE = "any"
+
 
 class Rule(ABC):
     """Base class for all rule types"""
@@ -236,11 +244,26 @@ class ZoneSequenceRule(Rule):
         if not state_tracker:
             return False
 
-        # Check if object came from valid zone
-        came_from_valid = any(zone in self.from_zones for zone in zone_history)
+        # `any` is a wildcard meaning "any zone on this camera".
+        #
+        # StateTracker appends the object's *current* zones to zone_history
+        # before rules run, so history always contains where the object is now.
+        # A plain `bool(zone_history)` would therefore be true the instant an
+        # object appeared in the destination, and `from_zones: [any]` would fire
+        # without any movement having happened. Requiring a history entry the
+        # object has since left is what makes it a movement.
+        came_from_valid = (
+            any(zone not in current_zones for zone in zone_history)
+            if ANY_ZONE in self.from_zones
+            else any(zone in self.from_zones for zone in zone_history)
+        )
 
         # Check if currently in violation zone (not just history)
-        in_violation_zone_now = self.to_zone in current_zones
+        in_violation_zone_now = (
+            bool(current_zones)
+            if self.to_zone == ANY_ZONE
+            else self.to_zone in current_zones
+        )
 
         # Create unique key for this object's violation tracking
         condition_key = f"{object_id}:{self.name}:wrong_zone"

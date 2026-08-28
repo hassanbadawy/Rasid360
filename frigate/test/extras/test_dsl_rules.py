@@ -231,6 +231,99 @@ class TestZoneSequenceRule(unittest.TestCase):
         )
 
 
+class TestZoneSequenceAnyZone(unittest.TestCase):
+    """`any` is a wildcard meaning "any zone on this camera".
+
+    Added so the rules editor can offer an Any option without the author having
+    to tick every zone, and without a rule silently never firing because a zone
+    was added to the camera later and not to the rule.
+    """
+
+    def setUp(self):
+        self.evaluator = RuleEvaluator()
+
+    def rule(self, from_zones, to_zone):
+        return create_rule(
+            "anyrule",
+            {
+                "type": "zone_sequence",
+                "vehicle_types": ["car"],
+                "from_zones": from_zones,
+                "to_zone": to_zone,
+                "duration": 30,
+                "severity": "high",
+                "cooldown": 0,
+            },
+        )
+
+    def test_any_origin_accepts_a_zone_the_rule_never_named(self):
+        r = self.rule(["any"], "wrongzone")
+        self.evaluator.evaluate_event(
+            event(current_zones=["some_new_zone"], frame_time=1000.0), [r]
+        )
+        found = self.evaluator.evaluate_event(
+            event(current_zones=["wrongzone"], frame_time=1001.0), [r]
+        )
+        self.assertEqual(len(found), 1)
+
+    def test_any_origin_still_requires_having_been_somewhere(self):
+        """Otherwise `from_zones: [any]` would fire on an object that appeared
+        directly in the destination, which is not a movement."""
+        r = self.rule(["any"], "wrongzone")
+        found = self.evaluator.evaluate_event(
+            event(current_zones=["wrongzone"], frame_time=1000.0), [r]
+        )
+        self.assertEqual(found, [])
+
+    def test_any_destination_fires_on_entering_any_zone(self):
+        r = self.rule(["zone01"], "any")
+        self.evaluator.evaluate_event(
+            event(current_zones=["zone01"], frame_time=1000.0), [r]
+        )
+        found = self.evaluator.evaluate_event(
+            event(current_zones=["zone09"], frame_time=1001.0), [r]
+        )
+        self.assertEqual(len(found), 1)
+
+    def test_any_destination_needs_a_zone(self):
+        r = self.rule(["zone01"], "any")
+        self.evaluator.evaluate_event(
+            event(current_zones=["zone01"], frame_time=1000.0), [r]
+        )
+        found = self.evaluator.evaluate_event(
+            event(current_zones=[], frame_time=1001.0), [r]
+        )
+        self.assertEqual(found, [])
+
+    def test_any_to_any_requires_actual_movement(self):
+        """With both ends wildcarded the rule would otherwise fire on any object
+        sitting in any zone."""
+        r = self.rule(["any"], "any")
+        self.evaluator.evaluate_event(
+            event(current_zones=["zone01"], frame_time=1000.0), [r]
+        )
+        stationary = self.evaluator.evaluate_event(
+            event(current_zones=["zone01"], frame_time=1001.0), [r]
+        )
+        self.assertEqual(stationary, [])
+
+        moved = self.evaluator.evaluate_event(
+            event(current_zones=["zone02"], frame_time=1002.0), [r]
+        )
+        self.assertEqual(len(moved), 1)
+
+    def test_named_zones_are_unaffected(self):
+        """The wildcard must not loosen an explicit rule."""
+        r = self.rule(["zone01"], "wrongzone")
+        self.evaluator.evaluate_event(
+            event(current_zones=["zone02"], frame_time=1000.0), [r]
+        )
+        found = self.evaluator.evaluate_event(
+            event(current_zones=["wrongzone"], frame_time=1001.0), [r]
+        )
+        self.assertEqual(found, [])
+
+
 class TestSpeedThreshold(unittest.TestCase):
     """speed_threshold narrows a sustained condition to over-limit objects.
 

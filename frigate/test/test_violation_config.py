@@ -196,3 +196,47 @@ class TestCrossValidation(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAnyZoneWildcard(unittest.TestCase):
+    """`any` is accepted wherever a zone name is, and must not weaken the
+    cross-validation that makes a mistyped zone a hard error."""
+
+    def rule(self, from_zones, to_zone):
+        return {
+            "name": "wrongway",
+            "type": "zone_sequence",
+            "from_zones": from_zones,
+            "to_zone": to_zone,
+            "vehicle_types": ["car"],
+        }
+
+    def test_any_origin_is_accepted(self):
+        cfg = config_with([self.rule(["any"], "wrongzone")])
+        self.assertEqual(cfg.cameras["road01"].violations[0].from_zones, ["any"])
+
+    def test_any_destination_is_accepted(self):
+        cfg = config_with([self.rule(["zone01"], "any")])
+        self.assertEqual(cfg.cameras["road01"].violations[0].to_zone, "any")
+
+    def test_any_on_both_ends_is_accepted(self):
+        config_with([self.rule(["any"], "any")])
+
+    def test_any_is_not_reported_as_a_referenced_zone(self):
+        """referenced_zones() feeds verify_violation_rules, which would reject
+        the rule outright if the wildcard were treated as a zone name."""
+        cfg = config_with([self.rule(["any"], "any")])
+        self.assertEqual(cfg.cameras["road01"].violations[0].referenced_zones(), set())
+
+    def test_a_real_zone_alongside_any_is_still_checked(self):
+        with self.assertRaises(ValueError) as ctx:
+            config_with([self.rule(["any", "nosuchzone"], "wrongzone")])
+        self.assertIn("nosuchzone", str(ctx.exception))
+
+    def test_untracked_label_is_still_rejected_with_any(self):
+        """The wildcard covers zones only -- the object check is unaffected."""
+        rule = self.rule(["any"], "any")
+        rule["vehicle_types"] = ["bicycle"]
+        with self.assertRaises(ValueError) as ctx:
+            config_with([rule])
+        self.assertIn("bicycle", str(ctx.exception))

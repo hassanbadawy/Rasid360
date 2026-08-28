@@ -14,7 +14,12 @@ from pydantic import Field, model_validator
 
 from ..base import FrigateBaseModel
 
-__all__ = ["ViolationRuleConfig", "ViolationTypeEnum", "ViolationSeverityEnum"]
+__all__ = [
+    "ViolationRuleConfig",
+    "ViolationTypeEnum",
+    "ViolationSeverityEnum",
+    "ANY_ZONE",
+]
 
 
 class ViolationTypeEnum(str, Enum):
@@ -26,6 +31,13 @@ class ViolationTypeEnum(str, Enum):
     sustained_condition = "sustained_condition"
     proximity = "proximity"
     fall_down = "fall_down"
+
+
+#: Wildcard accepted wherever a zone name is expected, meaning "any zone on this
+#: camera". Kept as a sentinel string rather than an empty value because the
+#: engine has to tell "match anything" apart from "not configured" -- an unset
+#: from_zones/to_zone is a rule authoring error and still raises.
+ANY_ZONE = "any"
 
 
 class ViolationSeverityEnum(str, Enum):
@@ -149,7 +161,9 @@ class ViolationRuleConfig(FrigateBaseModel):
                 if len(parts) > 1:
                     zones.add(parts[1])
 
-        return {z for z in zones if z}
+        # ANY_ZONE is a wildcard, not a zone name -- verify_violation_rules would
+        # otherwise reject every rule that uses it.
+        return {z for z in zones if z and z != ANY_ZONE}
 
     def referenced_labels(self) -> set[str]:
         """Object labels this rule depends on."""

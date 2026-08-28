@@ -2,7 +2,7 @@
 type: component
 status: current
 sources: [frigate/extras/dsl/evaluator.py, frigate/extras/dsl/state_tracker.py, frigate/extras/dsl/operators.py, frigate/extras/dsl/parser.py, frigate/extras/dsl/rule_types.py, frigate/extras/dsl/temporal.py, frigate/extras/dsl/aspect_ratio_rules.py, frigate/extras/dsl/validator.py]
-updated: 2026-08-24
+updated: 2026-08-29
 ---
 
 # DSL Engine

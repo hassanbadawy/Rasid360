@@ -2,14 +2,14 @@
 type: health
 status: current
 sources: [frigate/api/dashboard.py, frigate/analytics_scheduler.py, frigate/violations.py, frigate/video.py, frigate/app.py, web/src/hooks/use-violations.ts, frigate/api/event.py, frigate/extras/main.py, docker/main/rootfs/etc/s6-overlay/s6-rc.d, frigate/track/object_processing.py, frigate/review/maintainer.py, frigate/record/maintainer.py, frigate/api/media.py, frigate/util/builtin.py]
-updated: 2026-08-28
+updated: 2026-08-29
 ---
 
 # Known Issues
 
 Severity-ordered, with the evidence for each so it can be re-checked rather than re-litigated.
 
-**Status as of 2026-08-29:** items 1-8, 8b, 8c, 8e-8h and 18 fixed; 9-11, 13-15 and 16-17 open. Verified by
+**Status as of 2026-08-29:** items 1-8, 8b, 8c, 8e-8h and 18 fixed; 9-11, 13-15, 16-17 and 19 open. Verified by
 **247 passing tests** and a live run of the stack. See [log](../log.md) for the passes.
 
 ---
@@ -396,14 +396,40 @@ treated identically. Wiring it through the review segment and `expire_review_seg
 would allow a long window for the rules that warrant one without paying for it on all of them.
 [Recording Retention](../components/recording-retention.md).
 
+### 19. Five rules reference `truck`, which the model cannot detect
+
+**Severity: medium — the rules parse, run, and silently under-fire**
+
+The shipped detector's labelmap has **90 labels and `truck` is not among them**. `objects.track`
+lists it globally and on two cameras, and five violation rules name it in `vehicle_types`:
+
+| Camera | Rules referencing `truck` |
+|---|---|
+| Road01 | `wrongway` |
+| Road04 | `wrongway` |
+| Road05 | `wrongway_right`, `wrongway_left` |
+| Road06 | `aggressive_turn` |
+
+Nothing errors. `verify_objects_track` logs a warning and strips the label, and because it runs
+**after** `verify_violation_rules` the rules validate against the pre-strip list. So each of
+these rules works for the labels it can detect and is quietly blind to lorries — which on road
+cameras is not a small gap.
+
+The rules editor now flags a selected label the model cannot produce, so new rules
+cannot acquire this problem, but the existing five are unchanged.
+
+Fix either way: drop `truck` from those rules and from `objects.track`, or switch to a model
+whose labelmap includes it. Do not just remove the warning.
+
 ---
 
 ## Suggested order of work
 
-1. **#17** — per-rule retention. Violation evidence currently lives 2 days for everything,
+1. **#19** — five rules are blind to lorries on road cameras. A config edit, not a code change.
+2. **#17** — per-rule retention. Violation evidence currently lives 2 days for everything,
    because a longer shared window is unaffordable. This is the one actively costing evidence.
-2. **#16** — clip truncation, losing ~8% of the video that *is* retained. Small fix.
-3. **#15** — attempt a trial merge on a scratch branch to size the real cost
-4. **#9** — incremental aggregation, before history makes it painful
-5. **#12** — cover the scheduler's aggregations; they define every dashboard number
-6. **#10** — narrow the exception handling so the next bug of this class surfaces
+3. **#16** — clip truncation, losing ~8% of the video that *is* retained. Small fix.
+4. **#15** — attempt a trial merge on a scratch branch to size the real cost
+5. **#9** — incremental aggregation, before history makes it painful
+6. **#12** — cover the scheduler's aggregations; they define every dashboard number
+7. **#10** — narrow the exception handling so the next bug of this class surfaces

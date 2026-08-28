@@ -21,18 +21,48 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { LuCheck, LuChevronDown } from "react-icons/lu";
+import { cn } from "@/lib/utils";
 import { ViolationRule, ViolationRuleType } from "@/types/violation";
+
+/** Wildcard accepted wherever a zone is expected. Mirrors ANY_ZONE in
+ * frigate/config/camera/violation.py -- referenced_zones() skips it, so it
+ * passes validation, and ZoneSequenceRule treats it as "any zone". */
+export const ANY_ZONE = "any";
+
+export type RuleCamera = {
+  name: string;
+  zones: string[];
+  /** objects.track for this camera -- the ones it currently detects */
+  trackedObjects: string[];
+  /** rule names already on this camera, for the duplicate check */
+  ruleNames: string[];
+};
 
 type RuleEditDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   // undefined when creating a new rule
   rule?: ViolationRule;
+  /** camera the dialog opens on; the user may move the rule to another */
   camera: string;
-  zones: string[];
-  trackedObjects: string[];
-  existingNames: string[];
-  onSave: (rule: ViolationRule) => void;
+  cameras: RuleCamera[];
+  /** every label the detection model can produce, not just the tracked ones */
+  modelObjects: string[];
+  /** Saves to `camera`, which may differ from the one the dialog opened on.
+   * `newTrackedObjects` are labels the rule needs that the camera does not yet
+   * track -- the caller adds them to objects.track, otherwise the config
+   * validator rejects the rule. */
+  onSave: (
+    rule: ViolationRule,
+    camera: string,
+    newTrackedObjects: string[],
+  ) => void;
 };
 
 const RULE_TYPES: {
@@ -102,13 +132,38 @@ export default function RuleEditDialog({
   onOpenChange,
   rule,
   camera,
-  zones,
-  trackedObjects,
-  existingNames,
+  cameras,
+  modelObjects,
   onSave,
 }: RuleEditDialogProps) {
   const { t } = useTranslation(["views/settings"]);
   const isNew = !rule;
+
+  // The rule can be moved to another camera, so the camera is form state.
+  const [targetCamera, setTargetCamera] = useState(camera);
+
+  const active = useMemo(
+    () =>
+      cameras.find((c) => c.name === targetCamera) ?? {
+        name: targetCamera,
+        zones: [],
+        trackedObjects: [],
+        ruleNames: [],
+      },
+    [cameras, targetCamera],
+  );
+
+  const zones = active.zones;
+  const trackedObjects = active.trackedObjects;
+
+  // Editing a rule must not collide with its own name.
+  const existingNames = useMemo(
+    () =>
+      active.ruleNames.filter(
+        (n) => !(targetCamera === camera && n === rule?.name),
+      ),
+    [active, targetCamera, camera, rule],
+  );
 
   const [name, setName] = useState("");
   const [type, setType] = useState<ViolationRuleType>("zone_object");
@@ -142,6 +197,7 @@ export default function RuleEditDialog({
   useEffect(() => {
     if (!open) return;
 
+    setTargetCamera(camera);
     setName(rule?.name ?? "");
     setType(rule?.type ?? "zone_object");
     setDescription(rule?.description ?? "");
@@ -166,7 +222,7 @@ export default function RuleEditDialog({
     setSeverity(rule?.severity ?? "medium");
     setDuration(rule?.duration ?? 30);
     setSpeedThreshold(rule?.speed_threshold);
-  }, [open, rule]);
+  }, [open, rule, camera]);
 
   const condition = advanced ? rawCondition : buildCondition(zone, objects);
   const usesCondition =
@@ -244,7 +300,16 @@ export default function RuleEditDialog({
       next.min_duration = minDuration;
     }
 
-    onSave(next);
+    // Labels the rule needs that this camera does not track yet. Without these
+    // being added to objects.track, verify_violation_rules rejects the save.
+    const needed = new Set<string>();
+    if (usesCondition) objects.forEach((o) => needed.add(o));
+    if (type === "zone_sequence") vehicleTypes.forEach((o) => needed.add(o));
+    if (type === "fall_down") needed.add("person");
+
+    const newTracked = [...needed].filter((o) => !trackedObjects.includes(o));
+
+    onSave(next, targetCamera, newTracked);
     onOpenChange(false);
   }, [
     formError,
@@ -265,11 +330,129 @@ export default function RuleEditDialog({
     minDetections,
     widthHeightRatio,
     minDuration,
+    objects,
+    trackedObjects,
+    targetCamera,
     onSave,
     onOpenChange,
   ]);
 
   const selectedType = RULE_TYPES.find((rt) => rt.value === type);
+
+  /** Multiselect over every label the model can produce, grouped so the ones
+   * this camera already tracks are obvious. Picking an untracked label is
+   * allowed -- the caller adds it to objects.track on save, because
+   * verify_violation_rules rejects a rule naming a label the camera does not
+   * track. */
+  const ObjectPicker = ({
+    selected,
+    onToggle,
+  }: {
+    selected: string[];
+    onToggle: (value: string) => void;
+  }) => {
+    const tracked = modelObjects.filter((o) => trackedObjects.includes(o));
+    const untracked = modelObjects.filter((o) => !trackedObjects.includes(o));
+    const adding = selected.filter(
+      (o) => modelObjects.includes(o) && !trackedObjects.includes(o),
+    );
+    // Labels the detection model cannot produce at all. verify_objects_track()
+    // strips these from objects.track after the rules are validated, so a rule
+    // naming one parses cleanly and then never fires -- the exact silent
+    // failure the rule validator exists to prevent.
+    const unsupported = selected.filter((o) => !modelObjects.includes(o));
+
+    const Row = ({ option }: { option: string }) => (
+      <button
+        type="button"
+        role="option"
+        aria-selected={selected.includes(option)}
+        onClick={() => onToggle(option)}
+        className={cn(
+          "flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-sm hover:bg-secondary",
+          selected.includes(option) && "text-selected",
+        )}
+      >
+        <span className="w-4 shrink-0">
+          {selected.includes(option) ? <LuCheck className="size-4" /> : null}
+        </span>
+        {option}
+      </button>
+    );
+
+    return (
+      <div className="flex flex-col gap-2">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              type="button"
+              variant="default"
+              className="w-full justify-between font-normal"
+            >
+              <span className="truncate">
+                {selected.length
+                  ? selected.join(", ")
+                  : t("rules.field.selectObjects")}
+              </span>
+              <LuChevronDown className="ml-2 size-4 shrink-0 opacity-60" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            className="max-h-72 w-[--radix-popover-trigger-width] overflow-y-auto p-1"
+            align="start"
+          >
+            {tracked.length > 0 && (
+              <>
+                <div className="px-2 py-1 text-xs font-medium text-muted-foreground">
+                  {t("rules.field.objectsTracked", { camera: targetCamera })}
+                </div>
+                {tracked.map((o) => (
+                  <Row key={o} option={o} />
+                ))}
+              </>
+            )}
+            {untracked.length > 0 && (
+              <>
+                <div className="mt-1 border-t px-2 pb-1 pt-2 text-xs font-medium text-muted-foreground">
+                  {t("rules.field.objectsOther")}
+                </div>
+                {untracked.map((o) => (
+                  <Row key={o} option={o} />
+                ))}
+              </>
+            )}
+            {unsupported.length > 0 && (
+              <>
+                <div className="mt-1 border-t px-2 pb-1 pt-2 text-xs font-medium text-danger">
+                  {t("rules.field.objectsUnsupportedGroup")}
+                </div>
+                {unsupported.map((o) => (
+                  <Row key={o} option={o} />
+                ))}
+              </>
+            )}
+          </PopoverContent>
+        </Popover>
+
+        {adding.length > 0 && (
+          <p className="text-xs text-muted-foreground">
+            {t("rules.field.objectsWillTrack", {
+              objects: adding.join(", "),
+              camera: targetCamera,
+            })}
+          </p>
+        )}
+
+        {unsupported.length > 0 && (
+          <p className="text-xs text-danger">
+            {t("rules.field.objectsUnsupported", {
+              objects: unsupported.join(", "),
+            })}
+          </p>
+        )}
+      </div>
+    );
+  };
 
   const ChipList = ({
     options,
@@ -307,10 +490,29 @@ export default function RuleEditDialog({
           <DialogTitle>
             {isNew ? t("rules.dialog.add") : t("rules.dialog.edit")}
           </DialogTitle>
-          <DialogDescription>
-            {t("rules.dialog.desc", { camera })}
-          </DialogDescription>
+          <DialogDescription>{t("rules.dialog.descCamera")}</DialogDescription>
         </DialogHeader>
+
+        <div className="flex flex-col gap-2">
+          <Label>{t("rules.field.camera")}</Label>
+          <Select value={targetCamera} onValueChange={setTargetCamera}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {cameras.map((c) => (
+                <SelectItem key={c.name} value={c.name}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="text-sm text-muted-foreground">
+            {targetCamera !== camera
+              ? t("rules.field.cameraMoved", { camera: targetCamera })
+              : t("rules.field.cameraHint")}
+          </p>
+        </div>
 
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
@@ -396,11 +598,9 @@ export default function RuleEditDialog({
                   </Select>
 
                   <Label>{t("rules.field.objects")}</Label>
-                  <ChipList
-                    options={trackedObjects}
+                  <ObjectPicker
                     selected={objects}
                     onToggle={(v) => toggle(objects, v, setObjects)}
-                    empty={t("rules.noObjects")}
                   />
                 </>
               )}
@@ -417,9 +617,21 @@ export default function RuleEditDialog({
             <>
               <Label>{t("rules.field.fromZones")}</Label>
               <ChipList
-                options={zones}
+                options={[ANY_ZONE, ...zones]}
                 selected={fromZones}
-                onToggle={(v) => toggle(fromZones, v, setFromZones)}
+                onToggle={(v) =>
+                  // "Any" is exclusive: it already covers every zone, so mixing
+                  // it with named zones would only be confusing.
+                  v === ANY_ZONE
+                    ? setFromZones(
+                        fromZones.includes(ANY_ZONE) ? [] : [ANY_ZONE],
+                      )
+                    : toggle(
+                        fromZones.filter((z) => z !== ANY_ZONE),
+                        v,
+                        setFromZones,
+                      )
+                }
                 empty={t("rules.noZones")}
               />
 
@@ -429,6 +641,9 @@ export default function RuleEditDialog({
                   <SelectValue placeholder={t("rules.field.selectZone")} />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value={ANY_ZONE}>
+                    {t("rules.field.anyZone")}
+                  </SelectItem>
                   {zones.map((z) => (
                     <SelectItem key={z} value={z}>
                       {z}
@@ -438,11 +653,9 @@ export default function RuleEditDialog({
               </Select>
 
               <Label>{t("rules.field.objects")}</Label>
-              <ChipList
-                options={trackedObjects}
+              <ObjectPicker
                 selected={vehicleTypes}
                 onToggle={(v) => toggle(vehicleTypes, v, setVehicleTypes)}
-                empty={t("rules.noObjects")}
               />
 
               <div className="flex flex-col gap-2">

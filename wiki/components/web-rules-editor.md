@@ -2,7 +2,7 @@
 type: component
 status: current
 sources: [web/src/views/settings/RulesView.tsx, web/src/components/settings/RuleEditDialog.tsx, web/src/types/violation.ts, web/src/pages/Settings.tsx, frigate/api/app.py]
-updated: 2026-08-28
+updated: 2026-08-29
 ---
 
 # Rules Editor
@@ -28,6 +28,36 @@ Free-text DSL remains behind an *Advanced* toggle for anything the form cannot e
 generates it, `parseCondition()` recovers `{zone, objects}` from an existing rule, and only
 treats it as simple if rebuilding reproduces the original string. A hand-written condition
 therefore opens in Advanced mode rather than being silently rewritten.
+
+## Choosing the camera
+
+The dialog carries its own camera selector rather than inheriting the page's. Zones and objects
+follow the selection, and saving a rule onto a different camera moves it — the rule is appended
+to the destination camera's `violations` and removed from the source in the same `config/set`
+write, so there is no window where it exists on both or neither.
+
+The duplicate-name check follows the selected camera too, since rule names only have to be
+unique within a camera.
+
+## Objects: the model's labels, not the camera's
+
+The objects control is a multiselect over **every label the detection model can produce**, read
+from `config.detectors.<name>.model.labelmap`, grouped into *tracked on this camera* and *other
+model objects*. Restricting it to `objects.track` meant a rule could only ever name what the
+camera already happened to detect.
+
+Two constraints make that work, both from the config validators:
+
+- `verify_violation_rules` rejects a label not in the camera's `objects.track`. Choosing an
+  untracked label therefore **also widens `objects.track`** for that camera in the same write.
+  The dialog says so before you save.
+- `objects.track` must be read from the config **file**, not `/api/config`. `verify_objects_track`
+  strips labels the model cannot produce, and it runs *after* `verify_violation_rules` — so
+  rules are validated against the authored list while the runtime view shows the stripped one.
+  Reading the runtime list made the dialog offer to re-add labels the config already had.
+
+A selected label the model cannot produce is shown in its own group and flagged: it parses
+cleanly and then never fires. See [Known Issues](../health/known-issues.md) #19.
 
 ## Where the rules come from
 

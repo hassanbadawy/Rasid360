@@ -61,7 +61,8 @@ export default function RulesView({
   setUnsavedChanges,
 }: RulesViewProps) {
   const { t } = useTranslation(["views/settings"]);
-  const { data: config } = useSWR<Rasid360Config>("config");
+  const { data: config, mutate: updateConfig } =
+    useSWR<Rasid360Config>("config");
 
   const [editing, setEditing] = useState<ViolationRule | undefined>();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -83,6 +84,12 @@ export default function RulesView({
     [camera: string]: ViolationRule[];
   }>("config/violations");
 
+  // Authored objects.track, for the same reason the rules come from the file.
+  const { data: fileTracked } = useSWR<{
+    objects?: { track?: string[] };
+    cameras?: Record<string, { objects?: { track?: string[] } } | undefined>;
+  }>("config/file");
+
   const configRules = useMemo<ViolationRule[]>(
     () => (selectedCamera ? (fileRules?.[selectedCamera] ?? []) : []),
     [fileRules, selectedCamera],
@@ -93,15 +100,42 @@ export default function RulesView({
     setRules(configRules);
   }, [configRules, selectedCamera]);
 
-  const zones = useMemo(
-    () => Object.keys(cameraConfig?.zones ?? {}),
-    [cameraConfig],
+  // Every camera the rule could be moved to, with the zones and tracked
+  // objects a rule on it is validated against.
+  const ruleCameras = useMemo(
+    () =>
+      Object.entries(config?.cameras ?? {})
+        .filter(([, c]) => c.enabled_in_config)
+        .map(([name, c]) => ({
+          name,
+          zones: Object.keys(c.zones ?? {}),
+          // The *authored* track list, from the config file -- not /api/config.
+          // verify_objects_track() strips labels the model cannot produce and
+          // runs AFTER verify_violation_rules(), so rules are validated against
+          // what the file says. Reading the stripped runtime list would make the
+          // dialog offer to re-add labels the config already has.
+          trackedObjects:
+            fileTracked?.cameras?.[name]?.objects?.track ??
+            fileTracked?.objects?.track ??
+            [],
+          ruleNames: (fileRules?.[name] ?? []).map((r) => r.name),
+        })),
+    [config, fileRules, fileTracked],
   );
 
-  const trackedObjects = useMemo(
-    () => cameraConfig?.objects?.track ?? [],
-    [cameraConfig],
-  );
+  // Every label the detection model can produce. Rules are not limited to what
+  // a camera happens to track today -- picking an untracked one widens
+  // objects.track on save.
+  const modelObjects = useMemo(() => {
+    const labels = new Set<string>();
+    for (const detector of Object.values(config?.detectors ?? {})) {
+      const map = (
+        detector as { model?: { labelmap?: Record<string, string> } }
+      ).model?.labelmap;
+      for (const label of Object.values(map ?? {})) labels.add(label);
+    }
+    return [...labels].sort();
+  }, [config]);
 
   useEffect(() => {
     document.title = `${t("rules.documentTitle")} - Rasid360`;
@@ -111,22 +145,40 @@ export default function RulesView({
   // the config is parsed, and config/set rolls the file back if that fails --
   // so a rejected save leaves the running config untouched.
   const persist = useCallback(
-    async (next: ViolationRule[], successKey: string) => {
-      if (!selectedCamera) return;
+    async (
+      next: ViolationRule[],
+      successKey: string,
+      // defaults to the camera the page is showing
+      targetCamera?: string,
+      // extra config to merge for that camera, e.g. a widened objects.track
+      extraCameraConfig?: Record<string, unknown>,
+      // rules for a camera the rule moved away from
+      alsoWrite?: Record<string, ViolationRule[]>,
+    ) => {
+      const target = targetCamera ?? selectedCamera;
+      if (!target) return;
 
       setSaving(true);
       try {
+        const cameraPayload: Record<string, unknown> = {
+          [target]: { violations: next, ...(extraCameraConfig ?? {}) },
+        };
+
+        for (const [cam, list] of Object.entries(alsoWrite ?? {})) {
+          cameraPayload[cam] = { violations: list };
+        }
+
         const response = await axios.put("config/set", {
-          config_data: {
-            cameras: { [selectedCamera]: { violations: next } },
-          },
+          config_data: { cameras: cameraPayload },
           requires_restart: 1,
         });
 
         if (response.status === 200 && response.data.success !== false) {
           toast.success(t(successKey), { position: "top-center" });
-          setRules(next);
+          // only reflect locally when we wrote the camera being displayed
+          if (target === selectedCamera) setRules(next);
           updateFileRules();
+          updateConfig();
           setUnsavedChanges(false);
           addMessage(
             "rules_restart",
@@ -148,18 +200,50 @@ export default function RulesView({
         setSaving(false);
       }
     },
-    [selectedCamera, t, updateFileRules, setUnsavedChanges, addMessage],
+    [
+      selectedCamera,
+      t,
+      updateFileRules,
+      updateConfig,
+      setUnsavedChanges,
+      addMessage,
+    ],
   );
 
   const handleSave = useCallback(
-    (rule: ViolationRule) => {
-      const index = rules.findIndex((r) => r.name === editing?.name);
-      const next = [...rules];
-      if (index >= 0) next[index] = rule;
+    (rule: ViolationRule, targetCamera: string, newTracked: string[]) => {
+      const movedCamera = targetCamera !== selectedCamera;
+
+      // Rules on the destination camera, which is not necessarily this page's.
+      const targetRules = movedCamera
+        ? (fileRules?.[targetCamera] ?? [])
+        : rules;
+
+      const index = targetRules.findIndex((r) => r.name === editing?.name);
+      const next = [...targetRules];
+      if (index >= 0 && !movedCamera) next[index] = rule;
       else next.push(rule);
-      persist(next, "rules.toast.saved");
+
+      // A label the rule needs but the camera does not track would be rejected
+      // by verify_violation_rules, so widen objects.track in the same write.
+      const target = ruleCameras.find((c) => c.name === targetCamera);
+      const extra = newTracked.length
+        ? {
+            objects: {
+              track: [...(target?.trackedObjects ?? []), ...newTracked],
+            },
+          }
+        : undefined;
+
+      // Moving a rule means dropping it from the camera it came from.
+      const alsoWrite =
+        movedCamera && editing
+          ? { [selectedCamera]: rules.filter((r) => r.name !== editing.name) }
+          : undefined;
+
+      persist(next, "rules.toast.saved", targetCamera, extra, alsoWrite);
     },
-    [rules, editing, persist],
+    [rules, editing, persist, selectedCamera, fileRules, ruleCameras],
   );
 
   const handleToggle = useCallback(
@@ -214,7 +298,7 @@ export default function RulesView({
 
           <Separator className="my-2 flex bg-secondary" />
 
-          {zones.length === 0 && (
+          {Object.keys(cameraConfig?.zones ?? {}).length === 0 && (
             <div className="my-4 flex items-center gap-2 rounded-md bg-secondary p-3 text-sm">
               <LuTriangleAlert className="size-4 shrink-0 text-danger" />
               <span>{t("rules.noZonesWarning")}</span>
@@ -300,9 +384,8 @@ export default function RulesView({
         onOpenChange={setDialogOpen}
         rule={editing}
         camera={selectedCamera}
-        zones={zones}
-        trackedObjects={trackedObjects}
-        existingNames={rules.map((r) => r.name)}
+        cameras={ruleCameras}
+        modelObjects={modelObjects}
         onSave={handleSave}
       />
 

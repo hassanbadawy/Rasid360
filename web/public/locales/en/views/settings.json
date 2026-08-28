@@ -1064,7 +1064,8 @@
     "dialog": {
       "add": "Add Violation Rule",
       "edit": "Edit Violation Rule",
-      "desc": "Rules apply to {{camera}}. Zones and objects come from that camera's configuration."
+      "desc": "Rules apply to {{camera}}. Zones and objects come from that camera's configuration.",
+      "descCamera": "Pick the camera the rule belongs to. Zones and objects come from that camera."
     },
     "field": {
       "name": "Name",
@@ -1088,7 +1089,17 @@
       "duration": "Event length (seconds)",
       "severity": "Severity",
       "description": "Description",
-      "enabled": "Enabled"
+      "enabled": "Enabled",
+      "camera": "Camera",
+      "cameraHint": "Zones and tracked objects below come from this camera.",
+      "cameraMoved": "This rule will be saved on {{camera}} and removed from the camera it was on.",
+      "anyZone": "Any zone",
+      "selectObjects": "Select objects",
+      "objectsTracked": "Tracked on {{camera}}",
+      "objectsOther": "Other model objects",
+      "objectsWillTrack": "{{objects}} will be added to {{camera}}'s tracked objects so the rule can fire.",
+      "objectsUnsupported": "The detection model cannot detect {{objects}}, so this part of the rule will never fire. Remove it, or switch to a model that supports it.",
+      "objectsUnsupportedGroup": "Not supported by the current model"
     },
     "delete": {
       "title": "Delete rule?",

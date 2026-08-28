@@ -535,3 +535,45 @@ keeps the old tmpfs.
 [Core Pipeline Patches](components/core-pipeline-patches.md) §1, and known issue #13). A deeper
 ring makes eviction less likely. But the fallback logs to a stdout that detached processes
 discard, so there is no evidence either way here and none is asserted.
+
+## [2026-08-29] fix | Rules editor: camera picker, `any` zone wildcard, model-wide object list
+
+Three changes to the violation rule dialog, plus the engine and config support two of them
+needed.
+
+**Camera picker.** The dialog inherited the camera from the settings page header. It now selects
+its own, and saving onto a different camera moves the rule — appended to the destination's
+`violations`, removed from the source, in one `config/set` write.
+
+**`any` zone wildcard.** New `ANY_ZONE` sentinel in `frigate/config/camera/violation.py`,
+accepted in both `from_zones` and `to_zone`. `referenced_zones()` skips it so
+`verify_violation_rules` does not read it as a missing zone, while a real zone name alongside it
+is still checked.
+
+The semantics needed a correction found by the tests. The first implementation asked "has this
+object been in any zone", which is *always* true: `StateTracker` appends an object's current
+zones to its history **before** rules evaluate, so a wildcard rule fired on any detection with
+no movement at all. It now requires a history entry the object has since left. Six DSL tests and
+six config tests pin this, including that a named zone is unaffected and a typo is still a hard
+error.
+
+**Objects from the model, not the camera.** The picker lists every label in
+`config.detectors.<name>.model.labelmap`, grouped into tracked / other. Two constraints made
+this more than a list change:
+
+- `verify_violation_rules` rejects a label not in the camera's `objects.track`, so choosing an
+  untracked one now widens `objects.track` in the same write, and the dialog says so first.
+- `objects.track` has to come from the config **file**. `verify_objects_track` strips labels the
+  model cannot produce and runs *after* `verify_violation_rules`, so rules validate against the
+  authored list while `/api/config` shows the stripped one. The first implementation read the
+  runtime list and wrongly offered to re-add labels the config already had.
+
+**Found while testing:** the shipped model has 90 labels and `truck` is not one of them, yet
+five rules across four road cameras name it in `vehicle_types`. They parse, run, and are quietly
+blind to lorries. Filed as [#19](health/known-issues.md), now top of the suggested order of work
+because it is a config edit rather than a code change. The dialog flags such a label so new
+rules cannot acquire the problem.
+
+**Verified:** 259 tests, all passing except the known #8d flake. Dialog driven in a browser —
+91 objects listed and grouped, `any` offered in both zone controls, and the six
+accept/reject cases confirmed directly against `FrigateConfig.parse_yaml`.
