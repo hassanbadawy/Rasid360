@@ -63,7 +63,7 @@ type RuleEditDialogProps = {
 };
 
 const RULE_TYPES: {
-  value: ViolationRuleType;
+  value: string;
   label: string;
   hint: string;
 }[] = [
@@ -88,11 +88,38 @@ const RULE_TYPES: {
     hint: "Fires when a person's bounding box becomes wider than it is tall.",
   },
   {
+    value: "zone_absent",
+    label: "Object missing from a zone",
+    hint: "Fires when nothing of the chosen kind is left in the zone -- a car gone from its parking bay, a post left unmanned.",
+  },
+  {
     value: "zone_occupancy",
     label: "How many are in a zone",
     hint: "Fires when the number of objects in a zone goes above the maximum or below the minimum. Counts come from Frigate itself, so this reacts as soon as the count changes.",
   },
 ];
+
+/** `zone_absent` is a UI type, not a config type.
+ *
+ * "Is it there?" and "is it gone?" are the same question to an author, so both
+ * live under the same part of the list -- but the engine expresses absence as a
+ * count that fell to zero. A zone_absent rule is saved as a zone_occupancy rule
+ * with min_count 1, and reopens as zone_absent because that shape means exactly
+ * "alert when none are present". A rule with a maximum, or a minimum above 1, is
+ * a genuine occupancy rule and reopens as one. */
+const ABSENT_UI_TYPE = "zone_absent";
+
+function uiTypeFor(rule?: ViolationRule): string {
+  if (!rule) return "zone_object";
+  if (
+    rule.type === "zone_occupancy" &&
+    rule.min_count === 1 &&
+    (rule.max_count === undefined || rule.max_count === null)
+  ) {
+    return ABSENT_UI_TYPE;
+  }
+  return rule.type;
+}
 
 /** Zone-and-objects rules always take the same condition shape, so the form
  *  builds it rather than asking for DSL. */
@@ -299,7 +326,8 @@ export default function RuleEditDialog({
   );
 
   const [name, setName] = useState("");
-  const [type, setType] = useState<ViolationRuleType>("zone_object");
+  // may hold ABSENT_UI_TYPE, which is not a config type
+  const [type, setType] = useState<string>("zone_object");
   const [description, setDescription] = useState("");
   const [enabled, setEnabled] = useState(true);
 
@@ -338,7 +366,7 @@ export default function RuleEditDialog({
 
     setTargetCamera(camera);
     setName(rule?.name ?? "");
-    setType(rule?.type ?? "zone_object");
+    setType(uiTypeFor(rule));
     setDescription(rule?.description ?? "");
     setEnabled(rule?.enabled ?? true);
 
@@ -394,6 +422,9 @@ export default function RuleEditDialog({
       if (!toZone) return "Choose a destination zone.";
       if (vehicleTypes.length === 0) return "Choose at least one object.";
     }
+    if (type === ABSENT_UI_TYPE) {
+      if (!occupancyZone) return "Choose the zone to watch.";
+    }
     if (type === "zone_occupancy") {
       if (!occupancyZone) return "Choose a zone to count.";
       if (minCount === "" && maxCount === "")
@@ -436,7 +467,8 @@ export default function RuleEditDialog({
     const next: ViolationRule = {
       name: name.trim(),
       enabled,
-      type,
+      // overwritten below for zone_absent, which is a UI type only
+      type: type as ViolationRuleType,
       description: description.trim(),
       duration,
       severity,
@@ -453,6 +485,12 @@ export default function RuleEditDialog({
       next.to_zone = toZone;
       next.vehicle_types = vehicleTypes;
       next.min_detections = minDetections;
+    }
+    if (type === ABSENT_UI_TYPE) {
+      next.type = "zone_occupancy";
+      next.zone = occupancyZone;
+      next.count_label = countLabel;
+      next.min_count = 1;
     }
     if (type === "zone_occupancy") {
       next.zone = occupancyZone;
@@ -472,7 +510,11 @@ export default function RuleEditDialog({
     if (usesCondition) objects.forEach((o) => needed.add(o));
     if (type === "zone_sequence") vehicleTypes.forEach((o) => needed.add(o));
     if (type === "fall_down") needed.add("person");
-    if (type === "zone_occupancy" && countLabel && countLabel !== "all")
+    if (
+      (type === "zone_occupancy" || type === ABSENT_UI_TYPE) &&
+      countLabel &&
+      countLabel !== "all"
+    )
       needed.add(countLabel);
 
     const newTracked = [...needed].filter((o) => !trackedObjects.includes(o));
@@ -738,6 +780,48 @@ export default function RuleEditDialog({
                   {t("rules.field.minDetectionsHint")}
                 </div>
               </div>
+            </>
+          )}
+
+          {type === ABSENT_UI_TYPE && (
+            <>
+              <Label>{t("rules.field.absentZone")}</Label>
+              <Select value={occupancyZone} onValueChange={setOccupancyZone}>
+                <SelectTrigger>
+                  <SelectValue placeholder={t("rules.field.selectZone")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {zones.map((z) => (
+                    <SelectItem key={z} value={z}>
+                      {z}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Label>{t("rules.field.absentLabel")}</Label>
+              <Select value={countLabel} onValueChange={setCountLabel}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    {t("rules.field.countAll")}
+                  </SelectItem>
+                  {modelObjects.map((o) => (
+                    <SelectItem key={o} value={o}>
+                      {o}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <p className="text-xs text-muted-foreground">
+                {t("rules.field.absentHint")}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {t("rules.field.occupancyZoneUnique")}
+              </p>
             </>
           )}
 

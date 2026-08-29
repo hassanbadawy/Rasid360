@@ -131,6 +131,34 @@ Note `proximity` is implemented but is not used by any template in the shipped `
 
 ## `zone_occupancy` — counting, not detecting
 
+Also the way **absence** is expressed. There is no "object is not here" operator: a condition is
+evaluated against an event describing an object that *is* there, so nothing fires when the
+object is gone. A count that fell to zero is the event.
+
+The rules editor offers this as *Object missing from a zone* — presence and absence are the same
+question to an author, so they sit together in the list — and saves it as a `zone_occupancy`
+rule with `min_count: 1`. That shape means exactly "alert when none are present", so it reopens
+as *missing*; anything with a maximum, or a minimum above 1, is a genuine occupancy rule and
+reopens as one.
+
+```yaml
+- name: car_missing_from_parking
+  type: zone_occupancy
+  zone: home_parking
+  count_label: car
+  min_count: 1
+```
+
+Two properties make this work without the periodic tick the worker still lacks:
+`frigate/<zone>/<label>` counts **stationary objects too** (only the `/active` variant excludes
+them), and `detect.stationary.max_frames.default` is unset, so a parked car is held indefinitely
+rather than ageing out. The count stays 1 while it sits there and drops to 0 when it leaves.
+
+**It watches for a kind of object, not a specific one.** Another car parking in the bay keeps the
+count above zero. And there is no debounce — the rule fires the instant the count crosses the
+threshold, so a detection dropout is a false alarm. Stationary tracking makes that unlikely, not
+impossible; a *for N seconds* qualifier needs the tick.
+
 Every other rule type answers a question about *one object* arriving in an event. This one asks
 how many objects are in a zone right now, and it is fed by a different source: Frigate's own
 `CameraActivityManager` republishes a zone's count on **every change**, to

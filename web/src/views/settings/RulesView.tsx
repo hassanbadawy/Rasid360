@@ -51,6 +51,17 @@ function describeRule(rule: ViolationRule): string {
       }${rule.speed_threshold ? ` above ${rule.speed_threshold} km/h` : ""}`;
     case "fall_down":
       return `person wider than ${rule.width_height_ratio}x their height for ${rule.min_duration}s`;
+    case "zone_occupancy": {
+      const what = rule.count_label === "all" ? "objects" : rule.count_label;
+      // min 1 with no maximum is the "missing" shape the dialog offers
+      if (rule.min_count === 1 && rule.max_count == null) {
+        return `no ${what} left in ${rule.zone}`;
+      }
+      const parts = [];
+      if (rule.min_count != null) parts.push(`fewer than ${rule.min_count}`);
+      if (rule.max_count != null) parts.push(`more than ${rule.max_count}`);
+      return `${parts.join(" or ")} ${what} in ${rule.zone}`;
+    }
     default:
       return rule.condition ?? rule.type;
   }

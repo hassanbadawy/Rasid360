@@ -705,3 +705,31 @@ byte-identical to a pre-test snapshot afterwards, so none of it leaked into the 
 
 Two testability additions while doing it: `data-testid="object-picker"`, and `id` on the
 min/max count inputs, matching the `cooldown` and `duration` fields next to them.
+
+## [2026-08-29] fix | Absence gets its own entry in the rules editor
+
+Asked for after working out how to detect a car gone from a parking bay: absence was already
+expressible but only through `zone_occupancy`, which nobody would think to open when the question
+in their head is "is my car still there?".
+
+The editor now offers **Object missing from a zone** next to *Object in a zone*, asking only for
+the zone and what should be in it — no numbers, since "gone" is a minimum of one by definition.
+It saves as a `zone_occupancy` rule with `min_count: 1` and reopens as *missing*, because that
+shape means exactly "alert when none are present". A rule with a maximum, or a minimum above 1,
+is a genuine occupancy rule and reopens as one. The list describes it as *"no car left in
+zone01"*.
+
+No engine change: absence already worked, it was just unfindable.
+
+Checked while answering, because both would silently break it: `frigate/<zone>/<label>` counts
+**stationary objects** (only `/active` excludes them), and `detect.stationary.max_frames.default`
+is unset, so a parked car is held indefinitely rather than ageing out. The count stays 1 while it
+sits and drops to 0 when it leaves — which is why this is the one absence rule that needs no
+periodic tick.
+
+Recorded in [DSL Rule Language](concepts/dsl-rule-language.md), including the two limits: it
+watches for a *kind* of object rather than a specific one, and it has no debounce, so a detection
+dropout is a false alarm.
+
+14 Playwright checks cover the create → inspect config → reopen round trip; the earlier 27-check
+suite still passes.

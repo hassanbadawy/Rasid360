@@ -1112,7 +1112,10 @@
       "noMaximum": "no maximum",
       "minCountHint": "Fires when the count drops below this — e.g. a post left unmanned.",
       "maxCountHint": "Fires when the count rises above this — e.g. overcrowding.",
-      "occupancyZoneUnique": "Counts come from Frigate and are keyed by zone name, so a zone counted this way must have a name no other camera uses. Saving will tell you if it clashes."
+      "occupancyZoneUnique": "Counts come from Frigate and are keyed by zone name, so a zone counted this way must have a name no other camera uses. Saving will tell you if it clashes.",
+      "absentZone": "Zone to watch",
+      "absentLabel": "What should be there",
+      "absentHint": "Fires when the count in that zone reaches zero. Note it watches for any object of that kind, not one specific one — another car parking in the bay keeps the count above zero."
     },
     "delete": {
       "title": "Delete rule?",
