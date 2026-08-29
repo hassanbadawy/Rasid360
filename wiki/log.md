@@ -733,3 +733,40 @@ dropout is a false alarm.
 
 14 Playwright checks cover the create → inspect config → reopen round trip; the earlier 27-check
 suite still passes.
+
+## [2026-08-29] fix | EmbassyGate detect CPU: 47% -> 21%
+
+Frigate was warning *"EmbassyGate has high detect CPU usage (45%)"*. Not a bug — configuration,
+and every difference from the other cameras multiplied.
+
+The number that matters is `detection_fps`, which counts **inference calls**, not frames. One
+frame needs several when motion produces several regions. EmbassyGate was running 27.2
+inferences/sec against the `cpu` detector at ~40 ms each: about a full core for one camera.
+
+| | Before | After |
+|---|---:|---:|
+| `camera_fps` | 10.0 | 5.1 |
+| `detection_fps` | 27.2 | 9.7 |
+| regions per frame | 2.86 | 2.06 |
+| detect CPU | 47.3% | **20.9%** |
+
+- **`detect.fps: 10 → 5`** — most of the gain; double every other camera, for no benefit at a
+  gate.
+- **`motion.threshold: 25 → 40`, `contour_area: 10 → 40`** — the originals sit near Frigate's
+  defaults and are far too sensitive for a real scene, so noise and shadows each became a motion
+  blob, and every blob is an inference call.
+
+**`detect.fps` does not apply live.** Measured: after a `config/set` with the right update topic,
+`camera_fps` stayed at 10 until a restart, because it is baked into the frame pipeline. Motion
+settings do apply live. Recorded in [Configuration](operations/configuration.md), because a
+tuning change that appears to do nothing is otherwise very confusing.
+
+Both measurements are averages over six samples a minute apart, not single readings.
+
+Left on the table for that camera: it has **no motion mask**, so the whole frame is live —
+masking would push regions-per-frame toward 1. And `detect` at 1920×1080 costs motion-analysis
+work for no accuracy, since regions are scaled to the model input anyway. The structural fix is
+a Coral TPU: ~8 ms per inference instead of 40.
+
+Also committed here: the five cameras disabled through the UI, which now persist to config —
+that is deployment state rather than code, but it is a tracked file and belongs in history.

@@ -1,8 +1,8 @@
 ---
 type: operations
 status: current
-sources: [data/frigate-config/config.yml, frigate/extras/config.yml, frigate/extras/config.py, docker-compose.yml, .gitignore, frigate/api/app.py, frigate/util/builtin.py]
-updated: 2026-08-28
+sources: [data/frigate-config/config.yml, frigate/camera/activity_manager.py, frigate/extras/config.yml, frigate/extras/config.py, docker-compose.yml, .gitignore, frigate/api/app.py, frigate/util/builtin.py]
+updated: 2026-08-29
 ---
 
 # Configuration
@@ -83,6 +83,43 @@ validate, and rolls back on failure. Two sharp edges worth knowing:
 `requires_restart: 0` swaps the API process's config; `update_topic` / `update_topics` publish
 the change to the worker processes that subscribe to it, which is what makes a save apply
 without a restart.
+
+### Detection cost, and what drives it
+
+Every camera shares one detector process. This deployment runs the **`cpu` detector** —
+software inference at **~40 ms per call** — so detection cost is simply
+`detections/sec × 40 ms`, and a single camera can eat a core.
+
+The number that matters is `detection_fps` in `GET /api/stats`, not `camera_fps`. It counts
+**inference calls**, and one frame can need several: motion produces regions, and each region is
+its own call. Divide the two for regions per frame.
+
+Worked example — EmbassyGate, 2026-08-29, which was warning *"high detect CPU usage (45%)"*:
+
+| | Before | After |
+|---|---:|---:|
+| `camera_fps` | 10.0 | 5.1 |
+| `detection_fps` | 27.2 | 9.7 |
+| regions per frame | 2.86 | 2.06 |
+| camera detect CPU | 47.3% | **20.9%** |
+
+Two changes, compounding to 64% fewer inferences:
+
+- **`detect.fps: 10 → 5`.** Most of the gain. 10 fps is double what the other cameras use and
+  buys nothing at a gate.
+- **`motion.threshold: 25 → 40`, `contour_area: 10 → 40`.** The originals are near Frigate's
+  defaults and far too sensitive for a real scene: noise, shadows and light flicker each became
+  a motion blob, and every blob is an inference call.
+
+**`detect.fps` does not apply live.** Changing it through `config/set` leaves `camera_fps`
+unchanged until a restart — it is baked into the frame pipeline. Motion settings do apply live.
+If a tuning change appears to do nothing, this is why.
+
+Still available on that camera: it has **no motion mask**, so the whole frame is live — masking
+the irrelevant areas would push regions-per-frame toward 1. Dropping `detect` from 1920×1080 to
+1280×720 costs nothing in accuracy, since regions are scaled to the model input regardless.
+
+The structural fix is hardware: a Coral TPU runs the same inference in ~8 ms rather than 40.
 
 ### Rasid360-specific camera option
 

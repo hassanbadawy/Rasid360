@@ -209,7 +209,7 @@ cameras:
           - motorcycle
         min_detections: 1
   Road02:
-    enabled: true
+    enabled: false
     lpr:
       enabled: false
     face_recognition:
@@ -250,7 +250,7 @@ cameras:
         severity: critical
         cooldown: 600
   Road03:
-    enabled: true
+    enabled: false
     lpr:
       enabled: false
     face_recognition:
@@ -330,7 +330,7 @@ cameras:
         severity: high
         cooldown: 600
   Road04:
-    enabled: true
+    enabled: false
     lpr:
       enabled: false
     face_recognition:
@@ -387,7 +387,7 @@ cameras:
         severity: high
         cooldown: 600
   Road05:
-    enabled: true
+    enabled: false
     lpr:
       enabled: false
     face_recognition:
@@ -481,7 +481,7 @@ cameras:
         severity: high
         cooldown: 600
   Road06:
-    enabled: true
+    enabled: false
     lpr:
       enabled: false
     face_recognition:
@@ -571,19 +571,25 @@ cameras:
             - detect
     detect:
       enabled: true
-      fps: 10  # Increased from 5 to 10 for better temporal consistency and smoother tracking
+      # Was 10. Halved 2026-08-29: this camera was running 27 detections/sec
+      # against a CPU detector at ~40ms each -- about a full core -- and warning
+      # "high detect CPU usage (45%)". See wiki/operations/configuration.md.
+      fps: 5
       min_initialized: 3  # Require 3 consecutive detections before creating new ID (reduces false IDs)
       max_disappeared: 50  # Keep tracking for 5 seconds after object disappears (handles brief gaps)
 
       # Stationary object handling - important for person placing handbag and standing still
       stationary:
-        threshold: 20  # Consider stationary after 2 seconds without movement (20 frames at 10fps)
+        threshold: 20  # 4 seconds without movement at 5fps
         interval: 10   # Re-check stationary objects every 1 second
         # Note: max_frames removed - not supported in camera-specific config in v0.17.0
 
     motion:
-      threshold: 25
-      contour_area: 10
+      # Was threshold 25 / contour_area 10, near Frigate's defaults and far too
+      # sensitive for this scene: noise and shadows registered as motion, giving
+      # ~2.9 detection regions per frame. Raising both cut that to ~2.1.
+      threshold: 40
+      contour_area: 40
       improve_contrast: true
 
     objects:
