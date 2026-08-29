@@ -601,3 +601,40 @@ The 11 shipped rules all still validate. 269 tests, all passing except the known
 
 Co-presence remains unsupported and is the next thing to build — see
 [DSL Rule Language](concepts/dsl-rule-language.md).
+
+## [2026-08-29] ingest | New rule type: zone_occupancy (min/max objects in a zone)
+
+The first rule type that counts rather than detects, and the first fed by something other than
+`frigate/events`.
+
+**Why it was cheap.** Frigate's `CameraActivityManager` already maintains per-zone object counts
+and republishes them on every change, to `frigate/<zone>/<label>` and `frigate/<zone>/all` (plus
+`/active` variants for non-stationary objects only). Confirmed on the live bus before building
+anything. So a threshold breach *is* an event — this is the only counting requirement that does
+not need the periodic tick the worker still lacks.
+
+**What was built**
+
+- `ViolationTypeEnum.zone_occupancy` with `zone`, `count_label`, `min_count`, `max_count`.
+  At least one threshold required; a minimum above a maximum is rejected as unsatisfiable.
+- `ZoneOccupancyRule`, which returns False for anything that is not a `zone_count` message.
+  Without that guard every tracked object would be tested against the threshold.
+- `MQTTClient.set_extra_topics()` — zone topics carry a **bare integer**, not event JSON, so
+  `_on_message` routes non-`frigate/events` topics to a raw callback rather than parsing them.
+- `EventDispatcher._zones_watched_for_occupancy()` subscribes only to zones a rule actually
+  names, and attaches the camera, which the topic does not carry.
+- Rule type, form and validation in the editor.
+
+**The sharp edge, made a hard error.** The count topic is keyed by zone name with no camera in
+it, so two cameras sharing a zone name have their counts summed. This deployment already has two
+such pairs (`rightcomeend`, `rightcomestart` on Road04/Road05).
+`verify_occupancy_zone_names_are_unique()` rejects an occupancy rule on a shared zone name and
+says which camera it clashes with, rather than leaving it as documentation nobody reads.
+
+**Verified live** before the check was cut short: the rule persisted, validated, and the worker
+logged *"Watching occupancy of: zone01"* with the topic subscribed and 2 rules loaded. It
+correctly did not fire at `max_count: 1`, because zone01 never exceeds one car. 39 config tests
+and 34 engine tests pass.
+
+**Note for authors:** occupancy rules need a full Frigate restart, not just an extras restart —
+the worker reads rules from `/api/config`, the running config, like every other rule type.

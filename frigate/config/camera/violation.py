@@ -19,6 +19,7 @@ __all__ = [
     "ViolationTypeEnum",
     "ViolationSeverityEnum",
     "ANY_ZONE",
+    "COUNT_ALL",
 ]
 
 
@@ -31,6 +32,7 @@ class ViolationTypeEnum(str, Enum):
     sustained_condition = "sustained_condition"
     proximity = "proximity"
     fall_down = "fall_down"
+    zone_occupancy = "zone_occupancy"
 
 
 #: Wildcard accepted wherever a zone name is expected, meaning "any zone on this
@@ -38,6 +40,10 @@ class ViolationTypeEnum(str, Enum):
 #: engine has to tell "match anything" apart from "not configured" -- an unset
 #: from_zones/to_zone is a rule authoring error and still raises.
 ANY_ZONE = "any"
+
+#: `count_label` value meaning "every tracked object", matching Frigate's own
+#: `frigate/<zone>/all` topic.
+COUNT_ALL = "all"
 
 
 class ViolationSeverityEnum(str, Enum):
@@ -212,6 +218,29 @@ class ViolationRuleConfig(FrigateBaseModel):
     width_height_ratio: Optional[float] = Field(default=None, gt=0)
     min_duration: Optional[Union[int, float]] = Field(default=None, ge=0)
 
+    # zone_occupancy -- how many objects are in a zone right now.
+    #
+    # Fed by Frigate's own per-zone counts, which it republishes on every change
+    # to `frigate/<zone>/<label>` and `frigate/<zone>/all` (see
+    # CameraActivityManager). Nothing here counts objects itself.
+    zone: Optional[str] = Field(
+        default=None, title="Zone whose occupancy is watched."
+    )
+    count_label: str = Field(
+        default="all",
+        title="Object label to count, or 'all' for every tracked object.",
+    )
+    min_count: Optional[int] = Field(
+        default=None,
+        ge=0,
+        title="Fire when the count drops below this, e.g. a post left unmanned.",
+    )
+    max_count: Optional[int] = Field(
+        default=None,
+        ge=0,
+        title="Fire when the count rises above this, e.g. overcrowding.",
+    )
+
     # proximity
     first_object: Optional[str] = Field(default=None)
     second_object: Optional[str] = Field(default=None)
@@ -255,6 +284,22 @@ class ViolationRuleConfig(FrigateBaseModel):
             if not self.width_height_ratio:
                 missing.append("width_height_ratio")
 
+        if self.type == ViolationTypeEnum.zone_occupancy:
+            if not self.zone:
+                missing.append("zone")
+            if self.min_count is None and self.max_count is None:
+                missing.append("min_count or max_count")
+            elif (
+                self.min_count is not None
+                and self.max_count is not None
+                and self.min_count > self.max_count
+            ):
+                raise ValueError(
+                    f"Violation rule '{self.name}' has min_count "
+                    f"({self.min_count}) greater than max_count "
+                    f"({self.max_count}), so it can never be satisfied."
+                )
+
         if self.type == ViolationTypeEnum.proximity:
             if not self.first_object:
                 missing.append("first_object")
@@ -280,6 +325,8 @@ class ViolationRuleConfig(FrigateBaseModel):
             zones.update(self.from_zones)
         if self.to_zone:
             zones.add(self.to_zone)
+        if self.zone:
+            zones.add(self.zone)
         if self.condition:
             zones.update(m.strip() for m in re.findall(r"in_zone\(([^)]+)\)", self.condition))
             # detected(label, zone) names a zone in its second argument
@@ -306,6 +353,9 @@ class ViolationRuleConfig(FrigateBaseModel):
             labels.add(self.first_object)
         if self.second_object:
             labels.add(self.second_object)
+        # "all" is a wildcard over the camera's tracked objects, not a label
+        if self.count_label and self.count_label != COUNT_ALL:
+            labels.add(self.count_label)
         if self.condition:
             for match in re.findall(r"detected\(([^)]+)\)", self.condition):
                 labels.add(match.split(",")[0].strip())

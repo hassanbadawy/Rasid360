@@ -122,11 +122,46 @@ fields out in full — and the config model does not implement templating.
 | `sustained_condition` | A condition holds continuously for `monitor_duration` | `temporal.py` — `SustainedConditionRule` |
 | `fall_down` | A person's bbox width/height ratio exceeds a threshold for a duration | `aspect_ratio_rules.py` |
 | `proximity` | Two objects are within a distance of each other | `temporal.py` — `ProximityRule` |
+| `zone_occupancy` | The number of objects in a zone leaves a min/max range | `rule_types.py` — `ZoneOccupancyRule` |
 
 All descend from the `Rule` ABC in `rule_types.py`; `create_rule()` is the factory that maps
 the `type` string to a class.
 
 Note `proximity` is implemented but is not used by any template in the shipped `config.yml`.
+
+## `zone_occupancy` — counting, not detecting
+
+Every other rule type answers a question about *one object* arriving in an event. This one asks
+how many objects are in a zone right now, and it is fed by a different source: Frigate's own
+`CameraActivityManager` republishes a zone's count on **every change**, to
+`frigate/<zone>/<label>` and `frigate/<zone>/all` (plus `/active` variants counting only
+non-stationary objects). Nothing here counts objects.
+
+```yaml
+- name: post_unmanned
+  type: zone_occupancy
+  zone: guard_post
+  count_label: person      # or `all` for every tracked object
+  min_count: 1             # fires when the count drops below this
+  # max_count: 5           # fires when it rises above this
+```
+
+At least one of `min_count` / `max_count` is required, and a `min_count` above `max_count` is
+rejected as unsatisfiable.
+
+Two consequences worth understanding:
+
+- **No polling is involved.** A threshold breach *is* an event, because the count is
+  republished when it changes. This is the only requirement in this area that does not need the
+  periodic tick the worker still lacks.
+- **The count topic has no camera in it.** It is keyed by zone name alone, so two cameras
+  sharing a zone name have their counts summed. `verify_occupancy_zone_names_are_unique()` makes
+  that a hard config error rather than a silent doubling — a zone counted this way must have a
+  name no other camera uses.
+
+`ZoneOccupancyRule.evaluate` returns False for anything that is not a `zone_count` message, so
+ordinary object events cannot trigger it. Without that guard every tracked object would be
+tested against the threshold.
 
 ## Condition expressions
 

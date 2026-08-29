@@ -71,6 +71,19 @@ class EventDispatcher:
         # Register event callback
         self.mqtt_client.set_event_callback(self._dispatch_event)
 
+        # Zone occupancy rules read Frigate's own per-zone counts. Work out
+        # which zones any rule actually watches, and subscribe to just those.
+        self._zone_cameras = self._zones_watched_for_occupancy()
+
+        if self._zone_cameras:
+            self.mqtt_client.set_extra_topics(
+                [f"frigate/{zone}/#" for zone in self._zone_cameras],
+                self._dispatch_zone_count,
+            )
+            self.logger.info(
+                f"Watching occupancy of: {', '.join(sorted(self._zone_cameras))}"
+            )
+
         # Initialize action handlers
         self.actions: List[BaseAction] = []
         self._load_actions()
@@ -166,6 +179,73 @@ class EventDispatcher:
                 self.logger.error(f"✗ Failed to load action '{action_name}': {e}")
 
         self.logger.info(f"Loaded {len(self.actions)} action handler(s)")
+
+    def _zones_watched_for_occupancy(self) -> Dict[str, str]:
+        """zone name -> camera, for zones named by a zone_occupancy rule.
+
+        The camera cannot come from the topic (`frigate/<zone>/<label>` has no
+        camera in it), which is why verify_occupancy_zone_names_are_unique()
+        makes a shared zone name a config error.
+        """
+        mapping: Dict[str, str] = {}
+
+        try:
+            cameras = (self.frigate_api.get_config() or {}).get("cameras", {})
+        except Exception as e:
+            self.logger.warning(f"Could not read cameras for occupancy rules: {e}")
+            return mapping
+
+        for camera, camera_config in cameras.items():
+            for rule in camera_config.get("violations") or []:
+                if rule.get("type") == "zone_occupancy" and rule.get("zone"):
+                    mapping[rule["zone"]] = camera
+
+        return mapping
+
+    def _dispatch_zone_count(self, topic: str, payload: str) -> None:
+        """Turn `frigate/<zone>/<label>[/active]` into an event rules can read.
+
+        Frigate republishes these whenever a count changes, so a threshold
+        breach arrives as an event and needs no polling.
+        """
+        parts = topic.split("/")
+
+        # frigate/<zone>/<label> or frigate/<zone>/<label>/active
+        if len(parts) < 3 or parts[0] != "frigate":
+            return
+
+        zone = parts[1]
+        count_label = parts[2]
+        active_only = len(parts) > 3 and parts[3] == "active"
+
+        # `/active` counts only non-stationary objects. Occupancy is about
+        # presence, so use the plain count and ignore the active variant.
+        if active_only:
+            return
+
+        camera = self._zone_cameras.get(zone)
+
+        if not camera:
+            return
+
+        try:
+            count = int(payload)
+        except (TypeError, ValueError):
+            return
+
+        self._dispatch_event(
+            {
+                "type": "zone_count",
+                "after": {
+                    "camera": camera,
+                    "zone": zone,
+                    "count_label": count_label,
+                    "count": count,
+                    "label": count_label,
+                    "current_zones": [zone],
+                },
+            }
+        )
 
     def _dispatch_event(self, event_data: Dict[str, Any]) -> None:
         """

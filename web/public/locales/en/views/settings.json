@@ -1099,7 +1099,17 @@
       "objectsOther": "Other model objects",
       "objectsWillTrack": "{{objects}} will be added to {{camera}}'s tracked objects so the rule can fire.",
       "objectsUnsupported": "The detection model cannot detect {{objects}}, so this part of the rule will never fire. Remove it, or switch to a model that supports it.",
-      "objectsUnsupportedGroup": "Not supported by the current model"
+      "objectsUnsupportedGroup": "Not supported by the current model",
+      "occupancyZone": "Zone to count",
+      "countLabel": "What to count",
+      "countAll": "Everything tracked",
+      "minCount": "Minimum",
+      "maxCount": "Maximum",
+      "noMinimum": "no minimum",
+      "noMaximum": "no maximum",
+      "minCountHint": "Fires when the count drops below this — e.g. a post left unmanned.",
+      "maxCountHint": "Fires when the count rises above this — e.g. overcrowding.",
+      "occupancyZoneUnique": "Counts come from Frigate and are keyed by zone name, so a zone counted this way must have a name no other camera uses. Saving will tell you if it clashes."
     },
     "delete": {
       "title": "Delete rule?",

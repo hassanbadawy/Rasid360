@@ -324,6 +324,66 @@ class TestZoneSequenceAnyZone(unittest.TestCase):
         self.assertEqual(found, [])
 
 
+class TestZoneOccupancyRule(unittest.TestCase):
+    """Occupancy is fed by Frigate's own zone counts, which arrive as their own
+    message type -- not as object events."""
+
+    def rule(self, **overrides):
+        config = {"type": "zone_occupancy", "zone": "guard_post", "count_label": "person"}
+        config.update(overrides)
+        return create_rule("occupancy", config)
+
+    def count(self, zone="guard_post", label="person", n=0):
+        return {
+            "type": "zone_count",
+            "after": {
+                "camera": "cam",
+                "zone": zone,
+                "count_label": label,
+                "count": n,
+            },
+        }
+
+    def test_min_fires_when_zone_empties(self):
+        r = self.rule(min_count=1)
+        self.assertTrue(r.evaluate(self.count(n=0), {}))
+        self.assertFalse(r.evaluate(self.count(n=1), {}))
+
+    def test_max_fires_when_zone_overfills(self):
+        r = self.rule(count_label="all", max_count=5)
+        self.assertTrue(r.evaluate(self.count(label="all", n=6), {}))
+        self.assertFalse(r.evaluate(self.count(label="all", n=5), {}))
+
+    def test_range_fires_outside_both_ends(self):
+        r = self.rule(min_count=1, max_count=3)
+        self.assertTrue(r.evaluate(self.count(n=0), {}))
+        self.assertTrue(r.evaluate(self.count(n=4), {}))
+        self.assertFalse(r.evaluate(self.count(n=2), {}))
+
+    def test_ignores_other_zones_and_labels(self):
+        r = self.rule(min_count=1)
+        self.assertFalse(r.evaluate(self.count(zone="elsewhere", n=0), {}))
+        self.assertFalse(r.evaluate(self.count(label="car", n=0), {}))
+
+    def test_ignores_object_events(self):
+        """Critical: otherwise every tracked object would be tested against an
+        occupancy threshold and fire constantly."""
+        r = self.rule(min_count=1)
+        self.assertFalse(
+            r.evaluate(
+                event(label="person", current_zones=["guard_post"]), {}
+            )
+        )
+
+    def test_requires_a_zone(self):
+        with self.assertRaises(ValueError):
+            create_rule("bad", {"type": "zone_occupancy", "min_count": 1})
+
+    def test_requires_a_threshold(self):
+        with self.assertRaises(ValueError):
+            create_rule("bad", {"type": "zone_occupancy", "zone": "z"})
+
+
 class TestSpeedThreshold(unittest.TestCase):
     """speed_threshold narrows a sustained condition to over-limit objects.
 

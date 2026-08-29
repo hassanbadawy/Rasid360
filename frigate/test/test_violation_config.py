@@ -298,3 +298,90 @@ class TestUnsatisfiableConditions(unittest.TestCase):
     def test_not_on_in_zone_is_fine(self):
         """in_zone() is about the current object, so negating it is meaningful."""
         config_with([self.rule("detected(car) AND NOT in_zone(zone01)")])
+
+
+class TestZoneOccupancy(unittest.TestCase):
+    """Occupancy rules read Frigate's own per-zone counts, published to
+    `frigate/<zone>/<label>`. That topic is keyed by zone name with no camera in
+    it, so a shared zone name would silently sum two cameras."""
+
+    def rule(self, **overrides):
+        base = {
+            "name": "crowding",
+            "type": "zone_occupancy",
+            "zone": "zone01",
+            "count_label": "car",
+            "max_count": 3,
+        }
+        base.update(overrides)
+        return base
+
+    def test_max_count_rule_parses(self):
+        cfg = config_with([self.rule()])
+        rule = cfg.cameras["road01"].violations[0]
+        self.assertEqual(rule.zone, "zone01")
+        self.assertEqual(rule.max_count, 3)
+
+    def test_min_count_rule_parses(self):
+        cfg = config_with([self.rule(max_count=None, min_count=1)])
+        self.assertEqual(cfg.cameras["road01"].violations[0].min_count, 1)
+
+    def test_zone_is_required(self):
+        with self.assertRaises(ValueError) as ctx:
+            config_with([self.rule(zone=None)])
+        self.assertIn("zone", str(ctx.exception))
+
+    def test_a_threshold_is_required(self):
+        with self.assertRaises(ValueError) as ctx:
+            config_with([self.rule(max_count=None)])
+        self.assertIn("min_count or max_count", str(ctx.exception))
+
+    def test_impossible_range_is_rejected(self):
+        with self.assertRaises(ValueError) as ctx:
+            config_with([self.rule(min_count=5, max_count=2)])
+        self.assertIn("can never be satisfied", str(ctx.exception))
+
+    def test_zone_must_exist_on_the_camera(self):
+        with self.assertRaises(ValueError) as ctx:
+            config_with([self.rule(zone="nosuchzone")])
+        self.assertIn("nosuchzone", str(ctx.exception))
+
+    def test_counted_label_must_be_tracked(self):
+        with self.assertRaises(ValueError) as ctx:
+            config_with([self.rule(count_label="bicycle")])
+        self.assertIn("bicycle", str(ctx.exception))
+
+    def test_all_is_a_wildcard_not_a_label(self):
+        """`all` matches Frigate's frigate/<zone>/all topic and must not be
+        validated as an object label."""
+        config_with([self.rule(count_label="all")])
+
+    def test_shared_zone_name_is_rejected(self):
+        """The count topic has no camera in it, so two cameras sharing a zone
+        name would have their counts combined."""
+        cfg = copy.deepcopy(BASE_CONFIG)
+        cfg["cameras"]["road02"] = copy.deepcopy(cfg["cameras"]["road01"])
+        cfg["cameras"]["road01"]["violations"] = [self.rule()]
+
+        with self.assertRaises(ValueError) as ctx:
+            FrigateConfig(**cfg)
+
+        message = str(ctx.exception)
+        self.assertIn("zone01", message)
+        self.assertIn("road02", message)
+
+    def test_shared_zone_name_is_fine_without_an_occupancy_rule(self):
+        """Only occupancy rules read the ambiguous topic; sharing a zone name is
+        otherwise legitimate."""
+        cfg = copy.deepcopy(BASE_CONFIG)
+        cfg["cameras"]["road02"] = copy.deepcopy(cfg["cameras"]["road01"])
+        cfg["cameras"]["road01"]["violations"] = [
+            {
+                "name": "wrongway",
+                "type": "zone_sequence",
+                "from_zones": ["zone01"],
+                "to_zone": "wrongzone",
+                "vehicle_types": ["car"],
+            }
+        ]
+        FrigateConfig(**cfg)

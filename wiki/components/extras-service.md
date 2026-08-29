@@ -65,6 +65,20 @@ config with `config.get(key, default)`, which returns the null rather than the d
 (`_on_connect(client, userdata, flags, reason_code, properties)`), subscribes to
 `frigate/events`, and parses each payload as JSON before invoking the registered callback.
 
+**A second class of topic** was added on 2026-08-29 for `zone_occupancy` rules. Frigate
+republishes a zone's object count on every change to `frigate/<zone>/<label>`, and the payload is
+a **bare integer, not event JSON** — so `_on_message` routes anything that is not
+`frigate/events` to a separate raw callback instead of parsing it as an event.
+
+`EventDispatcher` works out which zones any rule actually watches
+(`_zones_watched_for_occupancy`), subscribes to only those, and turns each count into a
+`{"type": "zone_count", ...}` event carrying the camera. The camera has to be attached here
+because the topic does not contain one — which is also why a zone counted this way must have a
+name unique across cameras, enforced at config parse time.
+
+Rules that read it are described in
+[DSL Rule Language](../concepts/dsl-rule-language.md) § `zone_occupancy`.
+
 Events arrive with `before` / `after` state dicts; rules read from `after`.
 
 ## Frigate API layer

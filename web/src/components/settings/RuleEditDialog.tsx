@@ -86,6 +86,11 @@ const RULE_TYPES: {
     label: "Person fallen",
     hint: "Fires when a person's bounding box becomes wider than it is tall.",
   },
+  {
+    value: "zone_occupancy",
+    label: "How many are in a zone",
+    hint: "Fires when the number of objects in a zone goes above the maximum or below the minimum. Counts come from Frigate itself, so this reacts as soon as the count changes.",
+  },
 ];
 
 /** Zone-and-objects rules always take the same condition shape, so the form
@@ -178,6 +183,12 @@ export default function RuleEditDialog({
   const [vehicleTypes, setVehicleTypes] = useState<string[]>([]);
   const [minDetections, setMinDetections] = useState(1);
 
+  // zone_occupancy
+  const [occupancyZone, setOccupancyZone] = useState("");
+  const [countLabel, setCountLabel] = useState("all");
+  const [minCount, setMinCount] = useState<string>("");
+  const [maxCount, setMaxCount] = useState<string>("");
+
   // fall_down
   const [widthHeightRatio, setWidthHeightRatio] = useState(1.2);
   const [minDuration, setMinDuration] = useState(3);
@@ -209,6 +220,11 @@ export default function RuleEditDialog({
     setToZone(rule?.to_zone ?? "");
     setVehicleTypes(rule?.vehicle_types ?? []);
     setMinDetections(rule?.min_detections ?? 1);
+
+    setOccupancyZone(rule?.zone ?? "");
+    setCountLabel(rule?.count_label ?? "all");
+    setMinCount(rule?.min_count === undefined ? "" : String(rule.min_count));
+    setMaxCount(rule?.max_count === undefined ? "" : String(rule.max_count));
 
     setWidthHeightRatio(rule?.width_height_ratio ?? 1.2);
     setMinDuration(Number(rule?.min_duration ?? 3));
@@ -246,12 +262,24 @@ export default function RuleEditDialog({
       if (!toZone) return "Choose a destination zone.";
       if (vehicleTypes.length === 0) return "Choose at least one object.";
     }
+    if (type === "zone_occupancy") {
+      if (!occupancyZone) return "Choose a zone to count.";
+      if (minCount === "" && maxCount === "")
+        return "Set a minimum, a maximum, or both.";
+      const lo = minCount === "" ? undefined : Number(minCount);
+      const hi = maxCount === "" ? undefined : Number(maxCount);
+      if (lo !== undefined && hi !== undefined && lo > hi)
+        return "The minimum is above the maximum, so the rule can never fire.";
+    }
     return undefined;
   }, [
     nameError,
     usesCondition,
     condition,
     type,
+    occupancyZone,
+    minCount,
+    maxCount,
     fromZones,
     toZone,
     vehicleTypes,
@@ -294,6 +322,12 @@ export default function RuleEditDialog({
       next.vehicle_types = vehicleTypes;
       next.min_detections = minDetections;
     }
+    if (type === "zone_occupancy") {
+      next.zone = occupancyZone;
+      next.count_label = countLabel;
+      if (minCount !== "") next.min_count = Number(minCount);
+      if (maxCount !== "") next.max_count = Number(maxCount);
+    }
     if (type === "fall_down") {
       next.object_type = "person";
       next.width_height_ratio = widthHeightRatio;
@@ -306,6 +340,8 @@ export default function RuleEditDialog({
     if (usesCondition) objects.forEach((o) => needed.add(o));
     if (type === "zone_sequence") vehicleTypes.forEach((o) => needed.add(o));
     if (type === "fall_down") needed.add("person");
+    if (type === "zone_occupancy" && countLabel && countLabel !== "all")
+      needed.add(countLabel);
 
     const newTracked = [...needed].filter((o) => !trackedObjects.includes(o));
 
@@ -333,6 +369,10 @@ export default function RuleEditDialog({
     objects,
     trackedObjects,
     targetCamera,
+    occupancyZone,
+    countLabel,
+    minCount,
+    maxCount,
     onSave,
     onOpenChange,
   ]);
@@ -673,6 +713,74 @@ export default function RuleEditDialog({
                   {t("rules.field.minDetectionsHint")}
                 </div>
               </div>
+            </>
+          )}
+
+          {type === "zone_occupancy" && (
+            <>
+              <Label>{t("rules.field.occupancyZone")}</Label>
+              <Select value={occupancyZone} onValueChange={setOccupancyZone}>
+                <SelectTrigger>
+                  <SelectValue placeholder={t("rules.field.selectZone")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {zones.map((z) => (
+                    <SelectItem key={z} value={z}>
+                      {z}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Label>{t("rules.field.countLabel")}</Label>
+              <Select value={countLabel} onValueChange={setCountLabel}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    {t("rules.field.countAll")}
+                  </SelectItem>
+                  {modelObjects.map((o) => (
+                    <SelectItem key={o} value={o}>
+                      {o}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-2">
+                  <Label>{t("rules.field.minCount")}</Label>
+                  <Input
+                    type="number"
+                    min={0}
+                    value={minCount}
+                    placeholder={t("rules.field.noMinimum")}
+                    onChange={(e) => setMinCount(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {t("rules.field.minCountHint")}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label>{t("rules.field.maxCount")}</Label>
+                  <Input
+                    type="number"
+                    min={0}
+                    value={maxCount}
+                    placeholder={t("rules.field.noMaximum")}
+                    onChange={(e) => setMaxCount(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {t("rules.field.maxCountHint")}
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-xs text-muted-foreground">
+                {t("rules.field.occupancyZoneUnique")}
+              </p>
             </>
           )}
 

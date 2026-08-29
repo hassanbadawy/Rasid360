@@ -59,6 +59,18 @@ Two constraints make that work, both from the config validators:
 A selected label the model cannot produce is shown in its own group and flagged: it parses
 cleanly and then never fires. See [Known Issues](../health/known-issues.md) #19.
 
+## Rule types in the dialog
+
+Five of the engine's seven types are reachable: `zone_object`, `sustained_condition`,
+`zone_sequence`, `fall_down`, and `zone_occupancy` (added 2026-08-29). `object_logic` and
+`proximity` remain engine-only.
+
+`zone_occupancy` asks for a zone, what to count (`all`, or one model label), and a minimum
+and/or maximum. The form rejects a minimum above a maximum before saving, and the note under it
+explains that a counted zone needs a name no other camera uses — because Frigate's count topic
+is keyed by zone name alone. The config validator enforces that too, so a clash fails the save
+with the clashing camera named.
+
 ## Where the rules come from
 
 **`GET /api/config/violations`**, not `GET /api/config`.

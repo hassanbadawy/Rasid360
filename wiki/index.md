@@ -2,7 +2,7 @@
 type: overview
 status: current
 sources: [wiki]
-updated: 2026-08-28
+updated: 2026-08-29
 ---
 
 # Wiki Index
@@ -84,6 +84,8 @@ One page per subsystem, mapped to real paths.
 |---|---|
 | How does a violation get detected? | [Violation Lifecycle](concepts/violation-lifecycle.md) |
 | How do I add a new violation type? | [Rules Editor](components/web-rules-editor.md), [DSL Rule Language](concepts/dsl-rule-language.md) |
+| Can a rule count how many are in a zone? | [DSL Rule Language](concepts/dsl-rule-language.md) § `zone_occupancy` |
+| Why can't a rule say "A without B"? | [DSL Rule Language](concepts/dsl-rule-language.md) § Conditions cannot express co-presence |
 | Why is my new rule not firing? | [DSL Engine](components/dsl-engine.md) § Validation, [Configuration](operations/configuration.md) |
 | Why is a chart empty? | [Known Issues](health/known-issues.md) #1, #11 |
 | Why are the violation counts too high? | [Known Issues](health/known-issues.md) #2 |

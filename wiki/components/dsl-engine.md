@@ -47,6 +47,15 @@ The implementation behind [DSL Rule Language](../concepts/dsl-rule-language.md).
 | Spatial | `check_proximity` |
 | Housekeeping | `cleanup`, `get_statistics` |
 
+### Not all rules read object events
+
+`ZoneOccupancyRule` is the exception to the shape everything else follows. It is evaluated
+against `{"type": "zone_count", ...}` messages synthesised from Frigate's own per-zone counts,
+and returns False for anything else — including ordinary object events, which would otherwise
+test every tracked object against an occupancy threshold.
+
+It keeps no state: the count arrives complete, so there is nothing to accumulate.
+
 ### Condition keys
 
 State is keyed by composite strings of the form `{object_id}:{rule_name}:{suffix}` — for example

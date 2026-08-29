@@ -4,7 +4,8 @@ export type ViolationRuleType =
   | "zone_sequence"
   | "sustained_condition"
   | "proximity"
-  | "fall_down";
+  | "fall_down"
+  | "zone_occupancy";
 
 /**
  * A violation rule as stored under cameras.<name>.violations in the Frigate
@@ -39,6 +40,12 @@ export type ViolationRule = {
   object_type?: string;
   width_height_ratio?: number;
   min_duration?: number;
+
+  // zone_occupancy -- how many objects are in a zone right now
+  zone?: string;
+  count_label?: string;
+  min_count?: number;
+  max_count?: number;
 
   // proximity
   first_object?: string;

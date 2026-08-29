@@ -369,6 +369,68 @@ class ActionRule(Rule):
         return event_data.get("after", {}).get("label", "object")
 
 
+class ZoneOccupancyRule(Rule):
+    """Fires when the number of objects in a zone leaves a configured range.
+
+    Driven by Frigate's own per-zone counts rather than by object events:
+    CameraActivityManager republishes `frigate/<zone>/<label>` and
+    `frigate/<zone>/all` whenever a count changes, so a threshold breach is
+    itself an event and needs no polling.
+
+    Because that topic is keyed by zone name with no camera in it, a zone
+    watched this way must have a name unique across cameras -- enforced by
+    verify_occupancy_zone_names_are_unique() at config parse time.
+
+    Example:
+        zone: guard_post
+        count_label: person
+        min_count: 1        # nobody on post
+    """
+
+    def __init__(self, name: str, config: Dict[str, Any]):
+        super().__init__(name, config)
+
+        self.zone = config.get("zone")
+        self.count_label = config.get("count_label", "all")
+        self.min_count = config.get("min_count")
+        self.max_count = config.get("max_count")
+
+        if not self.zone:
+            raise ValueError(f"ZoneOccupancyRule '{name}' missing 'zone'")
+        if self.min_count is None and self.max_count is None:
+            raise ValueError(
+                f"ZoneOccupancyRule '{name}' needs min_count or max_count"
+            )
+
+    def evaluate(self, event_data: Dict[str, Any], context: Dict[str, Any]) -> bool:
+        # Only zone-count messages, never object events -- otherwise every
+        # tracked object would be tested against an occupancy threshold.
+        if event_data.get("type") != "zone_count":
+            return False
+
+        after = event_data.get("after", {})
+
+        if after.get("zone") != self.zone:
+            return False
+        if after.get("count_label") != self.count_label:
+            return False
+
+        count = after.get("count")
+
+        if not isinstance(count, int):
+            return False
+
+        if self.max_count is not None and count > self.max_count:
+            return True
+        if self.min_count is not None and count < self.min_count:
+            return True
+
+        return False
+
+    def get_violation_label(self, event_data: Dict[str, Any]) -> str:
+        return self.count_label
+
+
 def create_rule(name: str, rule_config: Dict[str, Any]) -> Rule:
     """
     Factory function to create appropriate rule type
@@ -397,6 +459,7 @@ def create_rule(name: str, rule_config: Dict[str, Any]) -> Rule:
         "sustained_condition": SustainedConditionRule,
         "proximity": ProximityRule,
         "fall_down": FallDownRule,
+        "zone_occupancy": ZoneOccupancyRule,
     }
 
     rule_class = rule_classes.get(rule_type)

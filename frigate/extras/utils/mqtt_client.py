@@ -32,6 +32,10 @@ class MQTTClient:
         self.username = username
         self.password = password
         self.client_id = client_id
+        # Extra topics to subscribe to alongside frigate/events, and a callback
+        # for their raw payloads. Used for zone occupancy counts.
+        self.extra_topics: list[str] = []
+        self.raw_callback = None
 
         self.logger = logging.getLogger(self.__class__.__name__)
         # Use paho-mqtt 2.x API (VERSION2 for proper callback signatures)
@@ -57,6 +61,20 @@ class MQTTClient:
         # Authentication
         if username and password:
             self.client.username_pw_set(username, password)
+
+    def set_extra_topics(self, topics, callback) -> None:
+        """Subscribe to additional topics whose payload is not event JSON.
+
+        `callback(topic, payload)` receives the raw string; the caller decides
+        what it means. Safe to call before or after connect -- subscriptions are
+        (re)issued in _on_connect.
+        """
+        self.extra_topics = list(topics)
+        self.raw_callback = callback
+
+        if self.connected:
+            for topic in self.extra_topics:
+                self.client.subscribe(topic)
 
     def set_event_callback(self, callback: Callable[[Dict[str, Any]], None]) -> None:
         """
@@ -111,6 +129,17 @@ class MQTTClient:
             # Subscribe to Frigate events topic
             self.client.subscribe("frigate/events")
             self.logger.info("Subscribed to frigate/events topic")
+
+            # Zone occupancy rules are driven by Frigate's own per-zone counts,
+            # which arrive on separate topics as bare integers rather than as
+            # event JSON.
+            for topic in self.extra_topics:
+                self.client.subscribe(topic)
+
+            if self.extra_topics:
+                self.logger.info(
+                    f"Subscribed to {len(self.extra_topics)} zone count topic(s)"
+                )
         else:
             self.connected = False
             self.logger.error(f"Failed to connect to MQTT broker. Return code: {reason_code}")
@@ -126,8 +155,18 @@ class MQTTClient:
     def _on_message(self, client, userdata, msg):
         """Callback when message received"""
         try:
+            payload = msg.payload.decode("utf-8")
+
+            # Zone count topics carry a bare integer, not event JSON. Hand them
+            # to the raw callback so the dispatcher can attach the camera --
+            # the topic is `frigate/<zone>/<label>` and has no camera in it.
+            if msg.topic != "frigate/events":
+                if self.raw_callback:
+                    self.raw_callback(msg.topic, payload)
+                return
+
             # Parse JSON payload
-            event_data = json.loads(msg.payload.decode("utf-8"))
+            event_data = json.loads(payload)
 
             self.logger.debug(f"Received event from topic: {msg.topic}")
 

@@ -52,6 +52,7 @@ from .camera.record import RecordConfig
 from .camera.review import ReviewConfig
 from .camera.snapshots import SnapshotsConfig
 from .camera.timestamp import TimestampStyleConfig
+from .camera.violation import ViolationTypeEnum
 from .camera_group import CameraGroupConfig
 from .classification import (
     AudioTranscriptionConfig,
@@ -276,6 +277,39 @@ def verify_violation_rules(camera_config: CameraConfig) -> None:
                 raise ValueError(
                     f"Violation rule '{rule.name}' on camera {camera_config.name} references "
                     f"object '{label}' which is not tracked. Tracked objects: {tracked}."
+                )
+
+
+def verify_occupancy_zone_names_are_unique(cameras: dict) -> None:
+    """A zone_occupancy rule reads Frigate's own per-zone counts, which are
+    published to `frigate/<zone>/<label>` -- keyed by zone name with no camera
+    in the topic. Two cameras sharing a zone name therefore have their counts
+    summed into one topic, and a min/max rule on it would silently count both.
+
+    Rather than let that be a footnote, make it a config error: a zone watched
+    for occupancy must have a name unique across all cameras.
+    """
+    owners: dict[str, list[str]] = {}
+
+    for name, camera_config in cameras.items():
+        for zone in camera_config.zones:
+            owners.setdefault(zone, []).append(name)
+
+    for name, camera_config in cameras.items():
+        for rule in camera_config.violations:
+            if rule.type != ViolationTypeEnum.zone_occupancy or not rule.zone:
+                continue
+
+            sharing = owners.get(rule.zone, [])
+
+            if len(sharing) > 1:
+                raise ValueError(
+                    f"Violation rule '{rule.name}' on camera {name} counts "
+                    f"occupancy of zone '{rule.zone}', but that zone name is "
+                    f"also used by {', '.join(c for c in sharing if c != name)}. "
+                    "Frigate publishes zone counts per zone name, not per "
+                    "camera, so the counts would be combined. Rename the zone "
+                    "so it is unique."
                 )
 
 
@@ -715,6 +749,8 @@ class FrigateConfig(FrigateBaseModel):
             verify_motion_and_detect(camera_config)
             verify_objects_track(camera_config, labelmap_objects)
             verify_lpr_and_face(self, camera_config)
+
+        verify_occupancy_zone_names_are_unique(self.cameras)
 
         # set names on classification configs
         for name, config in self.classification.custom.items():
