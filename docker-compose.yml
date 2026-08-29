@@ -18,6 +18,11 @@ services:
     # Frigate once. Not worth it here. Recompute after changing cameras:
     #   calculate_shm_requirements() in frigate/util/services.py
     shm_size: "512mb"
+    # The UI's Restart button SIGTERMs pid 1 (s6-svscan), so s6 shuts the whole
+    # container down -- that is by design, and production relies on the restart
+    # policy to bring it straight back. Without one here, pressing Restart
+    # stopped the dev stack permanently.
+    restart: unless-stopped
     build:
       context: .
       dockerfile: docker/main/Dockerfile

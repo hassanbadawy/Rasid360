@@ -1,0 +1,35 @@
+#!/command/with-contenv bash
+# shellcheck shell=bash
+# Start the real Frigate Extras violation worker on the devcontainer.
+#
+# See devcontainer_frigate_run for why this is no longer a fake loop. Without a
+# supervised extras worker, a container restart leaves Frigate running and
+# violation detection silently dead, which is the failure mode known issue #3
+# was filed for.
+#
+# Differs from the production run script only in paths: the devcontainer reads
+# the bind-mounted source at /workspace/frigate.
+
+set -o errexit -o nounset -o pipefail
+
+# Logs should be sent to stdout so that s6 can collect them
+
+readonly config_file="/workspace/frigate/frigate/extras/config.yml"
+
+if [[ ! -f "${config_file}" ]]; then
+    echo "[WARN] No extras config at ${config_file}, not starting frigate-extras"
+    # Tell S6-Overlay not to restart this service -- without this the missing
+    # config would produce a restart loop rather than a single clear message.
+    s6-svc -O .
+    exec sleep infinity
+fi
+
+echo "[INFO] Starting Frigate Extras from /workspace/frigate..."
+
+cd /workspace/frigate || echo "[ERROR] Failed to change working directory to /workspace/frigate"
+
+# Deliberately no `s6-svc -O`: if the worker dies we want s6 to restart it,
+# since violation detection failing silently is indistinguishable from a quiet
+# period.
+exec 2>&1
+exec python3 -u -m frigate.extras.main

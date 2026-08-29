@@ -282,12 +282,19 @@ HEALTHCHECK --start-period=300s --start-interval=5s --interval=15s --timeout=5s 
 # Frigate deps with Node.js and NPM for devcontainer
 FROM deps AS devcontainer
 
-# Do not start the actual Frigate service on devcontainer as it will be started by VS Code
-# But start a fake service for simulating the logs
-COPY docker/main/fake_frigate_run /etc/s6-overlay/s6-rc.d/frigate/run
-
-# Likewise for the extras worker -- run-dev.sh starts it on the devcontainer
-COPY docker/main/fake_frigate_extras_run /etc/s6-overlay/s6-rc.d/frigate-extras/run
+# Run the real services on the devcontainer, from the bind-mounted source.
+#
+# These were fake heartbeat loops, on the assumption that VS Code or run-dev.sh
+# would start Frigate by hand. That made the UI's Restart button a one-way door:
+# restart_frigate() SIGTERMs pid 1 (s6-svscan), s6 takes the container down, and
+# with nothing supervising Frigate the app never came back. Supervising the real
+# processes here -- with `restart: unless-stopped` on the compose service --
+# makes Restart behave as it does in production.
+#
+# run-dev.sh still works unchanged: its pgrep guard sees the supervised process
+# and skips its manual start.
+COPY docker/main/devcontainer_frigate_run /etc/s6-overlay/s6-rc.d/frigate/run
+COPY docker/main/devcontainer_frigate_extras_run /etc/s6-overlay/s6-rc.d/frigate-extras/run
 
 # Create symbolic link to the frigate source code, as go2rtc's create_config.sh uses it
 RUN mkdir -p /opt/frigate \
