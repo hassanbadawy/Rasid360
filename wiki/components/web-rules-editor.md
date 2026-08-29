@@ -1,7 +1,7 @@
 ---
 type: component
 status: current
-sources: [web/src/views/settings/RulesView.tsx, web/src/components/settings/RuleEditDialog.tsx, web/src/types/violation.ts, web/src/pages/Settings.tsx, frigate/api/app.py, web/src/lib/violationRules.ts, frigate/config/camera/violation.py]
+sources: [web/src/views/settings/RulesView.tsx, web/src/components/settings/RuleEditDialog.tsx, web/src/types/violation.ts, web/src/pages/Settings.tsx, frigate/api/app.py, web/src/lib/violationRules.ts, frigate/config/camera/violation.py, web/src/components/ui/popover.tsx]
 updated: 2026-08-29
 ---
 
@@ -71,6 +71,17 @@ explains that a counted zone needs a name no other camera uses — because Friga
 is keyed by zone name alone. The config validator enforces that too, so a clash fails the save
 with the clashing camera named.
 
+## The list shows every camera
+
+The page used to show only the rules of the camera picked in the settings header, which meant
+most rules were invisible and disabling a camera made its rules look deleted — they were still
+in the config and would fire the moment the camera came back.
+
+It now lists every rule on every camera, sorted by camera then name, headed `Camera — Rule`.
+Rules on a disabled camera stay listed and are marked. Rule names are only unique *within* a
+camera, so the accessible names on the toggle, edit and delete controls are camera-qualified
+too; `wrongway` exists on both Road01 and Road04.
+
 ## Where the rules come from
 
 **`GET /api/config/violations`**, not `GET /api/config`.
@@ -114,6 +125,24 @@ a deliberately bad rule returns `success: false` and leaves the file unchanged.
 Saved changes need a Frigate restart to take effect, so the view raises a persistent status-bar
 message via `addMessage("rules_restart", ...)`, matching `EnrichmentsSettingsView`. Local state
 is updated immediately so the list reflects the save without waiting for that restart.
+
+## A dropdown inside a dialog needs `disablePortal`
+
+The object multiselect could not select or deselect anything: the list appeared, but every click
+closed it and changed nothing.
+
+A modal Radix `Dialog` sets `pointer-events: none` on `<body>` and re-enables it only on the
+dialog content. `PopoverContent` portals to `<body>` by default, so it inherited
+`pointer-events: none` — measured directly, the option's computed `pointer-events` was `none`
+and `document.elementFromPoint` over an option returned the dialog behind it. Clicks passed
+through to the dialog, which Radix read as an outside interaction and closed the popover.
+
+`PopoverContent` takes a `disablePortal` prop, which renders it inside the dialog where pointer
+events are live. Any dropdown added inside a dialog needs it.
+
+It is not a z-index problem, which is the obvious first guess — raising the popover above the
+dialog changes nothing, because the element is not being covered, it is not accepting pointer
+events at all.
 
 ## Validation, three layers deep
 

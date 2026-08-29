@@ -662,3 +662,46 @@ counts; `web/src/lib/violationRules.ts` backs the editor page. Without these the
 would not flag those pages when the code changes.
 
 Lint clean: no dead sources, no dead links, no orphans.
+
+## [2026-08-29] fix | Four UI defects found by driving the app, one of them a Radix trap
+
+All four reported after using the new screens, all now fixed and covered by 56 Playwright checks.
+
+**The multiselect could not select or deselect anything.** The list appeared and every click
+closed it, changing nothing. Two wrong guesses first — component identity (`Row` declared inside
+the render) and z-index — before measuring instead of theorising:
+
+```
+bodyPointerEvents: none     optionPE: none
+elementFromPoint(over an option) -> the dialog behind it
+```
+
+A modal Radix `Dialog` sets `pointer-events: none` on `<body>` and re-enables it only on the
+dialog content. `PopoverContent` portals to `<body>`, so it inherited `none`: clicks passed
+through to the dialog, which read them as outside interactions and closed the popover. Fixed
+with the `disablePortal` prop the component already had. **Raising the z-index does nothing** —
+the element is not covered, it is not accepting pointer events at all. Documented in
+[Rules Editor](components/web-rules-editor.md) so the next dropdown-in-a-dialog is not debugged
+from scratch.
+
+**Only one camera's rules were listed.** The page showed the camera picked in the settings
+header. It now lists every rule on every camera, headed `Camera — Rule`. The control
+`aria-label`s are camera-qualified too, since rule names are unique only within a camera —
+`wrongway` exists on both Road01 and Road04.
+
+**Disabling a camera made its rules vanish.** A direct consequence of making the camera toggle
+persist earlier the same day: `enabled_in_config` went false and the camera dropped out of the
+list. Rules on disabled cameras now stay listed and are marked, because they are still in the
+config and fire the moment the camera returns.
+
+**Rule headers now carry the camera**, as requested.
+
+**Testing.** Five Playwright suites, 56 checks: the Recording page (fields, presets, per-camera
+override round trip incl. pruning), the rules list, the rule dialog (camera picker, `any` zones,
+multiselect select/deselect/reselect, unsupported-label warning), `zone_occupancy` create →
+verify in config → delete, moving a rule between cameras, the condition guard disabling Save, and
+camera enable/disable with a 250ms UI response and a persisted write. Config verified
+byte-identical to a pre-test snapshot afterwards, so none of it leaked into the deployment.
+
+Two testability additions while doing it: `data-testid="object-picker"`, and `id` on the
+min/max count inputs, matching the `cooldown` and `duration` fields next to them.

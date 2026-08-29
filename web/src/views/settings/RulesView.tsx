@@ -64,9 +64,15 @@ export default function RulesView({
   const { data: config, mutate: updateConfig } =
     useSWR<Rasid360Config>("config");
 
-  const [editing, setEditing] = useState<ViolationRule | undefined>();
+  // Both carry the camera: the list spans cameras, so a rule name alone is
+  // not enough to identify which one to write back.
+  const [editing, setEditing] = useState<
+    { camera: string; rule: ViolationRule } | undefined
+  >();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [deleting, setDeleting] = useState<ViolationRule | undefined>();
+  const [deleting, setDeleting] = useState<
+    { camera: string; rule: ViolationRule } | undefined
+  >();
   const [saving, setSaving] = useState(false);
   const { addMessage } = useContext(StatusBarMessagesContext)!;
 
@@ -90,36 +96,31 @@ export default function RulesView({
     cameras?: Record<string, { objects?: { track?: string[] } } | undefined>;
   }>("config/file");
 
-  const configRules = useMemo<ViolationRule[]>(
-    () => (selectedCamera ? (fileRules?.[selectedCamera] ?? []) : []),
-    [fileRules, selectedCamera],
-  );
-  const [rules, setRules] = useState<ViolationRule[]>([]);
-
-  useEffect(() => {
-    setRules(configRules);
-  }, [configRules, selectedCamera]);
+  // The list is built from fileRules directly now -- there is no per-camera
+  // local copy to keep in step, since the page shows every camera at once.
 
   // Every camera the rule could be moved to, with the zones and tracked
   // objects a rule on it is validated against.
+  // Every camera, not just the enabled ones. Disabling a camera used to make
+  // its rules vanish from this page -- the rules are still in the config and
+  // still fire the moment the camera comes back, so hiding them was misleading.
   const ruleCameras = useMemo(
     () =>
-      Object.entries(config?.cameras ?? {})
-        .filter(([, c]) => c.enabled_in_config)
-        .map(([name, c]) => ({
-          name,
-          zones: Object.keys(c.zones ?? {}),
-          // The *authored* track list, from the config file -- not /api/config.
-          // verify_objects_track() strips labels the model cannot produce and
-          // runs AFTER verify_violation_rules(), so rules are validated against
-          // what the file says. Reading the stripped runtime list would make the
-          // dialog offer to re-add labels the config already has.
-          trackedObjects:
-            fileTracked?.cameras?.[name]?.objects?.track ??
-            fileTracked?.objects?.track ??
-            [],
-          ruleNames: (fileRules?.[name] ?? []).map((r) => r.name),
-        })),
+      Object.entries(config?.cameras ?? {}).map(([name, c]) => ({
+        name,
+        zones: Object.keys(c.zones ?? {}),
+        // The *authored* track list, from the config file -- not /api/config.
+        // verify_objects_track() strips labels the model cannot produce and
+        // runs AFTER verify_violation_rules(), so rules are validated against
+        // what the file says. Reading the stripped runtime list would make the
+        // dialog offer to re-add labels the config already has.
+        trackedObjects:
+          fileTracked?.cameras?.[name]?.objects?.track ??
+          fileTracked?.objects?.track ??
+          [],
+        ruleNames: (fileRules?.[name] ?? []).map((r) => r.name),
+        enabled: c.enabled_in_config !== false,
+      })),
     [config, fileRules, fileTracked],
   );
 
@@ -175,8 +176,6 @@ export default function RulesView({
 
         if (response.status === 200 && response.data.success !== false) {
           toast.success(t(successKey), { position: "top-center" });
-          // only reflect locally when we wrote the camera being displayed
-          if (target === selectedCamera) setRules(next);
           updateFileRules();
           updateConfig();
           setUnsavedChanges(false);
@@ -212,14 +211,15 @@ export default function RulesView({
 
   const handleSave = useCallback(
     (rule: ViolationRule, targetCamera: string, newTracked: string[]) => {
-      const movedCamera = targetCamera !== selectedCamera;
+      // Where the rule came from, if we are editing rather than adding.
+      const sourceCamera = editing?.camera;
+      const movedCamera = !!sourceCamera && targetCamera !== sourceCamera;
 
-      // Rules on the destination camera, which is not necessarily this page's.
-      const targetRules = movedCamera
-        ? (fileRules?.[targetCamera] ?? [])
-        : rules;
+      const targetRules = fileRules?.[targetCamera] ?? [];
+      const index = editing
+        ? targetRules.findIndex((r) => r.name === editing.rule.name)
+        : -1;
 
-      const index = targetRules.findIndex((r) => r.name === editing?.name);
       const next = [...targetRules];
       if (index >= 0 && !movedCamera) next[index] = rule;
       else next.push(rule);
@@ -237,33 +237,67 @@ export default function RulesView({
 
       // Moving a rule means dropping it from the camera it came from.
       const alsoWrite =
-        movedCamera && editing
-          ? { [selectedCamera]: rules.filter((r) => r.name !== editing.name) }
+        movedCamera && sourceCamera
+          ? {
+              [sourceCamera]: (fileRules?.[sourceCamera] ?? []).filter(
+                (r) => r.name !== editing.rule.name,
+              ),
+            }
           : undefined;
 
       persist(next, "rules.toast.saved", targetCamera, extra, alsoWrite);
     },
-    [rules, editing, persist, selectedCamera, fileRules, ruleCameras],
+    [editing, persist, fileRules, ruleCameras],
+  );
+
+  // Every rule on every camera, in one list. Rules used to be shown only for
+  // the camera picked in the header, which meant most of them were invisible
+  // and disabling a camera made its rules look deleted.
+  const allRules = useMemo(
+    () =>
+      Object.entries(fileRules ?? {})
+        .flatMap(([camera, list]) =>
+          (list ?? []).map((rule) => ({ camera, rule })),
+        )
+        .sort(
+          (a, b) =>
+            a.camera.localeCompare(b.camera) ||
+            a.rule.name.localeCompare(b.rule.name),
+        ),
+    [fileRules],
+  );
+
+  const cameraEnabled = useCallback(
+    (camera: string) =>
+      ruleCameras.find((c) => c.name === camera)?.enabled ?? true,
+    [ruleCameras],
   );
 
   const handleToggle = useCallback(
-    (rule: ViolationRule, enabled: boolean) => {
-      const next = rules.map((r) =>
+    (camera: string, rule: ViolationRule, enabled: boolean) => {
+      const next = (fileRules?.[camera] ?? []).map((r) =>
         r.name === rule.name ? { ...r, enabled } : r,
       );
-      persist(next, enabled ? "rules.toast.enabled" : "rules.toast.disabled");
+      persist(
+        next,
+        enabled ? "rules.toast.enabled" : "rules.toast.disabled",
+        camera,
+      );
     },
-    [rules, persist],
+    [fileRules, persist],
   );
 
   const handleDelete = useCallback(() => {
     if (!deleting) return;
     persist(
-      rules.filter((r) => r.name !== deleting.name),
+      (fileRules?.[deleting.camera] ?? []).filter(
+        (r) => r.name !== deleting.rule.name,
+      ),
       "rules.toast.deleted",
+      deleting.camera,
     );
     setDeleting(undefined);
-  }, [deleting, rules, persist]);
+  }, [deleting, fileRules, persist]);
 
   if (!config) {
     return <ActivityIndicator />;
@@ -305,22 +339,27 @@ export default function RulesView({
             </div>
           )}
 
-          {rules.length === 0 ? (
+          {allRules.length === 0 ? (
             <div className="my-8 text-center text-sm text-primary/60">
-              {t("rules.empty", { camera: selectedCamera })}
+              {t("rules.emptyAll")}
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              {rules.map((rule) => (
+              {allRules.map(({ camera, rule }) => (
                 <div
-                  key={rule.name}
+                  key={`${camera}/${rule.name}`}
                   className="flex flex-row items-center justify-between gap-4 rounded-lg bg-secondary p-3"
                 >
                   <div className="flex min-w-0 flex-col gap-1">
                     <div className="flex items-center gap-2">
                       <span className="font-medium smart-capitalize">
-                        {rule.name}
+                        {camera} — {rule.name}
                       </span>
+                      {!cameraEnabled(camera) && (
+                        <span className="rounded bg-background_alt px-1.5 py-0.5 text-xs text-primary/60">
+                          {t("rules.cameraDisabled")}
+                        </span>
+                      )}
                       <span
                         className={`rounded px-1.5 py-0.5 text-xs ${
                           SEVERITY_STYLES[rule.severity ?? "medium"]
@@ -348,15 +387,21 @@ export default function RulesView({
                     <Switch
                       checked={rule.enabled}
                       disabled={saving}
-                      aria-label={t("rules.toggle", { name: rule.name })}
-                      onCheckedChange={(checked) => handleToggle(rule, checked)}
+                      aria-label={t("rules.toggle", {
+                        name: `${camera} — ${rule.name}`,
+                      })}
+                      onCheckedChange={(checked) =>
+                        handleToggle(camera, rule, checked)
+                      }
                     />
                     <Button
                       size="sm"
                       disabled={saving}
-                      aria-label={t("rules.editRule", { name: rule.name })}
+                      aria-label={t("rules.editRule", {
+                        name: `${camera} — ${rule.name}`,
+                      })}
                       onClick={() => {
-                        setEditing(rule);
+                        setEditing({ camera, rule });
                         setDialogOpen(true);
                       }}
                     >
@@ -366,8 +411,10 @@ export default function RulesView({
                       size="sm"
                       className="text-danger"
                       disabled={saving}
-                      aria-label={t("rules.deleteRule", { name: rule.name })}
-                      onClick={() => setDeleting(rule)}
+                      aria-label={t("rules.deleteRule", {
+                        name: `${camera} — ${rule.name}`,
+                      })}
+                      onClick={() => setDeleting({ camera, rule })}
                     >
                       <LuTrash2 className="size-4" />
                     </Button>
@@ -382,8 +429,8 @@ export default function RulesView({
       <RuleEditDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        rule={editing}
-        camera={selectedCamera}
+        rule={editing?.rule}
+        camera={editing?.camera ?? selectedCamera}
         cameras={ruleCameras}
         modelObjects={modelObjects}
         onSave={handleSave}
@@ -397,7 +444,11 @@ export default function RulesView({
           <AlertDialogHeader>
             <AlertDialogTitle>{t("rules.delete.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t("rules.delete.desc", { name: deleting?.name })}
+              {t("rules.delete.desc", {
+                name: deleting
+                  ? `${deleting.camera} — ${deleting.rule.name}`
+                  : "",
+              })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

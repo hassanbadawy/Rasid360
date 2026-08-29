@@ -329,7 +329,13 @@ else
 
         # Start frontend development server inside the Docker container
         print_info "Starting frontend development server inside container..."
-        compose_exec_detached devcontainer bash -c "cd /workspace/frigate/web && npm run dev" > /dev/null 2>&1
+        # Vite is an s6 service on the devcontainer, so it is usually already
+        # up. Starting a second one would fight over port 5173.
+        if $COMPOSE_CMD exec -T devcontainer pgrep -f "vite" > /dev/null 2>&1; then
+            print_info "Vite already running (started by s6-supervise)"
+        else
+            compose_exec_detached devcontainer bash -c "cd /workspace/frigate/web && npm run dev" > /dev/null 2>&1
+        fi
 
         # Wait a moment for the frontend to start
         sleep 5

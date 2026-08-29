@@ -1,8 +1,8 @@
 ---
 type: component
 status: current
-sources: [web/src/hooks/use-navigation.ts, web/src/types/rasid360Config.ts, web/themes/theme-rasid360.css, web/src/context/theme-provider.tsx, web/public/locales, web/src/pages/Settings.tsx]
-updated: 2026-08-28
+sources: [web/src/views/settings/CameraManagementView.tsx, web/src/hooks/use-navigation.ts, web/src/types/rasid360Config.ts, web/themes/theme-rasid360.css, web/src/context/theme-provider.tsx, web/public/locales, web/src/pages/Settings.tsx]
+updated: 2026-08-29
 ---
 
 # Navigation & Branding
@@ -78,6 +78,22 @@ The Recording settings page (2026-08-28) does route everything through i18n: a `
 of ~50 keys was added to `web/public/locales/en/views/settings.json`, plus `menu.recording`.
 **English only** — the other locales do not carry the block yet, so those users see the English
 fallback. That is the same gap as above, now with the keys already in place to close it.
+
+## Camera enable/disable persists
+
+`Settings → Cameras → Management` toggles `cameras.<name>.enabled` in the config, not just the
+runtime state. It used to send only the websocket command, so a camera came back enabled after
+any restart — the one thing that switch is used to prevent.
+
+It is deliberately **not** driven by the websocket state. `Dispatcher._on_enabled_command`
+refuses `"ON"` unless `enabled_in_config` is true and returns early *without* publishing
+`<camera>/enabled/state`, so the websocket can only ever turn a camera off. Once the switch
+persisted a camera off, a websocket-driven switch could never turn it back on and would sit
+there refusing to move.
+
+So it reads the config, holds an optimistic local value so it responds to the click rather than
+to a round trip, and writes with `update_topic` so the change still applies without a restart.
+A failed write sends the switch back.
 
 ## Settings navigation
 

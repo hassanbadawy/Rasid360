@@ -296,15 +296,42 @@ FROM deps AS devcontainer
 COPY docker/main/devcontainer_frigate_run /etc/s6-overlay/s6-rc.d/frigate/run
 COPY docker/main/devcontainer_frigate_extras_run /etc/s6-overlay/s6-rc.d/frigate-extras/run
 
+# Supervise the Vite dev server too. Without it, pressing Restart left the API
+# up on 5001 and the dev frontend on 5173 dead, because run-dev.sh starts Vite
+# by hand and nothing brings a hand-started process back. Devcontainer only --
+# production serves the built assets through nginx.
+COPY docker/main/devcontainer_s6/ /etc/s6-overlay/s6-rc.d/
+
 # Create symbolic link to the frigate source code, as go2rtc's create_config.sh uses it
 RUN mkdir -p /opt/frigate \
     && ln -svf /workspace/frigate/frigate /opt/frigate/frigate
 
-# Install Node 20
+# Install Node 20.
+#
+# nsolid_setup_deb.sh can exit 0 without having configured the nodesource repo.
+# apt then falls back to Debian's own nodejs -- version 18, which does not ship
+# npm, since Debian packages that separately. The build failed several steps
+# later with a bare `npm: not found`, naming neither the version nor the cause.
+#
+# So: run the script, then check whether the repo actually took, and configure
+# it directly if not. The final assertion turns a silent wrong-version build
+# into a clear failure.
 RUN curl -SLO https://deb.nodesource.com/nsolid_setup_deb.sh && \
     chmod 500 nsolid_setup_deb.sh && \
-    ./nsolid_setup_deb.sh 20 && \
-    apt-get install nodejs -y \
+    ./nsolid_setup_deb.sh 20; \
+    if ! apt-cache policy nodejs 2>/dev/null | grep -q nodesource; then \
+        echo "[WARN] nsolid_setup_deb.sh did not configure the nodesource repo; doing it directly"; \
+        curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+            | gpg --dearmor -o /usr/share/keyrings/nodesource.gpg && \
+        echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" \
+            > /etc/apt/sources.list.d/nodesource.list && \
+        apt-get update; \
+    fi \
+    && apt-get install nodejs -y \
+    && if ! command -v npm > /dev/null; then \
+        echo "[ERROR] npm is missing after installing $(node -v 2>/dev/null). That means Debian's nodejs was used instead of nodesource's -- the repo is still not configured." >&2; \
+        exit 1; \
+    fi \
     && rm -rf /var/lib/apt/lists/* \
     && npm install -g npm@10
 

@@ -351,7 +351,10 @@
     "backToSettings": "Back to Camera Settings",
     "streams": {
       "title": "Enable / Disable Cameras",
-      "desc": "Temporarily disable a camera until Rasid360 restarts. Disabling a camera completely stops Rasid360's processing of this camera's streams. Detection, recording, and debugging will be unavailable.<br /> <em>Note: This does not disable go2rtc restreams.</em>"
+      "desc": "Enable or disable a camera. Disabling one completely stops Rasid360's processing of it, and its recordings and live view become unavailable. The change applies immediately and is saved, so it survives a restart.",
+      "toast": {
+        "error": "Could not change the camera. It is unchanged."
+      }
     },
     "cameraConfig": {
       "add": "Add Camera",
@@ -1051,7 +1054,7 @@
   "rules": {
     "documentTitle": "Violation Rules - Rasid360",
     "title": "Violation Rules",
-    "desc": "Rules decide which detections count as violations on this camera. They are checked against the camera's zones and tracked objects when saved, so a rule can only reference something that exists.",
+    "desc": "Every violation rule, across all cameras. Rules decide which detections count as violations. They are checked against their camera's zones and tracked objects when saved, so a rule can only reference something that exists.",
     "add": "Add Rule",
     "empty": "No violation rules for {{camera}} yet.",
     "disabled": "disabled",
@@ -1122,7 +1125,9 @@
       "disabled": "Rule disabled.",
       "error": "Could not save the rule."
     },
-    "restartRequired": "Restart required to apply violation rule changes."
+    "restartRequired": "Restart required to apply violation rule changes.",
+    "emptyAll": "No violation rules on any camera yet.",
+    "cameraDisabled": "camera disabled"
   },
   "recording": {
     "documentTitle": "Recording - Rasid360",

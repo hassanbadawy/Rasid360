@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -126,6 +127,137 @@ function parseCondition(condition?: string): {
       condition.replace(/\s+/g, "");
 
   return { zone, objects: objectMatches, simple };
+}
+
+/** Multiselect over every label the model can produce, grouped so the ones this
+ * camera already tracks are obvious. Picking an untracked label is allowed --
+ * the caller adds it to objects.track on save, because verify_violation_rules
+ * rejects a rule naming a label the camera does not track.
+ *
+ * Defined at module scope, not inside RuleEditDialog. A component declared in a
+ * render body is a NEW component type on every render, so React unmounts and
+ * remounts it whenever any state changes -- which closed this popover on the
+ * first click and made selecting anything look broken.
+ */
+function ObjectPicker({
+  selected,
+  onToggle,
+  modelObjects,
+  trackedObjects,
+  camera,
+  t,
+}: {
+  selected: string[];
+  onToggle: (value: string) => void;
+  modelObjects: string[];
+  trackedObjects: string[];
+  camera: string;
+  t: TFunction;
+}) {
+  const tracked = modelObjects.filter((o) => trackedObjects.includes(o));
+  const untracked = modelObjects.filter((o) => !trackedObjects.includes(o));
+  const adding = selected.filter(
+    (o) => modelObjects.includes(o) && !trackedObjects.includes(o),
+  );
+  const unsupported = selected.filter((o) => !modelObjects.includes(o));
+
+  // A plain function, NOT a component. Declaring `const Row = () => ...` here
+  // makes it a new component type on every render, so React unmounts and
+  // remounts every row whenever the selection changes -- that dropped focus and
+  // closed the popover after a single click, which made it impossible to pick
+  // more than one object.
+  const renderRow = (option: string) => (
+    <button
+      key={option}
+      type="button"
+      role="option"
+      aria-selected={selected.includes(option)}
+      onClick={() => onToggle(option)}
+      className={cn(
+        "flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-sm hover:bg-secondary",
+        selected.includes(option) && "text-selected",
+      )}
+    >
+      <span className="w-4 shrink-0">
+        {selected.includes(option) ? <LuCheck className="size-4" /> : null}
+      </span>
+      {option}
+    </button>
+  );
+
+  return (
+    <div className="flex flex-col gap-2">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="default"
+            data-testid="object-picker"
+            className="w-full justify-between font-normal"
+          >
+            <span className="truncate">
+              {selected.length
+                ? selected.join(", ")
+                : t("rules.field.selectObjects")}
+            </span>
+            <LuChevronDown className="ml-2 size-4 shrink-0 opacity-60" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="max-h-72 w-[--radix-popover-trigger-width] overflow-y-auto p-1"
+          align="start"
+          // Rendered inline rather than portalled to <body>. A modal Dialog
+          // sets `pointer-events: none` on the body, so a portalled popover
+          // inherits it: the list appeared, but every click passed straight
+          // through to the dialog, which Radix read as an outside interaction
+          // and closed it. Nothing could be selected or deselected.
+          disablePortal
+        >
+          {tracked.length > 0 && (
+            <>
+              <div className="px-2 py-1 text-xs font-medium text-muted-foreground">
+                {t("rules.field.objectsTracked", { camera })}
+              </div>
+              {tracked.map(renderRow)}
+            </>
+          )}
+          {untracked.length > 0 && (
+            <>
+              <div className="mt-1 border-t px-2 pb-1 pt-2 text-xs font-medium text-muted-foreground">
+                {t("rules.field.objectsOther")}
+              </div>
+              {untracked.map(renderRow)}
+            </>
+          )}
+          {unsupported.length > 0 && (
+            <>
+              <div className="mt-1 border-t px-2 pb-1 pt-2 text-xs font-medium text-danger">
+                {t("rules.field.objectsUnsupportedGroup")}
+              </div>
+              {unsupported.map(renderRow)}
+            </>
+          )}
+        </PopoverContent>
+      </Popover>
+
+      {adding.length > 0 && (
+        <p className="text-xs text-muted-foreground">
+          {t("rules.field.objectsWillTrack", {
+            objects: adding.join(", "),
+            camera,
+          })}
+        </p>
+      )}
+
+      {unsupported.length > 0 && (
+        <p className="text-xs text-danger">
+          {t("rules.field.objectsUnsupported", {
+            objects: unsupported.join(", "),
+          })}
+        </p>
+      )}
+    </div>
+  );
 }
 
 export default function RuleEditDialog({
@@ -379,121 +511,6 @@ export default function RuleEditDialog({
 
   const selectedType = RULE_TYPES.find((rt) => rt.value === type);
 
-  /** Multiselect over every label the model can produce, grouped so the ones
-   * this camera already tracks are obvious. Picking an untracked label is
-   * allowed -- the caller adds it to objects.track on save, because
-   * verify_violation_rules rejects a rule naming a label the camera does not
-   * track. */
-  const ObjectPicker = ({
-    selected,
-    onToggle,
-  }: {
-    selected: string[];
-    onToggle: (value: string) => void;
-  }) => {
-    const tracked = modelObjects.filter((o) => trackedObjects.includes(o));
-    const untracked = modelObjects.filter((o) => !trackedObjects.includes(o));
-    const adding = selected.filter(
-      (o) => modelObjects.includes(o) && !trackedObjects.includes(o),
-    );
-    // Labels the detection model cannot produce at all. verify_objects_track()
-    // strips these from objects.track after the rules are validated, so a rule
-    // naming one parses cleanly and then never fires -- the exact silent
-    // failure the rule validator exists to prevent.
-    const unsupported = selected.filter((o) => !modelObjects.includes(o));
-
-    const Row = ({ option }: { option: string }) => (
-      <button
-        type="button"
-        role="option"
-        aria-selected={selected.includes(option)}
-        onClick={() => onToggle(option)}
-        className={cn(
-          "flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-sm hover:bg-secondary",
-          selected.includes(option) && "text-selected",
-        )}
-      >
-        <span className="w-4 shrink-0">
-          {selected.includes(option) ? <LuCheck className="size-4" /> : null}
-        </span>
-        {option}
-      </button>
-    );
-
-    return (
-      <div className="flex flex-col gap-2">
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              type="button"
-              variant="default"
-              className="w-full justify-between font-normal"
-            >
-              <span className="truncate">
-                {selected.length
-                  ? selected.join(", ")
-                  : t("rules.field.selectObjects")}
-              </span>
-              <LuChevronDown className="ml-2 size-4 shrink-0 opacity-60" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent
-            className="max-h-72 w-[--radix-popover-trigger-width] overflow-y-auto p-1"
-            align="start"
-          >
-            {tracked.length > 0 && (
-              <>
-                <div className="px-2 py-1 text-xs font-medium text-muted-foreground">
-                  {t("rules.field.objectsTracked", { camera: targetCamera })}
-                </div>
-                {tracked.map((o) => (
-                  <Row key={o} option={o} />
-                ))}
-              </>
-            )}
-            {untracked.length > 0 && (
-              <>
-                <div className="mt-1 border-t px-2 pb-1 pt-2 text-xs font-medium text-muted-foreground">
-                  {t("rules.field.objectsOther")}
-                </div>
-                {untracked.map((o) => (
-                  <Row key={o} option={o} />
-                ))}
-              </>
-            )}
-            {unsupported.length > 0 && (
-              <>
-                <div className="mt-1 border-t px-2 pb-1 pt-2 text-xs font-medium text-danger">
-                  {t("rules.field.objectsUnsupportedGroup")}
-                </div>
-                {unsupported.map((o) => (
-                  <Row key={o} option={o} />
-                ))}
-              </>
-            )}
-          </PopoverContent>
-        </Popover>
-
-        {adding.length > 0 && (
-          <p className="text-xs text-muted-foreground">
-            {t("rules.field.objectsWillTrack", {
-              objects: adding.join(", "),
-              camera: targetCamera,
-            })}
-          </p>
-        )}
-
-        {unsupported.length > 0 && (
-          <p className="text-xs text-danger">
-            {t("rules.field.objectsUnsupported", {
-              objects: unsupported.join(", "),
-            })}
-          </p>
-        )}
-      </div>
-    );
-  };
-
   const ChipList = ({
     options,
     selected,
@@ -641,6 +658,10 @@ export default function RuleEditDialog({
                   <ObjectPicker
                     selected={objects}
                     onToggle={(v) => toggle(objects, v, setObjects)}
+                    modelObjects={modelObjects}
+                    trackedObjects={trackedObjects}
+                    camera={targetCamera}
+                    t={t}
                   />
                 </>
               )}
@@ -696,6 +717,10 @@ export default function RuleEditDialog({
               <ObjectPicker
                 selected={vehicleTypes}
                 onToggle={(v) => toggle(vehicleTypes, v, setVehicleTypes)}
+                modelObjects={modelObjects}
+                trackedObjects={trackedObjects}
+                camera={targetCamera}
+                t={t}
               />
 
               <div className="flex flex-col gap-2">
@@ -751,8 +776,9 @@ export default function RuleEditDialog({
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
-                  <Label>{t("rules.field.minCount")}</Label>
+                  <Label htmlFor="min-count">{t("rules.field.minCount")}</Label>
                   <Input
+                    id="min-count"
                     type="number"
                     min={0}
                     value={minCount}
@@ -764,8 +790,9 @@ export default function RuleEditDialog({
                   </p>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <Label>{t("rules.field.maxCount")}</Label>
+                  <Label htmlFor="max-count">{t("rules.field.maxCount")}</Label>
                   <Input
+                    id="max-count"
                     type="number"
                     min={0}
                     value={maxCount}

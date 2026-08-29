@@ -155,7 +155,7 @@ SIGTERM, and s6 shuts every service down and exits. The devcontainer's entrypoin
 so pid 1 *is* `s6-svscan` here just as in production, and production relies on the container's
 restart policy to bring it straight back.
 
-Two things used to make that a one-way door in dev, both now fixed:
+Three things used to make that a one-way door in dev, all now fixed:
 
 - **No restart policy.** `docker-compose.yml` had none on any service, so a Restart stopped the
   stack permanently — container `Exited (143)`, which is SIGTERM, with a clean s6 shutdown in
@@ -165,12 +165,19 @@ Two things used to make that a one-way door in dev, both now fixed:
   restarted container came back with no Frigate in it. It now ships
   `docker/main/devcontainer_frigate_run` and `devcontainer_frigate_extras_run`, which run the
   real processes from the bind-mounted `/workspace/frigate`.
+- **Vite was still hand-started.** Fixing the two above left a *half*-working restart, which is
+  worse than one that plainly does nothing: the API came back on 5001 while the dev frontend on
+  5173 stayed dead, because `run-dev.sh` starts Vite by hand and nothing brings a hand-started
+  process back. `docker/main/devcontainer_s6/` adds a supervised `vite` service and its log
+  pipeline, copied in during the devcontainer stage only — production serves the built assets
+  through nginx and has no `/workspace/frigate`.
 
-`run-dev.sh` is unchanged and still correct: its `pgrep` guard sees the supervised process and
-skips its manual start, reporting *"already running (likely started by s6-supervise)"*.
+All three processes are supervised now, so `run-dev.sh` mostly reports that they are already
+running rather than starting anything. Its Vite start carries the same `pgrep` guard the two
+backend processes already had, so it does not fight the supervised one over port 5173.
 
-Changing either file needs an image rebuild — `$COMPOSE_CMD build devcontainer` — not just a
-recreate.
+Changing any of these files needs an image rebuild — `$COMPOSE_CMD build devcontainer` — and
+then a recreate, not just a restart.
 
 ### /dev/shm sizing
 

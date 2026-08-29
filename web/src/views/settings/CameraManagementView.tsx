@@ -1,6 +1,7 @@
 import Heading from "@/components/ui/heading";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import useSWR from "swr";
 import { Rasid360Config } from "@/types/rasid360Config";
@@ -22,7 +23,6 @@ import { CameraNameLabel } from "@/components/camera/FriendlyNameLabel";
 import { Switch } from "@/components/ui/switch";
 import { Trans } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
-import { useEnabledState } from "@/api/ws";
 
 type CameraManagementViewProps = {
   setUnsavedChanges: React.Dispatch<React.SetStateAction<boolean>>;
@@ -187,17 +187,80 @@ type CameraEnableSwitchProps = {
 };
 
 function CameraEnableSwitch({ cameraName }: CameraEnableSwitchProps) {
-  const { payload: enabledState, send: sendEnabled } =
-    useEnabledState(cameraName);
+  // Deliberately NOT driven by the websocket state.
+  //
+  // `<camera>/enabled/set` can only ever turn a camera *off*: Dispatcher's
+  // _on_enabled_command refuses "ON" unless enabled_in_config is true, and
+  // returns early without publishing `<camera>/enabled/state`. Once this switch
+  // persisted a camera off, enabled_in_config became false on the next restart
+  // and the websocket could no longer turn it back on -- the switch would sit
+  // there refusing to move.
+  //
+  // So the switch reflects the config, which is the thing that actually decides
+  // whether a camera runs, with an optimistic local value so it responds to the
+  // click rather than to a round trip.
+  const { data: config, mutate: updateConfig } =
+    useSWR<Rasid360Config>("config");
+  const configEnabled = config?.cameras?.[cameraName]?.enabled ?? true;
+
+  const [pending, setPending] = useState<boolean | undefined>(undefined);
+  const [saving, setSaving] = useState(false);
+  const { t } = useTranslation(["views/settings"]);
+
+  // Drop the optimistic value once the config agrees with it.
+  useEffect(() => {
+    if (pending !== undefined && pending === configEnabled) {
+      setPending(undefined);
+    }
+  }, [pending, configEnabled]);
+
+  const enabled = pending ?? configEnabled;
+
+  // `update_topic` is what applies the change without a restart: it publishes
+  // the same CameraConfigUpdateEnum.enabled that the websocket path publishes,
+  // and the capture and detection processes subscribe to it.
+  const toggle = useCallback(
+    async (isChecked: boolean) => {
+      setPending(isChecked);
+      setSaving(true);
+
+      try {
+        const response = await axios.put("config/set", {
+          config_data: { cameras: { [cameraName]: { enabled: isChecked } } },
+          requires_restart: 0,
+          update_topic: `config/cameras/${cameraName}/enabled`,
+        });
+
+        if (response.status !== 200 || response.data.success === false) {
+          setPending(undefined);
+          toast.error(
+            response.data?.message ?? t("cameraManagement.streams.toast.error"),
+            { position: "top-center" },
+          );
+        } else {
+          updateConfig();
+        }
+      } catch (error) {
+        setPending(undefined);
+        const message =
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (error as any)?.response?.data?.message ??
+          t("cameraManagement.streams.toast.error");
+        toast.error(message, { position: "top-center" });
+      } finally {
+        setSaving(false);
+      }
+    },
+    [cameraName, t, updateConfig],
+  );
 
   return (
     <div className="flex flex-row items-center">
       <Switch
         id={`camera-enabled-${cameraName}`}
-        checked={enabledState === "ON"}
-        onCheckedChange={(isChecked) => {
-          sendEnabled(isChecked ? "ON" : "OFF");
-        }}
+        checked={enabled}
+        disabled={saving}
+        onCheckedChange={toggle}
       />
     </div>
   );

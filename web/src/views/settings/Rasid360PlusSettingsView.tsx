@@ -66,13 +66,12 @@ export default function Rasid360PlusSettingsView({
       },
     });
 
-  const [origPlusSettings, setOrigPlusSettings] = useState<Rasid360PlusSettings>(
-    {
+  const [origPlusSettings, setOrigPlusSettings] =
+    useState<Rasid360PlusSettings>({
       model: {
         id: undefined,
       },
-    },
-  );
+    });
 
   const { data: availableModels = {} } = useSWR<
     Record<string, Rasid360PlusModel>
@@ -355,8 +354,9 @@ export default function Rasid360PlusSettingsView({
                                   availableModels[rasid360PlusSettings.model.id]
                                     .baseModel +
                                   " (" +
-                                  (availableModels[rasid360PlusSettings.model.id]
-                                    .isBaseModel
+                                  (availableModels[
+                                    rasid360PlusSettings.model.id
+                                  ].isBaseModel
                                     ? t(
                                         "rasid360Plus.modelInfo.plusModelType.baseModel",
                                       )
