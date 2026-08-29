@@ -1,7 +1,7 @@
 ---
 type: concept
 status: current
-sources: [frigate/extras/config.yml, frigate/extras/dsl/rule_types.py, frigate/extras/dsl/operators.py, frigate/extras/dsl/temporal.py, frigate/extras/dsl/aspect_ratio_rules.py, frigate/extras/dsl/validator.py, frigate/extras/DSL_GUIDE.md]
+sources: [frigate/extras/config.yml, frigate/extras/dsl/rule_types.py, frigate/extras/dsl/operators.py, frigate/extras/dsl/temporal.py, frigate/extras/dsl/aspect_ratio_rules.py, frigate/extras/dsl/validator.py, frigate/extras/DSL_GUIDE.md, frigate/config/camera/violation.py]
 updated: 2026-08-29
 ---
 

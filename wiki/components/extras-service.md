@@ -1,7 +1,7 @@
 ---
 type: component
 status: current
-sources: [frigate/extras/main.py, frigate/extras/config.py, frigate/extras/utils/mqtt_client.py, frigate/extras/utils/frigate_api.py, frigate/extras/actions/base_action.py, run-dev.sh]
+sources: [frigate/extras/main.py, frigate/extras/config.py, frigate/extras/utils/mqtt_client.py, frigate/extras/utils/frigate_api.py, frigate/extras/actions/base_action.py, run-dev.sh, frigate/camera/activity_manager.py]
 updated: 2026-08-29
 ---
 

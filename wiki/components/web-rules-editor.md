@@ -1,7 +1,7 @@
 ---
 type: component
 status: current
-sources: [web/src/views/settings/RulesView.tsx, web/src/components/settings/RuleEditDialog.tsx, web/src/types/violation.ts, web/src/pages/Settings.tsx, frigate/api/app.py]
+sources: [web/src/views/settings/RulesView.tsx, web/src/components/settings/RuleEditDialog.tsx, web/src/types/violation.ts, web/src/pages/Settings.tsx, frigate/api/app.py, web/src/lib/violationRules.ts, frigate/config/camera/violation.py]
 updated: 2026-08-29
 ---
 

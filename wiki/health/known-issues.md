@@ -329,9 +329,13 @@ covers `frigate.db` only.
 
 **Severity: low-medium**
 
-The suite runs 247 tests in a container via `./run-tests.sh` as of 2026-08-28 — **246 passing,
-with #8d flaking** depending on discovery order. That includes the 17 DSL tests, the 6 dashboard tests, and 19 added with the
-recording-retention work (`test_config_yaml_update.py`, `test_violation_review_items.py`).
+The suite runs 286 tests in a container via `./run-tests.sh` as of 2026-08-29 — **285 passing,
+with #8d flaking** depending on discovery order.
+
+Added on 2026-08-28/29, roughly 40 tests: `test_config_yaml_update.py` (the `update_yaml` delete
+path), `test_violation_review_items.py` (violations reaching the review pipeline), and new
+classes in `test_violation_config.py` and `test_dsl_rules.py` covering the `any` zone wildcard,
+unsatisfiable conditions, and `zone_occupancy`.
 
 Still not covered: the analytics scheduler's aggregation methods (the highest-value remaining
 target — they define every dashboard number), the observations CRUD and its write-through, and

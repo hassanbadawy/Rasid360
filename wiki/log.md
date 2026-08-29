@@ -638,3 +638,27 @@ and 34 engine tests pass.
 
 **Note for authors:** occupancy rules need a full Frigate restart, not just an extras restart —
 the worker reads rules from `/api/config`, the running config, like every other rule type.
+
+## [2026-08-29] lint | Refresh test counts and complete the sources lists
+
+Housekeeping pass after the rules work, no behaviour change.
+
+**Test count corrected to 286 / 285 passing** (was 247 / 246) in
+[Known Issues](health/known-issues.md) #12 and
+[Dev Environment](operations/dev-environment.md). Roughly 40 tests were added across
+2026-08-28/29: `test_config_yaml_update.py`, `test_violation_review_items.py`, and new classes in
+`test_violation_config.py` and `test_dsl_rules.py` for the `any` wildcard, unsatisfiable
+conditions, and `zone_occupancy`. #8d still flakes on discovery order.
+
+**Also recorded:** a full run is normally about a minute but took **twelve** on a loaded machine
+(nine camera decoders plus the test container), and `run-tests.sh` buffers its output — so a run
+that looks hung usually is not. Worth knowing before killing one, which is what happened here.
+
+**`sources:` completed** on four pages that had grown to describe files they did not list:
+`frigate/config/camera/violation.py` now backs the rule-language, engine and editor pages, since
+`ANY_ZONE`, `COUNT_ALL` and `unsatisfiable_condition()` all live there;
+`frigate/camera/activity_manager.py` backs the extras page, since it is the source of the zone
+counts; `web/src/lib/violationRules.ts` backs the editor page. Without these the staleness sweep
+would not flag those pages when the code changes.
+
+Lint clean: no dead sources, no dead links, no orphans.
