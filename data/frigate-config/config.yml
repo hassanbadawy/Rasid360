@@ -98,6 +98,23 @@ objects:
 detect:
   enabled: true
   fps: 5
+
+  # Cap the detect frame for every camera. Without these, a camera that omits
+  # them detects at its *source* resolution -- which is how EmbassyGate silently
+  # ran at 1920x1080 while every other camera ran 720p. All six Road cameras set
+  # exactly this, so it belongs here; LPR_Camera and face_camera override it.
+  #
+  # This is a detect-side saving (smaller shm frames, less work in
+  # frigate.process), NOT an ffmpeg one. Frigate scales after decoding, in the
+  # same process, so the full-size frame is decoded regardless -- measured
+  # 28.7% -> 31.6% on EmbassyGate. Decode cost is a property of the source
+  # encode; see wiki/operations/configuration.md.
+  #
+  # Coupled to objects.filters: min_area/max_area are areas of the *detect*
+  # frame, so a camera with pixel-valued filters breaks if this changes. Write
+  # them as fractions (values < 1) and they follow the resolution instead.
+  width: 1280
+  height: 720
   # Optional: Number of consecutive detection hits required for an object to be initialized in the tracker. (default: 1/2 the frame rate)
   min_initialized: 2
   # Optional: Number of frames without a detection before Frigate considers an object to be gone. (default: 5x the frame rate)
@@ -105,6 +122,17 @@ detect:
   stationary:
     threshold: 10  # Frames before considering stationary
     interval: 10   # Frames between stationary checks
+
+motion:
+  # Frigate's defaults (threshold 30, contour_area 10) are far too sensitive for
+  # these scenes: noise, shadows and light flicker each become a motion blob, and
+  # every blob is another inference call on the CPU detector at ~40 ms. Measured
+  # on EmbassyGate 2026-08-29, raising both cut regions per frame 2.86 -> 2.06.
+  # Cameras that need more sensitivity override it -- Road01 (80/50, a busy
+  # street) and LPR_Camera (15/5, plates on stopped vehicles).
+  threshold: 40
+  contour_area: 40
+  improve_contrast: true
 
 lpr:
   enabled: true
@@ -148,9 +176,6 @@ cameras:
             - detect
     detect:
       enabled: true
-      height: 720
-      width: 1280
-      fps: 5
     motion:
       mask:
         - 0.964,0.28,0.641,0.184,0.502,0.164,0.329,0.18,0.247,0.187,0.227,0.327,0.172,0.429,0.573,0.4,0.613,0.991,0.006,0.996,0.004,0.002,0.996,0.009,0.994,0.284
@@ -222,13 +247,6 @@ cameras:
             - detect
     detect:
       enabled: true
-      height: 720
-      width: 1280
-      fps: 5
-    motion:
-      threshold: 25
-      contour_area: 10
-      improve_contrast: true
     objects:
       track:
         - person
@@ -263,13 +281,7 @@ cameras:
             - detect
     detect:
       enabled: true
-      height: 720
-      width: 1280
-      fps: 5
     motion:
-      threshold: 25
-      contour_area: 10
-      improve_contrast: true
       mask: 
         0.991,0.62,0.908,0.438,0.91,0.255,0.588,0.311,0.527,0.248,0.436,0.078,0.392,0.036,0.259,0.058,0.211,0.056,0.122,0.255,0.039,0.37,0.003,0.392,0.003,0.005,0.998,0.005
     objects:
@@ -343,13 +355,7 @@ cameras:
             - detect
     detect:
       enabled: true
-      height: 720
-      width: 1280
-      fps: 5
     motion:
-      threshold: 25
-      contour_area: 10
-      improve_contrast: true
       mask:
         - 0.692,0.995,0.779,0.584,0.886,0.241,0.698,0.151,0.009,0.387,0.006,0.002,0.998,0.007,0.997,0.995
     zones:
@@ -400,13 +406,7 @@ cameras:
             - detect
     detect:
       enabled: true
-      height: 720
-      width: 1280
-      fps: 5
     motion:
-      threshold: 25
-      contour_area: 10
-      improve_contrast: true
       mask:
         - 0.994,0.543,0.661,0.248,0.322,0.246,0.002,0.377,0.001,0,0.998,0.007
     zones:
@@ -494,13 +494,6 @@ cameras:
             - detect
     detect:
       enabled: true
-      height: 720
-      width: 1280
-      fps: 5
-    motion:
-      threshold: 25
-      contour_area: 10
-      improve_contrast: true
     zones:
       exit_zone:
         coordinates: 0.306,0.628,0.348,0.859,0.287,1,0.113,1
@@ -565,16 +558,30 @@ cameras:
       enabled: false
     ffmpeg:
       inputs:
-        - path: /media/streams/streams/safety/embassey_bag.mp4
+        # Was embassey_bag.mp4 -- the same footage, but 1920x1080 H.264 *High*
+        # profile. Decoding it cost 30.5% of a core, over the 20% that raises
+        # "high FFmpeg CPU usage" in the UI (CameraFfmpegThreshold,
+        # web/src/types/graph.ts). Decode is essentially all of a camera's
+        # ffmpeg CPU here -- the scale filter, the rawvideo pipe and the segment
+        # muxer together are under 1% -- so the source encode is the only lever
+        # short of hardware acceleration, which the podman VM does not have.
+        # Measured, 30s of stream: 1080p High 30.5%, 1080p Baseline 19.7%
+        # (too close to the threshold to be stable), 720p Baseline 9.2%.
+        #
+        # debug/media is gitignored, so regenerate this file with:
+        #   ffmpeg -i embassey_bag.mp4 -vf scale=1280:720 -c:v libx264 \
+        #     -profile:v baseline -level 3.1 -preset slow -crf 21 -g 48 \
+        #     -c:a copy -movflags +faststart embassey_bag_720p_baseline.mp4
+        - path: /media/streams/streams/safety/embassey_bag_720p_baseline.mp4
           input_args: -re -stream_loop -1 -fflags +genpts
           roles:
             - detect
     detect:
       enabled: true
-      # Was 10. Halved 2026-08-29: this camera was running 27 detections/sec
-      # against a CPU detector at ~40ms each -- about a full core -- and warning
-      # "high detect CPU usage (45%)". See wiki/operations/configuration.md.
-      fps: 5
+      # fps, width and height come from the global detect block: 5 fps at
+      # 1280x720. This camera used to carry its own fps: 10 -- halved 2026-08-29
+      # when it was running 27 detections/sec against a CPU detector at ~40 ms
+      # each. See wiki/operations/configuration.md.
       min_initialized: 3  # Require 3 consecutive detections before creating new ID (reduces false IDs)
       max_disappeared: 50  # Keep tracking for 5 seconds after object disappears (handles brief gaps)
 
@@ -584,27 +591,28 @@ cameras:
         interval: 10   # Re-check stationary objects every 1 second
         # Note: max_frames removed - not supported in camera-specific config in v0.17.0
 
-    motion:
-      # Was threshold 25 / contour_area 10, near Frigate's defaults and far too
-      # sensitive for this scene: noise and shadows registered as motion, giving
-      # ~2.9 detection regions per frame. Raising both cut that to ~2.1.
-      threshold: 40
-      contour_area: 40
-      improve_contrast: true
+    # motion comes from the global block (40/40): this camera is where those
+    # numbers were measured.
 
     objects:
       track:
         - person
         - handbag
       # Object-specific filters to prevent ID switching and false detections
+      # Areas are fractions of the frame, not pixels. Frigate reads any value
+      # below 1 as a fraction and multiplies it by the detect resolution
+      # (convert_area_to_pixels, frigate/config/config.py), so these survive the
+      # 1080p -> 720p change above. As pixel counts they would not: the same
+      # bounding box covers 2.25x fewer pixels at 720p, so the old min_area of
+      # 5000 would have filtered out every person on this camera.
       filters:
         person:
-          min_area: 5000    # Minimum ~70x70 pixels (filters out tiny false detections)
-          max_area: 200000  # Maximum ~447x447 pixels (prevents entire scene being detected)
+          min_area: 0.0024  # ~0.24% of frame, was 5000 px at 1080p
+          max_area: 0.0965  # ~9.7% of frame, was 200000 px at 1080p
           threshold: 0.60   # Require 60% confidence (only strong detections, prevents flickering)
         handbag:
-          min_area: 1000    # Minimum ~31x31 pixels (realistic handbag size)
-          max_area: 50000   # Maximum ~223x223 pixels (prevents large false detections)
+          min_area: 0.00048 # ~0.05% of frame, was 1000 px at 1080p
+          max_area: 0.0241  # ~2.4% of frame, was 50000 px at 1080p
           threshold: 0.50   # Require 50% confidence (balanced for smaller objects)
 
     zones:
@@ -641,9 +649,9 @@ cameras:
             - detect
     detect:
       enabled: true
+      # Overrides the global 1280x720 -- fps: 5 is inherited.
       width: 640
       height: 480
-      fps: 5
       # Plates are often on stopped or slow vehicles that never trigger motion.
       always_full_frame: true
     motion:
@@ -688,9 +696,9 @@ cameras:
           roles:
             - detect
     detect:
+      # Overrides the global 1280x720 -- fps: 5 is inherited.
       width: 640
       height: 480
-      fps: 5
     objects:
       track:
         - person

@@ -800,3 +800,77 @@ no console errors.
 
 Both are dev-only. Neither touches the violation path, and production serves the built assets
 through nginx with no Vite involved.
+
+## [2026-09-06] fix | EmbassyGate FFmpeg CPU: 29% -> 7%
+
+The camera warned *"high FFmpeg CPU usage (31%)"* — a different number from the detect CPU
+tuned on 2026-08-29. Two thresholds, two causes: detect warns at 40% on the inference worker,
+ffmpeg at 20% on the decoder (`web/src/types/graph.ts`).
+
+**The obvious fix does not work.** Setting `detect.width/height: 1280x720` so ffmpeg pipes a
+smaller frame measured **28.7% -> 31.6%** — slightly worse. Frigate resizes *after* decoding, in
+the same process, so every full-size frame is decoded regardless and swscale is added work.
+Benchmarked over 30 s of stream inside the devcontainer: decode alone 30.5% of a core; decode
+plus `fps=5`, the 720p scale, the rawvideo pipe and the segment muxer together add under 1%.
+Decode is the entire bill.
+
+**What differed was the source encode, not the resolution.** Road01 and EmbassyGate are both
+1080p, but Road01 decodes for half the cost: Constrained Baseline (CAVLC, no B-frames) against
+EmbassyGate's High profile (CABAC). Re-encoding the fixture:
+
+| Source | Decode | Camera ffmpeg | Camera total |
+|---|---:|---:|---:|
+| 1080p High *(was)* | 30.5% | 28.7% | 50.0% |
+| 1080p Constrained Baseline | 19.7% | — | — |
+| **720p Constrained Baseline** *(now)* | **9.2%** | **7.3%** | **21.6%** |
+
+1080p Baseline lands on the 20% threshold and would flap, so 720p it is.
+`debug/media/streams/safety/embassey_bag_720p_baseline.mp4`, generated beside the untouched
+original; `debug/media` is gitignored, so the regenerating ffmpeg command lives in a comment on
+the config's `path`. Reverting is a one-line config change.
+
+The production answers do not apply here. A **detect substream** — second input,
+`roles: [detect]`, the 1080p one `roles: [record]` and `-c:v copy`, never decoded — is the right
+shape for a real camera, but these fixtures are 5-second files on `-stream_loop -1`, and two
+independent reads drift out of phase until recorded evidence no longer matches the detections.
+Hardware acceleration is absent from the podman VM, which Frigate warns about at startup.
+
+Also changed, and load-bearing: EmbassyGate's object filters moved from pixels to fractions.
+`min_area`/`max_area` are areas of the **detect frame**, so the 720p change would have made
+`person.min_area: 5000` reject every person on the camera. Values below 1 are converted against
+the frame at config load (`convert_area_to_pixels`), which makes them resolution-independent.
+`motion.contour_area` needed no change — motion resizes to `frame_height` (100) first — and zone
+coordinates are normalised already.
+
+Verified after restart: `red_zone_intrusion` fires, person detections score 0.83 in
+`embredzone`, and the footer reads *System is healthy*. Road01's detect sits at 26%, below its
+40% threshold, and is untouched.
+
+## [2026-09-06] fix | Hoist the efficient camera defaults into the global config
+
+Follow-on from the EmbassyGate ffmpeg work. The settings every camera repeated now live in the
+top-level `detect` and `motion` blocks, so a new camera inherits them instead of inheriting
+Frigate's.
+
+`detect.width: 1280` / `height: 720` is the important one, because **omitting them is not a
+default** — a camera without them detects at its source resolution. That is the whole story of
+how EmbassyGate ran 1080p detect while all six Road cameras ran 720p: its block simply lacked
+the two lines the others had. Nine cameras restated the same three values; they are now in one
+place, with `LPR_Camera` and `face_camera` keeping explicit 640x480 overrides.
+
+`motion: 40/40` likewise. Road02-Road06 and `face_camera` were on Frigate's defaults (25/10 and
+30/10), which the 2026-08-29 EmbassyGate measurement showed to be far too sensitive for these
+scenes -- every shadow blob is another 40 ms inference. Road01 (80/50) and LPR_Camera (15/5)
+keep their deliberate overrides, and Road03/04/05 keep their masks while inheriting the
+thresholds.
+
+Verified by diffing `GET /api/config` across a restart: the only effective changes anywhere are
+those six cameras' motion thresholds, all of them disabled. Detect resolutions, fps, tracked
+objects, filters, zones and every motion mask are byte-identical -- the masks were checked
+individually against `git show HEAD`, since three of them briefly lost their `motion:` parent
+during the edit and had to be reparented.
+
+Also catalogued: the codec profile of every fixture clip, since decode cost is a property of the
+source and no config setting touches it. Five disabled cameras would warn if enabled --
+`LPR_Camera` worst at 3840x2160 High, `Road04` at 1080p High 60 fps -- with the re-encode
+command that fixes them.

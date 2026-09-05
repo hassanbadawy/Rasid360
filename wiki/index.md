@@ -97,6 +97,7 @@ One page per subsystem, mapped to real paths.
 | How do I control what gets stored? | [Recording Retention](components/recording-retention.md) § The settings page |
 | Why don't violations show in the Review pane? | [Recording Retention](components/recording-retention.md) § Violations are review items |
 | Can we merge upstream Frigate? | [Fork Relationship](concepts/fork-relationship.md) |
+| Why is a camera's FFmpeg CPU high? | [Configuration](operations/configuration.md) § FFmpeg cost is decode |
 | How do I run this locally? | [Dev Environment](operations/dev-environment.md) |
 | Why is every `/api` call a 500 while the containers look fine? | [Dev Environment](operations/dev-environment.md) § The duplicate-Frigate race |
 | Why is `localhost:5173/live` blank? | [Dev Environment](operations/dev-environment.md) § `/live` is a proxy path and a route |

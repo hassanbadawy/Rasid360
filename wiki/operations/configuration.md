@@ -1,8 +1,8 @@
 ---
 type: operations
 status: current
-sources: [data/frigate-config/config.yml, frigate/camera/activity_manager.py, frigate/extras/config.yml, frigate/extras/config.py, docker-compose.yml, .gitignore, frigate/api/app.py, frigate/util/builtin.py]
-updated: 2026-08-29
+sources: [data/frigate-config/config.yml, frigate/camera/activity_manager.py, frigate/extras/config.yml, frigate/extras/config.py, docker-compose.yml, .gitignore, frigate/api/app.py, frigate/util/builtin.py, web/src/hooks/use-stats.ts, web/src/types/graph.ts, frigate/config/config.py, frigate/config/camera/objects.py]
+updated: 2026-09-06
 ---
 
 # Configuration
@@ -116,10 +116,156 @@ unchanged until a restart — it is baked into the frame pipeline. Motion settin
 If a tuning change appears to do nothing, this is why.
 
 Still available on that camera: it has **no motion mask**, so the whole frame is live — masking
-the irrelevant areas would push regions-per-frame toward 1. Dropping `detect` from 1920×1080 to
-1280×720 costs nothing in accuracy, since regions are scaled to the model input regardless.
+the irrelevant areas would push regions-per-frame toward 1.
 
 The structural fix is hardware: a Coral TPU runs the same inference in ~8 ms rather than 40.
+
+### The two CPU warnings are different problems
+
+The UI raises them from separate numbers, at separate thresholds
+(`web/src/types/graph.ts`, checked in `web/src/hooks/use-stats.ts`):
+
+| Warning | Number | Fires at |
+|---|---|---:|
+| *"high detect CPU usage"* | `cpu_usages[camera.pid].cpu_average` — the `frigate.process:<cam>` worker, i.e. inference | ≥ **40%** |
+| *"high FFmpeg CPU usage"* | `cpu_usages[camera.ffmpeg_pid].cpu_average` — the decoder | ≥ **20%** |
+
+Everything above this section is about the first. The second has entirely different causes, and
+the fixes for one do nothing for the other.
+
+### FFmpeg cost is decode, and `detect.width/height` is not the lever
+
+EmbassyGate warned *"high FFmpeg CPU usage (31%)"* on 2026-09-06. The obvious move —
+`detect.width: 1280` / `detect.height: 720`, so ffmpeg pipes a smaller frame — **does not
+work**, and it is worth knowing why before reaching for it.
+
+Frigate's per-camera ffmpeg does the resize *after* decoding, in the same process:
+
+```
+-i <source> … -vf fps=5,scale=1280:720 -f rawvideo -pix_fmt yuv420p pipe:
+```
+
+Every full-size frame is decoded before swscale can shrink it. Measured over 30 s of stream,
+flat out, inside the devcontainer:
+
+| Work | CPU |
+|---|---:|
+| decode alone, EmbassyGate's 1080p **High**-profile clip | **30.5%** of a core |
+| decode + `fps=5` + scale to 720p + rawvideo pipe + segment muxing | adds **< 1%** |
+
+Decode is essentially the whole bill. Setting the detect resolution measured **28.7% → 31.6%**
+— slightly worse, since downscaling is real work that the identity path skipped. It does reduce
+the *detect* process's frame handling, so it is not useless; it is just not an ffmpeg lever.
+
+What actually differs between cameras is the **source encode**, not the resolution. Road01 and
+EmbassyGate are both 1080p, yet Road01 decodes for half the cost, because its clip is
+Constrained Baseline (CAVLC, no B-frames) while EmbassyGate's was High profile (CABAC).
+Measured decode cost per candidate:
+
+| Source | Decode |
+|---|---:|
+| 1080p High *(was)* | 30.5% |
+| 1080p Constrained Baseline | 19.7% — on top of the 20% threshold, would flap |
+| **720p Constrained Baseline** *(now)* | **9.2%** |
+
+Result after re-encoding the fixture: ffmpeg **28.7% → 7.3%**, whole-camera total **50.0% →
+21.6%**, and the banner returns to *System is healthy*.
+
+In production the right answer is a **detect substream** — a second input with `roles: [detect]`
+at low resolution, leaving the 1080p input as `roles: [record]` and `-c:v copy`, never decoded.
+That does not work for these file fixtures: the clip is 5 s on `-stream_loop -1`, so two
+independent reads drift out of phase and recorded evidence stops matching the detections.
+Hardware acceleration, the other production answer, is unavailable — the podman VM on macOS has
+no hwaccel, and Frigate says so at startup.
+
+### `min_area` is measured in detect-frame pixels
+
+A consequence of changing detect resolution that is easy to miss. `min_area` / `max_area` are
+pixel areas of the **detect frame** (`is_object_filtered`, `frigate/util/object.py`), so the
+same object covers 2.25× fewer of them at 720p than at 1080p. EmbassyGate's `person.min_area:
+5000` would have filtered out every person on the camera.
+
+Any value below 1 is read as a fraction of the frame and converted at config load
+(`convert_area_to_pixels`, `frigate/config/config.py`), which makes the filter
+resolution-independent. EmbassyGate's are now written that way:
+
+```yaml
+person:
+  min_area: 0.0024  # ~0.24% of frame, was 5000 px at 1080p
+  max_area: 0.0965
+```
+
+`motion.contour_area` needs no such care: the motion detector resizes every frame to
+`motion.frame_height` (default 100) first, so it is already resolution-independent.
+
+Zone and mask coordinates are stored normalised (`0.101,0.406,…`), so they survive a resolution
+change untouched.
+
+### What lives in the global block, and what overrides it
+
+Camera config inherits from the top-level blocks, and since 2026-09-06 the settings that were
+identical on every camera live there instead of being restated nine times:
+
+```yaml
+detect:
+  fps: 5
+  width: 1280
+  height: 720
+
+motion:
+  threshold: 40
+  contour_area: 40
+  improve_contrast: true
+```
+
+`detect.width/height` is the one that matters most, because **the default is not a default**: a
+camera that omits them detects at its *source* resolution. That is exactly how EmbassyGate came
+to run detect at 1920×1080 while all six Road cameras ran 720p — nothing was misconfigured, its
+`detect` block simply had no `width`/`height` and the others did. Putting them in the global
+block makes 720p what a new camera gets for free.
+
+The deliberate overrides that remain:
+
+| Camera | Overrides | Why |
+|---|---|---|
+| `LPR_Camera` | `detect: 640x480`, `motion: 15/5` | plates on stopped vehicles need sensitivity |
+| `face_camera` | `detect: 640x480` | |
+| `Road01` | `motion: 80/50` + mask | busy street, heavy shadow motion |
+| `Road03/04/05` | motion `mask` only | now inherit 40/40 thresholds |
+| `EmbassyGate` | `min_initialized`, `max_disappeared`, `stationary`, fractional filters | person places a bag and stands still |
+
+Hoisting the motion numbers moved five disabled cameras (`Road02`–`Road06`) and `face_camera`
+from Frigate's too-sensitive defaults (25/10, 30/10) onto 40/40. Every other effective value —
+detect resolution, fps, tracked objects, filters, masks, zones — was verified byte-identical
+before and after via `GET /api/config`.
+
+### Decode cost is a property of the source, not the config
+
+Since decode is the whole ffmpeg bill and no config setting changes it, the only thing that
+predicts a camera's ffmpeg CPU is what its stream *is*. For the fixture clips:
+
+| Camera | Fixture | Encode | Cost if enabled |
+|---|---|---|---|
+| Road01 | `wrongWayCar02.mp4` | 1080p Constrained Baseline @30 | ~15%, fine |
+| EmbassyGate | `embassey_bag_720p_baseline.mp4` | 720p Constrained Baseline @24 | ~9%, fine |
+| Road03 | `traffic01.mp4` | 640×360 Main @30 | cheap |
+| Road06 | `CarBrokeDown01.mp4` | 640×302 Main @30 | cheap |
+| Road05 | `wrongWayCar03.mp4` | 720p **High** @24 | moderate |
+| `face_camera` | `construction/02.mp4` | 720p **High** @30 | moderate |
+| Road02 | `falldown01.mp4` | 1080p **High** @24 | would warn |
+| Road04 | `wrongWayCar01.mp4` | 1080p **High** @**60** | would warn, worst of the set |
+| `LPR_Camera` | `lic-plate-02.mp4` | **3840×2160 High** @30 | 4K — far over |
+
+Those five are disabled today, so they cost nothing. Enabling one means re-encoding its clip
+the way EmbassyGate's was:
+
+```bash
+ffmpeg -i in.mp4 -vf scale=1280:720 -c:v libx264 -profile:v baseline -level 3.1 \
+  -preset slow -crf 21 -g 48 -c:a copy -movflags +faststart out.mp4
+```
+
+Constrained Baseline is the load-bearing part — CAVLC instead of CABAC, no B-frames — and it is
+worth roughly as much as halving the resolution.
 
 ### Rasid360-specific camera option
 
