@@ -30,10 +30,24 @@ export default defineConfig({
         target: `ws://${proxyHost}`,
         ws: true,
       },
+      // "/live" is both a websocket namespace (go2rtc's mse / webrtc / jsmpeg
+      // endpoints) and a client-side route. Proxying it wholesale means a
+      // browser opening http://localhost:5173/live directly gets nginx's
+      // *production* index.html, whose hashed /assets/main-*.js does not exist
+      // on the dev server -- a blank page, with only a 404 in the console.
+      // In-app navigation works because it never leaves the SPA.
+      //
+      // So: serve document navigations from the dev server, keep proxying
+      // everything else. `res` is undefined on a websocket upgrade, which is
+      // exactly the traffic that must keep going to go2rtc.
       "/live": {
         target: `ws://${proxyHost}`,
         changeOrigin: true,
         ws: true,
+        bypass: (req, res) =>
+          res && req.headers.accept?.includes("text/html")
+            ? "/index.html"
+            : undefined,
       },
     },
   },

@@ -98,6 +98,8 @@ One page per subsystem, mapped to real paths.
 | Why don't violations show in the Review pane? | [Recording Retention](components/recording-retention.md) § Violations are review items |
 | Can we merge upstream Frigate? | [Fork Relationship](concepts/fork-relationship.md) |
 | How do I run this locally? | [Dev Environment](operations/dev-environment.md) |
+| Why is every `/api` call a 500 while the containers look fine? | [Dev Environment](operations/dev-environment.md) § The duplicate-Frigate race |
+| Why is `localhost:5173/live` blank? | [Dev Environment](operations/dev-environment.md) § `/live` is a proxy path and a route |
 | Where does ticket state actually live? | [Events & Observations API](components/api-events-observations.md) |
 
 ## Maintenance

@@ -770,3 +770,33 @@ a Coral TPU: ~8 ms per inference instead of 40.
 
 Also committed here: the five cameras disabled through the UI, which now persist to config —
 that is deployment state rather than code, but it is a tracked file and belongs in history.
+
+## [2026-09-06] fix | Two Frigate mains on every cold start, and a blank `/live`
+
+Running the stack from scratch surfaced two dev-environment defects, both of which look like
+the backend is broken when it is not.
+
+**`run-dev.sh` started a second Frigate.** Its three "is it already running?" guards were single
+`pgrep` calls fired immediately after `compose up -d`. s6 takes several seconds to reach its
+services, so the check answered *not running* and the script started an unsupervised
+`python3 -m frigate` beside the supervised one. The two fought over the MQTT client id — a
+connect/disconnect pair in the log every second — and over the internal API port, so nginx
+returned **500** for every `/api/*` request. `podman ps` showed a healthy stack throughout.
+
+`wait_for_supervised()` now polls every 2 s up to 45 s before falling back to a manual start,
+`count_container_procs()` centralises the counting, and `warn_if_duplicated()` prints the
+recovery if duplicates ever coexist again. The Vite guard moved to the same helper and its
+pattern tightened from `vite` to `vite --host`, which no longer matches the `s6-supervise vite`
+process that exists even when Vite is down. Verified by a full `down` + cold start: one main,
+one extras worker, MQTT connects once, API 200.
+
+**`http://localhost:5173/live` was a blank page.** `/live` is both the go2rtc websocket
+namespace and an SPA route; Vite's prefix proxy sent the document request to nginx, which
+answered with the production `index.html` and its hashed `/assets/main-*.js` that no dev server
+has. A `bypass` on that proxy entry now serves `/index.html` for document navigations and leaves
+everything else — including the websocket upgrades, where `res` is `undefined` — proxied.
+Verified: direct load renders both cameras, `ws://…/live/jsmpeg/{Road01,EmbassyGate}` connect,
+no console errors.
+
+Both are dev-only. Neither touches the violation path, and production serves the built assets
+through nginx with no Vite involved.

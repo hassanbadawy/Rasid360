@@ -1,8 +1,8 @@
 ---
 type: operations
 status: current
-sources: [run-dev.sh, stop-dev.sh, logs-dev.sh, container-runtime.sh, docker-compose.yml, .devcontainer]
-updated: 2026-08-29
+sources: [run-dev.sh, stop-dev.sh, logs-dev.sh, container-runtime.sh, docker-compose.yml, .devcontainer, web/vite.config.ts]
+updated: 2026-09-06
 ---
 
 # Dev Environment
@@ -72,6 +72,28 @@ compose_exec_detached devcontainer bash -c "cd /workspace/frigate/web && npm run
 
 Or run `./run-dev.sh` with no flags once the image is built; it starts Vite and tails the logs.
 
+### `/live` is a proxy path and a route (fixed 2026-09-06)
+
+`web/vite.config.ts` proxies `/live` to the backend because go2rtc's `mse`, `webrtc` and
+`jsmpeg` websockets live under it. The SPA also has a `/live` **route**. Vite proxy matching is
+by prefix and does not care which, so opening <http://localhost:5173/live> directly used to be
+proxied to nginx, which returned the *production* `index.html` — whose hashed
+`/assets/main-*.js` does not exist on the dev server. A blank white page, one 404 in the
+console, and nothing wrong with the backend. In-app navigation was always fine, because it
+never leaves the SPA; only a hard refresh or a pasted URL hit it.
+
+The proxy entry now carries a `bypass` that returns `/index.html` for document navigations and
+`undefined` for everything else, so the streams keep proxying:
+
+```ts
+bypass: (req, res) =>
+  res && req.headers.accept?.includes("text/html") ? "/index.html" : undefined,
+```
+
+`res` is `undefined` on a websocket upgrade — which is exactly the traffic that must reach
+go2rtc — so the guard doubles as the ws/http discriminator. Editing this file needs Vite
+restarted (see above); the config is not hot-reloaded across the podman-machine boundary.
+
 **Podman setup on macOS:**
 
 ```bash
@@ -114,15 +136,50 @@ either.
 5. `install_frontend_deps` — `npm install` in `/workspace/frigate/web`
 6. `start_services` — `docker compose up -d`
 7. `wait_for_services` — polls MQTT with `mosquitto_pub` until it answers
-8. `start_frigate_backend` — starts **two** processes, each guarded by a `pgrep` check:
-   - `python3 -m frigate`
-   - `python3 -m frigate.extras.main`
-9. frontend dev server on 5173
+8. `start_frigate_backend` — **waits** for s6 to bring up each of
+   `python3 -m frigate` and `python3 -m frigate.extras.main`, and starts one by hand only if
+   it has not appeared within `SUPERVISED_START_TIMEOUT` (45 s)
+9. frontend dev server on 5173, under the same wait
 
-Both backend processes are launched with `compose_exec_detached`, so they are children of the
-container's shell rather than supervised services — see
-[Extras Service](../components/extras-service.md). They must **not** use `$COMPOSE_CMD exec -d`,
+The hand-started fallback uses `compose_exec_detached`, which makes the process a child of the
+container's shell rather than a supervised service — see
+[Extras Service](../components/extras-service.md). It must **not** use `$COMPOSE_CMD exec -d`,
 which hangs under podman-compose (see above).
+
+### The duplicate-Frigate race (fixed 2026-09-06)
+
+Those three guards used to be a single `pgrep` run immediately after `compose up -d`. s6 needs
+several seconds to reach its services, so on a cold start the check answered *not running* and
+the script started a **second** `python3 -m frigate` beside the supervised one.
+
+Two mains do not fail loudly. They fight over the MQTT client id — the broker evicts whichever
+connected first, so the log fills with one pair of lines per second:
+
+```
+frigate.comms.mqtt  DEBUG : MQTT connected
+frigate.comms.mqtt  ERROR : MQTT disconnected
+```
+
+— and over the internal API port, which is the damaging half. nginx answers **500** on every
+`/api/*` request with `connect() failed (111: Connection refused) ... upstream:
+"http://127.0.0.1:5001/auth"` in `/dev/shm/logs/nginx/current`. The UI is then blank or
+error-filled while `podman ps` shows everything up and the container is busy decoding.
+
+`wait_for_supervised()` polls every 2 s instead. `warn_if_duplicated()` runs afterwards and
+prints the recovery if two ever coexist again. To recover by hand, kill the unsupervised copy
+(the one whose `ppid` is 0 and whose command lacks the `-u` that the s6 run script passes) plus
+any workers it orphaned to pid 1, then let s6 restart the survivor:
+
+```bash
+podman exec <devcontainer> kill -9 <pid>
+```
+
+`pgrep`/`pkill` patterns here are easy to get wrong in two ways worth knowing:
+
+- `python3.*-m frigate$` matches the supervised `python3 -u -m frigate`, but **not** the
+  hand-started `python3 -m frigate` — the `-` the pattern demands is not there.
+- `podman exec … bash -c 'pkill -f "…"'` matches **its own** `bash -c` command line and kills
+  the exec. Run `pkill` as the exec'd command directly, as `stop-dev.sh` does.
 
 ### Do not run the test suite while the stack is up
 

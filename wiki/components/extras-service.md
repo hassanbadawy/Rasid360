@@ -2,7 +2,7 @@
 type: component
 status: current
 sources: [frigate/extras/main.py, frigate/extras/config.py, frigate/extras/utils/mqtt_client.py, frigate/extras/utils/frigate_api.py, frigate/extras/actions/base_action.py, run-dev.sh, frigate/camera/activity_manager.py]
-updated: 2026-08-29
+updated: 2026-09-06
 ---
 
 # Extras Service
@@ -135,7 +135,11 @@ It used to be `fake_frigate_extras_run`, a heartbeat loop, so that `run-dev.sh` 
 the worker. That was changed on 2026-08-29: with nothing supervising it, a container restart —
 which is exactly what the UI's Restart button causes — came back with Frigate running and
 violation detection silently dead, reintroducing the failure mode below. `run-dev.sh` still
-works: its `pgrep` guard sees the supervised process and skips its manual start.
+works: it waits for the supervised process to appear and skips its manual start. That wait was
+added on 2026-09-06 — the original guard was a single `pgrep` fired straight after
+`compose up -d`, before s6 had got there, so a cold start reliably produced two workers and two
+Frigate mains. See
+[Dev Environment](../operations/dev-environment.md#the-duplicate-frigate-race-fixed-2026-09-06).
 
 ```bash
 # still available for restarting the worker alone while iterating on rules

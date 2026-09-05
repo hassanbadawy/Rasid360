@@ -124,25 +124,73 @@ wait_for_services() {
     fi
 }
 
+# How long to give s6 to bring a supervised process up before starting it here.
+SUPERVISED_START_TIMEOUT=45
+
+# How many processes in the devcontainer match a `pgrep -f` pattern.
+count_container_procs() {
+    local pattern="$1"
+    local count
+    count="$($COMPOSE_CMD exec -T devcontainer pgrep -f "${pattern}" 2>/dev/null \
+        | tr -d "\r" | grep -c "^[0-9]" || true)"
+    echo "${count:-0}"
+}
+
+# Wait for an s6-supervised process to appear. Returns 0 once it does, 1 if it
+# never shows up within the timeout -- the caller then starts it by hand.
+#
+# The devcontainer supervises frigate, frigate-extras and vite
+# (docker/main/devcontainer_s6/), but s6 needs several seconds after
+# `compose up -d` to get to them. A single pgrep check right after the `up`
+# answers "not running" and this script starts a *second* copy. Two Frigate
+# mains then fight over the MQTT client id -- connect/disconnect once a second
+# -- and over the API port, so nginx answers 500 on every /api request and the
+# whole stack looks dead. Poll instead of checking once.
+wait_for_supervised() {
+    local pattern="$1"
+    local label="$2"
+    local timeout="${3:-$SUPERVISED_START_TIMEOUT}"
+    local waited=0
+
+    while [ "$waited" -lt "$timeout" ]; do
+        if [ "$(count_container_procs "$pattern")" -gt 0 ]; then
+            print_info "${label} already running (started by s6-supervise)"
+            return 0
+        fi
+        sleep 2
+        waited=$((waited + 2))
+    done
+
+    return 1
+}
+
+# Warn if a process we may have started by hand now has a supervised twin.
+warn_if_duplicated() {
+    local pattern="$1"
+    local label="$2"
+
+    if [ "$(count_container_procs "$pattern")" -gt 1 ]; then
+        print_warning "More than one ${label} is running in the container."
+        print_warning "Duplicates fight over the MQTT client id and the API port;"
+        print_warning "expect 500s from /api. Recover with:"
+        print_warning "  $COMPOSE_CMD down && $0 --docker-only"
+    fi
+}
+
 # Function to start Frigate backend service
 start_frigate_backend() {
     print_info "Starting Frigate backend service..."
 
     # Check if container is running
     if compose_service_running devcontainer; then
-        # Check if Frigate main process is already running
-        if $COMPOSE_CMD exec -T devcontainer pgrep -f "python3.*-m frigate$" > /dev/null 2>&1; then
-            print_info "Frigate main process already running (likely started by s6-supervise)"
-        else
-            # Start Frigate in the background
+        # Give s6 a chance to start Frigate before starting a second one here.
+        if ! wait_for_supervised "python3.*-m frigate$" "Frigate main process"; then
+            print_warning "No supervised Frigate after ${SUPERVISED_START_TIMEOUT}s; starting it by hand"
             compose_exec_detached devcontainer bash -c "cd /workspace/frigate && python3 -m frigate"
         fi
 
-        # Check if frigate-extras is already running
-        if $COMPOSE_CMD exec -T devcontainer pgrep -f "frigate.extras.main" > /dev/null 2>&1; then
-            print_info "Frigate-extras already running (likely started by s6-supervise)"
-        else
-            # Start frigate-extras in the background
+        if ! wait_for_supervised "frigate\.extras\.main" "Frigate-extras"; then
+            print_warning "No supervised frigate-extras after ${SUPERVISED_START_TIMEOUT}s; starting it by hand"
             compose_exec_detached devcontainer bash -c "cd /workspace/frigate && python3 -m frigate.extras.main"
         fi
 
@@ -151,13 +199,16 @@ start_frigate_backend() {
         sleep 10
 
         # Check if Frigate is running
-        if $COMPOSE_CMD exec -T devcontainer pgrep -f "python3.*frigate" > /dev/null 2>&1; then
+        if [ "$(count_container_procs "python3.*-m frigate$")" -gt 0 ]; then
             print_success "Frigate backend service started"
             print_info "API available at http://localhost:5001/api"
         else
             print_warning "Frigate may not have started correctly"
             print_info "Check logs with: $COMPOSE_CMD exec devcontainer cat /dev/shm/logs/frigate/current"
         fi
+
+        warn_if_duplicated "python3.*-m frigate$" "Frigate main process"
+        warn_if_duplicated "frigate\.extras\.main" "frigate-extras process"
     else
         print_error "Container is not running"
         return 1
@@ -330,10 +381,11 @@ else
         # Start frontend development server inside the Docker container
         print_info "Starting frontend development server inside container..."
         # Vite is an s6 service on the devcontainer, so it is usually already
-        # up. Starting a second one would fight over port 5173.
-        if $COMPOSE_CMD exec -T devcontainer pgrep -f "vite" > /dev/null 2>&1; then
-            print_info "Vite already running (started by s6-supervise)"
-        else
+        # up. Starting a second one would fight over port 5173. Match on
+        # "vite --host" rather than "vite": the bare pattern also matches the
+        # `s6-supervise vite` process, which exists even when Vite itself is
+        # down.
+        if ! wait_for_supervised "vite --host" "Vite" 20; then
             compose_exec_detached devcontainer bash -c "cd /workspace/frigate/web && npm run dev" > /dev/null 2>&1
         fi
 
